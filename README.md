@@ -1,3 +1,3 @@
 # UI-course
 
-Käyttöliittymät kursin harjotustyö: Älykoti
+Käyttöliittymät kurssin harjotustyö: Älykoti
