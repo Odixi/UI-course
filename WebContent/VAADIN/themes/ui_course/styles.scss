@@ -1,0 +1,9 @@
+@import "addons.scss";
+@import "ui_course.scss";
+
+/* This file prefixes all rules with the theme name to avoid causing conflicts with other themes. */
+/* The actual styles should be defined in ui_course.scss */
+.ui_course {
+  @include addons;
+  @include ui_course;
+}
