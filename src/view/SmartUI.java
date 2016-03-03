@@ -13,7 +13,7 @@ public class SmartUI extends UI {
 	
 	//Näkymien nimet:
 	protected static final String LOGINVIEW = "loginview";
-	protected static final String ADMINNVIEW = "adminview";
+	protected static final String ADMINVIEW = "adminview";
 	protected static final String USERVIEW = "userview";
 	
 	@Override
@@ -21,7 +21,11 @@ public class SmartUI extends UI {
 		
 		navigator = new Navigator(this, this);
 		
+		navigator.addView(LOGINVIEW, new LoginView());
+		navigator.addView(USERVIEW, new UserView());
+		navigator.addView(ADMINVIEW, new AdminView());
 		
+		navigator.navigateTo(LOGINVIEW);
 	}
 	
 }
