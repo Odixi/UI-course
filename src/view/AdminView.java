@@ -5,6 +5,10 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 
 public class AdminView implements View{
 
+	public AdminView(SmartUI ui){
+		
+	}
+	
 	@Override
 	public void enter(ViewChangeEvent event) {
 		// TODO Auto-generated method stub
