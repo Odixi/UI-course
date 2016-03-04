@@ -14,15 +14,24 @@ public class LoginView extends VerticalLayout implements View{
 
 	public LoginView(SmartUI ui){
 		
-        Button button = new Button("Go to UserView",
+        Button userButton = new Button("Go to UserView",
                 new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
                 ui.getNavigator().navigateTo(ui.USERVIEW);
             }
         });
-        addComponent(button);
-        setComponentAlignment(button, Alignment.MIDDLE_CENTER);
+        Button adminButton = new Button("Go to AdminView",
+                new Button.ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent event) {
+                ui.getNavigator().navigateTo(ui.USERVIEW);
+            }
+        });
+        addComponent(userButton);
+        setComponentAlignment(userButton, Alignment.MIDDLE_CENTER);
+        addComponent(adminButton);
+        setComponentAlignment(adminButton, Alignment.MIDDLE_CENTER);
 			
 		
 	}
