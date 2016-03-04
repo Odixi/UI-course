@@ -1,8 +1,7 @@
 package view;
 
 import javax.servlet.annotation.WebServlet;
-//
-//import com.example.ui_course.Ui_courseUI;
+
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
