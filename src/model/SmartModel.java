@@ -4,4 +4,10 @@ package model;
  */
 public class SmartModel {
 
+	public SmartModel(){
+		
+	}
+	
+	
+	
 }
