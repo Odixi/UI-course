@@ -11,6 +11,7 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Link;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
@@ -22,7 +23,7 @@ public class LoginView extends VerticalLayout implements View{
 	public LoginView(SmartUI ui){
 		super();
 		
-		// ---------- Navigaatio nappulat ---------- //
+		// ---------- Navigaatio nappulat - Väliaikaiset ---------- //
 		
         Button userButton = new Button("Go to UserView",
                 new Button.ClickListener() {
@@ -62,7 +63,6 @@ public class LoginView extends VerticalLayout implements View{
      // ----- Käyttäjän valinta ----- //   
         ComboBox userSelect = new ComboBox("Select user");
         userSelect.setInputPrompt("No user selected");
-//        userSelect.setWidth(10.0f, Unit.PERCENTAGE);
         userSelect.setFilteringMode(FilteringMode.CONTAINS);
         userSelect.setImmediate(true);
         userSelect.setNullSelectionAllowed(false);
@@ -75,6 +75,29 @@ public class LoginView extends VerticalLayout implements View{
         PasswordField passwordField = new PasswordField("Password");
         addComponent(passwordField);
         setComponentAlignment(passwordField, Alignment.MIDDLE_CENTER);
+        
+      // ----- Login nappi ----- //
+        Button loginButton = new Button("Login",
+                new Button.ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent event) {
+            	if (userSelect.getValue() == null){
+            		Notification.show("Select a user first");
+            		return;
+            	}
+            	Notification.show((String)userSelect.getValue());
+                //TODO Logic for pressing login
+            	
+            	/*
+            	 * Esim.
+            	 * model.login(userSelect.getValue(), passwordField.getValue()); //heittää virheen jos ei täsmää
+            	 * Vai mitenköhän se kannattas tehdä?
+            	 */
+            	
+            }
+        });
+        addComponent(loginButton);
+        setComponentAlignment(loginButton, Alignment.MIDDLE_CENTER);
         
 	}
 	
