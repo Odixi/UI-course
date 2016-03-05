@@ -64,9 +64,13 @@ public class LoginView extends VerticalLayout implements View{
         ComboBox userSelect = new ComboBox("Select user");
         userSelect.setInputPrompt("No user selected");
         userSelect.setFilteringMode(FilteringMode.CONTAINS);
-        userSelect.setImmediate(true);
+//        userSelect.setImmediate(true);
+        userSelect.setTextInputAllowed(false);
         userSelect.setNullSelectionAllowed(false);
-        String[] kayt = {"Ville", "Pilvi", "Jenni", "Elmo"}; //Testiksi
+        
+        	//Testiksi lista
+        	//TODO Käyttäjien hakeminen serverin tiedostoista
+        String[] kayt = {"Ville", "Pilvi", "Jenni", "Elmo"};
         userSelect.addItems(kayt);
         addComponent(userSelect);
         setComponentAlignment(userSelect, Alignment.MIDDLE_CENTER);
@@ -81,6 +85,7 @@ public class LoginView extends VerticalLayout implements View{
                 new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
+            	// if username field is empty
             	if (userSelect.getValue() == null){
             		Notification.show("Select a user first");
             		return;
