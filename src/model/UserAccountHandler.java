@@ -2,7 +2,18 @@ package model;
 
 import org.xml.sax.*;
 import org.w3c.dom.*;
+
+import java.io.File;
+
 import javax.xml.parsers.*;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.jasypt.util.text.BasicTextEncryptor;
 
 /**
  * 
@@ -12,13 +23,30 @@ import javax.xml.parsers.*;
 
 public class UserAccountHandler {
 
+	private String filepath = ".src/xmlfiles/users.xml";
 	private NodeList userList;
 	private Document usersXML;
+	private Element rootElement;
+	
+	private BasicTextEncryptor cryptor;
+	
+	//TODO Move DocumentBuilder etc. to attributes
+	//Maybe...?
+	
 	
 	public UserAccountHandler(){	
-		usersXML = getDocument(".src/xmlfiles/users.xml");;
-	}
-
+		
+		usersXML = getDocument(filepath);
+		usersXML.getDocumentElement().normalize();
+	
+		//For encrypting and decrypting passwords
+		cryptor = new BasicTextEncryptor();
+		
+		rootElement = usersXML.getDocumentElement();
+				
+	} //constructor
+	
+	
 	//------ PASSWORD MATCHING CHECK ----------
 	public boolean passwordMatch(String username, String password){
 		
@@ -31,32 +59,34 @@ public class UserAccountHandler {
 		} else {
 			if( getUser(username).getElementsByTagName("password") != null ){
 				String p = getUser(username).getElementsByTagName("password").item(0).getTextContent();
-				
-				//TODO Add encryption
-				
-				if(p.equals(password)){
+
+				if( cryptor.decrypt(p).equals(password) ){
 					passwordMatches = true;
 				} else {
 					passwordMatches = false;
 				}
 			}
 		}
-		
 		return passwordMatches;
-		
 	}
 	
 	//--------------- CREATE & REMOVE USER -------------------
-	public void createUser(){
+	public void createUser(String username, String password){
 		
 		
 		
 	}
 	
-	public void removeUser(){
-		
-		
-		
+	/**
+	 * Removes information on user in 
+	 * @param username
+	 */
+	public void removeUser(String username){
+		if(getUser(username) != null){
+			rootElement.removeChild(getUser(username));
+		} else {
+			System.out.println("User doesn't exist!");
+		}
 	}
 	
 	
@@ -73,10 +103,14 @@ public class UserAccountHandler {
 	
 	//--------------- CHANGE PASSWORD ------------------------
 	
-	public void changePassword(){
+	public void changePassword(String username, String oldpassword, String newpassword){
 		
-		
-		
+		if( passwordMatch(username, oldpassword) ){
+			Element user = getUser(username);
+			user.getElementsByTagName("password").item(0).setTextContent(cryptor.encrypt(newpassword));
+			
+			System.out.println(username + "'s password changed!");
+		}
 	}
 	
 	
@@ -136,5 +170,25 @@ public class UserAccountHandler {
 		return null;
 		
 	} //getDocument()
+	
+	
+	//--------------- WRITE INTO THE XML FILE -------------
+	
+	private void writeXML(){
+		try {
+		
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			DOMSource source = new DOMSource(usersXML);
+			StreamResult result = new StreamResult(new File(filepath) );
+			transformer.transform(source, result);
+			
+		} catch (TransformerConfigurationException e) {	
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			e.printStackTrace();
+		}
+		
+	} //writeXML
 	
 }
