@@ -6,9 +6,7 @@ public class House {
 	private final int numberOfRooms; // Does the number of rooms need change?
 	
 	public House(int numberOfRooms){
-		
-		//numberOfRooms > 0 
-		
+		//numberOfRooms > 0 	
 	}
 	
 	
