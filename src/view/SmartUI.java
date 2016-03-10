@@ -23,6 +23,7 @@ public class SmartUI extends UI {
 		protected static final String LOGINVIEW = "loginview";
 		protected static final String ADMINVIEW = "adminview";
 		protected static final String USERVIEW = "userview";
+		protected static final String ADMINLOGINVIEW = "adminloginview";
 		
 		@Override
 		protected void init(VaadinRequest request) {
@@ -32,6 +33,7 @@ public class SmartUI extends UI {
 			navigator.addView(LOGINVIEW, new LoginView(this));
 			navigator.addView(USERVIEW, new UserView(this));
 			navigator.addView(ADMINVIEW, new AdminView(this));
+			navigator.addView(ADMINLOGINVIEW, new AdminLoginView(this));
 			
 			navigator.navigateTo(LOGINVIEW);
 		}

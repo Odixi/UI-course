@@ -11,7 +11,7 @@ import com.vaadin.ui.VerticalLayout;
 public class AdminView extends VerticalLayout implements View{
 
 	public AdminView(SmartUI ui){
-		
+		super();
         Button button = new Button("Go to LoginView",
                 new Button.ClickListener() {
             @Override
