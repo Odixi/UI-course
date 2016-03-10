@@ -22,6 +22,7 @@ public class LoginView extends VerticalLayout implements View{
 
 	public LoginView(SmartUI ui){
 		super();
+		setHeight(ui.getCurrent().getPage().getBrowserWindowHeight()*0.6f, Unit.PIXELS);
 		
 		// ---------- Navigaatio nappulat - Väliaikaiset ---------- //
 		
