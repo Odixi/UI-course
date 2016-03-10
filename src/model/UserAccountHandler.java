@@ -20,39 +20,105 @@ public class UserAccountHandler {
 	}
 
 	//------ PASSWORD MATCHING CHECK ----------
-	public boolean passwordMatch(String password){
+	public boolean passwordMatch(String username, String password){
 		
-		try {
-			//Cycle through the users
-			//for(){}
-		} catch (){
-			
+		boolean passwordMatches = false;
+		
+		if(getUser(username) == null){
+			System.out.println("User not found");
+			passwordMatches = false;
+		
+		} else {
+			if( getUser(username).getElementsByTagName("password") != null ){
+				String p = getUser(username).getElementsByTagName("password").item(0).getTextContent();
+				
+				//TODO Add encryption
+				
+				if(p.equals(password)){
+					passwordMatches = true;
+				} else {
+					passwordMatches = false;
+				}
+			}
 		}
 		
-	}
-	
-	//
-	public void removeUser(){
-		
-		
+		return passwordMatches;
 		
 	}
 	
-	//
+	//--------------- CREATE & REMOVE USER -------------------
 	public void createUser(){
 		
 		
 		
 	}
 	
+	public void removeUser(){
+		
+		
+		
+	}
+	
+	
+	//------------ Is the username already in use? ------------
+	public boolean usernameInUse(String username){
+
+		if(getUser(username) != null){
+			return false;
+		} else {
+			return true;
+		}
+		
+	} //usenameInUse()
+	
+	//--------------- CHANGE PASSWORD ------------------------
+	
+	public void changePassword(){
+		
+		
+		
+	}
+	
+	
 	//--------------- HELP METHODS ----------------------------------
+	
+	/**
+	 * 
+	 * @param username
+	 * @return Element matching the username. If no match is found, returns null.
+	 */
+	public Element getUser(String username){
+		
+		Element foundUser = null;
+		
+		//Cycle through the users
+		for(int i = 0; i < userList.getLength(); i++){
+				
+			Node userNode = userList.item(i);
+				
+			if(userNode.getNodeType() == Node.ELEMENT_NODE){
+				Element userElement = (Element) userNode;
+				
+				if(userElement.getElementsByTagName("username").item(0) != null
+						&& userElement.getElementsByTagName("username").item(0).getTextContent().equals(username) ){
+					foundUser = userElement;
+					break;
+				}
+			}		
+		}	
+		
+		return foundUser;
+		
+	}
+	
 	
 	private void updateUserList(){
 		userList = usersXML.getElementsByTagName("user");
 	}
-	
+
 	
 	private Document getDocument(String filepath) {		
+		
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			factory.setIgnoringComments(true);
@@ -66,7 +132,9 @@ public class UserAccountHandler {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	
+		
 		return null;
-	}
+		
+	} //getDocument()
 	
 }
