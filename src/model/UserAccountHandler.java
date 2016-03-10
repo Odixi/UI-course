@@ -73,7 +73,25 @@ public class UserAccountHandler {
 	//--------------- CREATE & REMOVE USER -------------------
 	public void createUser(String username, String password){
 		
+		//TODO usernameInUse(username);
 		
+		Element user = usersXML.createElement("user");
+		rootElement.appendChild(user);
+		
+		//username
+		Element uname = usersXML.createElement("username");
+		uname.appendChild(usersXML.createTextNode(username));
+		user.appendChild(uname);
+		
+		//TODO Check possible password restrictions
+		
+		//password
+		Element pword = usersXML.createElement("password");
+		pword.appendChild(usersXML.createTextNode( cryptor.encrypt(password) ));
+		user.appendChild(pword);
+		
+		//Save changes to the XML file
+		writeXML();
 		
 	}
 	
@@ -87,6 +105,10 @@ public class UserAccountHandler {
 		} else {
 			System.out.println("User doesn't exist!");
 		}
+		
+		//Save changes to the XML file
+		writeXML();
+		
 	}
 	
 	
@@ -111,6 +133,9 @@ public class UserAccountHandler {
 			
 			System.out.println(username + "'s password changed!");
 		}
+		
+		writeXML();
+		
 	}
 	
 	
