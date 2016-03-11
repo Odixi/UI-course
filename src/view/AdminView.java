@@ -18,10 +18,20 @@ import com.vaadin.ui.PopupView.PopupVisibilityListener;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.PopupView;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 public class AdminView extends VerticalLayout implements View{
+	
+	Button logoutButton;
+	HorizontalLayout userSelectLayout;
+	ComboBox userSelect;
+	PopupView removeUser;
+	PopupView createUser;
+	TextField usernameField;
+	PasswordField passwordField;
 
 	public AdminView(SmartUI ui){
 		
@@ -30,7 +40,7 @@ public class AdminView extends VerticalLayout implements View{
         
 		// ----- Logout button ----- //
 		
-		Button logoutButton = new Button("Logout",
+		logoutButton = new Button("Logout",
                 new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
@@ -42,14 +52,34 @@ public class AdminView extends VerticalLayout implements View{
         setComponentAlignment(logoutButton, Alignment.TOP_RIGHT);
         
         
-        // ----- User Select ----- //
+        // ----- User Select / Remove / Create ----- //
         
-        // User select, remove user, create new usert -rivi
-        HorizontalLayout userSelectLayout = new HorizontalLayout();
+        // User remove / create rivi
+        userSelectLayout = new HorizontalLayout();
+        userSelectLayout.setSpacing(true);
         addComponent(userSelectLayout);
         
+        // Käyttäjä lisäys nappi
+        CreateUserPopupContent cu = new CreateUserPopupContent();
+        createUser = new PopupView(cu);
+        cu.setPopupView(createUser); // jotta saadaan instanssi tuosta PopupViewistä content luokkaan
+        userSelectLayout.addComponent(createUser);
+        
+        // Käyttäjän poistamis nappi
+        // Olisi varmaan voinut tehdä fiksumminkin mutta...
+        RemoveUserPopupContent pc = new RemoveUserPopupContent();
+        removeUser = new PopupView(pc);
+        pc.setPopupView(removeUser);
+        userSelectLayout.addComponent(removeUser);
+        removeUser.addPopupVisibilityListener(new PopupVisibilityListener() {
+        	@Override
+			public void popupVisibilityChange(PopupVisibilityEvent event) {
+				pc.setValues((String)userSelect.getValue()); //Päivitetään popupViewi
+			}
+		});
+        
         // userSelect comboboxi
-        ComboBox userSelect = new ComboBox("User");
+        userSelect = new ComboBox("User");
         userSelect.setFilteringMode(FilteringMode.CONTAINS);
         userSelect.setTextInputAllowed(false);
         
@@ -64,18 +94,18 @@ public class AdminView extends VerticalLayout implements View{
         //Väliakaiset testiarvot käyttäjille
         String[] kayt = {"Ville", "Pilvi", "Jenni", "Elmo"};
         userSelect.addItems(kayt);
-        userSelectLayout.addComponent(userSelect);
-    
-        PContent pc = new PContent();
-        PopupView popup = new PopupView(pc);
-        userSelectLayout.addComponent(popup);
-        popup.addPopupVisibilityListener(new PopupVisibilityListener() {
-        	@Override
-			public void popupVisibilityChange(PopupVisibilityEvent event) {
-				pc.setValues((String)userSelect.getValue() ,popup);
-			}
-		});
-	}
+        addComponent(userSelect);
+        
+        
+        // ----- Username and Password texfields ------ //
+        
+        usernameField = new TextField("Username");
+        addComponent(usernameField);
+        
+        passwordField = new PasswordField("Pasword");
+        addComponent(passwordField);
+        
+	} // Konstruktor
 	
 	@Override
 	public void enter(ViewChangeEvent event) {
@@ -85,10 +115,54 @@ public class AdminView extends VerticalLayout implements View{
 }
 
 /*
- * Popupin sisältö, kun kysytään käyttäjältä, onko varma, että haluaa poistaa
- * valitun käyttäjän
+ * Sisältä mikä näytetäänkun painetaan Create usernappia
+ * -> Tekstikenttä mihin syötetään uuden käyttäjän nimi
+ * 
+ * Ajatus olisi se, että ensin luodaan uusi käyttäjä anoastaan nimellä, ja
+ * myöhemmin sen muita ominasuuksia voidaan muokata käyttäjien muakkausnäkymässä
  */
-class PContent implements PopupView.Content{
+class CreateUserPopupContent implements PopupView.Content{
+	
+	private HorizontalLayout hl;
+	private TextField tf;
+	private Button ok;
+	private PopupView pv;
+	
+	public CreateUserPopupContent() {
+		hl = new HorizontalLayout();
+		tf = new TextField("Create new user","Username");
+		hl.addComponent(tf);
+		ok = new Button("Ok", new Button.ClickListener() {
+			
+			@Override
+			public void buttonClick(ClickEvent event) {
+				// TODO Uuden käyttäjän luonti / ehdot nimelle
+				Notification.show("User " + tf.getValue() + " created");
+				pv.setPopupVisible(false);
+			}
+		});
+		hl.addComponent(ok);
+	}
+
+	@Override
+	public String getMinimizedValueAsHTML() {
+		return "Create new user";
+	}
+
+	@Override
+	public Component getPopupComponent() {
+		return hl;
+	}
+	public void setPopupView(PopupView pv){
+		this.pv = pv;
+	}
+	
+}
+
+/*
+ * Sisältö mikä näytetäänkun painetaan Remove ures nappia
+ */
+class RemoveUserPopupContent implements PopupView.Content{
 	
 	private VerticalLayout vlayout;
 	private HorizontalLayout hlayout;
@@ -99,8 +173,7 @@ class PContent implements PopupView.Content{
 	private String user;
 	private PopupView pv;
 	
-	public PContent(){
-		
+	public RemoveUserPopupContent(){
 		vlayout = new VerticalLayout();
 		ays = new Label();
 		vlayout.addComponent(ays);
@@ -110,9 +183,15 @@ class PContent implements PopupView.Content{
 			
 			@Override
 			public void buttonClick(ClickEvent event) {
-				//TODO Poistetaan käyttäjä
+				if (user == null){
+					Notification.show("Select a user first!");
+					pv.setPopupVisible(false);
+				}
+				else{
+				//TODO Poistetaan käyttäjä 'String user'
 				Notification.show(user + " Deleted");
 				pv.setPopupVisible(false);
+				}
 			}
 		});
 		
@@ -138,11 +217,12 @@ class PContent implements PopupView.Content{
 		return vlayout;
 	}
 	
-	public void setValues(String u, PopupView popv){
-		pv = popv;
+	public void setPopupView(PopupView pv){
+		this.pv = pv;
+	}
+	
+	public void setValues(String u){
 		user = u;
 		ays.setValue("Delete " + user + "?");
 	}
-	
-	
 }
