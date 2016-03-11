@@ -8,6 +8,8 @@ public class House {
 	
 	public House(int numberOfRooms){
 		//numberOfRooms > 0 	
+		this.numberOfRooms = numberOfRooms;
+		
 	}
 	
 	

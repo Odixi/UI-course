@@ -37,6 +37,14 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	public void deleteUser(String username) throws RemoteException {
 		// TODO Auto-generated method stub
 	}
+
+
+
+	@Override
+	public void login(String username, String password) throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 	
