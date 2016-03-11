@@ -4,6 +4,7 @@ import org.xml.sax.*;
 import org.w3c.dom.*;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.xml.parsers.*;
 import javax.xml.transform.Transformer;
@@ -21,12 +22,18 @@ import org.jasypt.util.text.BasicTextEncryptor;
  *
  */
 
+/* TODO
+ * - Method: get list of usernames
+ * - 
+ */
+
 public class UserAccountHandler {
 
 	private String filepath = ".src/xmlfiles/users.xml";
 	private NodeList userList;
 	private Document usersXML;
 	private Element rootElement;
+	private ArrayList<String> usernameList;
 	
 	private BasicTextEncryptor cryptor;
 	
@@ -135,6 +142,14 @@ public class UserAccountHandler {
 		}
 		
 		writeXML();
+		
+	}
+	
+	//--------------- LIST OF USERNAMES ----------------------------
+	
+	public ArrayList<String> getUsernameList(){
+		
+		
 		
 	}
 	
