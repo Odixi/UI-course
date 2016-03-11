@@ -1,0 +1,7 @@
+/.settings/*
+/build/*
+/WebContent/*
+/.classpath
+/.project
+/ivy.XML
+/ivysettings.XML
