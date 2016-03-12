@@ -3,6 +3,7 @@ package view;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Sizeable.Unit;
+import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
@@ -11,7 +12,8 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CheckBox;
- 
+import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.Window;
  
 public class UserView extends VerticalLayout implements View{
  
@@ -19,6 +21,10 @@ public class UserView extends VerticalLayout implements View{
         setHeight(ui.getCurrent().getPage().getBrowserWindowHeight()*0.6f, Unit.PIXELS);
        
         //Luodaan pohja leiskaan tulevat vaakaleiskat
+        HorizontalLayout navigation = new HorizontalLayout();
+        navigation.setHeight("5%");
+        navigation.setWidth("60%");
+        
         HorizontalLayout topics = new HorizontalLayout();
         topics.setHeight("20%");
         topics.setWidth("60%");
@@ -33,14 +39,35 @@ public class UserView extends VerticalLayout implements View{
        
        
        
-        /*//NÃ¤mÃ¤ vaan testiÃ¤ varten. Voi poistaa.
-        Button button = new Button("Go to LoginView",
-                new Button.ClickListener() {
+        
+       
+        
+        
+     // ----- Kodin valinta----- //   
+        ComboBox houseSelect = new ComboBox();
+        houseSelect.setInputPrompt("Select house");
+        houseSelect.setFilteringMode(FilteringMode.CONTAINS);
+//        userSelect.setImmediate(true);
+        houseSelect.setTextInputAllowed(false);
+        houseSelect.setNullSelectionAllowed(false);
+        
+        	//Testiksi lista
+        String[] homes = {"Home", "Summer house"};
+        houseSelect.addItems(homes);
+        
+        
+        
+        Button logOut= new Button("LogOut",new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
                 ui.getNavigator().navigateTo(ui.LOGINVIEW);
             }
-        });*/
+        });
+        navigation.addComponent(houseSelect);
+        navigation.setComponentAlignment(houseSelect, Alignment.TOP_LEFT);
+        navigation.addComponent(logOut);
+        navigation.setComponentAlignment(logOut, Alignment.TOP_RIGHT);
+        
        
         //Huone "otsikot"
         topics.addComponent(new Label ("Rooms"));
@@ -62,7 +89,7 @@ public class UserView extends VerticalLayout implements View{
         Button room1 = new Button("More", new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
-               
+            	
             }
         });
         Button room2 = new Button("More", new Button.ClickListener() {
@@ -85,7 +112,7 @@ public class UserView extends VerticalLayout implements View{
        
        
         //Lopuksi lisätään nää kaikki oikeassa järjestyksessä layouttiin
-        //addComponent(button);
+        addComponent(navigation);
         addComponent(topics);
         addComponent(lights);
         addComponent(rooms);
