@@ -1,5 +1,7 @@
 package view;
 
+import java.rmi.registry.LocateRegistry;
+
 import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.Theme;
@@ -36,6 +38,17 @@ public class SmartUI extends UI {
 			navigator.addView(ADMINLOGINVIEW, new AdminLoginView(this));
 			
 			navigator.navigateTo(LOGINVIEW);
+			
+			/*
+			String RMIosoite ="tehdas";	
+			String osoite = "localhost";
+			
+	    	try {
+	    		registry = LocateRegistry.getRegistry(osoite, 2020);
+	    		shsystem = (SmartHSystem) registry.lookup(RMIosoite); 	
+	    	} catch (Exception e){System.out.println(e);}
+			
+	    	*/
 		}
 	
 		public Navigator getNavigator() {
