@@ -35,6 +35,13 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	
 	public void testPrintConsole(String message) throws RemoteException {
 		System.out.println("Message: " + message);
+		
+		String[] houses = getHouses();
+		System.out.println("Houses length: " + houses.length);
+		for(String house : houses){
+			System.out.println(house);
+		}
+		
 	}
 	
 	// • • • • • • • • USERS • • • • • • • • •
@@ -62,7 +69,10 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	@Override
 	public String[] getHouses() throws RemoteException {
 		//TODO Not the pretties possible way to do this, but oh well...
+		
 		return houseHandler.getHouseNameList().toArray(new String[0]);
+		//ArrayList<String> houses = houseHandler.getHouseNameList();
+		//return houses.toArray(new String[houses.size()]);
 	}
 
 	@Override

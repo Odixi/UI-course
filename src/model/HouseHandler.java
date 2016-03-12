@@ -50,8 +50,18 @@ public class HouseHandler extends XMLHandler {
 		houseNames.clear();
 		
 		for(int i = 0; i < houseList.getLength(); i++){
+		
+			if(houseList.item(i).getNodeType() == Node.ELEMENT_NODE){
+				String name = ((Element) houseList.item(i)).getTextContent();
+				System.out.println("House name: " + name); //TODO REMOVE, for testing
+				houseNames.add(name);
+			}
+			
+		/*	
 			//TODO Quite likely going to change...
 			houseNames.add( houseList.item(i).getTextContent() );
+			System.out.println( houseList.item(i).getTextContent() );
+		*/
 		}
 
 		return houseNames;
