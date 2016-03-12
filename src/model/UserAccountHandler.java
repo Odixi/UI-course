@@ -14,7 +14,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.jasypt.util.text.BasicTextEncryptor;
+//import org.jasypt.util.text.BasicTextEncryptor;
 
 /**
  * 
@@ -35,7 +35,7 @@ public class UserAccountHandler {
 	private Element rootElement;
 	private ArrayList<String> usernameList;
 	
-	private BasicTextEncryptor cryptor;
+	//private BasicTextEncryptor cryptor;
 	
 	//TODO Move DocumentBuilder etc. to attributes
 	//Maybe...?
@@ -45,14 +45,13 @@ public class UserAccountHandler {
 		
 		usersXML = getDocument(filepath);
 		usersXML.getDocumentElement().normalize();
-	
-		//For encrypting and decrypting passwords
-		cryptor = new BasicTextEncryptor();
-		
 		rootElement = usersXML.getDocumentElement();
-				
+
 		usernameList = new ArrayList<String>();
 		
+		//TODO For encrypting and decrypting passwords
+		//cryptor = new BasicTextEncryptor();
+
 	} //constructor
 	
 	
@@ -69,7 +68,11 @@ public class UserAccountHandler {
 			if( getUser(username).getElementsByTagName("password") != null ){
 				String p = getUser(username).getElementsByTagName("password").item(0).getTextContent();
 
-				if( cryptor.decrypt(p).equals(password) ){
+				//TODO Jasypt has it's own method for checking passwords. Take a look.
+				
+				//TODO if( cryptor.decrypt(p).equals( cryptor.decrypt(password)) ){
+				//if( cryptor.decrypt(p).equals( password) ){
+				if( p.equals( password) ){
 					passwordMatches = true;
 				} else {
 					passwordMatches = false;
@@ -96,7 +99,8 @@ public class UserAccountHandler {
 		
 		//password
 		Element pword = usersXML.createElement("password");
-		pword.appendChild(usersXML.createTextNode( cryptor.encrypt(password) ));
+		//pword.appendChild(usersXML.createTextNode( cryptor.encrypt(password) ));
+		pword.appendChild(usersXML.createTextNode( password ));
 		user.appendChild(pword);
 		
 		//Save changes to the XML file
@@ -138,7 +142,8 @@ public class UserAccountHandler {
 		
 		if( passwordMatch(username, oldpassword) ){
 			Element user = getUser(username);
-			user.getElementsByTagName("password").item(0).setTextContent(cryptor.encrypt(newpassword));
+			//TODO user.getElementsByTagName("password").item(0).setTextContent(cryptor.encrypt(newpassword));
+			user.getElementsByTagName("password").item(0).setTextContent(newpassword);
 			
 			System.out.println(username + "'s password changed!");
 		}

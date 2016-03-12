@@ -15,7 +15,7 @@ public interface SmartHSystem extends Remote {
 	
 	public void deleteUser(String username) throws RemoteException;
 	
-	public void login(String username, String password) throws RemoteException;
+	public boolean login(String username, String password) throws RemoteException;
 	
 	public ArrayList<String> getUsernames() throws RemoteException;
 	

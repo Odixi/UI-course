@@ -44,9 +44,9 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		// TODO Auto-generated method stub
 	}
 
-	public void login(String username, String password) throws RemoteException {
-		// TODO Auto-generated method stub
-		
+	public boolean login(String username, String password) throws RemoteException {
+		//Returns true if the password is a match
+		return userHandler.passwordMatch(username, password);
 	}
 
 	public ArrayList<String> getUsernames() throws RemoteException {
