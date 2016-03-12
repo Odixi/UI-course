@@ -4,7 +4,10 @@ import java.rmi.*;
 
 public interface SmartHSystem extends Remote {
 
-
+	// --------- FOR TESTING ------------------
+	
+	public void testPrintConsole(String message) throws RemoteException;
+	
 	// • • • • • • • • USERS • • • • • • • • •
 	
 	public void newUser(String username, String password) throws RemoteException;
@@ -13,6 +16,6 @@ public interface SmartHSystem extends Remote {
 	
 	public void login(String username, String password) throws RemoteException;
 	
-	
+
 	
 }

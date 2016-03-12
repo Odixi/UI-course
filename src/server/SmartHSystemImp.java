@@ -27,6 +27,11 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	} //constructor
 
 
+	//------------- FOR TESTING ----------------------
+	
+	public void testPrintConsole(String message) throws RemoteException {
+		System.out.println("Message: " + message);
+	}
 	
 	// • • • • • • • • USERS • • • • • • • • •
 	
@@ -38,13 +43,12 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		// TODO Auto-generated method stub
 	}
 
-
-
-	@Override
 	public void login(String username, String password) throws RemoteException {
 		// TODO Auto-generated method stub
 		
 	}
+
+
 	
 	
 	

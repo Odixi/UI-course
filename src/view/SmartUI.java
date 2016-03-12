@@ -1,6 +1,8 @@
 package view;
 
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 import javax.servlet.annotation.WebServlet;
 
@@ -11,6 +13,7 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
 
+import server.SmartHSystem;
 
 @Theme("valo")
 public class SmartUI extends UI {
@@ -20,12 +23,16 @@ public class SmartUI extends UI {
 	public static class Servlet extends VaadinServlet {
 	}		
 		private Navigator navigator;
+		private SmartHSystem shsystem;
 		
 		//Näkymien nimet:
 		protected static final String LOGINVIEW = "loginview";
 		protected static final String ADMINVIEW = "adminview";
 		protected static final String USERVIEW = "userview";
 		protected static final String ADMINLOGINVIEW = "adminloginview";
+		
+		//RMI
+		private Registry registry;
 		
 		@Override
 		protected void init(VaadinRequest request) {
@@ -39,17 +46,26 @@ public class SmartUI extends UI {
 			
 			navigator.navigateTo(LOGINVIEW);
 			
-			/*
-			String RMIosoite ="tehdas";	
+			
+			// • • • FORMING RMI-CONNECTION • • • 
+			
+			String RMIosoite ="shsystem";	
 			String osoite = "localhost";
 			
 	    	try {
 	    		registry = LocateRegistry.getRegistry(osoite, 2020);
 	    		shsystem = (SmartHSystem) registry.lookup(RMIosoite); 	
-	    	} catch (Exception e){System.out.println(e);}
+	    	} catch (Exception e){
+	    		System.out.println(e);
+	    	}
 			
-	    	*/
-		}
+	    	// --------- TESTING! ------------
+	    	try {
+				shsystem.testPrintConsole("Testing, testing... from SmartUI");
+			} catch (RemoteException e) {	e.printStackTrace();}
+	    	
+	    	
+		}//init
 	
 		public Navigator getNavigator() {
 			return navigator;

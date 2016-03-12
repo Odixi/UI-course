@@ -29,7 +29,7 @@ import org.jasypt.util.text.BasicTextEncryptor;
 
 public class UserAccountHandler {
 
-	private String filepath = ".src/xmlfiles/users.xml";
+	private String filepath = "src/xmlfiles/users.xml";
 	private NodeList userList;
 	private Document usersXML;
 	private Element rootElement;
