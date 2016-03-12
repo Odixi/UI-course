@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 import server.SmartHSystem;
@@ -21,6 +22,8 @@ public class RoomListComponent extends CustomComponent {
 			
 			layout = new VerticalLayout();
 			layout.setSizeFull();
+			
+			layout.addComponent(new Label("test"));
 			
 			houseBox = new CheckBox("house");
 			layout.addComponent(houseBox);
