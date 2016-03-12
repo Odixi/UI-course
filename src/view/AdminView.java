@@ -21,43 +21,40 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.PopupView;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.Tree;
 import com.vaadin.ui.VerticalLayout;
 
-public class AdminView extends VerticalLayout implements View{
+public class AdminView extends HorizontalLayout implements View{
 	
 	Button logoutButton;
+	VerticalLayout leftLayout;
+	VerticalLayout rightLayout;
 	HorizontalLayout userSelectLayout;
 	ComboBox userSelect;
 	PopupView removeUser;
 	PopupView createUser;
 	TextField usernameField;
 	PasswordField passwordField;
+	Button saveChanges;
 
 	public AdminView(SmartUI ui){
 		
 		super();
 		setMargin(true);
+        setSpacing(true);
+        setSizeFull();
+		// ----- Vasen puoli sivusta ----- //
         
-		// ----- Logout button ----- //
-		
-		logoutButton = new Button("Logout",
-                new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                ui.getNavigator().navigateTo(ui.LOGINVIEW);
-                //TODO Uloskirjaus
-            }
-        });
-        addComponent(logoutButton);
-        setComponentAlignment(logoutButton, Alignment.TOP_RIGHT);
-        
+        leftLayout = new VerticalLayout();
+        leftLayout.setSpacing(true);
+		addComponent(leftLayout); //Vasen puoli sivusta
         
         // ----- User Select / Remove / Create ----- //
         
         // User remove / create rivi
         userSelectLayout = new HorizontalLayout();
         userSelectLayout.setSpacing(true);
-        addComponent(userSelectLayout);
+        leftLayout.addComponent(userSelectLayout);
         
         // Käyttäjä lisäys nappi
         CreateUserPopupContent cu = new CreateUserPopupContent();
@@ -78,7 +75,7 @@ public class AdminView extends VerticalLayout implements View{
 			}
 		});
         
-        // userSelect comboboxi
+        // userSelect lista
         userSelect = new ComboBox("User");
         userSelect.setFilteringMode(FilteringMode.CONTAINS);
         userSelect.setTextInputAllowed(false);
@@ -94,18 +91,62 @@ public class AdminView extends VerticalLayout implements View{
         //Väliakaiset testiarvot käyttäjille
         String[] kayt = {"Ville", "Pilvi", "Jenni", "Elmo"};
         userSelect.addItems(kayt);
-        addComponent(userSelect);
+        leftLayout.addComponent(userSelect);
         
         
         // ----- Username and Password texfields ------ //
         
         usernameField = new TextField("Username");
-        addComponent(usernameField);
+        leftLayout.addComponent(usernameField);
         
         passwordField = new PasswordField("Pasword");
-        addComponent(passwordField);
+        leftLayout.addComponent(passwordField);
+        
+        // ----- Save changes button ----- //
+        
+        saveChanges = new Button("Save Changes", new Button.ClickListener() {
+			
+			@Override
+			public void buttonClick(ClickEvent event) {
+				// TODO Tallennetaan tiedot
+				
+			}
+		});
+        leftLayout.addComponent(saveChanges);
+        
+        
+        // ---------- Oikea puoli sivusta ---------- //
+        
+        rightLayout = new VerticalLayout();
+        addComponent(rightLayout);
+        
+		// ----- Logout button ----- //
+		
+		logoutButton = new Button("Logout",
+                new Button.ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent event) {
+                ui.getNavigator().navigateTo(ui.LOGINVIEW);
+                //TODO Uloskirjaus
+            }
+        });
+        rightLayout.addComponent(logoutButton);
+        rightLayout.setComponentAlignment(logoutButton, Alignment.TOP_RIGHT);
+        
+        // ----- Oikeuksien valinta älykotiin ----- //
+        
+        generateHouseStructure();
+        
+        
         
 	} // Konstruktor
+	
+	
+	// Tehdään lista taloista / houneista / esineistä
+	private void generateHouseStructure(){
+		// TODO taas väliakaiset testit, korjataan, kun mallit valmistuu
+	
+	}
 	
 	@Override
 	public void enter(ViewChangeEvent event) {
@@ -130,7 +171,8 @@ class CreateUserPopupContent implements PopupView.Content{
 	
 	public CreateUserPopupContent() {
 		hl = new HorizontalLayout();
-		tf = new TextField("Create new user","Username");
+		tf = new TextField("Create new user");
+		tf.setInputPrompt("Username");
 		hl.addComponent(tf);
 		ok = new Button("Ok", new Button.ClickListener() {
 			

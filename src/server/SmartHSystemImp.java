@@ -6,7 +6,7 @@ import java.rmi.server.UnicastRemoteObject;
 import model.UserAccountHandler;
 
 /**
- * The purpose of 
+ * The purpose of life?
  * @author Pilvi
  *
  */
