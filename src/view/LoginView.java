@@ -128,7 +128,7 @@ public class LoginView extends VerticalLayout implements View{
             		
             	} else if(userSelect.getValue() != null) { //User selected
             		
-            		if(passwordField.getValue() == null){ //Password not given
+            		if(passwordField.getValue() == null || passwordField.isEmpty()){ //Password not given
             			Notification.show("Input the password please.");
                 		return;
                 		
