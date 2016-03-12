@@ -51,6 +51,8 @@ public class UserAccountHandler {
 		
 		rootElement = usersXML.getDocumentElement();
 				
+		usernameList = new ArrayList<String>();
+		
 	} //constructor
 	
 	
@@ -149,13 +151,35 @@ public class UserAccountHandler {
 	
 	public ArrayList<String> getUsernameList(){
 		
-		
+		updateUserList();
+		usernameList.clear();
+
+		for(int i = 0; i < userList.getLength(); i++){
+			
+			if(userList.item(i).getNodeType() == Node.ELEMENT_NODE){
+				Element userElement = (Element) userList.item(i);
+				
+				if(userElement.getElementsByTagName("username").item(0) != null){
+					//Add username to the list
+					usernameList.add( userElement.getElementsByTagName("username").item(0).getTextContent() );
+				}
+			}		
+		}
+
+		/* UNSAFE, more compact method of getting the usernames
+		for(int i = 0; i < userList.getLength(); i++){
+			usernameList.add( ((Element) userList.item(i)).getElementsByTagName("username").item(0).getTextContent());	
+		}*/
 		
 		return usernameList;
+	
 	}
 	
-	
 	//--------------- HELP METHODS ----------------------------------
+	
+	private void updateUserList(){
+		userList = usersXML.getElementsByTagName("user");
+	}
 	
 	/**
 	 * 
@@ -186,11 +210,6 @@ public class UserAccountHandler {
 		
 	}
 	
-	
-	private void updateUserList(){
-		userList = usersXML.getElementsByTagName("user");
-	}
-
 	
 	private Document getDocument(String filepath) {		
 		

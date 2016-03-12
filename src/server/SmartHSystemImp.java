@@ -2,6 +2,7 @@ package server;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 
 import model.UserAccountHandler;
 
@@ -46,6 +47,10 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	public void login(String username, String password) throws RemoteException {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public ArrayList<String> getUsernames() throws RemoteException {
+		return userHandler.getUsernameList();
 	}
 
 

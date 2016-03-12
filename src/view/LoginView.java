@@ -1,5 +1,8 @@
 package view;
 
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+
 import com.google.gwt.cell.client.ButtonCellBase.DefaultAppearance.Style;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.vaadin.navigator.View;
@@ -16,12 +19,22 @@ import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+
+import server.SmartHSystem;
+
 import com.vaadin.ui.Button.ClickEvent;
 
 public class LoginView extends VerticalLayout implements View{
 
-	public LoginView(SmartUI ui){
+	private SmartHSystem shsystem;
+	
+	//CONSTRUCTOR
+	public LoginView(SmartUI ui, SmartHSystem shsystem){
 		super();
+		
+		//For RMI calls
+		this.shsystem = shsystem;
+		
 		setHeight(ui.getCurrent().getPage().getBrowserWindowHeight()*0.6f, Unit.PIXELS);
 		
 		// ---------- Navigaatio nappulat - Väliaikaiset ---------- //
@@ -71,7 +84,13 @@ public class LoginView extends VerticalLayout implements View{
         
         	//Testiksi lista
         	//TODO Käyttäjien hakeminen serverin tiedostoista
-        String[] kayt = {"Ville", "Pilvi", "Jenni", "Elmo"};
+        //String[] kayt = {"Ville", "Pilvi", "Jenni", "Elmo"};
+        
+        ArrayList<String> kayt = new ArrayList<String>();
+		try {
+			kayt = shsystem.getUsernames();
+		} catch (RemoteException e) {e.printStackTrace();}
+
         userSelect.addItems(kayt);
         addComponent(userSelect);
         setComponentAlignment(userSelect, Alignment.MIDDLE_CENTER);
@@ -105,7 +124,7 @@ public class LoginView extends VerticalLayout implements View{
         addComponent(loginButton);
         setComponentAlignment(loginButton, Alignment.MIDDLE_CENTER);
         
-	}
+	} //constructor
 	
 	@Override
 	public void enter(ViewChangeEvent event) {
