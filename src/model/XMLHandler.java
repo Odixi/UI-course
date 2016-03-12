@@ -28,7 +28,9 @@ public class XMLHandler {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			factory.setIgnoringComments(true);
 			factory.setIgnoringElementContentWhitespace(true);
-			factory.setValidating(true);
+			
+			//TODO Can't be used right now as there is no schema or DTD for HouseBuild
+			//factory.setValidating(true);
 			
 			DocumentBuilder builder = factory.newDocumentBuilder();
 
