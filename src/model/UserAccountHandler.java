@@ -80,6 +80,7 @@ public class UserAccountHandler extends XMLHandler {
 	}
 	
 	//--------------- CREATE & REMOVE USER -------------------
+	
 	public void createUser(String username, String password){
 		
 		//TODO usernameInUse(username);
@@ -177,7 +178,7 @@ public class UserAccountHandler extends XMLHandler {
 	
 	}
 	
-	//--------------- HELP METHODS ----------------------------------
+	// o-o-o-o-o-o-o-o-o HELP METHODS o-o-o-o-o-o-o-o-o-o-o-o
 	
 	private void updateUserList(){
 		userList = usersXML.getElementsByTagName("user");

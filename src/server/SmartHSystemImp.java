@@ -5,6 +5,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 import model.UserAccountHandler;
+import model.HouseHandler;
 
 /**
  * The purpose of life?
@@ -15,7 +16,7 @@ import model.UserAccountHandler;
 public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem {
 
 	private UserAccountHandler userHandler;
-	
+	private HouseHandler houseHandler;
 	
 	public SmartHSystemImp() throws RemoteException {
 		super();
@@ -24,6 +25,8 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	
 		//Create user account handler
 		userHandler = new UserAccountHandler();
+		//Create house handler
+		houseHandler = new HouseHandler();
 		
 	} //constructor
 
@@ -58,10 +61,9 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 
 	@Override
 	public String[] getHouses() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		//TODO Not the pretties possible way to do this, but oh well...
+		return houseHandler.getHouseNameList().toArray(new String[0]);
 	}
-
 
 	@Override
 	public String[] getRooms(String houseName) throws RemoteException {
@@ -72,7 +74,7 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 
 	@Override
 	public String[] getItems(String houseName, String roomName) throws RemoteException {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
