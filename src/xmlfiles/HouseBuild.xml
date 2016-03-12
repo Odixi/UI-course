@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <houses>
-	<house>home</house>
+	<name>home</name>
 	<room>kitchen</room>
 		<appliance>lights</appliance>
 		<sensor>temperature</sensor>
