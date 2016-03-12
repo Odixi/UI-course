@@ -67,8 +67,7 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 
 	@Override
 	public String[] getRooms(String houseName) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		return houseHandler.getRooms(houseName).toArray(new String[0]);
 	}
 
 

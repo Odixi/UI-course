@@ -24,6 +24,8 @@ public class HouseHandler extends XMLHandler {
 	private Document housesXML;
 	private Element rootElement;
 	private ArrayList<String> houseNames;
+	
+	private ArrayList<String> rooms;
 //	private ArrayList<String> 
 	
 	//CONSTRUCTOR
@@ -35,6 +37,7 @@ public class HouseHandler extends XMLHandler {
 		
 		//ArrayLists
 		houseNames = new ArrayList<String>();
+		rooms = new ArrayList<String>();
 		
 	} //constructor
 	
@@ -56,12 +59,53 @@ public class HouseHandler extends XMLHandler {
 	
 	//----------- LIST OF ROOMS --------------------
 	
+	//TODO MUUTA
+	
+	public ArrayList<String> getRooms(String housename){
+		updateHouseList();
+		rooms.clear();
+		
+		Element house = getHouse(housename);
+		
+		if(house == null){
+			//TODO Do something
+			
+		} else {
+		
+			NodeList roomNodes = house.getElementsByTagName("room");
+			
+			for(int i = 0; i < roomNodes.getLength(); i++){
+				rooms.add( roomNodes.item(i).getTextContent() );
+			}
+		}
+			
+		return rooms;
+		
+	}
+	
+	//----------- LIST OF ITEMS --------------------
+	
+	
 	
 	
 	// o-o-o-o-o-o-o-o-o HELP METHODS o-o-o-o-o-o-o-o-o-o-o-o
 	
 	private void updateHouseList(){
 		houseList = housesXML.getElementsByTagName("house");
+	}
+	
+		//----------- GET HOUSE -------------
+	public Element getHouse(String housename){
+		Element house = null;
+		
+		for(int i = 0; i < houseList.getLength(); i++){
+			//Find the house that matches the name
+			if(houseList.item(i).getTextContent().equals(housename)){
+				house = (Element) houseList.item(i);
+				break;
+			}
+		}
+		return house;
 	}
 	
 }
