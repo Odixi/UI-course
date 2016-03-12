@@ -1,6 +1,10 @@
 package view;
 
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+
 import com.vaadin.data.Container.ItemSetChangeEvent;
+
 import com.vaadin.data.Container.ItemSetChangeListener;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
@@ -13,6 +17,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.PopupView.PopupVisibilityEvent;
 import com.vaadin.ui.PopupView.PopupVisibilityListener;
 import com.vaadin.ui.HorizontalLayout;
@@ -24,10 +29,15 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.VerticalLayout;
 
+import server.SmartHSystem;
+
 public class AdminView extends HorizontalLayout implements View{
+	
+	SmartHSystem shsystem;
 	
 	Button logoutButton;
 	VerticalLayout leftLayout;
+	VerticalLayout middleLayout;
 	VerticalLayout rightLayout;
 	HorizontalLayout userSelectLayout;
 	ComboBox userSelect;
@@ -36,10 +46,14 @@ public class AdminView extends HorizontalLayout implements View{
 	TextField usernameField;
 	PasswordField passwordField;
 	Button saveChanges;
+	
+	String[][][] houses;
 
-	public AdminView(SmartUI ui){
+	public AdminView(SmartUI ui, SmartHSystem shsystem ){
 		
 		super();
+		
+		this.shsystem = shsystem;
 		setMargin(true);
         setSpacing(true);
         setSizeFull();
@@ -115,6 +129,12 @@ public class AdminView extends HorizontalLayout implements View{
         leftLayout.addComponent(saveChanges);
         
         
+        // ---------- Keskimmäinen layout --------- //
+        
+        middleLayout = new VerticalLayout();
+        addComponent(middleLayout);
+        
+        
         // ---------- Oikea puoli sivusta ---------- //
         
         rightLayout = new VerticalLayout();
@@ -137,14 +157,52 @@ public class AdminView extends HorizontalLayout implements View{
         
         generateHouseStructure();
         
-        
+        setExpandRatio(rightLayout, 2);
+        setExpandRatio(leftLayout, 1);
+        setExpandRatio(middleLayout, 1);
         
 	} // Konstruktor
 	
 	
 	// Tehdään lista taloista / houneista / esineistä
 	private void generateHouseStructure(){
-		// TODO taas väliakaiset testit, korjataan, kun mallit valmistuu
+		String[] tmpHouses;
+		String[] tmpRooms;
+		String[] tmpItems;
+		// Bear with me... 
+		try {
+			// Initialize...
+			tmpHouses = shsystem.getHouses();
+			houses = new String[tmpHouses.length][][];
+			
+			for (int i = 0; i < houses.length; i++){
+				
+				tmpRooms = shsystem.getRooms(tmpHouses[i]);
+				houses[i] = new String[tmpRooms.length][];
+				
+				for (int j = 0; i < tmpRooms.length; j++){
+					tmpItems = shsystem.getItems(tmpHouses[i], tmpRooms[j]);
+					houses[i][j] = new String[tmpItems.length];
+				} // for item array lenght
+			}// for room array leght
+		} catch (RemoteException e) {e.printStackTrace();}
+		
+		
+		
+//		Label l1 = new Label("Yksi");
+//		l1.setSizeUndefined();
+//		middleLayout.addComponent(l1);
+//		middleLayout.setComponentAlignment(l1, Alignment.TOP_LEFT);
+//		
+//		Label l2 = new Label("Kaksi");
+//		l2.setSizeUndefined();
+//		middleLayout.addComponent(l2);
+//		middleLayout.setComponentAlignment(l2, Alignment.TOP_CENTER);
+//	
+//		Label l3 = new Label("Kolme");
+//		l3.setSizeUndefined();
+//		middleLayout.addComponent(l3);
+//		middleLayout.setComponentAlignment(l3, Alignment.TOP_RIGHT);
 	
 	}
 	
