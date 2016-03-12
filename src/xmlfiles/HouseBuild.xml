@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<house>
+<houses>
 	<name>home</name>
 	<room>kitchen</room>
 		<appliance>lights</appliance>
@@ -12,4 +12,4 @@
 	<room>bedroom</room>
 		<appliance>lights</appliance>
 		<sensor>temperature</sensor>
-</house>
+</houses>

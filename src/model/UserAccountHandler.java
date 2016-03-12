@@ -23,11 +23,11 @@ import javax.xml.transform.stream.StreamResult;
  */
 
 /* TODO
- * - Method: get list of usernames
+ * - Method: get list of usernames DONE
  * - 
  */
 
-public class UserAccountHandler {
+public class UserAccountHandler extends XMLHandler {
 
 	private String filepath = "src/xmlfiles/users.xml";
 	private NodeList userList;
@@ -36,11 +36,8 @@ public class UserAccountHandler {
 	private ArrayList<String> usernameList;
 	
 	//private BasicTextEncryptor cryptor;
-	
-	//TODO Move DocumentBuilder etc. to attributes
-	//Maybe...?
-	
-	
+
+	//>>>> CONSTUCTOR <<<<<
 	public UserAccountHandler(){	
 		
 		usersXML = getDocument(filepath);
@@ -104,7 +101,7 @@ public class UserAccountHandler {
 		user.appendChild(pword);
 		
 		//Save changes to the XML file
-		writeXML();
+		writeXML(usersXML, filepath);
 		
 	}
 	
@@ -120,7 +117,7 @@ public class UserAccountHandler {
 		}
 		
 		//Save changes to the XML file
-		writeXML();
+		writeXML(usersXML, filepath);
 		
 	}
 	
@@ -148,7 +145,7 @@ public class UserAccountHandler {
 			System.out.println(username + "'s password changed!");
 		}
 		
-		writeXML();
+		writeXML(usersXML, filepath);
 		
 	}
 	
@@ -211,49 +208,8 @@ public class UserAccountHandler {
 			}		
 		}	
 		
+		//Returns an element
 		return foundUser;
-		
 	}
-	
-	
-	private Document getDocument(String filepath) {		
-		
-		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			factory.setIgnoringComments(true);
-			factory.setIgnoringElementContentWhitespace(true);
-			factory.setValidating(true);
-			
-			DocumentBuilder builder = factory.newDocumentBuilder();
-
-			return builder.parse(new InputSource(filepath));
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}	
-		
-		return null;
-		
-	} //getDocument()
-	
-	
-	//--------------- WRITE INTO THE XML FILE -------------
-	
-	private void writeXML(){
-		try {
-		
-			TransformerFactory transformerFactory = TransformerFactory.newInstance();
-			Transformer transformer = transformerFactory.newTransformer();
-			DOMSource source = new DOMSource(usersXML);
-			StreamResult result = new StreamResult(new File(filepath) );
-			transformer.transform(source, result);
-			
-		} catch (TransformerConfigurationException e) {	
-			e.printStackTrace();
-		} catch (TransformerException e) {
-			e.printStackTrace();
-		}
-		
-	} //writeXML
 	
 }

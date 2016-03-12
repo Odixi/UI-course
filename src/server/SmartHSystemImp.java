@@ -53,6 +53,29 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		return userHandler.getUsernameList();
 	}
 
+	
+	// • • • • • • • • HOUSES • • • • • • • • •
+
+	@Override
+	public String[] getHouses() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public String[] getRooms(String houseName) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public String[] getItems(String houseName, String roomName) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 	
 	
