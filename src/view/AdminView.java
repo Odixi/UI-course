@@ -47,7 +47,8 @@ public class AdminView extends HorizontalLayout implements View{
 	PasswordField passwordField;
 	Button saveChanges;
 	
-	String[][][] houses;
+	RoomListComponent[] houses;
+	
 
 	public AdminView(SmartUI ui, SmartHSystem shsystem ){
 		
@@ -155,7 +156,13 @@ public class AdminView extends HorizontalLayout implements View{
         
         // ----- Oikeuksien valinta älykotiin ----- //
         
-        generateHouseStructure();
+        try {
+			String[] housesNames = shsystem.getHouses();
+			for (int i = 0; i < housesNames.length; i++){
+				houses[i] = new RoomListComponent(housesNames[i]);
+				rightLayout.addComponent(houses[i]);
+			}
+		} catch (RemoteException e) {e.printStackTrace();}
         
         setExpandRatio(rightLayout, 2);
         setExpandRatio(leftLayout, 1);
@@ -163,48 +170,6 @@ public class AdminView extends HorizontalLayout implements View{
         
 	} // Konstruktor
 	
-	
-	// Tehdään lista taloista / houneista / esineistä
-	private void generateHouseStructure(){
-		String[] tmpHouses;
-		String[] tmpRooms;
-		String[] tmpItems;
-		// Bear with me... 
-		try {
-			// Initialize...
-			tmpHouses = shsystem.getHouses();
-			houses = new String[tmpHouses.length][][];
-			
-			for (int i = 0; i < houses.length; i++){
-				
-				tmpRooms = shsystem.getRooms(tmpHouses[i]);
-				houses[i] = new String[tmpRooms.length][];
-				
-				for (int j = 0; i < tmpRooms.length; j++){
-					tmpItems = shsystem.getItems(tmpHouses[i], tmpRooms[j]);
-					houses[i][j] = new String[tmpItems.length];
-				} // for item array lenght
-			}// for room array leght
-		} catch (RemoteException e) {e.printStackTrace();}
-		
-		
-		
-//		Label l1 = new Label("Yksi");
-//		l1.setSizeUndefined();
-//		middleLayout.addComponent(l1);
-//		middleLayout.setComponentAlignment(l1, Alignment.TOP_LEFT);
-//		
-//		Label l2 = new Label("Kaksi");
-//		l2.setSizeUndefined();
-//		middleLayout.addComponent(l2);
-//		middleLayout.setComponentAlignment(l2, Alignment.TOP_CENTER);
-//	
-//		Label l3 = new Label("Kolme");
-//		l3.setSizeUndefined();
-//		middleLayout.addComponent(l3);
-//		middleLayout.setComponentAlignment(l3, Alignment.TOP_RIGHT);
-	
-	}
 	
 	@Override
 	public void enter(ViewChangeEvent event) {
