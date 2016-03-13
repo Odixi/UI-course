@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<houses xmlns="htt//www.example.org/houseStructures"
-        xmlns:xsi="htt//www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="htt//www.example.org/houseStructures houseStructures.xsd "
+<houses
+    xmlns="htt//www.example.org/houseStructures"
+    xmlns:xsi="htt//www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="htt//www.example.org/houseStructures houseStructures.xsd "
 >
 
 
-  EXAMPLE HOUSE
+  <!--  EXAMPLE HOUSE -->
         
   <house houseID="h001">
 	  <houseName>houseName</houseName>
@@ -30,7 +31,8 @@
 	  </room>
   </house>
  
-  
+  <!--
+    
   <house houseID="h002">
 	  <houseName></houseName>
 	  <room roomID="h002r001">
@@ -49,6 +51,8 @@
 	       <roomName></roomName>
 	  </room>
   </house>
+  
+  -->
   
   <!--  COMMENTED OUT SOME EXTRA HOUSES
   
