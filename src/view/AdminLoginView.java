@@ -14,6 +14,9 @@ public class AdminLoginView extends VerticalLayout implements View{
 
 	public AdminLoginView(SmartUI ui){
 		
+		setMargin(true);
+		setSpacing(true);
+		
 	     // ----- Login as user button ----- //   
 			Button toAdminLogin = new Button("Login as user",
 					new Button.ClickListener() {

@@ -46,30 +46,6 @@ public class LoginView extends VerticalLayout implements View{
 		setSpacing(true);
 		
 		
-		// ---------- Navigaatio nappulat - Väliaikaiset ---------- //
-		
-        Button userButton = new Button("Go to UserView",
-                new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                ui.getNavigator().navigateTo(ui.USERVIEW);
-            }
-        });
-        Button adminButton = new Button("Go to AdminView",
-                new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                ui.getNavigator().navigateTo(ui.ADMINVIEW);
-            }
-        });
-        addComponent(userButton);
-        setComponentAlignment(userButton, Alignment.MIDDLE_CENTER);
-        addComponent(adminButton);
-        setComponentAlignment(adminButton, Alignment.MIDDLE_CENTER);
-        
-        
-     // ---------- Navigaatio nappulat /END---------- //
-		
         
      // ----- Login as admin button ----- //   
 		Button toAdminLogin = new Button("Login as admin",
@@ -161,6 +137,31 @@ public class LoginView extends VerticalLayout implements View{
         
         addComponent(loginButton);
         setComponentAlignment(loginButton, Alignment.MIDDLE_CENTER);
+        
+        
+		// ---------- Navigaatio nappulat - Väliaikaiset ---------- //
+		
+        Button userButton = new Button("Go to UserView",
+                new Button.ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent event) {
+                ui.getNavigator().navigateTo(ui.USERVIEW);
+            }
+        });
+        Button adminButton = new Button("Go to AdminView",
+                new Button.ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent event) {
+                ui.getNavigator().navigateTo(ui.ADMINVIEW);
+            }
+        });
+        addComponent(userButton);
+        setComponentAlignment(userButton, Alignment.MIDDLE_LEFT);
+        addComponent(adminButton);
+        setComponentAlignment(adminButton, Alignment.MIDDLE_LEFT);
+        
+        
+     // ---------- Navigaatio nappulat /END---------- //
         
 	} //constructor
 	
