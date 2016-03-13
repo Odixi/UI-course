@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<houses xmlns="htt//www.example.org/houseStructures"
+        xmlns:xsi="htt//www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="htt//www.example.org/houseStructures houseStructures.xsd "
+>
+
+
+  EXAMPLE HOUSE
+        
+  <house houseID="h001">
+	  <houseName>houseName</houseName>
+	  <room roomID="h001r101">
+	       <roomName>Hall</roomName>
+	       <light lightID="h1r101L001">
+	           <lightName>Ceiling light</lightName>
+	       </light>
+	  </room>
+	  <room roomID="h001r001">
+	    <roomName>Living room</roomName>
+	    <light lightID="h1r1L001">
+	       <lightName>Ceiling light</lightName>
+	    </light>
+	    <light lightID="h1r1L002">
+	       <lightName>Floor lamp</lightName>
+	    </light>
+	  </room>
+	  <room roomID="h001r002">
+	       <roomName></roomName>
+	       <light lightID=""></light>
+	  </room>
+  </house>
+ 
+  
+  <house houseID="h002">
+	  <houseName></houseName>
+	  <room roomID="h002r001">
+	      
+	  </room>
+	  <room roomID="h002r002">
+	      <roomName></roomName>
+	  </room>
+	  <room roomID="h002r003">
+	      <roomName></roomName>
+	  </room>
+	  <room roomID="h002r004">
+	       <roomName></roomName>
+	  </room>
+	  <room roomID="h002r005">
+	       <roomName></roomName>
+	  </room>
+  </house>
+  
+  <!--  COMMENTED OUT SOME EXTRA HOUSES
+  
+  <house houseID="h003">
+	  <houseName></houseName>
+	  <room roomID="h003r001">
+	       <roomName></roomName>
+	  </room>
+	  <room roomID="h003r002">
+	       <roomName></roomName>
+	  </room>
+	  <room roomID="h003r003">
+	       <roomName></roomName>
+	  </room>
+  </house>
+  
+  <house houseID="h004">
+	<houseName></houseName>
+	<room roomID="h004r001">
+	       <roomName></roomName>
+	</room>
+	<room roomID="h004r002">
+	       <roomName></roomName>
+	</room>
+	<room roomID="h004r003">
+           <roomName></roomName>
+	</room>
+	<room roomID="h004r004">
+           <roomName></roomName>	   
+	</room>
+  </house>
+
+    -->
+  
+</houses>
