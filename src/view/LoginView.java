@@ -42,7 +42,9 @@ public class LoginView extends VerticalLayout implements View{
 		//For encrypting and decrypting passwords	//TODO Doesn't find the class
 		//cryptor = new BasicTextEncryptor();
 		
-		setHeight(ui.getCurrent().getPage().getBrowserWindowHeight()*0.6f, Unit.PIXELS);
+		setMargin(true);
+		setSpacing(true);
+		
 		
 		// ---------- Navigaatio nappulat - Väliaikaiset ---------- //
 		
@@ -85,13 +87,10 @@ public class LoginView extends VerticalLayout implements View{
         ComboBox userSelect = new ComboBox("Select user");
         userSelect.setInputPrompt("No user selected");
         userSelect.setFilteringMode(FilteringMode.CONTAINS);
-//        userSelect.setImmediate(true);
+        userSelect.setImmediate(true);
         userSelect.setTextInputAllowed(false);
         userSelect.setNullSelectionAllowed(false);
         
-        	//Testiksi lista
-        	//TODO Käyttäjien hakeminen serverin tiedostoista
-        //String[] kayt = {"Ville", "Pilvi", "Jenni", "Elmo"};
         
         ArrayList<String> kayt = new ArrayList<String>();
 		try {

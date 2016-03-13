@@ -76,13 +76,13 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	}
 
 	@Override
-	public String[] getRooms(String houseName) throws RemoteException {
-		return houseHandler.getRooms(houseName).toArray(new String[0]);
+	public ArrayList<String> getRooms(String houseName) throws RemoteException {
+		return houseHandler.getRooms(houseName);
 	}
 
 
 	@Override
-	public String[] getItems(String houseName, String roomName) throws RemoteException {
+	public ArrayList<String> getItems(String houseName, String roomName) throws RemoteException {
 		
 		return null;
 	}

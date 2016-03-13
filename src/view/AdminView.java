@@ -72,6 +72,7 @@ public class AdminView extends HorizontalLayout implements View{
         //Keskiosan rakennus
         initMiddle();
         
+        //ja oikea puoli
         initRight();
         
         setExpandRatio(rightLayout, 2);
@@ -170,10 +171,10 @@ public class AdminView extends HorizontalLayout implements View{
         // ----- Oikeuksien valinta älykotiin ----- //
         
         try {
-			String[] housesNames = shsystem.getHouses();
+			ArrayList<String> housesNames = shsystem.getHouses();
 //			middleLayout.addComponent(new Label(housesNames[0]));
-			for (int i = 0; i < housesNames.length; i++){
-				houses[i] = new RoomListComponent(housesNames[i]);
+			for (int i = 0; i < housesNames.size(); i++){
+				houses[i] = new RoomListComponent(housesNames.get(i));
 				middleLayout.addComponent(houses[i]);
 			}
 		} catch (RemoteException e) {e.printStackTrace();}
