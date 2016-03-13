@@ -14,7 +14,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.jasypt.util.text.BasicTextEncryptor;
+//import org.jasypt.util.text.BasicTextEncryptor;
 
 /**
  * 
@@ -23,34 +23,32 @@ import org.jasypt.util.text.BasicTextEncryptor;
  */
 
 /* TODO
- * - Method: get list of usernames
+ * - Method: get list of usernames DONE
  * - 
  */
 
-public class UserAccountHandler {
+public class UserAccountHandler extends XMLHandler {
 
-	private String filepath = ".src/xmlfiles/users.xml";
+	private String filepath = "src/xmlfiles/users.xml";
 	private NodeList userList;
 	private Document usersXML;
 	private Element rootElement;
 	private ArrayList<String> usernameList;
 	
-	private BasicTextEncryptor cryptor;
-	
-	//TODO Move DocumentBuilder etc. to attributes
-	//Maybe...?
-	
-	
+	//private BasicTextEncryptor cryptor;
+
+	//>>>> CONSTUCTOR <<<<<
 	public UserAccountHandler(){	
 		
 		usersXML = getDocument(filepath);
 		usersXML.getDocumentElement().normalize();
-	
-		//For encrypting and decrypting passwords
-		cryptor = new BasicTextEncryptor();
-		
 		rootElement = usersXML.getDocumentElement();
-				
+
+		usernameList = new ArrayList<String>();
+		
+		//TODO For encrypting and decrypting passwords
+		//cryptor = new BasicTextEncryptor();
+
 	} //constructor
 	
 	
@@ -67,7 +65,11 @@ public class UserAccountHandler {
 			if( getUser(username).getElementsByTagName("password") != null ){
 				String p = getUser(username).getElementsByTagName("password").item(0).getTextContent();
 
-				if( cryptor.decrypt(p).equals(password) ){
+				//TODO Jasypt has it's own method for checking passwords. Take a look.
+				
+				//TODO if( cryptor.decrypt(p).equals( cryptor.decrypt(password)) ){
+				//if( cryptor.decrypt(p).equals( password) ){
+				if( p.equals( password) ){
 					passwordMatches = true;
 				} else {
 					passwordMatches = false;
@@ -78,6 +80,7 @@ public class UserAccountHandler {
 	}
 	
 	//--------------- CREATE & REMOVE USER -------------------
+	
 	public void createUser(String username, String password){
 		
 		//TODO usernameInUse(username);
@@ -94,11 +97,12 @@ public class UserAccountHandler {
 		
 		//password
 		Element pword = usersXML.createElement("password");
-		pword.appendChild(usersXML.createTextNode( cryptor.encrypt(password) ));
+		//pword.appendChild(usersXML.createTextNode( cryptor.encrypt(password) ));
+		pword.appendChild(usersXML.createTextNode( password ));
 		user.appendChild(pword);
 		
 		//Save changes to the XML file
-		writeXML();
+		writeXML(usersXML, filepath);
 		
 	}
 	
@@ -114,7 +118,7 @@ public class UserAccountHandler {
 		}
 		
 		//Save changes to the XML file
-		writeXML();
+		writeXML(usersXML, filepath);
 		
 	}
 	
@@ -136,12 +140,13 @@ public class UserAccountHandler {
 		
 		if( passwordMatch(username, oldpassword) ){
 			Element user = getUser(username);
-			user.getElementsByTagName("password").item(0).setTextContent(cryptor.encrypt(newpassword));
+			//TODO user.getElementsByTagName("password").item(0).setTextContent(cryptor.encrypt(newpassword));
+			user.getElementsByTagName("password").item(0).setTextContent(newpassword);
 			
 			System.out.println(username + "'s password changed!");
 		}
 		
-		writeXML();
+		writeXML(usersXML, filepath);
 		
 	}
 	
@@ -149,13 +154,35 @@ public class UserAccountHandler {
 	
 	public ArrayList<String> getUsernameList(){
 		
-		
+		updateUserList();
+		usernameList.clear();
+
+		for(int i = 0; i < userList.getLength(); i++){
+			
+			if(userList.item(i).getNodeType() == Node.ELEMENT_NODE){
+				Element userElement = (Element) userList.item(i);
+				
+				if(userElement.getElementsByTagName("username").item(0) != null){
+					//Add username to the list
+					usernameList.add( userElement.getElementsByTagName("username").item(0).getTextContent() );
+				}
+			}		
+		}
+
+		/* UNSAFE, more compact method of getting the usernames
+		for(int i = 0; i < userList.getLength(); i++){
+			usernameList.add( ((Element) userList.item(i)).getElementsByTagName("username").item(0).getTextContent());	
+		}*/
 		
 		return usernameList;
+	
 	}
 	
+	// o-o-o-o-o-o-o-o-o HELP METHODS o-o-o-o-o-o-o-o-o-o-o-o
 	
-	//--------------- HELP METHODS ----------------------------------
+	private void updateUserList(){
+		userList = usersXML.getElementsByTagName("user");
+	}
 	
 	/**
 	 * 
@@ -182,54 +209,8 @@ public class UserAccountHandler {
 			}		
 		}	
 		
+		//Returns an element
 		return foundUser;
-		
 	}
-	
-	
-	private void updateUserList(){
-		userList = usersXML.getElementsByTagName("user");
-	}
-
-	
-	private Document getDocument(String filepath) {		
-		
-		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			factory.setIgnoringComments(true);
-			factory.setIgnoringElementContentWhitespace(true);
-			factory.setValidating(true);
-			
-			DocumentBuilder builder = factory.newDocumentBuilder();
-
-			return builder.parse(new InputSource(filepath));
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}	
-		
-		return null;
-		
-	} //getDocument()
-	
-	
-	//--------------- WRITE INTO THE XML FILE -------------
-	
-	private void writeXML(){
-		try {
-		
-			TransformerFactory transformerFactory = TransformerFactory.newInstance();
-			Transformer transformer = transformerFactory.newTransformer();
-			DOMSource source = new DOMSource(usersXML);
-			StreamResult result = new StreamResult(new File(filepath) );
-			transformer.transform(source, result);
-			
-		} catch (TransformerConfigurationException e) {	
-			e.printStackTrace();
-		} catch (TransformerException e) {
-			e.printStackTrace();
-		}
-		
-	} //writeXML
 	
 }

@@ -15,7 +15,7 @@ public class SmartHouseServer {
 			Registry registry = LocateRegistry.createRegistry(2020);
 			System.out.println(registry);
 			
-			Naming.rebind("//127.0.0.1:2020/shsystem", shsystem);
+			Naming.rebind("//localhost:2020/shsystem", shsystem); //TODO Change address
 			
 			
 		} catch (Exception e) {
