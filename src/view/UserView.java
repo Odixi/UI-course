@@ -1,5 +1,8 @@
 package view;
  
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Sizeable.Unit;
@@ -11,13 +14,26 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
+
+import server.SmartHSystem;
+
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Window;
  
 public class UserView extends VerticalLayout implements View{
+	
+	//Attributes
+	private SmartHSystem shsystem;
+	
  
-    public UserView(SmartUI ui){
+    public UserView(SmartUI ui, SmartHSystem shsystem){
+    	
+    	super();
+		
+		//For RMI calls
+		this.shsystem = shsystem;
+    	
         setHeight(ui.getCurrent().getPage().getBrowserWindowHeight()*0.6f, Unit.PIXELS);
        
         //Luodaan pohja leiskaan tulevat vaakaleiskat
@@ -51,8 +67,12 @@ public class UserView extends VerticalLayout implements View{
         houseSelect.setTextInputAllowed(false);
         houseSelect.setNullSelectionAllowed(false);
         
-        	//Testiksi lista
-        String[] homes = {"Home", "Summer house"};
+        ArrayList<String> homes = new ArrayList<String>();
+                
+		try {
+			homes = shsystem.getHouses();
+		} catch (RemoteException e) {e.printStackTrace();}
+
         houseSelect.addItems(homes);
         
         
