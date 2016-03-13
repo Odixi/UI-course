@@ -33,28 +33,28 @@ import server.SmartHSystem;
 
 public class AdminView extends HorizontalLayout implements View{
 	
-	SmartHSystem shsystem;
-	SmartUI ui;
+	private SmartHSystem shsystem;
+	private SmartUI ui;
 	
-	VerticalLayout leftLayout;
-	VerticalLayout middleLayout;
-	VerticalLayout rightLayout;
+	private VerticalLayout leftLayout;
+	private VerticalLayout middleLayout;
+	private VerticalLayout rightLayout;
 	
 	//Left side
-	HorizontalLayout userSelectLayout;
-	ComboBox userSelect;
-	PopupView removeUser;
-	PopupView createUser;
-	TextField usernameField;
-	PasswordField passwordField;
-	Button saveChanges;
+	private HorizontalLayout userSelectLayout;
+	private ComboBox userSelect;
+	private PopupView removeUser;
+	private PopupView createUser;
+	private TextField usernameField;
+	private PasswordField passwordField;
+	private Button saveChanges;
 	
 	//Right side
-	Button logoutButton;
+	private Button logoutButton;
 	
 	//Middle
-	RoomListComponent[] houses;
-	ArrayList<String> users;
+	private RoomListComponent[] houses;
+	private ArrayList<String> users;
 	
 
 	public AdminView(SmartUI ui, SmartHSystem shsystem ){
@@ -81,6 +81,7 @@ public class AdminView extends HorizontalLayout implements View{
         
 	} // Konstruktor
 	
+	// Vasemman puolen generointi
 	private void initLeft(){
 		
 		// ----- Vasen puoli sivusta ----- //
@@ -97,14 +98,14 @@ public class AdminView extends HorizontalLayout implements View{
         leftLayout.addComponent(userSelectLayout);
         
         // Käyttäjä lisäys nappi
-        CreateUserPopupContent cu = new CreateUserPopupContent(shsystem);
+        CreateUserPopupContent cu = new CreateUserPopupContent(shsystem, this);
         createUser = new PopupView(cu);
         cu.setPopupView(createUser); // jotta saadaan instanssi tuosta PopupViewistä content luokkaan
         userSelectLayout.addComponent(createUser);
         
         // Käyttäjän poistamis nappi
         // Olisi varmaan voinut tehdä fiksumminkin mutta...
-        RemoveUserPopupContent pc = new RemoveUserPopupContent(shsystem);
+        RemoveUserPopupContent pc = new RemoveUserPopupContent(shsystem, this);
         removeUser = new PopupView(pc);
         pc.setPopupView(removeUser);
         userSelectLayout.addComponent(removeUser);
@@ -130,12 +131,7 @@ public class AdminView extends HorizontalLayout implements View{
 		});
 
         // Käyttäjien haku
-        try {
-			users = shsystem.getUsernames();
-		} catch (RemoteException e1) {
-			e1.printStackTrace();
-		}
-        userSelect.addItems(users);
+        updateUserList();
         leftLayout.addComponent(userSelect);
         
         
@@ -160,7 +156,7 @@ public class AdminView extends HorizontalLayout implements View{
         leftLayout.addComponent(saveChanges);
 		
 	}
-	
+	// Keskiosan generointi
 	private void initMiddle(){
 		
         // ---------- Keskimmäinen layout --------- //
@@ -181,6 +177,7 @@ public class AdminView extends HorizontalLayout implements View{
         
 	}
 	
+	// Oikean puolen generointi
 	public void initRight(){
         // ---------- Oikea puoli ---------- //
         
@@ -208,6 +205,21 @@ public class AdminView extends HorizontalLayout implements View{
 		usernameField.setValue((String)userSelect.getValue());
 	}
 	
+	// Haetaan käyttäjät serveriltä
+	public void updateUserList(){
+		userSelect.removeAllItems();
+        try {
+			users = shsystem.getUsernames();
+		} catch (RemoteException e1) {
+			e1.printStackTrace();
+		}
+        userSelect.addItems(users);
+	}
+	
+	// Palauttaa valitun käyttäjän
+	public String getSelectedUser(){
+		return (String)userSelect.getValue();
+	}
 	
 	@Override
 	public void enter(ViewChangeEvent event) {
@@ -230,26 +242,25 @@ class CreateUserPopupContent implements PopupView.Content{
 	private Button ok;
 	private PopupView pv;
 	
-	public CreateUserPopupContent(SmartHSystem sh) {
+	public CreateUserPopupContent(SmartHSystem sh, AdminView av) {
 		hl = new HorizontalLayout();
 		tf = new TextField("Create new user");
 		tf.setInputPrompt("Username");
 		hl.addComponent(tf);
 		ok = new Button("Ok", new Button.ClickListener() {
 			
-			@Override
+			@Override // Luodaan uusi käyttäjä
 			public void buttonClick(ClickEvent event) {
 				if (tf.getValue().length() < 3 || tf.getValue().length() > 25){
 					Notification.show("Username is not valid!");
 				}
 				else{
 				try {
-					sh.newUser(tf.getValue(), "password");
-					Notification.show("User " + tf.getValue() + " created");
-				} catch (RemoteException e) {
-					e.printStackTrace();
-				};
-				pv.setPopupVisible(false);
+						sh.newUser(tf.getValue(), "password"); // Oletus salsana: password
+						Notification.show("User " + tf.getValue() + " created");
+						pv.setPopupVisible(false);
+						av.updateUserList();
+					} catch (RemoteException e) {e.printStackTrace();}
 				}
 			}
 		});
@@ -285,7 +296,7 @@ class RemoveUserPopupContent implements PopupView.Content{
 	private String user;
 	private PopupView pv;
 	
-	public RemoveUserPopupContent(SmartHSystem sh){
+	public RemoveUserPopupContent(SmartHSystem sh, AdminView av){
 		vlayout = new VerticalLayout();
 		ays = new Label();
 		vlayout.addComponent(ays);
@@ -297,13 +308,15 @@ class RemoveUserPopupContent implements PopupView.Content{
 			public void buttonClick(ClickEvent event) {
 				if (user == null){
 					Notification.show("Select a user first!");
-					pv.setPopupVisible(false);
 				}
 				else{
-					
-					Notification.show(user + " Deleted");
-					pv.setPopupVisible(false);
+					try {
+						sh.deleteUser(av.getSelectedUser());
+						Notification.show(user + " Deleted");
+						av.updateUserList();
+					} catch (RemoteException e) {e.printStackTrace();}
 				}
+				pv.setPopupVisible(false);
 			}
 		});
 		
