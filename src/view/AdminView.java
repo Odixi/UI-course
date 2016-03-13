@@ -34,11 +34,13 @@ import server.SmartHSystem;
 public class AdminView extends HorizontalLayout implements View{
 	
 	SmartHSystem shsystem;
+	SmartUI ui;
 	
-	Button logoutButton;
 	VerticalLayout leftLayout;
 	VerticalLayout middleLayout;
 	VerticalLayout rightLayout;
+	
+	//Left side
 	HorizontalLayout userSelectLayout;
 	ComboBox userSelect;
 	PopupView removeUser;
@@ -47,6 +49,10 @@ public class AdminView extends HorizontalLayout implements View{
 	PasswordField passwordField;
 	Button saveChanges;
 	
+	//Right side
+	Button logoutButton;
+	
+	//Middle
 	RoomListComponent[] houses;
 	ArrayList<String> users;
 	
@@ -54,11 +60,28 @@ public class AdminView extends HorizontalLayout implements View{
 	public AdminView(SmartUI ui, SmartHSystem shsystem ){
 		
 		super();
-		
+		this.ui = ui;
 		this.shsystem = shsystem;
 		setMargin(true);
         setSpacing(true);
         setSizeFull();
+        
+        //Vasemman puolen rakennus
+        initLeft();
+        
+        //Keskiosan rakennus
+        initMiddle();
+        
+        initRight();
+        
+        setExpandRatio(rightLayout, 2);
+        setExpandRatio(leftLayout, 1);
+        setExpandRatio(middleLayout, 1);
+        
+	} // Konstruktor
+	
+	private void initLeft(){
+		
 		// ----- Vasen puoli sivusta ----- //
         
         leftLayout = new VerticalLayout();
@@ -101,7 +124,7 @@ public class AdminView extends HorizontalLayout implements View{
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				Notification.show("" + userSelect.getValue());
-				//TODO näkymän päivitys!
+				updateContent();
 			}
 		});
 
@@ -134,15 +157,31 @@ public class AdminView extends HorizontalLayout implements View{
 			}
 		});
         leftLayout.addComponent(saveChanges);
-        
-        
+		
+	}
+	
+	private void initMiddle(){
+		
         // ---------- Keskimmäinen layout --------- //
         
         middleLayout = new VerticalLayout();
         addComponent(middleLayout);
         
+        // ----- Oikeuksien valinta älykotiin ----- //
         
-        // ---------- Oikea puoli sivusta ---------- //
+        try {
+			String[] housesNames = shsystem.getHouses();
+//			middleLayout.addComponent(new Label(housesNames[0]));
+			for (int i = 0; i < housesNames.length; i++){
+				houses[i] = new RoomListComponent(housesNames[i]);
+				middleLayout.addComponent(houses[i]);
+			}
+		} catch (RemoteException e) {e.printStackTrace();}
+        
+	}
+	
+	public void initRight(){
+        // ---------- Oikea puoli ---------- //
         
         rightLayout = new VerticalLayout();
         addComponent(rightLayout);
@@ -160,21 +199,13 @@ public class AdminView extends HorizontalLayout implements View{
         rightLayout.addComponent(logoutButton);
         rightLayout.setComponentAlignment(logoutButton, Alignment.TOP_RIGHT);
         
-        // ----- Oikeuksien valinta älykotiin ----- //
-        
-        try {
-			String[] housesNames = shsystem.getHouses();
-			for (int i = 0; i < housesNames.length; i++){
-				houses[i] = new RoomListComponent(housesNames[i]);
-				middleLayout.addComponent(houses[i]);
-			}
-		} catch (RemoteException e) {e.printStackTrace();}
-        
-        setExpandRatio(rightLayout, 2);
-        setExpandRatio(leftLayout, 1);
-        setExpandRatio(middleLayout, 1);
-        
-	} // Konstruktor
+	}
+	
+	// Hakee serveriltä valitun käyttäjän tiedot ja päivättää ne
+	private void updateContent(){
+		//TODO
+		usernameField.setValue((String)userSelect.getValue());
+	}
 	
 	
 	@Override
@@ -182,7 +213,7 @@ public class AdminView extends HorizontalLayout implements View{
 		
 	}
 
-}
+} // AdminView
 
 /*
  * Sisältä mikä näytetäänkun painetaan Create usernappia
@@ -213,10 +244,10 @@ class CreateUserPopupContent implements PopupView.Content{
 				else{
 				try {
 					sh.newUser(tf.getValue(), "password");
+					Notification.show("User " + tf.getValue() + " created");
 				} catch (RemoteException e) {
 					e.printStackTrace();
-				}
-				Notification.show("User " + tf.getValue() + " created");
+				};
 				pv.setPopupVisible(false);
 				}
 			}
