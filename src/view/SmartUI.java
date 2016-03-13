@@ -42,7 +42,7 @@ public class SmartUI extends UI {
 		navigator = new Navigator(this, this);
 		
 		navigator.addView(LOGINVIEW, new LoginView(this, shsystem));
-		navigator.addView(USERVIEW, new UserView(this));
+		navigator.addView(USERVIEW, new UserView(this, shsystem));
 		navigator.addView(ADMINVIEW, new AdminView(this, shsystem));
 		navigator.addView(ADMINLOGINVIEW, new AdminLoginView(this));
 		

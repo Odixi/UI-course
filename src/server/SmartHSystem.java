@@ -21,7 +21,7 @@ public interface SmartHSystem extends Remote {
 	
 	// ---------- Kyselyt taloista --------- //
 	
-	public String[] getHouses() throws RemoteException; // Lista taloista
+	public ArrayList<String> getHouses() throws RemoteException; // Lista taloista
 	
 	public String[] getRooms(String houseName) throws RemoteException; // Lista talonhuoneista
 	
