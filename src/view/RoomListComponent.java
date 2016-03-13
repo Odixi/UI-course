@@ -32,7 +32,7 @@ public class RoomListComponent extends CustomComponent {
 			
 			try {
 				
-				ArrayList<String> rooms = shsystem.getRooms(houseName);
+				ArrayList<String> rooms = shsystem.getRoomNames(houseName);
 				checkBoxes = new CheckBox[rooms.size()][];
 				ArrayList<String> items;
 				

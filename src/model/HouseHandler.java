@@ -23,10 +23,12 @@ public class HouseHandler extends XMLHandler {
 	private NodeList houseList;
 	private Document housesXML;
 	private Element rootElement;
+	
+	private ArrayList<Element> houses;
 	private ArrayList<String> houseNames;
 	
-	private ArrayList<String> rooms;
-//	private ArrayList<String> 
+	private ArrayList<Element> rooms;
+	private ArrayList<String> roomNames;
 	
 	//CONSTRUCTOR
 	public HouseHandler(){
@@ -36,8 +38,11 @@ public class HouseHandler extends XMLHandler {
 		rootElement = housesXML.getDocumentElement();
 		
 		//ArrayLists
+		houses = new ArrayList<Element>();
 		houseNames = new ArrayList<String>();
-		rooms = new ArrayList<String>();
+		
+		rooms = new ArrayList<Element>();
+		roomNames = new ArrayList<String>();
 		
 	} //constructor
 	
@@ -52,26 +57,37 @@ public class HouseHandler extends XMLHandler {
 		for(int i = 0; i < houseList.getLength(); i++){
 		
 			if(houseList.item(i).getNodeType() == Node.ELEMENT_NODE){
-				String name = ((Element) houseList.item(i)).getTextContent();
-				System.out.println("House name: " + name); //TODO REMOVE, for testing
-				houseNames.add(name);
+				Element houseElement = (Element) houseList.item(i);
+				
+				if(houseElement.getElementsByTagName("houseName").item(0) != null){
+					//Add housename to the list
+					houseNames.add( houseElement.getElementsByTagName("houseName").item(0).getTextContent() );
+				}
 			}
-			
-		/*	
-			//TODO Quite likely going to change...
-			houseNames.add( houseList.item(i).getTextContent() );
-			System.out.println( houseList.item(i).getTextContent() );
-		*/
 		}
 
 		return houseNames;
 	}
 	
-	//----------- LIST OF ROOMS --------------------
+	//----------- LIST OF ROOMS (NAMES) -----------------------
 	
-	//TODO MUUTA
+	public ArrayList<String> getRoomNames(String housename){
+		roomNames.clear();
+		rooms.clear();
+		rooms = getRooms(housename);
+		
+		for(int i = 0; i < rooms.size(); i++){
+			if(rooms.get(i).getElementsByTagName("roomName").item(0) != null){
+				roomNames.add( rooms.get(i).getElementsByTagName("roomName").item(0).getTextContent() );
+			}
+		}
+		
+		return roomNames;
+	}
 	
-	public ArrayList<String> getRooms(String housename){
+	//----------- LIST OF ROOMS (ELEMENTS) --------------------
+	
+	public ArrayList<Element> getRooms(String housename){
 		updateHouseList();
 		rooms.clear();
 		
@@ -81,20 +97,22 @@ public class HouseHandler extends XMLHandler {
 			//TODO Do something
 			
 		} else {
-		
 			NodeList roomNodes = house.getElementsByTagName("room");
 			
 			for(int i = 0; i < roomNodes.getLength(); i++){
-				rooms.add( roomNodes.item(i).getTextContent() );
+				rooms.add( (Element) roomNodes.item(i));
 			}
-		}
-			
+		}	
+		
 		return rooms;
 		
 	}
 	
-	//----------- LIST OF ITEMS --------------------
+	//----------- LIST OF ITEMS (NAMES) --------------------
 	
+	
+	
+	//----------- LIST OF ITEMS (ELEMENTS) --------------------
 	
 	
 	

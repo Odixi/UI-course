@@ -167,7 +167,7 @@ public class AdminView extends HorizontalLayout implements View{
         // ----- Oikeuksien valinta älykotiin ----- //
         
         try {
-			ArrayList<String> housesNames = shsystem.getHouses();
+			ArrayList<String> housesNames = shsystem.getHouseNames();
 //			middleLayout.addComponent(new Label(housesNames[0]));
 			for (int i = 0; i < housesNames.size(); i++){
 				houses[i] = new RoomListComponent(housesNames.get(i));

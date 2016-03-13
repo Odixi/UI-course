@@ -36,7 +36,7 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	public void testPrintConsole(String message) throws RemoteException {
 		System.out.println("Message: " + message);
 		
-		ArrayList<String> houses = getHouses();
+		ArrayList<String> houses = getHouseNames();
 		System.out.println("Houses length: " + houses.size());
 		for(String house : houses){
 			System.out.println(house);
@@ -67,17 +67,13 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	// • • • • • • • • HOUSES • • • • • • • • •
 
 	@Override
-	public ArrayList<String> getHouses() throws RemoteException {
-		//TODO Not the pretties possible way to do this, but oh well...
+	public ArrayList<String> getHouseNames() throws RemoteException {
 		return  houseHandler.getHouseNameList();
-		//return houseHandler.getHouseNameList().toArray(new String[0]);
-		//ArrayList<String> houses = houseHandler.getHouseNameList();
-		//return houses.toArray(new String[houses.size()]);
 	}
 
 	@Override
-	public ArrayList<String> getRooms(String houseName) throws RemoteException {
-		return houseHandler.getRooms(houseName);
+	public ArrayList<String> getRoomNames(String houseName) throws RemoteException {
+		return houseHandler.getRoomNames(houseName);
 	}
 
 

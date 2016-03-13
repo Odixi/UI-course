@@ -70,7 +70,7 @@ public class UserView extends VerticalLayout implements View{
         ArrayList<String> homes = new ArrayList<String>();
                 
 		try {
-			homes = shsystem.getHouses();
+			homes = shsystem.getHouseNames();
 		} catch (RemoteException e) {e.printStackTrace();}
 
         houseSelect.addItems(homes);
