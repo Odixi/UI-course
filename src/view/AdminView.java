@@ -12,6 +12,7 @@ import com.vaadin.event.ContextClickEvent;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.shared.ui.combobox.FilteringMode;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
@@ -89,6 +90,11 @@ public class AdminView extends HorizontalLayout implements View{
         leftLayout = new VerticalLayout();
         leftLayout.setSpacing(true);
 		addComponent(leftLayout); //Vasen puoli sivusta
+		
+		// ---- Label ---- //
+		Label editUserLabel = new Label("<font size=\"6\">Edit user</font>");
+		editUserLabel.setContentMode(ContentMode.HTML);
+		leftLayout.addComponent(editUserLabel);
         
         // ----- User Select / Remove / Create ----- //
         
