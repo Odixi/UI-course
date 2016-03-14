@@ -37,10 +37,12 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		System.out.println("Message: " + message);
 		
 		ArrayList<String> houses = getHouseNames();
+		
+		/*
 		System.out.println("Houses length: " + houses.size());
 		for(String house : houses){
 			System.out.println(house);
-		}
+		}*/
 		
 	}
 	

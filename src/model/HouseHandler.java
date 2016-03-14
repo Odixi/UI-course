@@ -20,9 +20,9 @@ import org.w3c.dom.*;
 public class HouseHandler extends XMLHandler {
 
 	private String filepath = "src/xmlfiles/HouseBuild.xml";
-	private NodeList houseList;
 	private Document housesXML;
 	private Element rootElement;
+	private NodeList houseList;
 	
 	private ArrayList<Element> houses;
 	private ArrayList<String> houseNames;
@@ -36,7 +36,7 @@ public class HouseHandler extends XMLHandler {
 		housesXML = getDocument(filepath);
 		housesXML.getDocumentElement().normalize();
 		rootElement = housesXML.getDocumentElement();
-		
+			
 		//ArrayLists
 		houses = new ArrayList<Element>();
 		houseNames = new ArrayList<String>();
@@ -119,7 +119,23 @@ public class HouseHandler extends XMLHandler {
 	// o-o-o-o-o-o-o-o-o HELP METHODS o-o-o-o-o-o-o-o-o-o-o-o
 	
 	private void updateHouseList(){
-		houseList = housesXML.getElementsByTagName("house");
+		System.out.println("rootElement is: " + rootElement.getTagName());
+		NodeList houses = rootElement.getElementsByTagName("house");
+		
+		//TODO EI VAAN TOIMI SAATABA...
+		
+		for(int i = 0; i < houses.getLength(); i++){
+			System.out.println("Node name should be house:" + houses.item(i).getNodeName());
+		}
+		
+		houseList = rootElement.getElementsByTagName("house");
+		//houseList = rootElement.getChildNodes();
+		/*
+		System.out.println("updateHouseList ran. Should print node names"); //TODO Remove, for testing
+		
+		for(int i = 0; i < houseList.getLength(); i++){
+			System.out.println( ((Node)houseList.item(i)).getNodeName() );
+		}*/
 	}
 	
 		//----------- GET HOUSE -------------
