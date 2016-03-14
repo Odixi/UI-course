@@ -52,7 +52,8 @@ public class HouseHandler extends XMLHandler {
 		
 		//In case changes have been made
 		updateHouseList();
-		houseNames.clear();
+		//houseNames.clear();
+		ArrayList<String> houseNames = new ArrayList<String>();
 		
 		for(int i = 0; i < houseList.getLength(); i++){
 		

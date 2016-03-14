@@ -216,8 +216,8 @@ public class AccountHandler extends XMLHandler {
 			if(userNode.getNodeType() == Node.ELEMENT_NODE){
 				Element userElement = (Element) userNode;
 				
-				if(userElement.getElementsByTagName(userTagName).item(0) != null
-						&& userElement.getElementsByTagName(userTagName).item(0).getTextContent().equals(username) ){
+				if(userElement.getElementsByTagName(usernameTagName).item(0) != null
+						&& userElement.getElementsByTagName(usernameTagName).item(0).getTextContent().equals(username) ){
 					foundUser = userElement;
 					break;
 				}
