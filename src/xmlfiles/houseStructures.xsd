@@ -37,8 +37,8 @@ xmlns="http://www.example.org/houseStructures" elementFormDefault="qualified">
     <xs:complexType name="roomType">
         <xs:sequence>
             <xs:element name="roomName" type="xs:string"/>
-            <xs:element name="sensor" type="sensorType" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="light" type="lightType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="sensor" type="sensorType" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="appliance" type="applianceType" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name="roomID" type="xs:ID" use="required"/>
@@ -49,7 +49,7 @@ xmlns="http://www.example.org/houseStructures" elementFormDefault="qualified">
     <xs:complexType name="sensorType">
         <xs:sequence>
             <xs:element name="sensorName" type="xs:string"/>
-            <xs:element name="type">
+            <xs:element name="sensorType">
                 <xs:simpleType>
 	                <xs:restriction base="xs:string">
 	                    <xs:enumeration value="temperature"/>
@@ -82,7 +82,7 @@ xmlns="http://www.example.org/houseStructures" elementFormDefault="qualified">
     <xs:complexType name="applianceType">
         <xs:sequence>
             <xs:element name="applianceName" type="xs:string"/>
-            <xs:element name="type">
+            <xs:element name="applianceType">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
                         <xs:enumeration value="audioDevice"/>
