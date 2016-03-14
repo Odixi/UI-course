@@ -11,6 +11,9 @@ import com.vaadin.ui.VerticalLayout;
 
 import server.SmartHSystem;
 
+/*
+ *  Hierarkinen ruksiboxi lista talon huoneista ja niiden esineistä
+ */
 public class RoomListComponent extends CustomComponent {
 
 	VerticalLayout layout;
@@ -19,40 +22,39 @@ public class RoomListComponent extends CustomComponent {
 	SmartHSystem shsystem;
 	String[] rooms;
 	
-		public RoomListComponent(String houseName){
+		public RoomListComponent(String houseName, SmartHSystem shsystem){
 			
 			layout = new VerticalLayout();
 			layout.setSizeFull();
 			
-			layout.addComponent(new Label("test"));
-			
-			houseBox = new CheckBox("house");
+			houseBox = new CheckBox(houseName); // Varsinaisen talon checkBoxi
 			layout.addComponent(houseBox);
 			layout.setComponentAlignment(houseBox, Alignment.TOP_LEFT);
 			
 			try {
 				
+				// Haetaan huoneiden nimet listaan
 				ArrayList<String> rooms = shsystem.getRoomNames(houseName);
 				checkBoxes = new CheckBox[rooms.size()][];
 				ArrayList<String> items;
 				
 				for (int i = 0; i < rooms.size();i++){
 					
+					// Haetaan erikseen jokaisen huoneen esineet
 					items = shsystem.getItems(houseName, rooms.get(i));
 					checkBoxes[i] = new CheckBox[items.size() + 1];
 					
-					for (int j = 0; j < items.size() + 1; j++){
+					for (int j = 0; j < items.size(); j++){
 						
+						// checkBox listan [x][0] vastaa aina itse huonetta! (Ei siis esine)
 						if (j == 0){
 							checkBoxes[i][j] = new CheckBox(rooms.get(i)); 
 							layout.addComponent(checkBoxes[i][j]);
 							layout.setComponentAlignment(checkBoxes[i][j], Alignment.TOP_CENTER);
 						}
-						else {
-							checkBoxes[i][j] = new CheckBox(items.get(j+1));
-							layout.addComponent(checkBoxes[i][j]);
-							layout.setComponentAlignment(checkBoxes[i][j], Alignment.TOP_RIGHT);
-						}
+						checkBoxes[i][j+1] = new CheckBox(items.get(j));
+						layout.addComponent(checkBoxes[i][j+1]);
+						layout.setComponentAlignment(checkBoxes[i][j+1], Alignment.TOP_RIGHT);
 						
 					}
 				}

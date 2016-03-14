@@ -70,19 +70,31 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 
 	@Override
 	public ArrayList<String> getHouseNames() throws RemoteException {
-		return  houseHandler.getHouseNameList();
+//		return  houseHandler.getHouseNameList();
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("Talo1");
+		list.add("Talo2");
+		return list;
 	}
 
 	@Override
 	public ArrayList<String> getRoomNames(String houseName) throws RemoteException {
-		return houseHandler.getRoomNames(houseName);
+//		return houseHandler.getRoomNames(houseName);
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("Huone1");
+		list.add("Huone2");
+		System.out.println(list.toString());
+		return list;
 	}
 
 
 	@Override
 	public ArrayList<String> getItems(String houseName, String roomName) throws RemoteException {
-		
-		return null;
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("Esine1");
+		list.add("Esine2");
+		return list;
+	//	return null;
 	}
 
 

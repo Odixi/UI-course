@@ -116,16 +116,7 @@ public class LoginView extends VerticalLayout implements View{
             	if (userSelect.getValue() == null){
             		Notification.show("Select a user first");
             		return;
-            		
-            		//Notification.show((String)userSelect.getValue());
-                    //TODO Logic for pressing login
-                	
-                	/*
-                	 * Esim.
-                	 * model.login(userSelect.getValue(), passwordField.getValue()); //heittää virheen jos ei täsmää
-                	 * Vai mitenköhän se kannattas tehdä?
-                	 */
-            		
+         		
             	} else if(userSelect.getValue() != null) { //User selected
             		
             		if(passwordField.getValue() == null || passwordField.isEmpty()){ //Password not given

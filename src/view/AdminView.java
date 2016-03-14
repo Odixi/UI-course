@@ -85,11 +85,11 @@ public class AdminView extends HorizontalLayout implements View{
 	// Vasemman puolen generointi
 	private void initLeft(){
 		
-		// ----- Vasen puoli sivusta ----- //
+		// ----- Vasen puoli ----- //
         
         leftLayout = new VerticalLayout();
         leftLayout.setSpacing(true);
-		addComponent(leftLayout); //Vasen puoli sivusta
+		addComponent(leftLayout);
 		
 		// ---- Label ---- //
 		Label editUserLabel = new Label("<font size=\"6\">Edit user</font>");
@@ -127,11 +127,11 @@ public class AdminView extends HorizontalLayout implements View{
         userSelect.setFilteringMode(FilteringMode.CONTAINS);
         userSelect.setTextInputAllowed(false);
         
-        //Kun vaihdetaan comboBoxin arvoa, niin...
+        //Kun vaihdetaan comboBoxin arvoa, niin päivitetään näkymä vastaamaan käyttäjän tietoja
         userSelect.addValueChangeListener(new ValueChangeListener() {		
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				Notification.show("" + userSelect.getValue());
+				Notification.show(userSelect.getValue() + " selected");
 				updateContent();
 			}
 		});
@@ -174,9 +174,10 @@ public class AdminView extends HorizontalLayout implements View{
         
         try {
 			ArrayList<String> housesNames = shsystem.getHouseNames();
-//			middleLayout.addComponent(new Label(housesNames[0]));
+			houses = new RoomListComponent[housesNames.size()];
+			
 			for (int i = 0; i < housesNames.size(); i++){
-				houses[i] = new RoomListComponent(housesNames.get(i));
+				houses[i] = new RoomListComponent(housesNames.get(i), shsystem);
 				middleLayout.addComponent(houses[i]);
 			}
 		} catch (RemoteException e) {e.printStackTrace();}
