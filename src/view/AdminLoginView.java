@@ -1,5 +1,7 @@
 package view;
 
+import java.rmi.RemoteException;
+
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -9,12 +11,15 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+
+import server.SmartHSystem;
+
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
 
 public class AdminLoginView extends VerticalLayout implements View{
 
-	public AdminLoginView(SmartUI ui){
+	public AdminLoginView(SmartUI ui, SmartHSystem shsystem){
 		
 		setMargin(true);
 		setSpacing(true);
@@ -58,13 +63,24 @@ public class AdminLoginView extends VerticalLayout implements View{
             @Override
             public void buttonClick(ClickEvent event) {
             	// if username field is empty
-            	if (usernameField.getValue() == null){
-            		Notification.show("Select a user first");
+            	if (usernameField.getValue() == "" || usernameField.getValue() == null){
+            		Notification.show("Input a username please.");
             		return;
             	}
-            	Notification.show((String)usernameField.getValue());
-                //TODO Logic for pressing login
-            	
+            	if (passwordField.getValue() == "" || passwordField.getValue() == null){
+            		Notification.show("Input a password please");
+            		return;
+            	}
+            	boolean match = false;
+            	try{
+            		match = shsystem.login(usernameField.getValue(), passwordField.getValue()); // TODO tuleeko adminille joku oma login metodi?
+            	} catch (RemoteException e){e.printStackTrace();}
+            	if (match){
+            		ui.getNavigator().navigateTo(ui.ADMINVIEW);
+            	}
+            	else{
+            		Notification.show("Wrong username/password!");
+            	}
             }
         });
         addComponent(loginButton);
