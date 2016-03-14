@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.ClickListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.shared.ui.combobox.FilteringMode;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
@@ -14,6 +15,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Link;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
@@ -29,6 +31,7 @@ public class LoginView extends VerticalLayout implements View{
 
 	//Attributes
 	private SmartHSystem shsystem;
+	private Panel loginPanel;
 	//private BasicTextEncryptor cryptor;
 	
 
@@ -45,8 +48,15 @@ public class LoginView extends VerticalLayout implements View{
 		setMargin(true);
 		setSpacing(true);
 		
+	// ------ SmartHome label ------ //
+	
+	HorizontalLayout topRow = new HorizontalLayout();
+	addComponent(topRow);
 		
-        
+	Label smartHomeLabel = new Label("<font size=\"8\">Smart Home</font>");
+	smartHomeLabel.setContentMode(ContentMode.HTML);
+    topRow.addComponent(smartHomeLabel);   
+	
      // ----- Login as admin button ----- //   
 		Button toAdminLogin = new Button("Login as admin",
 				new Button.ClickListener() {
@@ -55,11 +65,26 @@ public class LoginView extends VerticalLayout implements View{
 				ui.getNavigator().navigateTo(ui.ADMINLOGINVIEW);
 			}
 		});
-		addComponent(toAdminLogin);
-		setComponentAlignment(toAdminLogin, Alignment.TOP_LEFT);
-        
-        
-     // ----- Käyttäjän valinta ----- //   
+		topRow.addComponent(toAdminLogin);
+		topRow.setComponentAlignment(toAdminLogin, Alignment.TOP_RIGHT);
+		topRow.setSizeFull();
+		
+	// ---- desc. ----- //
+		
+	Label desc = new Label("When you're too lazy to turn the lights on"); //Juu
+    addComponent(desc);
+          
+    	// -------- Login Panel -------- //
+    
+    	loginPanel = new Panel("Login");
+    	addComponent(loginPanel);
+    	VerticalLayout panelLayout = new VerticalLayout();
+    	panelLayout.setSpacing(true);
+    	panelLayout.setMargin(true);
+    	loginPanel.setWidth(300f, Unit.PIXELS);
+    
+    	// ----- Käyttäjän valinta ----- // 
+    	
         ComboBox userSelect = new ComboBox("Select user");
         userSelect.setInputPrompt("No user selected");
         userSelect.setFilteringMode(FilteringMode.CONTAINS);
@@ -74,13 +99,13 @@ public class LoginView extends VerticalLayout implements View{
 		} catch (RemoteException e) {e.printStackTrace();}
 
         userSelect.addItems(kayt);
-        addComponent(userSelect);
-        setComponentAlignment(userSelect, Alignment.MIDDLE_CENTER);
+        panelLayout.addComponent(userSelect);
+        userSelect.setSizeFull();
         
       // ----- Salasana ----- //  
         PasswordField passwordField = new PasswordField("Password");
-        addComponent(passwordField);
-        setComponentAlignment(passwordField, Alignment.MIDDLE_CENTER);
+        panelLayout.addComponent(passwordField);
+        passwordField.setSizeFull();
         
       // ----- Login nappi ----- //
         Button loginButton = new Button("Login",
@@ -135,9 +160,9 @@ public class LoginView extends VerticalLayout implements View{
             } 
         }); //login-button listener
         
-        addComponent(loginButton);
-        setComponentAlignment(loginButton, Alignment.MIDDLE_CENTER);
-        
+        panelLayout.addComponent(loginButton);
+        loginPanel.setContent(panelLayout);
+        setComponentAlignment(loginPanel, Alignment.TOP_CENTER);
         
 		// ---------- Navigaatio nappulat - Väliaikaiset ---------- //
 		
