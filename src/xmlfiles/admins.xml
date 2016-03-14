@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<admins xmlns="http://www.example.org/admins"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.example.org/admins admins.xsd ">
+    
+    <admin>
+        <adminname>exampleadmin</adminname>
+        <password>safepassword</password>
+    </admin>
+    
+    <admin>
+        <adminname>BetterAdmin</adminname>
+        <password>thisispassword</password>
+    </admin>
+        
+</admins>
