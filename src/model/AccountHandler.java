@@ -1,19 +1,7 @@
 package model;
 
-import org.xml.sax.*;
 import org.w3c.dom.*;
-
-import java.io.File;
 import java.util.ArrayList;
-
-import javax.xml.parsers.*;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
 
 /**
  * The class is designed to handle XML following basic structure demonstrated below.
@@ -155,8 +143,7 @@ public class AccountHandler extends XMLHandler {
 		}
 		
 		//Save changes to the XML file
-		writeXML(accountXML, filepath);
-		
+		writeXML(accountXML, filepath);	
 	}
 	
 	
@@ -178,7 +165,7 @@ public class AccountHandler extends XMLHandler {
 		if( passwordMatch(username, oldpassword) ){
 			Element user = getUser(username);
 			//TODO user.getElementsByTagName("password").item(0).setTextContent(cryptor.encrypt(newpassword));
-			user.getElementsByTagName("password").item(0).setTextContent(newpassword);
+			user.getElementsByTagName(passwordTagName).item(0).setTextContent(newpassword);
 			
 			System.out.println(username + "'s password changed!");
 		}
@@ -199,15 +186,13 @@ public class AccountHandler extends XMLHandler {
 			if(accountNodeList.item(i).getNodeType() == Node.ELEMENT_NODE){
 				Element userElement = (Element) accountNodeList.item(i);
 				
-				if(userElement.getElementsByTagName("username").item(0) != null){
+				if(userElement.getElementsByTagName(usernameTagName).item(0) != null){
 					//Add username to the list
-					usernameList.add( userElement.getElementsByTagName("username").item(0).getTextContent() );
+					usernameList.add( userElement.getElementsByTagName(usernameTagName).item(0).getTextContent() );
 				}
 			}		
 		}
-
 		return usernameList;
-	
 	}
 	
 	// o-o-o-o-o-o-o-o-o HELP METHODS o-o-o-o-o-o-o-o-o-o-o-o
@@ -215,12 +200,8 @@ public class AccountHandler extends XMLHandler {
 	private void updateaccountNodeList(){
 		accountNodeList = accountXML.getElementsByTagName(userTagName);
 	}
+
 	
-	/**
-	 * 
-	 * @param username
-	 * @return Element matching the username. If no match is found, returns null.
-	 */
 	public Element getUser(String username){
 		
 		updateaccountNodeList(); //TODO Is it insane to call this again?
@@ -235,8 +216,8 @@ public class AccountHandler extends XMLHandler {
 			if(userNode.getNodeType() == Node.ELEMENT_NODE){
 				Element userElement = (Element) userNode;
 				
-				if(userElement.getElementsByTagName(userTagName).item(0) != null
-						&& userElement.getElementsByTagName(userTagName).item(0).getTextContent().equals(username) ){
+				if(userElement.getElementsByTagName(usernameTagName).item(0) != null
+						&& userElement.getElementsByTagName(usernameTagName).item(0).getTextContent().equals(username) ){
 					foundUser = userElement;
 					break;
 				}

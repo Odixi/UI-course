@@ -73,7 +73,7 @@ public class AdminLoginView extends VerticalLayout implements View{
             	}
             	boolean match = false;
             	try{
-            		match = shsystem.login(usernameField.getValue(), passwordField.getValue()); // TODO tuleeko adminille joku oma login metodi?
+            		match = shsystem.adminLogin(usernameField.getValue(), passwordField.getValue()); // TODO tuleeko adminille joku oma login metodi?
             	} catch (RemoteException e){e.printStackTrace();}
             	if (match){
             		ui.getNavigator().navigateTo(ui.ADMINVIEW);

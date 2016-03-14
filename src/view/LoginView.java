@@ -130,7 +130,7 @@ public class LoginView extends VerticalLayout implements View{
             			//String securePassword = cryptor.encrypt(passwordField.getValue());
             			
             			try {
-							match = shsystem.login( userSelect.getValue().toString(), passwordField.getValue().trim());
+							match = shsystem.userLogin( userSelect.getValue().toString(), passwordField.getValue().trim());
 							//TODO For testing
 							System.out.println("Username: " + userSelect.getValue().toString());
 							System.out.println("Password written: " + passwordField.getValue().trim());
