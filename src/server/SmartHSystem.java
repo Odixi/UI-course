@@ -21,13 +21,13 @@ public interface SmartHSystem extends Remote {
 	
 	// • • • • • • • • ADMINS • • • • • • • • •
 
-	public void newAdmin(String username, String password) throws RemoteException;
+	public void newAdmin(String adminname, String password) throws RemoteException;
 	
-	public void deleteAdmin(String username) throws RemoteException;
+	public void deleteAdmin(String adminname) throws RemoteException;
 	
 	/* >>>>>>>> This is probably going the only one we'll actually need.
 	 			The others available... well just because I can make them available *cheeky grin* */
-	public boolean adminLogin(String username, String password) throws RemoteException;
+	public boolean adminLogin(String adminname, String password) throws RemoteException;
 	
 	public ArrayList<String> getAdminnames() throws RemoteException;
 	

@@ -53,11 +53,11 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	// • • • • • • • • USERS • • • • • • • • •
 	
 	public void newUser(String username, String password) throws RemoteException {
-		// TODO Auto-generated method stub
+		userHandler.createUser(username, password);
 	}
 
 	public void deleteUser(String username) throws RemoteException {
-		// TODO Auto-generated method stub
+		userHandler.removeUser(username);
 	}
 
 	public boolean userLogin(String username, String password) throws RemoteException {
@@ -76,11 +76,11 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		adminHandler.createUser(username, password);
 	}
 
-	public void deleteAdmin(String username) throws RemoteException {
+	public void deleteAdmin(String adminname) throws RemoteException {
 		adminHandler.removeUser(adminname);
 	}
 
-	public boolean adminLogin(String username, String password) throws RemoteException {
+	public boolean adminLogin(String adminname, String password) throws RemoteException {
 		return adminHandler.passwordMatch(adminname, password);
 	}
 
