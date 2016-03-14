@@ -129,6 +129,7 @@ public class HouseHandler extends XMLHandler {
 		}
 		
 		houseList = rootElement.getElementsByTagName("house");
+		
 		//houseList = rootElement.getChildNodes();
 		/*
 		System.out.println("updateHouseList ran. Should print node names"); //TODO Remove, for testing
