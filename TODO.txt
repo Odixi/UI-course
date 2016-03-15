@@ -1,0 +1,10 @@
+BACKEND:
+FIX:
+- Adding user to XML messes up the lines, everything added to the same line. Shit...
+- getHouses (This bug is driving me nuts…)
+
+ADMINVIEW
+- Checkboxien päivitys serveriltä, kun valitaan käyttäjä
+- Käyttäjätietojen ja näkymän tallennus serverille
+- Checkboxien hiearkinen enable / disable
+- Rakenteesta voisi tehdä huomatavasti kauniimman
