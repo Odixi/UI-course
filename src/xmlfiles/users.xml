@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<users xmlns="http://www.example.org/users" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/users users.xsd ">
+	  <user userID="Bond007">
+	    <username>James Bond</username>
+	    <password>Skyfall007</password>
+	  </user>
+	  <user userID="ppp666">
+	    <username>Pilvi</username>
+	    <password>murmelimursu</password>
+	  </user>
+	  <user userID="vvv555">
+	    <username>Ville</username>
+	    <password>password</password>
+	  </user>
+	  <user userID="jjj777">
+	    <username>Jenni</username>
+	    <password>password</password>
+	  </user>
+	  <user userID="eee333">
+	    <username>Elmo</username>
+	    <password>password</password>
+	  </user>
+	  <user userID="D100">
+	    <username>Dumbledore</username>
+	    <password>kermatoffee</password>
+	  </user>
+</users>
