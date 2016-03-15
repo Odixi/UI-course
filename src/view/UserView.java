@@ -1,6 +1,6 @@
 /*TO DO
  * 
- * Kunt taloa vaihdetaan, niin houseNow:n pitää vaihtua
+ * Kunt taloa vaihdetaan, niin houseNow:n pitï¿½ï¿½ vaihtua
  * 
  */
 
@@ -8,6 +8,8 @@ package view;
  
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Hashtable;
+
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Sizeable.Unit;
@@ -32,7 +34,6 @@ public class UserView extends VerticalLayout implements View{
 	
 	//Attributes
 	private SmartHSystem shsystem;
-	
  
     public UserView(SmartUI ui, SmartHSystem shsystem){
     	
@@ -66,7 +67,7 @@ public class UserView extends VerticalLayout implements View{
     	managerLayout.setWidth(houseManager.getWidth()*0.95f, Unit.PIXELS);
     	
     	
-// ---------Vaakaleiskat jotka voidaan lisätä paneeliin----------------------        
+// ---------Vaakaleiskat jotka voidaan lisï¿½tï¿½ paneeliin----------------------        
         HorizontalLayout topics = new HorizontalLayout();
         topics.setHeight(houseManager.getHeight(), Unit.PIXELS);
         topics.setWidth(houseManager.getWidth(), Unit.PIXELS);
@@ -89,16 +90,16 @@ public class UserView extends VerticalLayout implements View{
         houseSelect.setTextInputAllowed(false);
         houseSelect.setNullSelectionAllowed(false);
         
-        ArrayList<String> homes = new ArrayList<String>();
-                
+        //ArrayList<String> homes = new ArrayList<String>();
+        Hashtable<String, String> homes = new Hashtable<String, String>();  
+        
 		try {
 			homes = shsystem.getHouseNames();
 		} catch (RemoteException e) {e.printStackTrace();}
 
-        houseSelect.addItems(homes);
+        houseSelect.addItems(homes.values());
         
-        
-        
+
         Button logOut= new Button("LogOut",new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
@@ -112,27 +113,30 @@ public class UserView extends VerticalLayout implements View{
         navigation.setComponentAlignment(logOut, Alignment.MIDDLE_RIGHT);
         
        
- //---------------------Paneelin sisältö ----------------------------------  
+ //---------------------Paneelin sisï¿½ltï¿½ ----------------------------------  
         
-        ArrayList<String> roomNames = new ArrayList<String>();
-		try {
+        //ArrayList<String> roomNames = new ArrayList<String>();
+		Hashtable<String, String> roomNames = new Hashtable<String, String>();
+        
+        try {
 			roomNames = shsystem.getRoomNames(houseNow);
 		} catch (RemoteException e) {e.printStackTrace();}
 		
 		topics.addComponent(new Label ("Rooms"));
 		lights.addComponent(new Label ("Lights" ));
 		rooms.addComponent(new Label(""));
-		for(int i=0; i<roomNames.size(); i++){
-			String currentRoomString = roomNames.get(i);
+		for(String value : roomNames.values()){
+			String currentRoomString = roomNames.get(value);
 			Label currentRoom = new Label (currentRoomString);
 			topics.addComponent(currentRoom);
 		}
-		for(int i=0; i<roomNames.size(); i++){
-			CheckBox lightSelect = new CheckBox("On", true);
+		for(String value : roomNames.values()){					//This probably needs to change a little...
+			CheckBox lightSelect = new CheckBox("On", true);	//Tying the ID to component would smoothen things.
 	        lights.addComponent(lightSelect);
 		}
-		for(int i=0; i<roomNames.size(); i++){
-			String currentRoomString = roomNames.get(i);
+		for(String value : roomNames.values()){
+			String currentRoomString = roomNames.get(value);
+			
 			Button moreButton = new Button("More", new Button.ClickListener() {
 	            @Override
 	            public void buttonClick(ClickEvent event) {
@@ -195,7 +199,7 @@ public class UserView extends VerticalLayout implements View{
 	
                
         
-        //Lisätään nämä paneelin layouttiin
+        //Lisï¿½tï¿½ï¿½n nï¿½mï¿½ paneelin layouttiin
         managerLayout.addComponent(topics);
     	topics.setSizeFull();
         managerLayout.addComponent(lights);
