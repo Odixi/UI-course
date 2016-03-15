@@ -123,13 +123,26 @@ public class HouseHandler extends XMLHandler {
 		System.out.println("rootElement is: " + rootElement.getTagName());
 		NodeList houses = rootElement.getElementsByTagName("house");
 		
+		//For testing
+		for(int j = 0; j < houses.getLength(); j++){
+			System.out.println("houses-list node: " + houses.item(j));
+		}
+		
 		//TODO EI VAAN TOIMI SAATABA...
 		
 		for(int i = 0; i < houses.getLength(); i++){
 			System.out.println("Node name should be house:" + houses.item(i).getNodeName());
 		}
 		
+		
+		//<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+		
+				//ORIGINALLY JUST THIS LINE OF CODE
+		
 		houseList = rootElement.getElementsByTagName("house");
+		
+		//<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+		
 		
 		//houseList = rootElement.getChildNodes();
 		/*
