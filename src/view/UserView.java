@@ -4,12 +4,10 @@
  * 
  */
 
-
 package view;
  
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Sizeable.Unit;
@@ -27,6 +25,8 @@ import server.SmartHSystem;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Window;
+import com.vaadin.ui.Slider;
+import com.vaadin.server.FontAwesome;
  
 public class UserView extends VerticalLayout implements View{
 	
@@ -66,7 +66,7 @@ public class UserView extends VerticalLayout implements View{
     	managerLayout.setWidth(houseManager.getWidth()*0.95f, Unit.PIXELS);
     	
     	
-    	 //Vaakaleiskat jotka voidaan lisätä paneeliin        
+// ---------Vaakaleiskat jotka voidaan lisätä paneeliin----------------------        
         HorizontalLayout topics = new HorizontalLayout();
         topics.setHeight(houseManager.getHeight(), Unit.PIXELS);
         topics.setWidth(houseManager.getWidth(), Unit.PIXELS);
@@ -105,13 +105,14 @@ public class UserView extends VerticalLayout implements View{
                 ui.getNavigator().navigateTo(ui.LOGINVIEW);
             }
         });
+        logOut.setIcon(FontAwesome.SIGN_OUT);
         navigation.addComponent(houseSelect);
         navigation.setComponentAlignment(houseSelect, Alignment.MIDDLE_LEFT);
         navigation.addComponent(logOut);
         navigation.setComponentAlignment(logOut, Alignment.MIDDLE_RIGHT);
         
        
-        //Huone "otsikot"
+ //---------------------Paneelin sisältö ----------------------------------  
         
         ArrayList<String> roomNames = new ArrayList<String>();
 		try {
@@ -119,7 +120,7 @@ public class UserView extends VerticalLayout implements View{
 		} catch (RemoteException e) {e.printStackTrace();}
 		
 		topics.addComponent(new Label ("Rooms"));
-		lights.addComponent(new Label ("Lights"));
+		lights.addComponent(new Label ("Lights" ));
 		rooms.addComponent(new Label(""));
 		for(int i=0; i<roomNames.size(); i++){
 			String currentRoomString = roomNames.get(i);
@@ -132,12 +133,12 @@ public class UserView extends VerticalLayout implements View{
 		}
 		for(int i=0; i<roomNames.size(); i++){
 			String currentRoomString = roomNames.get(i);
-			Button moreButton = new Button("More ... ", new Button.ClickListener() {
+			Button moreButton = new Button("More", new Button.ClickListener() {
 	            @Override
 	            public void buttonClick(ClickEvent event) {
 	            	Window roomManagerWindow = new Window (currentRoomString);
-	            	roomManagerWindow.setHeight(300.0f, Unit.PIXELS);
-	            	roomManagerWindow.setWidth(300.0f, Unit.PIXELS);
+	            	roomManagerWindow.setHeight(400.0f, Unit.PIXELS);
+	            	roomManagerWindow.setWidth(600.0f, Unit.PIXELS);
 	            	VerticalLayout itemLayout = new VerticalLayout();
 	            	
 	            	ArrayList<String> items = new ArrayList<String>();
@@ -147,13 +148,48 @@ public class UserView extends VerticalLayout implements View{
 	        		} catch (RemoteException e) {e.printStackTrace();}
 	            	
 	            	for(int i=0; i<items.size(); i++){
+	            		HorizontalLayout forItem =new HorizontalLayout();
+	            		forItem.setHeight(40.0f, Unit.PIXELS);
+	            		forItem.setWidth(590.0f, Unit.PIXELS);	
 	            		
-	            		itemLayout.addComponent(new Label ("item "+(i+1)));
+	            		forItem.addComponent(new Label ("item "+(i+1)+" name"));
+	            		Slider sample = new Slider();
+	                    sample.setImmediate(true);
+	                    sample.setMin(0.0);
+	                    sample.setMax(100.0);
+	                    sample.setValue(50.0);
+	                    forItem.addComponent(sample);
+	                    
+	                    /*if(item instanceof AudioDevice){
+	                    	forItem.addComponent(new Label ("item "+(i+1)+" name"));
+	                    	Slider volume = new Slider();
+		                    volume.setImmediate(true);
+		                    volume.setMin(0.0);
+		                    volume.setMax(100.0);
+		                    volume.setValue(50.0);
+		                    forItem.addComponent(volume);
+	                    }if(item instanceof ElecDevice){
+	                    	forItem.addComponent(new Label ("item "+(i+1)+" name"));
+	                    	forItem.addComponent(new Label ("item value now"));
+	                    	CheckBox device = new CheckBox("On", true);
+	                    	forItem.addComponent(device);
+	                    }if(item instanceof Light){
+	                    	forItem.addComponent(new Label ("item "+(i+1)+" name"));
+	                    	CheckBox device = new CheckBox("On", true);
+	                    	forItem.addComponent(device);
+	                    }if(item instanceof Sensor){
+	                    	forItem.addComponent(new Label ("item "+(i+1)+" name"));
+	                    	forItem.addComponent(new Label ("item value"));
+	                    }*/
+	                    
+	            		itemLayout.addComponent(forItem);
+	            		
 	            	}
 	            	roomManagerWindow.setContent(itemLayout);
 	            	UI.getCurrent().addWindow(roomManagerWindow);
 	            }
 	        });
+			moreButton.setIcon(FontAwesome.PLUS);
 			rooms.addComponent(moreButton);
 		}
 	

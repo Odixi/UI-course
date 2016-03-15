@@ -170,6 +170,14 @@ public class AdminView extends HorizontalLayout implements View{
         middleLayout = new VerticalLayout();
         addComponent(middleLayout);
         
+        // ------- Labels ------- //
+        
+        Label userViesSelectLabel = new Label("<font size=\"4\">View content</font>");
+        userViesSelectLabel.setContentMode(ContentMode.HTML);
+        middleLayout.addComponent(userViesSelectLabel);
+        
+        
+        
         // ----- Oikeuksien valinta älykotiin ----- //
         
         try {
