@@ -138,6 +138,19 @@ public class UserView extends VerticalLayout implements View{
 	            	Window roomManagerWindow = new Window (currentRoomString);
 	            	roomManagerWindow.setHeight(300.0f, Unit.PIXELS);
 	            	roomManagerWindow.setWidth(300.0f, Unit.PIXELS);
+	            	VerticalLayout itemLayout = new VerticalLayout();
+	            	
+	            	ArrayList<String> items = new ArrayList<String>();
+	            	
+	            	try {
+	        			items = shsystem.getItems(houseNow, currentRoomString);
+	        		} catch (RemoteException e) {e.printStackTrace();}
+	            	
+	            	for(int i=0; i<items.size(); i++){
+	            		
+	            		itemLayout.addComponent(new Label ("item "+i));
+	            	}
+	            	roomManagerWindow.setContent(itemLayout);
 	            	UI.getCurrent().addWindow(roomManagerWindow);
 	            }
 	        });
