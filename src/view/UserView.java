@@ -148,7 +148,7 @@ public class UserView extends VerticalLayout implements View{
 	            	
 	            	for(int i=0; i<items.size(); i++){
 	            		
-	            		itemLayout.addComponent(new Label ("item "+i));
+	            		itemLayout.addComponent(new Label ("item "+(i+1)));
 	            	}
 	            	roomManagerWindow.setContent(itemLayout);
 	            	UI.getCurrent().addWindow(roomManagerWindow);
