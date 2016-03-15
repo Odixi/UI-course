@@ -78,7 +78,7 @@ public class AdminView extends HorizontalLayout implements View{
         
         setExpandRatio(rightLayout, 2);
         setExpandRatio(leftLayout, 1);
-        setExpandRatio(middleLayout, 1);
+        middleLayout.setWidth(200f, Unit.PIXELS);
         
 	} // Konstruktor
 	
