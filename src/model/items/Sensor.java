@@ -2,6 +2,7 @@ package model.items;
 
 public class Sensor extends SmartItem {
 
+	private String sensorName;
 	private SensorType sensorType;
 	private SensorUnit sensorUnit;
 	private double sensorValue;
@@ -9,10 +10,13 @@ public class Sensor extends SmartItem {
 	private double maxValue;	//This have to be defined for different units.
 	private double minValue;
 	
-	public Sensor(SensorType type){
+	public Sensor(String sensorName, SensorType type){
+		this.sensorName = sensorName;
 		this.sensorType = type;
 		
 		switch (sensorType) {
+				//Set default values;
+				//TODO
 			case TEMPERATURE:
 				sensorUnit = SensorUnit.CELCIUS;
 				//Set maxValue & minValue
@@ -22,12 +26,21 @@ public class Sensor extends SmartItem {
 				sensorUnit = SensorUnit.LUMEN;
 		}	
 		
-		//Set default values;
+		
 		
 	} //constructor
 
 	
-	//--------- SENSOR TYPE & MEASURING UNIT ----------------
+	//--------- SENSOR NAME, TYPE & MEASURING UNIT ----------------
+	
+	public String getSensorName(){
+		return sensorName;
+	}
+	
+	// >>>> IMPORTANT: Please do not call this method straight from the client. It fill fuck things up as changes are not made to XML.
+	public void setSensorName(String newSensorName){
+		sensorName = newSensorName;
+	}
 	
 	public SensorType getSensorType() {
 		return sensorType;
