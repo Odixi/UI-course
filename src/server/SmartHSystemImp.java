@@ -41,11 +41,9 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	public void testPrintConsole(String message) throws RemoteException {
 		System.out.println("Message: " + message);
 		
-		ArrayList<String> houses = getHouseNames();
+		Hashtable<String, String> housenames = getHouseNames();
 		
 		System.out.println("Test new getHousenames-method:");
-		
-		Hashtable<String, String> housenames = houseHandler.getHouseNameList();
 		
 		for(String key : housenames.keySet()){
 			System.out.println("House: " + housenames.get(key) + " ID: " + key);
@@ -112,25 +110,27 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	// • • • • • • • • HOUSES • • • • • • • • •
 
 	@Override
-	public ArrayList<String> getHouseNames() throws RemoteException {
-//		return  houseHandler.getHouseNameList();
-		ArrayList<String> list = new ArrayList<String>();
+	public Hashtable<String, String> getHouseNames() throws RemoteException {
+		return  houseHandler.getHouseNameList();
+		/*ArrayList<String> list = new ArrayList<String>();
 		list.add("Talo1");
 		list.add("Talo2");
-		return list;
+		return list;*/
 	}
 
 	@Override
-	public ArrayList<String> getRoomNames(String houseName) throws RemoteException {
-//		return houseHandler.getRoomNames(houseName);
-		ArrayList<String> list = new ArrayList<String>();
+	public Hashtable<String, String> getRoomNames(String houseID) throws RemoteException {
+		return houseHandler.getRoomNames(houseID);
+		/*ArrayList<String> list = new ArrayList<String>();
 		list.add("Huone1");
 		list.add("Huone2");
 		System.out.println(list.toString());
-		return list;
+		return list;*/
 	}
 
-	@Override
+	// ---->>>>>>>> WORKING ON THIS <<<<<<<<<-------
+	//		I'm not entirely sure how I should make it.
+	
 	public ArrayList<String> getItems(String houseName, String roomName) throws RemoteException {
 		ArrayList<String> list = new ArrayList<String>();
 		list.add("Esine1");

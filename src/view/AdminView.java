@@ -2,6 +2,7 @@ package view;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import com.vaadin.data.Container.ItemSetChangeEvent;
 
@@ -188,14 +189,24 @@ public class AdminView extends HorizontalLayout implements View{
         // ----- Oikeuksien valinta älykotiin ----- //
         
         try {
-			ArrayList<String> housesNames = shsystem.getHouseNames();
+        	Hashtable<String, String> housesNames = shsystem.getHouseNames();
 			houses = new RoomListComponent[housesNames.size()];
 			
+			int i = 0;
+			
+			for (String key : housesNames.keySet()){
+				houses[i] = new RoomListComponent(key, housesNames.get(key), shsystem); //'key' is the ID of the house
+				middleLayout.addComponent(houses[i]);
+				middleLayout.setComponentAlignment(houses[i], Alignment.TOP_LEFT);
+				i++;
+			}
+			
+			/*
 			for (int i = 0; i < housesNames.size(); i++){
 				houses[i] = new RoomListComponent(housesNames.get(i), shsystem);
 				middleLayout.addComponent(houses[i]);
 				middleLayout.setComponentAlignment(houses[i], Alignment.TOP_LEFT);
-			}
+			}*/
 		} catch (RemoteException e) {e.printStackTrace();}
         
 	}
