@@ -59,21 +59,32 @@ public class HouseHandler extends XMLHandler {
 		updateHouseList();
 		ArrayList<String> houseNames = new ArrayList<String>();
 		
-		for(int i = 0; i < houseList.getLength(); i++){
+		ArrayList<Element> houseElements = getHouseElements();
 		
-			if(houseList.item(i).getNodeType() == Node.ELEMENT_NODE){
-				Element houseElement = (Element) houseList.item(i);
-				
-				if(houseElement.getElementsByTagName(housenameTagName).item(0) != null){
-					//Add housename to the list
-					houseNames.add( houseElement.getElementsByTagName(housenameTagName).item(0).getTextContent() );
-				}
+		for(int i = 0; i < houseElements.size(); i++){
+			if(houseElements.get(i).getElementsByTagName(housenameTagName).item(0) != null){
+				houseNames.add( houseElements.get(i).getElementsByTagName(housenameTagName).item(0).getTextContent() );
 			}
 		}
 
 		return houseNames;
 	}
+
+	//---------- LIST OF HOUSES (ELEMENTS) -----------------------------
 	
+	public ArrayList<Element> getHouseElements(){
+		ArrayList<Element> houseElements = new ArrayList<Element>();
+		updateHouseList();
+		
+		for(int i = 0; i < houseList.getLength(); i++){
+			
+			if(houseList.item(i).getNodeType() == Node.ELEMENT_NODE){
+				houseElements.add( (Element) houseList.item(i) );
+			}
+		}
+		return houseElements; 
+	}
+ 	
 	//----------- LIST OF ROOMS (NAMES) -----------------------
 	
 	public ArrayList<String> getRoomNames(String housename){
@@ -115,10 +126,21 @@ public class HouseHandler extends XMLHandler {
 	
 	//----------- LIST OF ITEMS (NAMES) --------------------
 	
-	
+	public ArrayList<String> getItemNames(String roomname){		//TODO What parameters are needed for getting correct items?
+		
+		//TODO
+		
+		return null;
+	}
 	
 	//----------- LIST OF ITEMS (ELEMENTS) --------------------
 	
+	public ArrayList<Element> getItemElements(){
+		
+		//TODO
+		
+		return null;
+	}
 	
 	
 	// o-o-o-o-o-o-o-o-o HELP METHODS o-o-o-o-o-o-o-o-o-o-o-o
