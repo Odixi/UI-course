@@ -40,7 +40,7 @@ public class RoomListComponent extends CustomComponent {
 				
 				@Override
 				public void valueChange(ValueChangeEvent event) {
-					updateCbs(event);
+					updateCbs();
 					
 				}
 			};
@@ -77,6 +77,7 @@ public class RoomListComponent extends CustomComponent {
 				
 			} catch (RemoteException e) {e.printStackTrace();}
 			
+			updateCbs();
 			setCompositionRoot(layout);
 		}
 		
@@ -88,7 +89,24 @@ public class RoomListComponent extends CustomComponent {
 			//TODO haetaan käyttäjän oikeudet serveriltä
 		}
 		
-		public void updateCbs(ValueChangeEvent event){
-			Notification.show(((CheckBox)event.getProperty()).getCaption());
+		// Disabloidaan / enablidaan checkboxit, riippuen sen vanhempien valoinnoista
+		public void updateCbs(){
+			
+			for (int i = 0; i < checkBoxes.length; i++){
+				if (!houseBox.getValue()){
+					checkBoxes[i][0].setEnabled(false);
+				}
+				else{
+					checkBoxes[i][0].setEnabled(true);
+				}
+				for (int j = 1; j < checkBoxes[i].length; j++){
+					if (!checkBoxes[i][0].getValue() || !houseBox.getValue()){
+						checkBoxes[i][j].setEnabled(false);
+					}
+					else {
+						checkBoxes[i][j].setEnabled(true);
+					}
+				}
+			}
 		}
 }

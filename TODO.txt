@@ -6,5 +6,4 @@ FIX:
 ADMINVIEW
 - Checkboxien päivitys serveriltä, kun valitaan käyttäjä
 - Käyttäjätietojen ja näkymän tallennus serverille
-- Checkboxien hiearkinen enable / disable
 - Rakenteesta voisi tehdä huomatavasti kauniimman
