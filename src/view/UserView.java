@@ -22,9 +22,8 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
-
+import com.vaadin.ui.UI;
 import server.SmartHSystem;
-
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Window;
@@ -120,45 +119,32 @@ public class UserView extends VerticalLayout implements View{
 		} catch (RemoteException e) {e.printStackTrace();}
 		
 		topics.addComponent(new Label ("Rooms"));
+		lights.addComponent(new Label ("Lights"));
+		rooms.addComponent(new Label(""));
 		for(int i=0; i<roomNames.size(); i++){
-			Label currentRoom = new Label (roomNames.get(i));
+			String currentRoomString = roomNames.get(i);
+			Label currentRoom = new Label (currentRoomString);
 			topics.addComponent(currentRoom);
 		}
-        
-        
-        //Lights valinnat
-        lights.addComponent(new Label ("Lights"));
-        CheckBox room_1 = new CheckBox("On", true);
-        lights.addComponent(room_1);
-        CheckBox room_2 = new CheckBox("On", true);
-        lights.addComponent(room_2);
-        CheckBox room_3 = new CheckBox("On", true);
-        lights.addComponent(room_3);
- 
-        //Rooms valinnat
-        Button room1 = new Button("More", new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-            	
-            }
-        });
-        Button room2 = new Button("More", new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
+		for(int i=0; i<roomNames.size(); i++){
+			CheckBox lightSelect = new CheckBox("On", true);
+	        lights.addComponent(lightSelect);
+		}
+		for(int i=0; i<roomNames.size(); i++){
+			String currentRoomString = roomNames.get(i);
+			Button moreButton = new Button("More ... ", new Button.ClickListener() {
+	            @Override
+	            public void buttonClick(ClickEvent event) {
+	            	Window roomManagerWindow = new Window (currentRoomString);
+	            	roomManagerWindow.setHeight(300.0f, Unit.PIXELS);
+	            	roomManagerWindow.setWidth(300.0f, Unit.PIXELS);
+	            	UI.getCurrent().addWindow(roomManagerWindow);
+	            }
+	        });
+			rooms.addComponent(moreButton);
+		}
+	
                
-            }
-        });
-        Button room3 = new Button("More", new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-               
-            }
-        });
-        rooms.addComponent(new Label(""));
-        rooms.addComponent(room1);
-        rooms.addComponent(room2);
-        rooms.addComponent(room3);
-        
         
         //Lisätään nämä paneelin layouttiin
         managerLayout.addComponent(topics);
@@ -173,6 +159,7 @@ public class UserView extends VerticalLayout implements View{
         //Lopuksi lisÃ¤tÃ¤Ã¤n nÃ¤Ã¤ kaikki oikeassa jÃ¤rjestyksessÃ¤ layouttiin
         addComponent(navigation);
         addComponent(houseManager);
+       
         setComponentAlignment(houseManager, Alignment.MIDDLE_CENTER);
         
     }
