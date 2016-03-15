@@ -12,6 +12,7 @@ import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
 import server.SmartHSystem;
@@ -26,11 +27,17 @@ public class RoomListComponent extends CustomComponent {
 	CheckBox[][] checkBoxes;
 	SmartHSystem shsystem;
 	String[] rooms;
+	Panel panel;
 	
 		public RoomListComponent(String houseName, SmartHSystem shsystem){
 			
+			panel = new Panel();
+		
 			layout = new VerticalLayout();
 			layout.setSizeFull();
+			layout.setMargin(true);		
+			
+			panel.setContent(layout);
 			
 			houseBox = new CheckBox(houseName); // Varsinaisen talon checkBoxi
 			layout.addComponent(houseBox);
@@ -78,7 +85,7 @@ public class RoomListComponent extends CustomComponent {
 			} catch (RemoteException e) {e.printStackTrace();}
 			
 			updateCbs();
-			setCompositionRoot(layout);
+			setCompositionRoot(panel);
 		}
 		
 		public CheckBox[][] getChackBoxes(){

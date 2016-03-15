@@ -57,7 +57,7 @@ public class AdminView extends HorizontalLayout implements View{
 	private RoomListComponent[] houses;
 	private ArrayList<String> users;
 	
-
+	// ********** KONSTRUKTORI ********** //
 	public AdminView(SmartUI ui, SmartHSystem shsystem ){
 		
 		super();
@@ -78,11 +78,13 @@ public class AdminView extends HorizontalLayout implements View{
         
         setExpandRatio(rightLayout, 2);
         setExpandRatio(leftLayout, 1);
-        middleLayout.setWidth(200f, Unit.PIXELS);
+        middleLayout.setWidth(350f, Unit.PIXELS);
         
 	} // Konstruktor
 	
-	// Vasemman puolen generointi
+	
+	// ********** VASEN PUOLI ********** //
+	
 	private void initLeft(){
 		
 		// ----- Vasen puoli ----- //
@@ -91,7 +93,7 @@ public class AdminView extends HorizontalLayout implements View{
         leftLayout.setSpacing(true);
 		addComponent(leftLayout);
 		
-		// ---- Label ---- //
+		// ---- Edit user -Label ---- //
 		Label editUserLabel = new Label("<font size=\"6\">Edit user</font>");
 		editUserLabel.setContentMode(ContentMode.HTML);
 		leftLayout.addComponent(editUserLabel);
@@ -103,13 +105,13 @@ public class AdminView extends HorizontalLayout implements View{
         userSelectLayout.setSpacing(true);
         leftLayout.addComponent(userSelectLayout);
         
-        // Käyttäjä lisäys nappi
+        // Create user button
         CreateUserPopupContent cu = new CreateUserPopupContent(shsystem, this);
         createUser = new PopupView(cu);
         cu.setPopupView(createUser); // jotta saadaan instanssi tuosta PopupViewistä content luokkaan
         userSelectLayout.addComponent(createUser);
         
-        // Käyttäjän poistamis nappi
+        // Delete user button
         // Olisi varmaan voinut tehdä fiksumminkin mutta...
         RemoveUserPopupContent pc = new RemoveUserPopupContent(shsystem, this);
         removeUser = new PopupView(pc);
@@ -162,21 +164,26 @@ public class AdminView extends HorizontalLayout implements View{
         leftLayout.addComponent(saveChanges);
 		
 	}
-	// Keskiosan generointi
+	
+	
+	// ********** KESKIOSA ********** //
+	
 	private void initMiddle(){
 		
         // ---------- Keskimmäinen layout --------- //
         
         middleLayout = new VerticalLayout();
         addComponent(middleLayout);
+        middleLayout.setMargin(true);
+        middleLayout.setSpacing(true);
         
         // ------- Labels ------- //
         
-        Label userViesSelectLabel = new Label("<font size=\"4\">View content</font>");
-        userViesSelectLabel.setContentMode(ContentMode.HTML);
-        middleLayout.addComponent(userViesSelectLabel);
-        
-        
+//        Label userViesSelectLabel = new Label("<font size=\"4\">View content</font>");
+//        userViesSelectLabel.setContentMode(ContentMode.HTML);
+//        middleLayout.addComponent(userViesSelectLabel);
+//        middleLayout.setExpandRatio(userViesSelectLabel, 1f);
+          
         
         // ----- Oikeuksien valinta älykotiin ----- //
         
@@ -187,12 +194,15 @@ public class AdminView extends HorizontalLayout implements View{
 			for (int i = 0; i < housesNames.size(); i++){
 				houses[i] = new RoomListComponent(housesNames.get(i), shsystem);
 				middleLayout.addComponent(houses[i]);
+				middleLayout.setComponentAlignment(houses[i], Alignment.TOP_LEFT);
 			}
 		} catch (RemoteException e) {e.printStackTrace();}
         
 	}
 	
-	// Oikean puolen generointi
+	
+	// ********** OIKEA PUOLI ********** //
+	
 	public void initRight(){
         // ---------- Oikea puoli ---------- //
         
