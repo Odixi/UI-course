@@ -16,8 +16,8 @@ import java.util.ArrayList;
  * </rootElement>
  *
  * @param filepath Filepath for the XML file storing the user information.
- * @param userTagName Tagname that defines the usernames in XML file.
- * @param passwordTagName
+ * @param userTag Tagname that defines the usernames in XML file.
+ * @param passwordTag
  */
 
 public class AccountHandler extends XMLHandler {
@@ -27,17 +27,17 @@ public class AccountHandler extends XMLHandler {
 	private Element rootElement;
 	
 	private String filepath;
-	private String userTagName;
-	private String usernameTagName;
-	private String passwordTagName;
+	private String userTag;
+	private String usernameTag;
+	private String passwordTag;
 	
 	//>>>> CONSTUCTOR <<<<<
-	public AccountHandler(String filepath, String userTagName, String usernameTagName, String passwordTagName){	
+	public AccountHandler(String filepath, String userTag, String usernameTag, String passwordTag){	
 		
 		this.filepath = filepath;
-		this.userTagName = userTagName;
-		this.usernameTagName = usernameTagName;
-		this.passwordTagName = passwordTagName;
+		this.userTag = userTag;
+		this.usernameTag = usernameTag;
+		this.passwordTag = passwordTag;
 		
 		accountXML = getDocument(filepath);
 		accountXML.getDocumentElement().normalize();
@@ -65,16 +65,16 @@ public class AccountHandler extends XMLHandler {
 		return filepath;
 	}
 	
-	public String getUserTagName(){
-		return userTagName;
+	public String getuserTag(){
+		return userTag;
 	}
 	
-	public String getUsernameTagName(){
-		return usernameTagName;
+	public String getusernameTag(){
+		return usernameTag;
 	}
 	
-	public String getPasswordTagName(){
-		return passwordTagName;
+	public String getpasswordTag(){
+		return passwordTag;
 	}
 	
 	
@@ -88,8 +88,8 @@ public class AccountHandler extends XMLHandler {
 			passwordMatches = false;
 		
 		} else {
-			if( getUser(username).getElementsByTagName(passwordTagName) != null ){
-				String p = getUser(username).getElementsByTagName(passwordTagName).item(0).getTextContent();
+			if( getUser(username).getElementsByTagName(passwordTag) != null ){
+				String p = getUser(username).getElementsByTagName(passwordTag).item(0).getTextContent();
 
 				//TODO Jasypt has it's own method for checking passwords. Take a look.
 				
@@ -111,18 +111,18 @@ public class AccountHandler extends XMLHandler {
 		
 		//TODO usernameInUse(username);
 		
-		Element user = accountXML.createElement(userTagName);
+		Element user = accountXML.createElement(userTag);
 		rootElement.appendChild(user);
 		
 		//username
-		Element uname = accountXML.createElement(usernameTagName);
+		Element uname = accountXML.createElement(usernameTag);
 		uname.appendChild(accountXML.createTextNode(username));
 		user.appendChild(uname);
 		
 		//TODO Check possible password restrictions
 		
 		//password
-		Element pword = accountXML.createElement(passwordTagName);
+		Element pword = accountXML.createElement(passwordTag);
 		pword.appendChild(accountXML.createTextNode( password ));
 		user.appendChild(pword);
 		
@@ -164,16 +164,46 @@ public class AccountHandler extends XMLHandler {
 	
 	public void changePassword(String username, String oldpassword, String newpassword){
 		
+		//TODO Null check? Return boolean?
+		
 		if( passwordMatch(username, oldpassword) ){
 			Element user = getUser(username);
 			//TODO user.getElementsByTagName("password").item(0).setTextContent(cryptor.encrypt(newpassword));
-			user.getElementsByTagName(passwordTagName).item(0).setTextContent(newpassword);
+			user.getElementsByTagName(passwordTag).item(0).setTextContent(newpassword);
 			
 			System.out.println(username + "'s password changed!");
 		}
 		
 		writeXML(accountXML, filepath);
 		
+	}
+	
+	//----------------- CHANGE USERNAME --------------------------
+	
+	/**
+	 * Returns true if username can be and was changed.
+	 * @param oldusername
+	 * @param newusername
+	 * @return
+	 */
+	
+	public boolean changeUsername(String oldusername, String newusername){		//TODO Should the method take password as parameter?
+		
+		Boolean usernameWasChanged = false;
+		
+		//Check that asked username is available
+		if( !usernameInUse(newusername) ){
+			Element user = getUser(oldusername);
+			
+			if(user != null && user.getElementsByTagName(usernameTag).item(0) != null){
+				user.getElementsByTagName(usernameTag).item(0).setTextContent(newusername);
+			}
+		} 
+		else {
+			System.out.println("Username already in use.");
+		}
+		
+		return usernameWasChanged;	
 	}
 	
 	//--------------- LIST OF USERNAMES ----------------------------
@@ -188,9 +218,9 @@ public class AccountHandler extends XMLHandler {
 			if(accountNodeList.item(i).getNodeType() == Node.ELEMENT_NODE){
 				Element userElement = (Element) accountNodeList.item(i);
 				
-				if(userElement.getElementsByTagName(usernameTagName).item(0) != null){
+				if(userElement.getElementsByTagName(usernameTag).item(0) != null){
 					//Add username to the list
-					usernameList.add( userElement.getElementsByTagName(usernameTagName).item(0).getTextContent() );
+					usernameList.add( userElement.getElementsByTagName(usernameTag).item(0).getTextContent() );
 				}
 			}		
 		}
@@ -200,9 +230,10 @@ public class AccountHandler extends XMLHandler {
 	// o-o-o-o-o-o-o-o-o HELP METHODS o-o-o-o-o-o-o-o-o-o-o-o
 	
 	private void updateaccountNodeList(){
-		accountNodeList = accountXML.getElementsByTagName(userTagName);
+		accountNodeList = accountXML.getElementsByTagName(userTag);
 	}
 
+	//------------------ GET USER (ELEMENT) -------------------------
 	
 	public Element getUser(String username){
 		
@@ -218,8 +249,8 @@ public class AccountHandler extends XMLHandler {
 			if(userNode.getNodeType() == Node.ELEMENT_NODE){
 				Element userElement = (Element) userNode;
 				
-				if(userElement.getElementsByTagName(usernameTagName).item(0) != null
-						&& userElement.getElementsByTagName(usernameTagName).item(0).getTextContent().equals(username) ){
+				if(userElement.getElementsByTagName(usernameTag).item(0) != null
+						&& userElement.getElementsByTagName(usernameTag).item(0).getTextContent().equals(username) ){
 					foundUser = userElement;
 					break;
 				}
