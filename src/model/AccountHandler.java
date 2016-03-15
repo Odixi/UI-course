@@ -197,11 +197,15 @@ public class AccountHandler extends XMLHandler {
 			
 			if(user != null && user.getElementsByTagName(usernameTag).item(0) != null){
 				user.getElementsByTagName(usernameTag).item(0).setTextContent(newusername);
+				
+				System.out.println("Username " + oldusername + " was changed to " + newusername);
 			}
 		} 
 		else {
 			System.out.println("Username already in use.");
 		}
+		
+		writeXML(accountXML, filepath);
 		
 		return usernameWasChanged;	
 	}
