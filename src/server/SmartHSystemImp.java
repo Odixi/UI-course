@@ -3,6 +3,7 @@ package server;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import model.UserAccountHandler;
 import model.HouseHandler;
@@ -42,7 +43,15 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		
 		ArrayList<String> houses = getHouseNames();
 		
+		System.out.println("Test new getHousenames-method:");
 		
+		Hashtable<String, String> housenames = houseHandler.getHouseNameList();
+		
+		for(String key : housenames.keySet()){
+			System.out.println("House: " + housenames.get(key) + " ID: " + key);
+		}
+		
+		/*
 		System.out.println("Houses length: " + houses.size());
 		for(String house : houses){
 			System.out.println(house);
@@ -57,7 +66,7 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		ArrayList<String> users = getUsernames();
 		for(String name : users){
 			System.out.println("Username: " + name);
-		}
+		}*/
 		
 	}
 	

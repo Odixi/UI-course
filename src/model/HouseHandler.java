@@ -4,6 +4,7 @@ import org.xml.sax.*;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import org.w3c.dom.*;
 
@@ -27,11 +28,24 @@ public class HouseHandler extends XMLHandler {
 	private ArrayList<Element> houses;
 	private ArrayList<String> houseNames;
 	
+	//TODO Probably not good to use these?
 	private ArrayList<Element> rooms;
 	private ArrayList<String> roomNames;
 	
-	private static final String housenameTagName = "houseName";
-	private static final String roomnameTagName = "roomName";
+	private static final String houseTag = "house";
+	private static final String housenameTag = "houseName";
+	private static final String roomnameTag = "roomName";
+	private static final String roomTag = "room";
+
+	//Lights
+	private static final String lightTag = "light";
+	private static final String lightnameTag = "ligthName";
+	//Sensors
+	private static final String sensorTag = "sensor";
+	private static final String sensornameTag = "sensorName";
+	//Appliances
+	private static final String applianceTag = "appliance";
+	private static final String appliancenameTag = "applianceName";
 	
 	
 	//CONSTRUCTOR
@@ -53,6 +67,26 @@ public class HouseHandler extends XMLHandler {
 	
 	//-------- LIST OF HOUSES (NAMES) -------------
 	
+	public Hashtable<String, String> getHouseNameList(){
+		
+		//In case changes have been made
+		updateHouseList();
+		
+		//Hashtable<Key, Value>
+		Hashtable<String, String> houseNames = new Hashtable<String, String>();
+		ArrayList<Element> houseElements = getHouseElements();
+		
+		for(int i = 0; i < houseElements.size(); i++){
+			if(houseElements.get(i).getElementsByTagName(housenameTag).item(0) != null && houseElements.get(i).getAttribute("houseID") != null){
+				houseNames.put(houseElements.get(i).getAttribute("houseID"), 
+						houseElements.get(i).getElementsByTagName(housenameTag).item(0).getTextContent());	
+			}
+		}
+
+		return houseNames;
+	}
+	
+	/*
 	public ArrayList<String> getHouseNameList(){
 		
 		//In case changes have been made
@@ -62,13 +96,13 @@ public class HouseHandler extends XMLHandler {
 		ArrayList<Element> houseElements = getHouseElements();
 		
 		for(int i = 0; i < houseElements.size(); i++){
-			if(houseElements.get(i).getElementsByTagName(housenameTagName).item(0) != null){
-				houseNames.add( houseElements.get(i).getElementsByTagName(housenameTagName).item(0).getTextContent() );
+			if(houseElements.get(i).getElementsByTagName(housenameTag).item(0) != null){
+				houseNames.add( houseElements.get(i).getElementsByTagName(housenameTag).item(0).getTextContent() );
 			}
 		}
 
 		return houseNames;
-	}
+	}*/
 
 	//---------- LIST OF HOUSES (ELEMENTS) -----------------------------
 	
@@ -87,14 +121,15 @@ public class HouseHandler extends XMLHandler {
  	
 	//----------- LIST OF ROOMS (NAMES) -----------------------
 	
-	public ArrayList<String> getRoomNames(String housename){
+	public ArrayList<String> getRoomNames(String houseID){
+		//TODO Is it good to do it this way? Should I create new AL:s instead?
 		roomNames.clear();
 		rooms.clear();
-		rooms = getRooms(housename);
+		rooms = getRooms(houseID);
 		
 		for(int i = 0; i < rooms.size(); i++){
-			if(rooms.get(i).getElementsByTagName(roomnameTagName).item(0) != null){
-				roomNames.add( rooms.get(i).getElementsByTagName(roomnameTagName).item(0).getTextContent() );
+			if(rooms.get(i).getElementsByTagName(roomnameTag).item(0) != null){
+				roomNames.add( rooms.get(i).getElementsByTagName(roomnameTag).item(0).getTextContent() );
 			}
 		}
 		
@@ -113,20 +148,21 @@ public class HouseHandler extends XMLHandler {
 			//TODO Do something
 			
 		} else {
-			NodeList roomNodes = house.getElementsByTagName("room");
+			NodeList roomNodes = house.getElementsByTagName(roomTag);
 			
 			for(int i = 0; i < roomNodes.getLength(); i++){
 				rooms.add( (Element) roomNodes.item(i));
 			}
 		}	
-		
 		return rooms;
-		
 	}
 	
 	//----------- LIST OF ITEMS (NAMES) --------------------
 	
-	public ArrayList<String> getItemNames(String roomname){		//TODO What parameters are needed for getting correct items?
+	public ArrayList<String> getItemNames(String roomID){		//TODO What parameters are needed for getting correct items?
+		ArrayList<String> itenNames = new ArrayList<String>();
+		
+		
 		
 		//TODO
 		
@@ -146,38 +182,7 @@ public class HouseHandler extends XMLHandler {
 	// o-o-o-o-o-o-o-o-o HELP METHODS o-o-o-o-o-o-o-o-o-o-o-o
 	
 	private void updateHouseList(){
-		/*
-		System.out.println("rootElement is: " + rootElement.getTagName());
-		NodeList houses = rootElement.getElementsByTagName("house");
-		
-		//For testing
-		for(int j = 0; j < houses.getLength(); j++){
-			System.out.println("houses-list node: " + houses.item(j));
-		}
-		
-		//TODO EI VAAN TOIMI SAATABA...
-		
-		for(int i = 0; i < houses.getLength(); i++){
-			System.out.println("Node name should be house:" + houses.item(i).getNodeName());
-		}
-		*/
-		
-		//<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-		
-				//ORIGINALLY JUST THIS LINE OF CODE
-		
-		houseList = rootElement.getElementsByTagName("house");
-		
-		//<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-		
-		
-		//houseList = rootElement.getChildNodes();
-		/*
-		System.out.println("updateHouseList ran. Should print node names"); //TODO Remove, for testing
-		
-		for(int i = 0; i < houseList.getLength(); i++){
-			System.out.println( ((Node)houseList.item(i)).getNodeName() );
-		}*/
+		houseList = rootElement.getElementsByTagName(houseTag);
 	}
 	
 		//----------- GET HOUSE -------------
