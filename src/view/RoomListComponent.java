@@ -3,10 +3,15 @@ package view;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.event.ContextClickEvent;
+import com.vaadin.event.ContextClickEvent.ContextClickListener;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 
 import server.SmartHSystem;
@@ -31,6 +36,16 @@ public class RoomListComponent extends CustomComponent {
 			layout.addComponent(houseBox);
 			layout.setComponentAlignment(houseBox, Alignment.TOP_LEFT);
 			
+			ValueChangeListener listener = new ValueChangeListener() {
+				
+				@Override
+				public void valueChange(ValueChangeEvent event) {
+					updateCbs(event);
+					
+				}
+			};
+			houseBox.addValueChangeListener(listener);
+			
 			try {
 				
 				// Haetaan huoneiden nimet listaan
@@ -51,11 +66,12 @@ public class RoomListComponent extends CustomComponent {
 							checkBoxes[i][j] = new CheckBox(rooms.get(i)); 
 							layout.addComponent(checkBoxes[i][j]);
 							layout.setComponentAlignment(checkBoxes[i][j], Alignment.TOP_CENTER);
+							checkBoxes[i][j].addValueChangeListener(listener);
 						}
 						checkBoxes[i][j+1] = new CheckBox(items.get(j));
 						layout.addComponent(checkBoxes[i][j+1]);
 						layout.setComponentAlignment(checkBoxes[i][j+1], Alignment.TOP_RIGHT);
-						
+						checkBoxes[i][j+1].addValueChangeListener(listener);
 					}
 				}
 				
@@ -66,5 +82,13 @@ public class RoomListComponent extends CustomComponent {
 		
 		public CheckBox[][] getChackBoxes(){
 			return checkBoxes;
+		}
+		
+		public void updateCheckBoxesFromServer(){
+			//TODO haetaan käyttäjän oikeudet serveriltä
+		}
+		
+		public void updateCbs(ValueChangeEvent event){
+			Notification.show(((CheckBox)event.getProperty()).getCaption());
 		}
 }

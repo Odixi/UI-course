@@ -1,5 +1,0 @@
-TO DO -LIST FOR BACKEND
-
-FIX:
-- Adding user to XML messes up the lines, everything added to the same line. Shit...
-- getHouses (This bug is driving me nuts…)
