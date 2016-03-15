@@ -1,3 +1,10 @@
+/*TO DO
+ * 
+ * Kunt taloa vaihdetaan, niin houseNow:n pit‰‰ vaihtua
+ * 
+ */
+
+
 package view;
  
 import java.rmi.RemoteException;
@@ -12,6 +19,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
 
@@ -33,37 +41,52 @@ public class UserView extends VerticalLayout implements View{
 		
 		//For RMI calls
 		this.shsystem = shsystem;
+		
+		setMargin(true);
+		setSpacing(true);
     	
-        setHeight(ui.getCurrent().getPage().getBrowserWindowHeight()*0.6f, Unit.PIXELS);
+        //setHeight(ui.getCurrent().getPage().getBrowserWindowHeight(), Unit.PIXELS);
+		
+		String houseNow= new String ("Talo1");
        
         //Luodaan pohja leiskaan tulevat vaakaleiskat
         HorizontalLayout navigation = new HorizontalLayout();
-        navigation.setHeight("5%");
-        navigation.setWidth("60%");
-        
+        //navigation.setHeight("20%");
+        navigation.setWidth("100%");
+      
+       
+        Panel houseManager= new Panel("");
+    	VerticalLayout managerLayout = new VerticalLayout();
+    	managerLayout.setSpacing(true);
+    	managerLayout.setMargin(true);
+    	
+    	houseManager.setWidth(ui.getCurrent().getPage().getBrowserWindowWidth()*0.8f, Unit.PIXELS);
+    	houseManager.setHeight(500f, Unit.PIXELS);
+    	
+    	managerLayout.setHeight(houseManager.getHeight()*0.95f, Unit.PIXELS);
+    	managerLayout.setWidth(houseManager.getWidth()*0.95f, Unit.PIXELS);
+    	
+    	
+    	 //Vaakaleiskat jotka voidaan lis‰t‰ paneeliin        
         HorizontalLayout topics = new HorizontalLayout();
-        topics.setHeight("20%");
-        topics.setWidth("60%");
+        topics.setHeight(houseManager.getHeight(), Unit.PIXELS);
+        topics.setWidth(houseManager.getWidth(), Unit.PIXELS);
        
         HorizontalLayout lights =new HorizontalLayout();
-        lights.setHeight("35%");
-        lights.setWidth("60%");
+        lights.setHeight(houseManager.getHeight(), Unit.PIXELS);
+        lights.setWidth(houseManager.getWidth(), Unit.PIXELS);
        
         HorizontalLayout rooms = new HorizontalLayout();
-        rooms.setHeight("35%");
-        rooms.setWidth("60%");
+        rooms.setHeight(houseManager.getHeight(), Unit.PIXELS);
+        rooms.setWidth(houseManager.getWidth(), Unit.PIXELS);
        
-       
-       
-        
-       
-        
+    	
+
         
      // ----- Kodin valinta----- //   
         ComboBox houseSelect = new ComboBox();
-        houseSelect.setInputPrompt("Select house");
+        houseSelect.setInputPrompt("Change home");
         houseSelect.setFilteringMode(FilteringMode.CONTAINS);
-//        userSelect.setImmediate(true);
         houseSelect.setTextInputAllowed(false);
         houseSelect.setNullSelectionAllowed(false);
         
@@ -84,16 +107,23 @@ public class UserView extends VerticalLayout implements View{
             }
         });
         navigation.addComponent(houseSelect);
-        navigation.setComponentAlignment(houseSelect, Alignment.TOP_LEFT);
+        navigation.setComponentAlignment(houseSelect, Alignment.MIDDLE_LEFT);
         navigation.addComponent(logOut);
-        navigation.setComponentAlignment(logOut, Alignment.TOP_RIGHT);
+        navigation.setComponentAlignment(logOut, Alignment.MIDDLE_RIGHT);
         
        
         //Huone "otsikot"
-        topics.addComponent(new Label ("Rooms"));
-        topics.addComponent(new Label ("Room 1"));
-        topics.addComponent(new Label ("Room 2"));
-        topics.addComponent(new Label ("Room 3"));
+        
+        ArrayList<String> roomNames = new ArrayList<String>();
+		try {
+			roomNames = shsystem.getRoomNames(houseNow);
+		} catch (RemoteException e) {e.printStackTrace();}
+		
+		topics.addComponent(new Label ("Rooms"));
+		for(int i=0; i<roomNames.size(); i++){
+			Label currentRoom = new Label (roomNames.get(i));
+			topics.addComponent(currentRoom);
+		}
         
         
         //Lights valinnat
@@ -128,14 +158,23 @@ public class UserView extends VerticalLayout implements View{
         rooms.addComponent(room1);
         rooms.addComponent(room2);
         rooms.addComponent(room3);
-       
-       
+        
+        
+        //Lis‰t‰‰n n‰m‰ paneelin layouttiin
+        managerLayout.addComponent(topics);
+    	topics.setSizeFull();
+        managerLayout.addComponent(lights);
+        lights.setSizeFull();
+        managerLayout.addComponent(rooms);
+        rooms.setSizeFull();
+        
+        houseManager.setContent(managerLayout);
        
         //Lopuksi lis√§t√§√§n n√§√§ kaikki oikeassa j√§rjestyksess√§ layouttiin
         addComponent(navigation);
-        addComponent(topics);
-        addComponent(lights);
-        addComponent(rooms);
+        addComponent(houseManager);
+        setComponentAlignment(houseManager, Alignment.MIDDLE_CENTER);
+        
     }
        
     @Override
