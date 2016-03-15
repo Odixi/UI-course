@@ -5,6 +5,18 @@ FIX:
 - Adding user to XML messes up the lines, everything added to the same line. Shit...
 - changePassword: null check, return boolean
 
+Sensor.java
+	Add:
+	- decide and implement min & max values for all measuring units
+	- default values when setting up class
+	
+	Optional:
+	- more measuring units
+	- more sensor types
+		- Remember to implement in XSD & XML too
+
+
+
 DONE: 
 - getHouses (This bug is driving me nuts…)
 - add method for changing username
