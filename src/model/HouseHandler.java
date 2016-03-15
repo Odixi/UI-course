@@ -19,7 +19,7 @@ import org.w3c.dom.*;
 
 public class HouseHandler extends XMLHandler {
 
-	private String filepath = "src/xmlfiles/HouseBuild.xml";
+	private String filepath = "src/xmlfiles/houses.xml";
 	private Document housesXML;
 	private Element rootElement;
 	private NodeList houseList;
@@ -29,6 +29,10 @@ public class HouseHandler extends XMLHandler {
 	
 	private ArrayList<Element> rooms;
 	private ArrayList<String> roomNames;
+	
+	private static final String housenameTagName = "houseName";
+	private static final String roomnameTagName = "roomName";
+	
 	
 	//CONSTRUCTOR
 	public HouseHandler(){
@@ -48,11 +52,11 @@ public class HouseHandler extends XMLHandler {
 	
 	
 	//-------- LIST OF HOUSES (NAMES) -------------
+	
 	public ArrayList<String> getHouseNameList(){
 		
 		//In case changes have been made
 		updateHouseList();
-		//houseNames.clear();
 		ArrayList<String> houseNames = new ArrayList<String>();
 		
 		for(int i = 0; i < houseList.getLength(); i++){
@@ -60,9 +64,9 @@ public class HouseHandler extends XMLHandler {
 			if(houseList.item(i).getNodeType() == Node.ELEMENT_NODE){
 				Element houseElement = (Element) houseList.item(i);
 				
-				if(houseElement.getElementsByTagName("houseName").item(0) != null){
+				if(houseElement.getElementsByTagName(housenameTagName).item(0) != null){
 					//Add housename to the list
-					houseNames.add( houseElement.getElementsByTagName("houseName").item(0).getTextContent() );
+					houseNames.add( houseElement.getElementsByTagName(housenameTagName).item(0).getTextContent() );
 				}
 			}
 		}
@@ -78,8 +82,8 @@ public class HouseHandler extends XMLHandler {
 		rooms = getRooms(housename);
 		
 		for(int i = 0; i < rooms.size(); i++){
-			if(rooms.get(i).getElementsByTagName("roomName").item(0) != null){
-				roomNames.add( rooms.get(i).getElementsByTagName("roomName").item(0).getTextContent() );
+			if(rooms.get(i).getElementsByTagName(roomnameTagName).item(0) != null){
+				roomNames.add( rooms.get(i).getElementsByTagName(roomnameTagName).item(0).getTextContent() );
 			}
 		}
 		
@@ -120,6 +124,7 @@ public class HouseHandler extends XMLHandler {
 	// o-o-o-o-o-o-o-o-o HELP METHODS o-o-o-o-o-o-o-o-o-o-o-o
 	
 	private void updateHouseList(){
+		/*
 		System.out.println("rootElement is: " + rootElement.getTagName());
 		NodeList houses = rootElement.getElementsByTagName("house");
 		
@@ -133,7 +138,7 @@ public class HouseHandler extends XMLHandler {
 		for(int i = 0; i < houses.getLength(); i++){
 			System.out.println("Node name should be house:" + houses.item(i).getNodeName());
 		}
-		
+		*/
 		
 		//<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 		
