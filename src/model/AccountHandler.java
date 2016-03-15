@@ -129,6 +129,8 @@ public class AccountHandler extends XMLHandler {
 		//Save changes to the XML file
 		writeXML(accountXML, filepath);
 		
+		System.out.println("new user created " + username);
+		
 	}
 	
 	/**

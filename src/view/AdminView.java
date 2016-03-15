@@ -209,7 +209,12 @@ public class AdminView extends HorizontalLayout implements View{
 	// Hakee serveriltä valitun käyttäjän tiedot ja päivättää ne
 	private void updateContent(){
 		//TODO
-		usernameField.setValue((String)userSelect.getValue());
+		if (userSelect.getValue() == null){
+			usernameField.setValue("");
+		}
+		else{
+			usernameField.setValue((String)userSelect.getValue());
+		}
 	}
 	
 	// Haetaan käyttäjät serveriltä

@@ -63,4 +63,8 @@ public class RoomListComponent extends CustomComponent {
 			
 			setCompositionRoot(layout);
 		}
+		
+		public CheckBox[][] getChackBoxes(){
+			return checkBoxes;
+		}
 }
