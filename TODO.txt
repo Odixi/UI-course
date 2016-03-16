@@ -1,6 +1,7 @@
 TODO-list
 
 BACKEND:
+
 FIX:
 - Adding user to XML messes up the lines, everything added to the same line. Shit...
 - changePassword: null check, return boolean
@@ -15,6 +16,10 @@ Sensor.java
 	- more sensor types
 		- Remember to implement in XSD & XML too
 
+view.xml:
+	- Wrap houses in view-tags
+	- Add inView (or something) boolean (attribute maybe?)
+	- Add owner (at least ID, maybe also name, not necessary though)
 
 
 DONE: 

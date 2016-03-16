@@ -106,7 +106,7 @@ public class HouseHandler extends XMLHandler {
 		
 		for(int i = 0; i < rooms.size(); i++){
 			if(rooms.get(i).getElementsByTagName(roomnameTag).item(0) != null && rooms.get(i).getAttribute(roomIDTag) != null){
-				roomNames.put(rooms.get(i).getAttribute(roomIDTag),
+				roomNames.put(rooms.get(i).getAttribute(roomIDTag).trim(),
 						rooms.get(i).getElementsByTagName(roomnameTag).item(0).getTextContent() );
 			}
 		}
