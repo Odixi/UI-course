@@ -32,8 +32,12 @@ public class AdminAccountHandler extends AccountHandler {
 		return super.usernameInUse(adminname);
 	}
 	
-	public void changePassword(String adminname, String oldpassword, String newpassword){
-		super.changePassword(adminname, oldpassword, newpassword);
+	public boolean changePassword(String adminname, String oldpassword, String newpassword){
+		return super.changePassword(adminname, oldpassword, newpassword);
+	}
+	
+	public boolean changeAdminName(String oldAdminName, String newAdminName){
+		return super.changeUsername(oldAdminName, newAdminName);
 	}
 	
 	public ArrayList<String> getUsernameList(){
