@@ -2,6 +2,7 @@ package model;
 
 import org.w3c.dom.*;
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * The class is designed to handle XML following basic structure demonstrated below.
@@ -28,11 +29,12 @@ public class AccountHandler extends XMLHandler {
 	
 	private String filepath;
 	private String userTag;
+	private String userIDTag;
 	private String usernameTag;
 	private String passwordTag;
 	
 	//>>>> CONSTUCTOR <<<<<
-	public AccountHandler(String filepath, String userTag, String usernameTag, String passwordTag){	
+	public AccountHandler(String filepath, String userTag, String userIDTag, String usernameTag, String passwordTag){	
 		
 		this.filepath = filepath;
 		this.userTag = userTag;
@@ -105,7 +107,7 @@ public class AccountHandler extends XMLHandler {
 		return passwordMatches;
 	}
 	
-	//--------------- CREATE & REMOVE USER -------------------
+	//--------------- CREATE USER -------------------
 	
 	public void createUser(String username, String password){
 		
@@ -113,6 +115,12 @@ public class AccountHandler extends XMLHandler {
 		
 		Element user = accountXML.createElement(userTag);
 		rootElement.appendChild(user);
+		
+		//ID attribute
+		Attr userID = accountXML.createAttribute(userIDTag);
+		//Generate ID
+		//These generated IDs are going to be quite a bit longer than the handwritten ones.
+		userID.setValue( UUID.randomUUID().toString() );	
 		
 		//username
 		Element uname = accountXML.createElement(usernameTag);
@@ -125,13 +133,15 @@ public class AccountHandler extends XMLHandler {
 		Element pword = accountXML.createElement(passwordTag);
 		pword.appendChild(accountXML.createTextNode( password ));
 		user.appendChild(pword);
-		
+				
 		//Save changes to the XML file
 		writeXML(accountXML, filepath);
 		
 		System.out.println("new user created " + username);
 		
 	}
+	
+	//--------------- REMOVE USER -------------------
 	
 	/**
 	 * Removes information on user in 

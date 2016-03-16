@@ -8,12 +8,13 @@ public class UserAccountHandler extends AccountHandler {
 
 	private static final String userFilepath = "src/xmlfiles/users.xml";
 	private static final String userTag = "user";
+	private static final String userIDTag = "userID";
 	private static final String usernameTag = "username";
 	private static final String passwordTag = "password";
 
 	//>>>> CONSTUCTOR <<<<<
 	public UserAccountHandler(){	
-		super(userFilepath, userTag, usernameTag, passwordTag);
+		super(userFilepath, userTag, userIDTag, usernameTag, passwordTag);
 	}
 	
 	public boolean passwordMatch(String username, String password){

@@ -17,6 +17,8 @@ import model.AdminAccountHandler;
 
 public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem {
 
+	private static final long serialVersionUID = -4915065514625313433L;
+	
 	private UserAccountHandler userHandler;
 	private AdminAccountHandler adminHandler;
 	private HouseHandler houseHandler;

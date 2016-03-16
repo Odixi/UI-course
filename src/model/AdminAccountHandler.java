@@ -7,12 +7,13 @@ public class AdminAccountHandler extends AccountHandler {
 
 	private static final String userFilepath = "src/xmlfiles/admins.xml";
 	private static final String userTag = "admin";
+	private static final String userIDTag = "adminID";
 	private static final String usernameTag = "adminname";
 	private static final String passwordTag = "password";
 
 	//>>>> CONSTUCTOR <<<<<
 	public AdminAccountHandler(){	
-		super(userFilepath, userTag, usernameTag, passwordTag);
+		super(userFilepath, userTag, userIDTag, usernameTag, passwordTag);
 	}
 	
 	public boolean passwordMatch(String adminname, String password){

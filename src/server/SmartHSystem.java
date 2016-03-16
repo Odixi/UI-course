@@ -15,7 +15,7 @@ public interface SmartHSystem extends Remote {
 	public void newUser(String username, String password) throws RemoteException;
 	
 	// Jos password on tyhjä merkkijono, niin sitä ei muuteta
-	public void editUser(String oldUsername, String newUsername, String newPassword) throws RemoteException;
+	public void changeUser(String oldUsername, String newUsername, String password) throws RemoteException;
 	
 	public void deleteUser(String username) throws RemoteException;
 	

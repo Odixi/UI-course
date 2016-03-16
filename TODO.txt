@@ -3,7 +3,6 @@ TODO-list
 BACKEND:
 
 FIX:
-- Adding user to XML messes up the lines, everything added to the same line. Shit...
 - changePassword: null check, return boolean
 
 Sensor.java
@@ -21,13 +20,16 @@ view.xml:
 	- Add inView (or something) boolean (attribute maybe?)
 	- Add owner (at least ID, maybe also name, not necessary though)
 
-Create user:
-	- Add userID when creating user (it’s not really even needed but should be created cause others have it.)
-
+SmartHSystem:
+	- changePassword()
+	- changeUsername()
+	
 
 DONE: 
 - getHouses (This bug is driving me nuts…)
 - add method for changing username
+- Add userID when creating user (it’s not really even needed but should be created cause others have it.)
+- Adding user to XML messes up the lines, everything added to the same line. Shit...
 
 ————————————————————
 
