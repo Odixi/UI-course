@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tns:views xmlns="http://www.example.org/houseStructures" xmlns:tns="http://www.example.org/views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/views views.xsd ">
+ 
+<!-- This will have to be commented out at some point to test adding stuff to blank file. -->  
   <tns:view viewID="idvalue0">
     <tns:user userID="idvalue1"/>
     <tns:houses>

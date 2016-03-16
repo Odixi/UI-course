@@ -172,9 +172,11 @@ public class AccountHandler extends XMLHandler {
 	
 	//--------------- CHANGE PASSWORD ------------------------
 	
-	public void changePassword(String username, String oldpassword, String newpassword){
+	public boolean changePassword(String username, String oldpassword, String newpassword){
 		
-		//TODO Null check? Return boolean?
+		//TODO Null check?
+		//Return boolean?
+		boolean passwordChanged = false;
 		
 		if( passwordMatch(username, oldpassword) ){
 			Element user = getUser(username);
@@ -182,10 +184,13 @@ public class AccountHandler extends XMLHandler {
 			user.getElementsByTagName(passwordTag).item(0).setTextContent(newpassword);
 			
 			System.out.println(username + "'s password changed!");
+			passwordChanged = true;
+			
 		}
 		
 		writeXML(accountXML, filepath);
 		
+		return passwordChanged;
 	}
 	
 	//----------------- CHANGE USERNAME --------------------------

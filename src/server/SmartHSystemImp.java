@@ -87,10 +87,13 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		userHandler.removeUser(username);
 	}
 	
-	// Jos password on tyhjä merkkijono, niin salasanaa ei muuteta!
-	public void editUser(String oldUsername, String newUsername, String newPassword) throws RemoteException {
-		// TODO Auto-generated method stub
-		
+	// If password is an empty string, it won't be changed!
+	public boolean changePassword(String username, String oldPassword, String newPassword) throws RemoteException {
+		return userHandler.changePassword(username, oldPassword, newPassword);
+	}
+
+	public boolean changeUsername(String oldUsername, String newUsername) throws RemoteException {
+		return userHandler.changeUsername(oldUsername, newUsername); 
 	}
 
 	public boolean userLogin(String username, String password) throws RemoteException {

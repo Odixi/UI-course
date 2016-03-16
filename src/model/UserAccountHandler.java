@@ -33,8 +33,12 @@ public class UserAccountHandler extends AccountHandler {
 		return super.usernameInUse(username);
 	}
 	
-	public void changePassword(String username, String oldpassword, String newpassword){
-		super.changePassword(username, oldpassword, newpassword);
+	public boolean changeUsername(String oldUsername, String newUsername){
+		return super.changeUsername(oldUsername, newUsername);
+	}
+	
+	public boolean changePassword(String username, String oldPassword, String newPassword){
+		return super.changePassword(username, oldPassword, newPassword);
 	}
 	
 	public ArrayList<String> getUsernameList(){

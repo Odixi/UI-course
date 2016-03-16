@@ -15,7 +15,9 @@ public interface SmartHSystem extends Remote {
 	public void newUser(String username, String password) throws RemoteException;
 	
 	// Jos password on tyhjä merkkijono, niin sitä ei muuteta
-	public void editUser(String oldUsername, String newUsername, String newPassword) throws RemoteException;
+	public boolean changePassword(String username, String oldPassword, String newPassword) throws RemoteException;
+	
+	public boolean changeUsername(String oldUsername, String newUsername) throws RemoteException;
 	
 	public void deleteUser(String username) throws RemoteException;
 	
@@ -23,6 +25,8 @@ public interface SmartHSystem extends Remote {
 	
 	public ArrayList<String> getUsernames() throws RemoteException;
 	
+		// o.o.o.o UserView o.o.o.o.o.o
+		
 	public Hashtable<String, Boolean> getUserView(String userName) throws RemoteException;
 	
 	public void setUserView(Hashtable<String, Boolean> userView) throws RemoteException;
