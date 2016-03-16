@@ -110,7 +110,6 @@ public class HouseHandler extends XMLHandler {
 						rooms.get(i).getElementsByTagName(roomnameTag).item(0).getTextContent() );
 			}
 		}
-		
 		return roomNames;
 	}
 	
