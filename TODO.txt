@@ -2,6 +2,8 @@ TODO-list
 
 BACKEND:
 
+- editUser method in SmartHSystemImp
+
 FIX:
 - changePassword: null check, return boolean
 
@@ -34,6 +36,6 @@ DONE:
 ————————————————————
 
 ADMINVIEW
-- Checkboxien päivitys serveriltä, kun valitaan käyttäjä
+- Checkboxien päivitys serveriltä, kun valitaan käyttäjä // testiä vailla
 - Käyttäjätietojen ja näkymän tallennus serverille
 - Rakenteesta voisi tehdä huomatavasti kauniimman
