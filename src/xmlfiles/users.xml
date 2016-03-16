@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<users xmlns="http://www.example.org/users" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/users users.xsd ">
+<?xml version="1.0" encoding="UTF-8"?><users xmlns="http://www.example.org/users" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/users users.xsd ">
 	  <user userID="Bond007">
 	    <username>James Bond</username>
 	    <password>Skyfall007</password>

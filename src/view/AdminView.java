@@ -55,6 +55,7 @@ public class AdminView extends HorizontalLayout implements View{
 	private Button logoutButton;
 	
 	//Middle
+	Label userViewSelectLabel;
 	private RoomListComponent[] houses;
 	private ArrayList<String> users;
 	
@@ -66,8 +67,7 @@ public class AdminView extends HorizontalLayout implements View{
 		this.shsystem = shsystem;
 		setMargin(true);
         setSpacing(true);
-        setSizeFull();
-        
+ 
         //Vasemman puolen rakennus
         initLeft();
         
@@ -77,8 +77,6 @@ public class AdminView extends HorizontalLayout implements View{
         //ja oikea puoli
         initRight();
         
-        setExpandRatio(rightLayout, 2);
-        setExpandRatio(leftLayout, 1);
         middleLayout.setWidth(500f, Unit.PIXELS);
         
 	} // Konstruktor
@@ -180,10 +178,10 @@ public class AdminView extends HorizontalLayout implements View{
         
         // ------- Labels ------- //
         
-//        Label userViesSelectLabel = new Label("<font size=\"4\">View content</font>");
-//        userViesSelectLabel.setContentMode(ContentMode.HTML);
-//        middleLayout.addComponent(userViesSelectLabel);
-//        middleLayout.setExpandRatio(userViesSelectLabel, 1f);
+        userViewSelectLabel = new Label("<font size=\"4\">Edit view</font>");
+        userViewSelectLabel.setContentMode(ContentMode.HTML);
+        middleLayout.addComponent(userViewSelectLabel);
+        middleLayout.setExpandRatio(userViewSelectLabel, 1f);
           
         
         // ----- Oikeuksien valinta älykotiin ----- //
@@ -240,9 +238,11 @@ public class AdminView extends HorizontalLayout implements View{
 		//TODO
 		if (userSelect.getValue() == null){
 			usernameField.setValue("");
+			userViewSelectLabel.setValue("<font size=\"4\">Edit View</font>");
 		}
 		else{
 			usernameField.setValue((String)userSelect.getValue());
+			userViewSelectLabel.setValue("<font size=\"4\">Edit " + userSelect.getValue() + "'s view" +  "</font>");
 		}
 	}
 	
@@ -289,10 +289,11 @@ class CreateUserPopupContent implements PopupView.Content{
 	
 	public CreateUserPopupContent(SmartHSystem sh, AdminView av) {
 		hl = new HorizontalLayout();
+		hl.setMargin(true);
 		tf = new TextField("Create new user");
 		tf.setInputPrompt("Username");
 		hl.addComponent(tf);
-		ok = new Button("Ok", new Button.ClickListener() {
+		ok = new Button("Create user", new Button.ClickListener() {
 			
 			@Override // Luodaan uusi käyttäjä
 			public void buttonClick(ClickEvent event) {
@@ -310,6 +311,7 @@ class CreateUserPopupContent implements PopupView.Content{
 			}
 		});
 		hl.addComponent(ok);
+		hl.setComponentAlignment(ok, Alignment.BOTTOM_RIGHT);
 	}
 
 	@Override
@@ -343,9 +345,11 @@ class RemoveUserPopupContent implements PopupView.Content{
 	
 	public RemoveUserPopupContent(SmartHSystem sh, AdminView av){
 		vlayout = new VerticalLayout();
+		vlayout.setMargin(true);
 		ays = new Label();
 		vlayout.addComponent(ays);
 		hlayout = new HorizontalLayout();
+		hlayout.setSpacing(true);
 		vlayout.addComponent(hlayout);
 		yes = new Button("Yes", new Button.ClickListener() {
 			

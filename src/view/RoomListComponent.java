@@ -84,8 +84,8 @@ public class RoomListComponent extends CustomComponent {
 					itemLayouts[i] = new VerticalLayout();
 					layout.addComponent(itemLayouts[i]);
 					
-					roomLayouts[i].setWidth(90f, Unit.PERCENTAGE);
-					itemLayouts[i].setWidth(80f, Unit.PERCENTAGE);
+					roomLayouts[i].setWidth(80f, Unit.PERCENTAGE);
+					itemLayouts[i].setWidth(60f, Unit.PERCENTAGE);
 					
 					layout.setComponentAlignment(roomLayouts[i], Alignment.TOP_RIGHT);
 					layout.setComponentAlignment(itemLayouts[i], Alignment.TOP_RIGHT);

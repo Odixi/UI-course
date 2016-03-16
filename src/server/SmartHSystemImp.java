@@ -84,6 +84,12 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	public void deleteUser(String username) throws RemoteException {
 		userHandler.removeUser(username);
 	}
+	
+	// Jos password on tyhjä merkkijono, niin salasanaa ei muuteta!
+	public void editUser(String oldUsername, String newUsername, String newPassword) throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
 
 	public boolean userLogin(String username, String password) throws RemoteException {
 		//Returns true if the password is a match
@@ -155,12 +161,5 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		return list;
 	//	return null;
 	}
-
-
-
-	
-	
-	
-	
 	
 }
