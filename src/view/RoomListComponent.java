@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 import com.google.gwt.dev.util.collect.HashMap;
+import com.vaadin.data.Container.ItemSetChangeListener;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.event.ContextClickEvent;
@@ -17,6 +18,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
+import java_cup.version;
 import server.SmartHSystem;
 
 /*
@@ -25,6 +27,8 @@ import server.SmartHSystem;
 public class RoomListComponent extends CustomComponent {
 
 	VerticalLayout layout;
+	VerticalLayout roomLayouts[];
+	VerticalLayout itemLayouts[];
 	HiddenValueCheckBox houseBox;
 	HiddenValueCheckBox[][] checkBoxes;
 	SmartHSystem shsystem;
@@ -62,6 +66,8 @@ public class RoomListComponent extends CustomComponent {
 				//ArrayList<String> rooms = shsystem.getRoomNames(houseName);
 				Hashtable<String, String> rooms = shsystem.getRoomNames(houseID);
 				checkBoxes = new HiddenValueCheckBox[rooms.size()][];
+				roomLayouts = new VerticalLayout[rooms.size()];
+				itemLayouts = new VerticalLayout[rooms.size()];
 				ArrayList<String> items;
 				
 				int i = 0;
@@ -71,19 +77,31 @@ public class RoomListComponent extends CustomComponent {
 					// Haetaan erikseen jokaisen huoneen esineet
 					items = shsystem.getItems(houseName, rooms.get(key)); //TODO Method call going to change
 					checkBoxes[i] = new HiddenValueCheckBox[items.size() + 1];
+					
+					roomLayouts[i] = new VerticalLayout();
+					layout.addComponent(roomLayouts[i]);
+					
+					itemLayouts[i] = new VerticalLayout();
+					layout.addComponent(itemLayouts[i]);
+					
+					roomLayouts[i].setWidth(90f, Unit.PERCENTAGE);
+					itemLayouts[i].setWidth(80f, Unit.PERCENTAGE);
+					
+					layout.setComponentAlignment(roomLayouts[i], Alignment.TOP_RIGHT);
+					layout.setComponentAlignment(itemLayouts[i], Alignment.TOP_RIGHT);
 				
 					for (int j = 0; j < items.size(); j++){
 						
 						// checkBox listan [x][0] vastaa aina itse huonetta! (Ei siis esine)
 						if (j == 0){
 							checkBoxes[i][j] = new HiddenValueCheckBox(key, rooms.get(key));
-							layout.addComponent(checkBoxes[i][j]);
-							layout.setComponentAlignment(checkBoxes[i][j], Alignment.TOP_CENTER);
+							roomLayouts[i].addComponent(checkBoxes[i][j]);
+							roomLayouts[i].setComponentAlignment(checkBoxes[i][j], Alignment.TOP_LEFT);
 							checkBoxes[i][j].addValueChangeListener(listener);
 						}
 						checkBoxes[i][j+1] = new HiddenValueCheckBox(items.get(j));
-						layout.addComponent(checkBoxes[i][j+1]);
-						layout.setComponentAlignment(checkBoxes[i][j+1], Alignment.TOP_RIGHT);
+						itemLayouts[i].addComponent(checkBoxes[i][j+1]);
+						itemLayouts[i].setComponentAlignment(checkBoxes[i][j+1], Alignment.TOP_LEFT);
 						checkBoxes[i][j+1].addValueChangeListener(listener);
 					}
 					i++;
@@ -101,21 +119,24 @@ public class RoomListComponent extends CustomComponent {
 		
 		// Haetaan käyttäjän oikeudet serveriltä
 		public void updateCheckBoxesFromServer(){
-			try {
-				
+			if ((String)av.getComboBox().getValue() != null){
+			try {	
 				Hashtable<String, Boolean> hm = shsystem.getUserView((String)av.getComboBox().getValue());
 				
 				for (String key : hm.keySet()){
+					inner:
 					for (int i = 0; i < checkBoxes.length; i++){
 						for (int j = 0; j < checkBoxes[i].length; j++){
 							if (key == checkBoxes[i][j].getHiddenValue()){
 								checkBoxes[i][j].setValue(hm.get(key));
+								break inner;
 							}
 						}
 					}
 				}
 				
 			} catch (RemoteException e) {e.printStackTrace();}	
+			}
 		}
 		
 		// Disabloidaan / enablidaan checkboxit, riippuen sen vanhempien valoinnoista
