@@ -21,6 +21,9 @@ view.xml:
 	- Add inView (or something) boolean (attribute maybe?)
 	- Add owner (at least ID, maybe also name, not necessary though)
 
+Create user:
+	- Add userID when creating user (it’s not really even needed but should be created cause others have it.)
+
 
 DONE: 
 - getHouses (This bug is driving me nuts…)
