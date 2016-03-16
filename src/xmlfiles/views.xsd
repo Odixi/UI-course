@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.example.org/views"
+           xmlns:user="http://www.example.org/users"
+           elementFormDefault="qualified">
+     <xs:import schemaLocation="users.xsd"
+                namespace="http://www.example.org/users" />
+     
+     <xs:annotation>
+        <xs:documentation>
+            This XSD file describes the house structure used in our course assignment for our user interface design course
+            in University of Turku.
+            All rights reserved.
+            
+            No, really, use it if you want to.
+            
+        </xs:documentation>
+    </xs:annotation>
+
+    <!-- ROOT:VIEWS -->    
+    <xs:element name="views">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="view" type="viewType" minOccurs="1" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- viewType -->    
+    <xs:complexType name="viewType">
+        <xs:sequence>
+            <xs:element name="user" type="user:userType" />
+            <xs:element name="house" type="houseType" minOccurs="1" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="viewID" type="xs:ID" use="required"/> <!-- Is this actually needed? -->
+    </xs:complexType>
+  
+    <!-- houseType -->
+    <xs:complexType name="houseType">
+        <xs:sequence>
+            <xs:element name="houseName" type="xs:string"/>
+            <xs:element name="room" type="roomType" minOccurs="1" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="inView" type="xs:boolean" use="required" />
+        <xs:attribute name="houseID" type="xs:ID" use="required"/>
+    </xs:complexType>
+
+
+    <!-- roomType -->
+    <xs:complexType name="roomType">
+        <xs:sequence>
+            <xs:element name="roomName" type="xs:string"/>
+            <xs:element name="light" type="lightType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="sensor" type="sensorType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="appliance" type="applianceType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="inView" type="xs:boolean" use="required" />
+        <xs:attribute name="roomID" type="xs:ID" use="required"/>
+    </xs:complexType>
+    
+    
+    <!-- Sensors -->
+    <xs:complexType name="sensorType">
+        <xs:sequence>
+            <xs:element name="sensorName" type="xs:string"/>
+            <xs:element name="sensorType">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="temperature"/>
+                        <xs:enumeration value="humidity"/>
+                        <xs:enumeration value="lightsensor"/>
+                          
+                        <!-- Add more sensor types -->
+                        
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="inView" type="xs:boolean" use="required" />
+        <xs:attribute name="sensorID" type="xs:ID" use="required"/>
+    </xs:complexType>
+  
+  
+    <!-- Lights -->
+    <xs:complexType name="lightType">
+        <xs:sequence>
+            <xs:element name="lightName" type="xs:string"/>
+            
+            <!-- Does light need more information? Dimmable or not maybe? Colour change possible? -->
+            
+        </xs:sequence>
+        <xs:attribute name="inView" type="xs:boolean" use="required" />
+        <xs:attribute name="lightID" type="xs:ID" use="required" />
+    </xs:complexType>
+  
+  
+    <!-- Appliance -->   
+    <xs:complexType name="applianceType">
+        <xs:sequence>
+            <xs:element name="applianceName" type="xs:string"/>
+            <xs:element name="applianceType">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="audioDevice"/>
+                        <xs:enumeration value="turnOnOff"/> <!-- Awfully named type, I know. -->
+                        
+                        <!-- Add more types -->
+                        
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="inView" type="xs:boolean" use="required" />
+        <xs:attribute name="applianceID" type="xs:ID" use="required"/>
+    </xs:complexType>        
+
+</xs:schema>
