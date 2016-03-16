@@ -41,6 +41,13 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	public void testPrintConsole(String message) throws RemoteException {
 		System.out.println("Message: " + message);
 		
+		Hashtable<String, String> roomnames = getRoomNames("h001");
+		
+		for(String key : roomnames.keySet()){
+			System.out.println("Room: " + roomnames.get(key) + " ID: " + key);
+		}
+		
+		/*
 		Hashtable<String, String> housenames = getHouseNames();
 		
 		System.out.println("Test new getHousenames-method:");
@@ -48,7 +55,7 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		for(String key : housenames.keySet()){
 			System.out.println("House: " + housenames.get(key) + " ID: " + key);
 		}
-		
+		*/
 		/*
 		System.out.println("Houses length: " + houses.size());
 		for(String house : houses){
