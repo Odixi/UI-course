@@ -116,20 +116,23 @@ public class HouseHandler extends XMLHandler {
 	
 	//----------- LIST OF ROOMS (ELEMENTS) --------------------
 	
-	public ArrayList<Element> getRoomElements(String housename){
+	public ArrayList<Element> getRoomElements(String houseID){
 		updateHouseList();
 		ArrayList<Element> rooms = new ArrayList<Element>();
 		
-		Element house = getHouseElement(housename);
+		Element house = getHouseElement(houseID);
 		
 		if(house == null){
+			
 			//TODO Do something
 			
 		} else {
 			NodeList roomNodes = house.getElementsByTagName(roomTag);
 			
 			for(int i = 0; i < roomNodes.getLength(); i++){
-				rooms.add( (Element) roomNodes.item(i));
+				if(roomNodes.item(i).getNodeType() == Node.ELEMENT_NODE){
+					rooms.add( (Element) roomNodes.item(i));
+				}
 			}
 		}	
 		return rooms;
@@ -143,9 +146,20 @@ public class HouseHandler extends XMLHandler {
 		ArrayList<Element> items = getItemElements(houseID, roomID);
 		
 		for(int i = 0; i < items.size(); i++){
+			//Lights: Get the names and the IDs
 			if( items.get(i).getElementsByTagName(lightnameTag).item(0) != null && items.get(i).getAttribute(lightIDTag) != null){
 				itemNames.put(items.get(i).getAttribute(lightIDTag),
 						items.get(i).getElementsByTagName(lightnameTag).item(0).getTextContent() );
+			}
+			//Sensors: Get the names and the IDs
+			if( items.get(i).getElementsByTagName(sensornameTag).item(0) != null && items.get(i).getAttribute(sensorIDTag) != null){
+				itemNames.put(items.get(i).getAttribute(sensorIDTag),
+						items.get(i).getElementsByTagName(sensornameTag).item(0).getTextContent() );
+			}
+			//Appliances: Get the names and the IDs
+			if( items.get(i).getElementsByTagName(appliancenameTag).item(0) != null && items.get(i).getAttribute(applianceIDTag) != null){
+				itemNames.put(items.get(i).getAttribute(applianceIDTag),
+						items.get(i).getElementsByTagName(appliancenameTag).item(0).getTextContent() );
 			}
 		}
 		
@@ -160,15 +174,34 @@ public class HouseHandler extends XMLHandler {
 		Element room = getRoomElement(houseID, roomID);
 		
 		if(room == null){	//TODO Handle this situation better.
+			
 			System.out.println("Room " + roomID + " not found. Hence items can't be found either.");
 			return null; 
-		} else {
-			NodeList lightNodes = room.getElementsByTagName(lightTag);
 			
-			//TODO
+		} else {
+			//Lights
+			NodeList lightNodes = room.getElementsByTagName(lightTag);
+			for(int i = 0; i < lightNodes.getLength(); i++){
+				if(lightNodes.item(i).getNodeType() == Node.ELEMENT_NODE){
+					items.add( (Element) lightNodes.item(i) );
+				}
+			}
+			//Sensors
+			NodeList sensorNodes = room.getElementsByTagName(sensorTag);
+			for(int i = 0; i < sensorNodes.getLength(); i++){
+				if(sensorNodes.item(i).getNodeType() == Node.ELEMENT_NODE){
+					items.add( (Element) sensorNodes.item(i) );
+				}
+			}
+			//Appliances
+			NodeList applianceNodes = room.getElementsByTagName(applianceTag);
+			for(int i = 0; i < applianceNodes.getLength(); i++){
+				if(applianceNodes.item(i).getNodeType() == Node.ELEMENT_NODE){
+					items.add( (Element) applianceNodes.item(i) );
+				}
+			}
 			
 		}
-
 		return items;
 	}
 	
