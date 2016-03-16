@@ -118,11 +118,11 @@ public class AccountHandler extends XMLHandler {
 		rootElement.appendChild(user);
 		
 		//ID attribute
-		Attr userID = accountXML.createAttribute(userIDTag);
+		
 		//Generate ID
 		//These generated IDs are going to be quite a bit longer than the handwritten ones.
-		userID.setValue( UUID.randomUUID().toString() );	
-		
+		user.setAttribute(userIDTag, UUID.randomUUID().toString());
+
 		//username
 		Element uname = accountXML.createElement(usernameTag);
 		uname.appendChild(accountXML.createTextNode(username));
@@ -163,7 +163,7 @@ public class AccountHandler extends XMLHandler {
 	//------------ Is the username already in use? ------------
 	public boolean usernameInUse(String username){
 
-		if(getUser(username) != null){
+		if(getUser(username) == null){
 			return false;
 		} else {
 			return true;
@@ -242,7 +242,7 @@ public class AccountHandler extends XMLHandler {
 			}
 		} 
 		else {
-			System.out.println("Username already in use.");
+			System.out.println("Username " + newusername + " already in use.");
 		}
 		
 		writeXML(accountXML, filepath);
