@@ -2,6 +2,8 @@ TODO-list
 
 BACKEND:
 
+- editUser method in SmartHSystemImp
+
 FIX:
 - Adding user to XML messes up the lines, everything added to the same line. Shit...
 - changePassword: null check, return boolean
@@ -32,6 +34,6 @@ DONE:
 ————————————————————
 
 ADMINVIEW
-- Checkboxien päivitys serveriltä, kun valitaan käyttäjä
+- Checkboxien päivitys serveriltä, kun valitaan käyttäjä // testiä vailla
 - Käyttäjätietojen ja näkymän tallennus serverille
 - Rakenteesta voisi tehdä huomatavasti kauniimman
