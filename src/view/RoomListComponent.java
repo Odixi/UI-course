@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import com.google.gwt.dev.util.collect.HashMap;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.event.ContextClickEvent;
@@ -29,9 +30,10 @@ public class RoomListComponent extends CustomComponent {
 	SmartHSystem shsystem;
 	String[] rooms;
 	Panel panel;
+	AdminView av;
 	
-		public RoomListComponent(String houseID, String houseName, SmartHSystem shsystem){
-			
+		public RoomListComponent(String houseID, String houseName, SmartHSystem shsystem, AdminView av){
+			this.av = av;
 			panel = new Panel();
 		
 			layout = new VerticalLayout();
@@ -97,8 +99,11 @@ public class RoomListComponent extends CustomComponent {
 			return checkBoxes;
 		}
 		
+		// Haetaan käyttäjän oikeudet serveriltä
 		public void updateCheckBoxesFromServer(){
-			//TODO haetaan käyttäjän oikeudet serveriltä
+//			try {
+//				Hashtable<String, Boolean> hm = shsystem.getUserView(userID);
+//			} catch (RemoteException e) {e.printStackTrace();}	
 		}
 		
 		// Disabloidaan / enablidaan checkboxit, riippuen sen vanhempien valoinnoista
