@@ -62,17 +62,20 @@ public class RoomListComponent extends CustomComponent {
 				checkBoxes = new HiddenValueCheckBox[rooms.size()][];
 				ArrayList<String> items;
 				
-				for (int i = 0; i < rooms.size();i++){
+				int i = 0;
+				
+				for (String key : rooms.keySet()){
 					
 					// Haetaan erikseen jokaisen huoneen esineet
-					items = shsystem.getItems(houseName, rooms.get(i)); //TODO Method call going to change
+					items = shsystem.getItems(houseName, rooms.get(key)); //TODO Method call going to change
 					checkBoxes[i] = new HiddenValueCheckBox[items.size() + 1];
+					i++;
 					
 					for (int j = 0; j < items.size(); j++){
 						
 						// checkBox listan [x][0] vastaa aina itse huonetta! (Ei siis esine)
 						if (j == 0){
-							checkBoxes[i][j] = new HiddenValueCheckBox(rooms.get(i)); 
+							checkBoxes[i][j] = new HiddenValueCheckBox(key, rooms.get(key));
 							layout.addComponent(checkBoxes[i][j]);
 							layout.setComponentAlignment(checkBoxes[i][j], Alignment.TOP_CENTER);
 							checkBoxes[i][j].addValueChangeListener(listener);
