@@ -23,8 +23,4 @@
         <username>Dumbledore</username>
         <password>kermatoffee</password>
     </user>
-    <user userID="D4444">
-        <username>Dobby</username>
-        <password>password</password>
-    </user>
 </users>

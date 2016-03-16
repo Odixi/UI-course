@@ -38,6 +38,7 @@ public class AccountHandler extends XMLHandler {
 		
 		this.filepath = filepath;
 		this.userTag = userTag;
+		this.userIDTag = userIDTag;
 		this.usernameTag = usernameTag;
 		this.passwordTag = passwordTag;
 		

@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 import org.w3c.dom.Document;
@@ -11,9 +12,14 @@ public class ViewHandler extends XMLHandler {
 	private String filepath = "src/xmlfiles/views.xml";
 	private Document viewsXML;
 	private Element rootElement;
-	private NodeList viewList;
+	private NodeList viewNodeList;
 	
 	// >>> XML tags
+	
+	private static final String viewTag = "view";	
+	private static final String viewIDTag = "viewID";
+
+	private static final String userIDTag = "userID";
 	
 	private static final String housesTag = "houses";
 		//House
@@ -67,7 +73,17 @@ public class ViewHandler extends XMLHandler {
 	public Hashtable<String, Boolean> getUserView(String userID){
 		Hashtable<String, Boolean> userView = new Hashtable<String, Boolean>();
 		
+		//Iterate through views, find userID == userIDTag.getTextContent();
 		
+		//Iterate through houses
+			//inView = true/false?
+		
+			//Rooms
+				
+				//inView = true/false?
+		
+				//Lights, sensors and appliance
+					//inView = true/false?
 		
 		return null;
 	}
@@ -75,6 +91,24 @@ public class ViewHandler extends XMLHandler {
 	
 // o.o.o.o.o.o.o.o.o.o.o.o.o.o.o HELP METHODS o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o
 	
+	private void updateViewNodeList(){
+		viewNodeList = viewsXML.getElementsByTagName(viewTag);
+	}
 	
+	// o o o o o o o o o o o o GET HOUSES o o o o o o o o o o o o 
+	private ArrayList<Element> getHouseElements(String viewID){
+		ArrayList<Element> houseElements = new ArrayList<Element>();
+		
+		return houseElements;
+	}
+	
+	// o o o o o o o o o o o o GET ROOMS o o o o o o o o o o o o 
+	
+	
+	
+	// o o o o o o o o o o o o GET ITEMS o o o o o o o o o o o o 
+	private ArrayList<Element> getItemElements(Element room){
+		return null;
+	}
 	
 }
