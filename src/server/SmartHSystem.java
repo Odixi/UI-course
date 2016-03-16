@@ -2,6 +2,7 @@ package server;
 
 import java.rmi.*;
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 public interface SmartHSystem extends Remote {
 
@@ -33,9 +34,9 @@ public interface SmartHSystem extends Remote {
 	
 	// ---------- Kyselyt taloista --------- //
 	
-	public ArrayList<String> getHouseNames() throws RemoteException; // Lista taloista
+	public Hashtable<String, String> getHouseNames() throws RemoteException; // Lista taloista
 	
-	public ArrayList<String> getRoomNames(String houseName) throws RemoteException; // Lista talonhuoneista
+	public Hashtable<String, String> getRoomNames(String houseName) throws RemoteException; // Lista talonhuoneista
 	
 	public ArrayList<String> getItems(String houseName, String roomName) throws RemoteException;
 	

@@ -3,14 +3,14 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.example.org/admins admins.xsd ">
     
-    <admin>
+    <admin adminID="admin001">
         <adminname>exampleadmin</adminname>
         <password>safepassword</password>
     </admin>
     
-    <admin>
+    <admin adminID="IveGotThePower">
         <adminname>BetterAdmin</adminname>
-        <password>thisispassword</password>
+        <password>IveGotThePowerTititi</password>
     </admin>
         
 </admins>

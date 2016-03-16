@@ -1,28 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
     targetNamespace="http://www.example.org/admins"
-    xmlns:tns="http://www.example.org/admins"
+    xmlns="http://www.example.org/admins"
     elementFormDefault="qualified">
 
-<xs:element name="admins" />
-    <xs:element name="admin" />
-
-        <xs:element name="adminname">
-            <xs:simpleType>
-                <xs:restriction base="xs:string">
-                    <xs:maxLength value="24"/>
-                    <xs:minLength value="3"/>
-                </xs:restriction>
-            </xs:simpleType>
-        </xs:element>
-
-        <xs:element name="password">
-            <xs:simpleType>
-                <xs:restriction base="xs:string">
-                    <xs:maxLength value="24" />
-                    <xs:minLength value="8"/>
-                </xs:restriction>
-            </xs:simpleType>
-        </xs:element>  
+    <!-- ROOT: ADMIN -->
+    <xs:element name="admins">
+       <xs:complexType>
+           <xs:sequence>
+                <xs:element name="admin" type="adminType" minOccurs="1" maxOccurs="unbounded"/>
+           </xs:sequence>
+       </xs:complexType>                
+    </xs:element>
+    
+    <!-- admin -->
+    
+    <xs:complexType name="adminType">
+        <xs:sequence>
+            <xs:element name="adminname" type="adminnameType" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="password" type="passwordType" minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>
+        <xs:attribute name="adminID" type="xs:ID" use="required"/>          
+    </xs:complexType>
+    
+    <!-- adminname -->
+    <xs:simpleType name="adminnameType">
+        <xs:restriction base="xs:string">
+             <xs:maxLength value="24"/>
+             <xs:minLength value="3"/>
+         </xs:restriction>
+    </xs:simpleType>
+            
+    <!-- Password -->
+    <xs:simpleType name="passwordType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="24" />
+            <xs:minLength value="8"/>
+        </xs:restriction>
+    </xs:simpleType> 
     
 </xs:schema>
