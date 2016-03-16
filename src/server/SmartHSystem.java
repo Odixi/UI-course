@@ -17,6 +17,8 @@ public interface SmartHSystem extends Remote {
 	// Jos password on tyhjä merkkijono, niin sitä ei muuteta
 	public boolean changePassword(String username, String oldPassword, String newPassword) throws RemoteException;
 	
+	public boolean changePasswordAdmin(String username, String newPassword) throws RemoteException;
+	
 	public boolean changeUsername(String oldUsername, String newUsername) throws RemoteException;
 	
 	public void deleteUser(String username) throws RemoteException;

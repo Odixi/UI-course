@@ -91,6 +91,10 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	public boolean changePassword(String username, String oldPassword, String newPassword) throws RemoteException {
 		return userHandler.changePassword(username, oldPassword, newPassword);
 	}
+	
+	public boolean changePasswordAdmin(String username, String newPassword) throws RemoteException {
+		return userHandler.changePasswordAdmin(username, newPassword);
+	}
 
 	public boolean changeUsername(String oldUsername, String newUsername) throws RemoteException {
 		return userHandler.changeUsername(oldUsername, newUsername); 

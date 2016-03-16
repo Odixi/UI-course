@@ -170,7 +170,28 @@ public class AccountHandler extends XMLHandler {
 		
 	} //usenameInUse()
 	
-	//--------------- CHANGE PASSWORD ------------------------
+	
+	//--------------- CHANGE PASSWORD (ADMIN CHANGES) ------------------------
+	
+	public boolean changePasswordAdmin(String username, String newpassword){
+
+		boolean passwordChanged = false;
+		Element user = getUser(username);
+
+		if(user != null && user.getElementsByTagName(passwordTag).item(0) != null){
+			user.getElementsByTagName(passwordTag).item(0).setTextContent(newpassword);
+			
+			System.out.println(username + "'s password changed!");
+			passwordChanged = true;
+		}
+		
+		writeXML(accountXML, filepath);
+		
+		return passwordChanged;
+	}
+	
+	
+	//--------------- CHANGE PASSWORD (USER CHANGES) ------------------------
 	
 	public boolean changePassword(String username, String oldpassword, String newpassword){
 		
@@ -179,13 +200,16 @@ public class AccountHandler extends XMLHandler {
 		boolean passwordChanged = false;
 		
 		if( passwordMatch(username, oldpassword) ){
+			
 			Element user = getUser(username);
-			//TODO user.getElementsByTagName("password").item(0).setTextContent(cryptor.encrypt(newpassword));
-			user.getElementsByTagName(passwordTag).item(0).setTextContent(newpassword);
 			
-			System.out.println(username + "'s password changed!");
-			passwordChanged = true;
-			
+			if(user != null && user.getElementsByTagName(passwordTag).item(0) != null){
+				//TODO user.getElementsByTagName("password").item(0).setTextContent(cryptor.encrypt(newpassword));
+				user.getElementsByTagName(passwordTag).item(0).setTextContent(newpassword);
+				
+				System.out.println(username + "'s password changed!");
+				passwordChanged = true;
+			}
 		}
 		
 		writeXML(accountXML, filepath);

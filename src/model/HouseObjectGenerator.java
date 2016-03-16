@@ -4,9 +4,8 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 
 	private static final String housefilepath = "src/xmlfiles/houses.xml";
 	
-	
-	public static void main(String args[]){
-			
+	public HouseObjectGenerator(){
+		super();
 	}
 	
 	
