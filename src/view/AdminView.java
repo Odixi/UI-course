@@ -170,14 +170,15 @@ public class AdminView extends HorizontalLayout implements View{
 						return;
 					}
 					
+					if (passwordField.getValue() != null || passwordField.getValue() != ""){
+						shsystem.changePasswordAdmin((String)userSelect.getValue(), passwordField.getValue());
+					}
+					
 					if ((String)userSelect.getValue() != usernameField.getValue() && usernameField.getValue().length() > 3
 							&& usernameField.getValue().length() < 25){
 						shsystem.changeUsername((String)userSelect.getValue(), usernameField.getValue());
 					}
 					
-					if (passwordField.getValue() != null || passwordField.getValue() != ""){
-						shsystem.changePasswordAdmin((String)userSelect.getValue(), passwordField.getValue());
-					}
 					
 				} catch (RemoteException e) {e.printStackTrace();}
 				
