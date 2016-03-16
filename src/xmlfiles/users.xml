@@ -23,4 +23,12 @@
         <username>Dumbledore</username>
         <password>kermatoffee</password>
     </user>
+    <user userID="mars001">
+        <username>MarkWatney</username>
+        <password>StayingAlive</password>
+    </user>
+    <user userID="FREE4EVER">
+        <username>Dobby</username>
+        <password>dobbyisfree</password>
+    </user>
 </users>
