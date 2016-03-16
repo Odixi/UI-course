@@ -159,20 +159,24 @@ public class AdminView extends HorizontalLayout implements View{
 				
 				// Käyttäjänimen ja / tai salasanan muutos
 				try {
-					if (passwordField.getValue() != null && (passwordField.getValue().length() < 8 
-							|| passwordField.getValue().length() > 24)){
-						Notification.show("Password must be at least 8 characters long and 24 at most. \n Password not changed!");
+					if (usernameField.getValue().length() < 3 || usernameField.getValue().length() > 24){
+						Notification.show("Username must be atleast 3 characters and 24 at most \nNo changes made!");
+						return;
 					}
-					else if (passwordField.getValue() != null || passwordField.getValue() != ""){
-						shsystem.changePasswordAdmin((String)userSelect.getValue(), passwordField.getValue());
+					
+					if (passwordField.getValue() != "" && (passwordField.getValue().length() < 8 
+							|| passwordField.getValue().length() > 24)){
+						Notification.show("Password must be at least 8 characters long and 24 at most. \nNo changes made!");
+						return;
 					}
 					
 					if ((String)userSelect.getValue() != usernameField.getValue() && usernameField.getValue().length() > 3
 							&& usernameField.getValue().length() < 25){
 						shsystem.changeUsername((String)userSelect.getValue(), usernameField.getValue());
 					}
-					else if (usernameField.getValue().length() < 3 || usernameField.getValue().length() > 24){
-						Notification.show("Username must be atleast 3 characters and 24 at most");
+					
+					if (passwordField.getValue() != null || passwordField.getValue() != ""){
+						shsystem.changePasswordAdmin((String)userSelect.getValue(), passwordField.getValue());
 					}
 					
 				} catch (RemoteException e) {e.printStackTrace();}
@@ -191,6 +195,7 @@ public class AdminView extends HorizontalLayout implements View{
 				try {
 					shsystem.setUserView(userViewValues);
 				} catch (RemoteException e) {e.printStackTrace();}
+				Notification.show("Changens saved");
 				
 			}// Click listener
 		});
