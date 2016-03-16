@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tns:views xmlns:h="http://www.example.org/houseStructures"
-           xmlns:tns="http://www.example.org/views"
-           xmlns:u="http://www.example.org/users"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:schemaLocation="http://www.example.org/views views.xsd ">
-           
+<tns:views xmlns="http://www.example.org/houseStructures" xmlns:tns="http://www.example.org/views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/views views.xsd ">
   <tns:view viewID="idvalue0">
-    <tns:user userID="idvalue1">
-      <u:username>u:username</u:username>
-      <u:password>u:password</u:password>
-    </tns:user>
+    <tns:user userID="idvalue1"/>
     <tns:houses>
       <tns:house houseID="idvalue2">
-        <h:houseName>h:houseName</h:houseName>
-        <h:room roomID="idvalue3">
-          <h:roomName>h:roomName</h:roomName>
-        </h:room>
+        <houseName>houseName</houseName>
+        <room roomID="idvalue3">
+          <roomName>roomName</roomName>
+        </room>
       </tns:house>
     </tns:houses>
   </tns:view>

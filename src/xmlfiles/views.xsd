@@ -33,7 +33,11 @@
     <!-- viewType -->    
     <xs:complexType name="viewType">
         <xs:sequence>
-            <xs:element name="user" type="user:userType" />
+            <xs:element name="user">
+                <xs:complexType>
+                    <xs:attribute name="userID" type="xs:ID" use="required"/>
+                </xs:complexType>
+            </xs:element>
             <xs:element name="houses">
                 <xs:complexType>
                     <xs:sequence>
@@ -44,5 +48,7 @@
         </xs:sequence>
         <xs:attribute name="viewID" type="xs:ID" use="required" /> <!-- Is this actually needed? -->
     </xs:complexType>
+  
+
   
 </xs:schema>
