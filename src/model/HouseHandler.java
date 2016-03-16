@@ -102,7 +102,7 @@ public class HouseHandler extends XMLHandler {
 	public Hashtable<String, String> getRoomNames(String houseID){
 		
 		Hashtable<String, String> roomNames = new Hashtable<String, String>();
-		ArrayList<Element> rooms = getRooms(houseID);
+		ArrayList<Element> rooms = getRoomElements(houseID);
 		
 		for(int i = 0; i < rooms.size(); i++){
 			if(rooms.get(i).getElementsByTagName(roomnameTag).item(0) != null && rooms.get(i).getAttribute(roomIDTag) != null){
@@ -116,11 +116,11 @@ public class HouseHandler extends XMLHandler {
 	
 	//----------- LIST OF ROOMS (ELEMENTS) --------------------
 	
-	public ArrayList<Element> getRooms(String housename){
+	public ArrayList<Element> getRoomElements(String housename){
 		updateHouseList();
 		ArrayList<Element> rooms = new ArrayList<Element>();
 		
-		Element house = getHouse(housename);
+		Element house = getHouseElement(housename);
 		
 		if(house == null){
 			//TODO Do something
@@ -137,23 +137,39 @@ public class HouseHandler extends XMLHandler {
 	
 	//----------- LIST OF ITEMS (NAMES) --------------------
 	
-	public ArrayList<String> getItemNames(String roomID){		//TODO What parameters are needed for getting correct items?
-		ArrayList<String> itenNames = new ArrayList<String>();
+	public Hashtable<String, String> getItemNames(String houseID, String roomID){		//TODO What parameters are needed for getting correct items?
 		
+		Hashtable<String, String> itemNames = new Hashtable<String, String>();
+		ArrayList<Element> items = getItemElements(houseID, roomID);
 		
+		for(int i = 0; i < items.size(); i++){
+			if( items.get(i).getElementsByTagName(lightnameTag).item(0) != null && items.get(i).getAttribute(lightIDTag) != null){
+				itemNames.put(items.get(i).getAttribute(lightIDTag),
+						items.get(i).getElementsByTagName(lightnameTag).item(0).getTextContent() );
+			}
+		}
 		
-		//TODO
-		
-		return null;
+		return itemNames;
 	}
 	
 	//----------- LIST OF ITEMS (ELEMENTS) --------------------
 	
-	public ArrayList<Element> getItemElements(){
+	public ArrayList<Element> getItemElements(String houseID, String roomID){
 		
-		//TODO
+		ArrayList<Element> items = new ArrayList<Element>();
+		Element room = getRoomElement(houseID, roomID);
 		
-		return null;
+		if(room == null){	//TODO Handle this situation better.
+			System.out.println("Room " + roomID + " not found. Hence items can't be found either.");
+			return null; 
+		} else {
+			NodeList lightNodes = room.getElementsByTagName(lightTag);
+			
+			//TODO
+			
+		}
+
+		return items;
 	}
 	
 	
@@ -162,19 +178,56 @@ public class HouseHandler extends XMLHandler {
 	private void updateHouseList(){
 		houseList = rootElement.getElementsByTagName(houseTag);
 	}
+
 	
-		//----------- GET HOUSE -------------
-	public Element getHouse(String housename){
-		Element house = null;
+	//--------------- GET HOUSE BY ID (ELEMENT) ---------------------------
+	public Element getHouseElement(String houseID){
+		
+		updateHouseList();
+		Element houseElement = null;
 		
 		for(int i = 0; i < houseList.getLength(); i++){
 			//Find the house that matches the name
-			if(houseList.item(i).getTextContent().equals(housename)){
-				house = (Element) houseList.item(i);
-				break;
+			if(houseList.item(i).getNodeType() == Node.ELEMENT_NODE){
+				houseElement = (Element) houseList.item(i);
+				
+				if(houseElement.getAttribute(houseIDTag) != null && houseElement.getAttribute(houseIDTag).equals(houseID) ){
+					break;	//Right element found;
+				}
 			}
 		}
-		return house;
+		
+		if(houseElement == null){
+			System.out.println("houseElement with ID " + houseID + " not found.");
+		}
+		
+		return houseElement;
+	}
+	
+	
+	//--------------- GET ROOM BY ID (ELEMENT) ---------------------------
+	public Element getRoomElement(String houseID, String roomID){
+		
+		Element houseElement = getHouseElement(houseID);
+		Element roomElement = null;
+		
+		if(houseElement == null){
+			System.out.println("Because house " + houseID + " can't be found, room " + roomID + " can't be found either.");
+			return null;
+		} else {
+			NodeList roomList = houseElement.getElementsByTagName(roomTag);
+			
+			for(int i = 0; i < roomList.getLength(); i++){
+				if(roomList.item(i).getNodeType() == Node.ELEMENT_NODE){
+					roomElement = (Element) roomList.item(i);
+					
+					if(roomElement.getAttribute(roomIDTag) != null && roomElement.getAttribute(roomIDTag).equals(roomID) ){
+						break;	//Right element found;
+					}
+				}
+			}
+		}
+		return roomElement;
 	}
 	
 }
