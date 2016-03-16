@@ -262,6 +262,10 @@ public class AdminView extends HorizontalLayout implements View{
 		return (String)userSelect.getValue();
 	}
 	
+	public ComboBox getComboBox(){
+		return userSelect;
+	}
+	
 	@Override
 	public void enter(ViewChangeEvent event) {
 		

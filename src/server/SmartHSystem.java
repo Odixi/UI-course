@@ -20,7 +20,7 @@ public interface SmartHSystem extends Remote {
 	
 	public ArrayList<String> getUsernames() throws RemoteException;
 	
-	public Hashtable<String, Boolean> getUserView(String userID) throws RemoteException;
+	public Hashtable<String, Boolean> getUserView(String userName) throws RemoteException;
 	
 	public void setUserView(Hashtable<String, Boolean> userView) throws RemoteException;
 	
