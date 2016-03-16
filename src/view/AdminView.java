@@ -156,8 +156,25 @@ public class AdminView extends HorizontalLayout implements View{
 			
 			@Override
 			public void buttonClick(ClickEvent event) {
+				
+				// Käyttäjänimen ja / tai salasanan muutos
 				try {
-					shsystem.editUser(userSelect.getValue().toString(), usernameField.getValue(), passwordField.getValue().trim());
+					if (passwordField.getValue() != null && (passwordField.getValue().length() < 8 
+							|| passwordField.getValue().length() > 24)){
+						Notification.show("Password must be at least 8 characters long and 24 at most. \n Password not changed!");
+					}
+					else if (passwordField.getValue() != null || passwordField.getValue() != ""){
+						shsystem.changePasswordAdmin((String)userSelect.getValue(), passwordField.getValue());
+					}
+					
+					if ((String)userSelect.getValue() != usernameField.getValue() && usernameField.getValue().length() > 3
+							&& usernameField.getValue().length() < 25){
+						shsystem.changeUsername((String)userSelect.getValue(), usernameField.getValue());
+					}
+					else if (usernameField.getValue().length() < 3 || usernameField.getValue().length() > 24){
+						Notification.show("Username must be atleast 3 characters and 24 at most");
+					}
+					
 				} catch (RemoteException e) {e.printStackTrace();}
 				
 				// Laitetaan userViewValue hashtableen chackboxien avaimet ja arvot
