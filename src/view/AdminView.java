@@ -156,9 +156,26 @@ public class AdminView extends HorizontalLayout implements View{
 			
 			@Override
 			public void buttonClick(ClickEvent event) {
-				// TODO Tallennetaan tiedot
+				try {
+					shsystem.editUser(userSelect.getValue().toString(), usernameField.getValue(), passwordField.getValue().trim());
+				} catch (RemoteException e) {e.printStackTrace();}
 				
-			}
+				// Laitetaan userViewValue hashtableen chackboxien avaimet ja arvot
+				Hashtable<String, Boolean> userViewValues = new Hashtable<>();
+				for (int i = 0; i < houses.length; i++){
+					HiddenValueCheckBox[][] cbList = houses[i].getChackBoxes();
+					for (int j = 0; j < cbList.length; j++){
+						for (int k = 0; k < cbList[j].length; k++){
+							userViewValues.put(cbList[j][k].getHiddenValue(), cbList[j][k].getValue());
+						} // for k
+					} // for j
+				} // for i
+				
+				try {
+					shsystem.setUserView(userViewValues);
+				} catch (RemoteException e) {e.printStackTrace();}
+				
+			}// Click listener
 		});
         leftLayout.addComponent(saveChanges);
 		
