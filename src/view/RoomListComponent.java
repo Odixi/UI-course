@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import com.google.gwt.dev.util.collect.HashMap;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.event.ContextClickEvent;
@@ -29,9 +30,10 @@ public class RoomListComponent extends CustomComponent {
 	SmartHSystem shsystem;
 	String[] rooms;
 	Panel panel;
+	AdminView av;
 	
-		public RoomListComponent(String houseID, String houseName, SmartHSystem shsystem){
-			
+		public RoomListComponent(String houseID, String houseName, SmartHSystem shsystem, AdminView av){
+			this.av = av;
 			panel = new Panel();
 		
 			layout = new VerticalLayout();
@@ -69,8 +71,7 @@ public class RoomListComponent extends CustomComponent {
 					// Haetaan erikseen jokaisen huoneen esineet
 					items = shsystem.getItems(houseName, rooms.get(key)); //TODO Method call going to change
 					checkBoxes[i] = new HiddenValueCheckBox[items.size() + 1];
-					i++;
-					
+				
 					for (int j = 0; j < items.size(); j++){
 						
 						// checkBox listan [x][0] vastaa aina itse huonetta! (Ei siis esine)
@@ -85,6 +86,7 @@ public class RoomListComponent extends CustomComponent {
 						layout.setComponentAlignment(checkBoxes[i][j+1], Alignment.TOP_RIGHT);
 						checkBoxes[i][j+1].addValueChangeListener(listener);
 					}
+					i++;
 				}
 				
 			} catch (RemoteException e) {e.printStackTrace();}
@@ -97,8 +99,23 @@ public class RoomListComponent extends CustomComponent {
 			return checkBoxes;
 		}
 		
+		// Haetaan käyttäjän oikeudet serveriltä
 		public void updateCheckBoxesFromServer(){
-			//TODO haetaan käyttäjän oikeudet serveriltä
+			try {
+				
+				Hashtable<String, Boolean> hm = shsystem.getUserView((String)av.getComboBox().getValue());
+				
+				for (String key : hm.keySet()){
+					for (int i = 0; i < checkBoxes.length; i++){
+						for (int j = 0; j < checkBoxes[i].length; j++){
+							if (key == checkBoxes[i][j].getHiddenValue()){
+								checkBoxes[i][j].setValue(hm.get(key));
+							}
+						}
+					}
+				}
+				
+			} catch (RemoteException e) {e.printStackTrace();}	
 		}
 		
 		// Disabloidaan / enablidaan checkboxit, riippuen sen vanhempien valoinnoista

@@ -195,7 +195,7 @@ public class AdminView extends HorizontalLayout implements View{
 			int i = 0;
 			
 			for (String key : housesNames.keySet()){
-				houses[i] = new RoomListComponent(key, housesNames.get(key), shsystem); //'key' is the ID of the house
+				houses[i] = new RoomListComponent(key, housesNames.get(key), shsystem, this); //'key' is the ID of the house
 				middleLayout.addComponent(houses[i]);
 				middleLayout.setComponentAlignment(houses[i], Alignment.TOP_LEFT);
 				i++;
@@ -260,6 +260,10 @@ public class AdminView extends HorizontalLayout implements View{
 	// Palauttaa valitun käyttäjän
 	public String getSelectedUser(){
 		return (String)userSelect.getValue();
+	}
+	
+	public ComboBox getComboBox(){
+		return userSelect;
 	}
 	
 	@Override
