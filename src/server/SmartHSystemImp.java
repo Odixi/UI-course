@@ -86,6 +86,16 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	public ArrayList<String> getUsernames() throws RemoteException {
 		return userHandler.getUsernameList();
 	}
+	
+	public Hashtable<String, Boolean> getUserView(String userID) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setUserView(Hashtable<String, Boolean> userView) throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
 
 	
 	// • • • • • • • • ADMINS • • • • • • • • •
@@ -138,6 +148,7 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		return list;
 	//	return null;
 	}
+
 
 
 	
