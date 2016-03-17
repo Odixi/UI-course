@@ -36,15 +36,15 @@ public class Sensor extends SmartItem {
 		this.sensorType = type;
 		
 		switch (sensorType) {
-				//TODO
-				//Set default values;
-				//Set maxValue & minValue
-		
+				
 			case TEMPERATURE:
 				sensorUnit = SensorUnit.CELCIUS;
-				//Set maxValue & minValue
+				maxValue = 150;
+				minValue = -50;
 			case HUMIDITY:
 				sensorUnit = SensorUnit.HUMIDITYPERCENT;
+				maxValue = 100;
+				minValue = 0;
 				
 			case LIGHT:
 				sensorUnit = SensorUnit.LUMEN;

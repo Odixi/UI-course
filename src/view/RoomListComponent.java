@@ -99,7 +99,7 @@ public class RoomListComponent extends CustomComponent {
 							roomLayouts[i].setComponentAlignment(checkBoxes[i][j], Alignment.TOP_LEFT);
 							checkBoxes[i][j].addValueChangeListener(listener);
 						}
-						checkBoxes[i][j+1] = new HiddenValueCheckBox(items.get(j));
+						checkBoxes[i][j+1] = new HiddenValueCheckBox(items.get(j),items.get(j));
 						itemLayouts[i].addComponent(checkBoxes[i][j+1]);
 						itemLayouts[i].setComponentAlignment(checkBoxes[i][j+1], Alignment.TOP_LEFT);
 						checkBoxes[i][j+1].addValueChangeListener(listener);
