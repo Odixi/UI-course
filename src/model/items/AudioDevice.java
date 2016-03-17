@@ -4,11 +4,15 @@ public class AudioDevice extends Appliance {
 
 	private int volume;
 	
-	public AudioDevice(){
-		super();
+	public AudioDevice(String applianceID){
+		super(applianceID);
 		
 		//By default volume is 0.
 		this.volume = 0;
+	}
+	
+	public String getID(){
+		return super.getID();
 	}
 	
 	public int getVolume(){

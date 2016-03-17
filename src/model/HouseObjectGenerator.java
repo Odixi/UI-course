@@ -6,6 +6,9 @@ import org.w3c.dom.*;
 
 import model.house.House;
 import model.house.Room;
+import model.items.Appliance;
+import model.items.Light;
+import model.items.Sensor;
 import model.items.SmartItem;
 
 public class HouseObjectGenerator extends HouseHandler { //Or should it extend HouseHandler?
@@ -66,12 +69,39 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 		ArrayList<SmartItem> items = new ArrayList<SmartItem>();
 		
 		for(int i = 0; i < items.size(); i++){
-			
-			
-			
+			//Element is light
+			if(itemElements.get(i).hasAttribute(lightIDTag)){
+				//If light has a name
+				if(itemElements.get(i).getElementsByTagName(lightnameTag) != null){
+					
+					items.add( new Light( itemElements.get(i).getAttribute(lightIDTag), 
+							itemElements.get(i).getElementsByTagName(lightnameTag).item(0).getTextContent().trim() ));
+				} else {
+					//No name specified, light gets default name defined by Light.java
+					items.add(new Light( itemElements.get(i).getAttribute(lightIDTag)) );
+				}
+			}
+			//Element is a sensor
+			if(itemElements.get(i).hasAttribute(sensorIDTag)){
+				items.add( buildSensor(itemElements.get(i)) );
+			}
+			//Element is an appliance
+			if(itemElements.get(i).hasAttribute(applianceIDTag)){
+				items.add( buildAppliance(itemElements.get(i)) );
+			}
 		}
-		
+	
 		return items;
+	}
+	
+	public Sensor buildSensor(Element sensorElement){
+		
+		
+		return null;
+	}
+	
+	public Appliance buildAppliance(Element applianceElement){
+		return null;
 	}
 	
 }

@@ -2,11 +2,20 @@ package model.items;
 
 public class Light extends SmartItem {
 	
+	private final String defaultname = "Light";
 	private String lightname;
 	private boolean on;
 	
 	public Light(String lightID){
 		super(lightID);
+		this.lightname = defaultname;
+		//Light is off by default. Saving the environment you know.
+		this.on = false;
+	}
+	
+	public Light(String lightID, String lightname){
+		super(lightID);
+		this.lightname = lightname;
 		//Light is off by default. Saving the environment you know.
 		this.on = false;
 	}
