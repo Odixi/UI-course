@@ -50,8 +50,24 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 		ArrayList<Element> houseElements = super.getHouseElements();
 		ArrayList<House> houses = new ArrayList<House>();
 		
-		//Create rooms
+		for(int i = 0; i < houseElements.size(); i++ ){
+			if( houseElements.get(i).hasAttribute(houseIDTag) ){
+				String id = houseElements.get(i).getAttribute(houseIDTag);
+				
+				//Check if the house has a name 
+				if( houseElements.get(i).getElementsByTagName(housenameTag) != null){
+					String name = houseElements.get(i).getElementsByTagName(housenameTag).item(0).getTextContent();
+					houses.add( new House(id, name) );
+				} else {
+					houses.add( new House(id, "House "+i) );
+				}
+			} 
+		}
 		
+		//Create rooms
+		for(int i = 0; i < houses.size(); i++){
+			houses.get(i).setRooms( buildRooms(houses.get(i).getID() ));
+		}
 		
 		//return
 	}
@@ -61,8 +77,16 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 		ArrayList<Element> roomElements = super.getRoomElements(houseID);
 		ArrayList<Room> rooms = new ArrayList<Room>();
 		
-		//Create items
+		for(int i = 0; i < roomElements.size(); i++ ){
+			if( roomElements.get(i).hasAttribute(roomIDTag) ){
+				rooms.add( new Room(roomElements.get(i).getAttribute(roomIDTag)) );
+			}
+		}
 		
+		//Create items
+		for(int i = 0; i < rooms.size(); i++ ){
+			rooms.get(i).setItems( buildItems(houseID, rooms.get(i).getID()) );
+		}
 		
 		return rooms;
 	}
