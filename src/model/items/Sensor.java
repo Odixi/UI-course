@@ -1,8 +1,7 @@
 package model.items;
 
 public class Sensor extends SmartItem {
-	
-	private String sensorName;
+
 	private SensorType sensorType;
 	private SensorUnit sensorUnit;
 	private double sensorValue;
@@ -15,6 +14,8 @@ public class Sensor extends SmartItem {
 		super(sensorID);
 	}
 	
+	//These two other constructors are pretty much useless.
+	
 	public Sensor(String sensorID, SensorType type){
 		super(sensorID);
 		setSensorType(type);
@@ -22,7 +23,7 @@ public class Sensor extends SmartItem {
 	
 	public Sensor(String sensorID, String sensorName, SensorType type){
 		super(sensorID);
-		this.sensorName = sensorName;	
+		super.setName(sensorName);	
 		setSensorType(type);
 	} //constructor
 
@@ -31,7 +32,33 @@ public class Sensor extends SmartItem {
 	}
 
 	//--------- SENSOR NAME ----------------
+
+	public void setDefaultName(){
+		switch(sensorType) {
+		case TEMPERATURE:
+			super.setName("Temperature sensor");;
+		case HUMIDITY:
+			super.setName("Humidity sensor");;
+		case LIGHT:
+			super.setName("Light sensor");
+		}
+	}
 	
+	public String getSensorName(){
+		return super.getName();
+	}
+	
+	// >>>> IMPORTANT: Please do not call this method straight from the client. It fill fuck things up as changes are not made to XML.
+	public void setSensorName(String newSensorName){
+		super.setName(newSensorName);
+	}
+	
+	//--------- SENSOR TYPE ----------------
+
+	public SensorType getSensorType() {
+		return sensorType;
+	}
+
 	public void setSensorType(SensorType type){
 		this.sensorType = type;
 		
@@ -51,32 +78,6 @@ public class Sensor extends SmartItem {
 		}	
 	}
 	
-	public void setDefaultName(){
-		switch(sensorType) {
-		case TEMPERATURE:
-			sensorName = "Temperature sensor";
-		case HUMIDITY:
-			sensorName = "Humidity sensor";
-		case LIGHT:
-			sensorName = "Light sensor";
-		}
-	}
-	
-	public String getSensorName(){
-		return sensorName;
-	}
-	
-	// >>>> IMPORTANT: Please do not call this method straight from the client. It fill fuck things up as changes are not made to XML.
-	public void setSensorName(String newSensorName){
-		sensorName = newSensorName;
-	}
-	
-	//--------- SENSOR TYPE ----------------
-	
-	public SensorType getSensorType() {
-		return sensorType;
-	}
-
 	//--------- SENSOR MEASURING UNIT ----------------
 	
 	public SensorUnit getSensorUnit() {
