@@ -58,6 +58,9 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 				//Check if the house has a name 
 				if( houseElements.get(i).getElementsByTagName(housenameTag) != null){
 					String name = houseElements.get(i).getElementsByTagName(housenameTag).item(0).getTextContent();
+					
+					System.out.println("TEST PRINT:" + name);
+					
 					houses.add( new House(id, name) );
 				} else {
 					houses.add( new House(id, "House "+i) );

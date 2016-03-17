@@ -3,7 +3,7 @@
    <!--  EXAMPLE HOUSE -->
         
   <house houseID="h001">
-      <houseName>houseName</houseName>
+      <houseName>First House</houseName>
       <room roomID="h001r101">
            <roomName>Hall</roomName>
            <light lightID="h1r101L001">
@@ -42,7 +42,7 @@
   <!-- HOUSE 2 -->
   
   <house houseID="h002">
-        <houseName>House 2</houseName>
+        <houseName>Cool House</houseName>
         
         <room roomID="h002001">
             <roomName>Hall</roomName>
