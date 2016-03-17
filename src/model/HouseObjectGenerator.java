@@ -63,6 +63,7 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 		
 		//Create items
 		
+		
 		return rooms;
 	}
 	

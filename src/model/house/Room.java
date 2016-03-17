@@ -9,18 +9,42 @@ import model.items.SmartItem;
 
 public class Room {
 
+	private String name;
+	private final String roomID; 
+	
 	private ArrayList<SmartItem> items;
 	
-	public Room(){
-		
+	//--------- CONSTUCTORS --------------------------
+	
+	public Room(String roomID){
+		this.roomID = roomID;
 	}
 	
-	//---------- SET ITEMS ----------------
+	public Room(String roomID, String name){
+		this.roomID = roomID;
+		this.name = name;
+	}
+	
+	//----------- ID & NAME ---------------------
+	
+	public String getID(){
+		return roomID;
+	}
+	
+	public void setName(String name){
+		this.name = name;
+	}
+	
+	public String getName(){
+		return name;
+	}
+	
+	//---------- SET & GET ITEMS ----------------
+	
 	public void setItems(ArrayList<SmartItem> items){
 		this.items = items;
 	}
-	
-	//---------- GET ITEMS ----------------
+
 	public ArrayList<SmartItem> getItems(){
 		return items;
 	}
@@ -37,7 +61,6 @@ public class Room {
 		return lights;
 	}
 	
-	
 	//---------- GET SENSORS ----------------
 	public ArrayList<Sensor> getSensors(){
 		ArrayList<Sensor> sensors = new ArrayList<Sensor>();
@@ -49,7 +72,6 @@ public class Room {
 		}
 		return sensors;
 	}
-	
 	
 	//---------- GET APPLIANCES ----------------
 	public ArrayList<Appliance> getAppliances(){

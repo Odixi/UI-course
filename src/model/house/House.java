@@ -4,20 +4,36 @@ import java.util.ArrayList;
 
 public class House {
 
+	private String name;
+	private final String houseID;
 	private ArrayList<Room> rooms;
-	private int numberOfRooms; // Does the number of rooms need to change?
+
+	//--------- CONSTRUCTORS -------------
 	
-	
-	public House(int numberOfRooms){
-		//numberOfRooms > 0 	
-		this.numberOfRooms = numberOfRooms;
-		
+	public House(String houseID){
+		this.houseID = houseID;
 	}
 	
-	public House(){
-		
+	public House(String houseID, String name){
+		this.houseID = houseID;
+		this.name = houseID;
 	}
 	
+	//----------- NAME & ID---------------
+	
+	public void setName(String name){
+		this.name = name;
+	}
+	
+	public String getName(){
+		return name;
+	}
+	
+	public String getID(){
+		return houseID;
+	}
+	
+	//------- ROOMS ------------------
 	
 	public void setRooms(ArrayList<Room> rooms){
 		this.rooms = rooms;
