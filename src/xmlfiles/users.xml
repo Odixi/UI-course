@@ -25,10 +25,14 @@
     </user>
     <user userID="mars001">
         <username>MarkWatney</username>
-        <password>StayingAlive</password>
+        <password>DiscoIsTheBest</password>
     </user>
     <user userID="FREE4EVER">
         <username>Dobby</username>
         <password>dobbyisfree</password>
+    </user>
+<user userID="f762f41f-e937-4f1a-be2d-b4465dd25bc7">
+        <username>Gandalf</username>
+        <password>password</password>
     </user>
 </users>

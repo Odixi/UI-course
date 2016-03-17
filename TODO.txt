@@ -5,6 +5,9 @@ BACKEND:
 FIX:
 - changePassword: null check, return boolean
 
+IMPORTANT: ViewHandler:
+		- Tie viewID to the view in UI
+
 Sensor.java
 	Add:
 	- decide and implement min & max values for all measuring units

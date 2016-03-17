@@ -7,6 +7,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import com.gargoylesoftware.htmlunit.javascript.host.dom.Node;
+
 public class ViewHandler extends XMLHandler {
 
 	private String filepath = "src/xmlfiles/views.xml";
@@ -15,6 +17,8 @@ public class ViewHandler extends XMLHandler {
 	private NodeList viewNodeList;
 	
 	// >>> XML tags
+	
+	private static final String inView = "inView";
 	
 	private static final String viewTag = "view";	
 	private static final String viewIDTag = "viewID";
@@ -74,16 +78,38 @@ public class ViewHandler extends XMLHandler {
 		Hashtable<String, Boolean> userView = new Hashtable<String, Boolean>();
 		
 		//Iterate through views, find userID == userIDTag.getTextContent();
-		
-		//Iterate through houses
-			//inView = true/false?
-		
-			//Rooms
-				
+		if( userHasView(userID) ){
+
+			Element view = getViewElement(userID);
+			
+			ArrayList<Element> houseElements = getHouseElements(view);
+			//Iterate through houses
+			for(int i = 0; i < houseElements.size(); i++){
 				//inView = true/false?
-		
-				//Lights, sensors and appliance
-					//inView = true/false?
+				if(houseElements.get(i).getAttribute(houseIDTag) != null && houseElements.get(i).getAttribute(inView) != null){
+					
+					//Add house info (ID, inView) to hashtable 
+					userView.put(houseElements.get(i).getAttribute(houseIDTag), parseBoolean( houseElements.get(i).getAttribute(inView).trim() ) );
+					
+					//Rooms
+					ArrayList<Element> roomElements = getRoomElements(houseElements.get(i));
+					
+					for(int j = 0; j < roomElements.size(); j++){
+						
+						//inView = true/false?
+						
+						//Lights, sensors and appliance
+						
+							//inView = true/false?
+	
+					}
+				}	
+			}				
+		} else {
+			//return list where for all: inView = false
+			
+			
+		}
 		
 		return null;
 	}
@@ -91,19 +117,79 @@ public class ViewHandler extends XMLHandler {
 	
 // o.o.o.o.o.o.o.o.o.o.o.o.o.o.o HELP METHODS o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o
 	
+	private boolean parseBoolean(String b){
+		if(b.equals("0") || b.equalsIgnoreCase("true")){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	private void updateViewNodeList(){
 		viewNodeList = viewsXML.getElementsByTagName(viewTag);
 	}
 	
-	// o o o o o o o o o o o o GET HOUSES o o o o o o o o o o o o 
-	private ArrayList<Element> getHouseElements(String viewID){
-		ArrayList<Element> houseElements = new ArrayList<Element>();
+	//Pretty studip and probably unnecessary method.
+	private boolean userHasView(String userID){
+		boolean hasView = false;
 		
+		for(int i = 0; i < viewNodeList.getLength(); i++){
+			if(viewNodeList.item(i).getNodeType() == Node.ELEMENT_NODE){
+				Element viewElement = (Element) viewNodeList.item(i);
+			
+				if(viewElement.getAttribute(userIDTag) != null && viewElement.getAttribute(userIDTag).equals(userID) ){
+					hasView = true;
+					break;
+				}
+			}
+		}
+		return hasView;	
+	}
+	
+
+	private Element getViewElement(String userID){
+		Element viewElement = null;
+		
+		for(int i = 0; i < viewNodeList.getLength(); i++){
+			if(viewNodeList.item(i).getNodeType() == Node.ELEMENT_NODE){
+				Element e = (Element) viewNodeList.item(i);
+			
+				if(e.getAttribute(userIDTag) != null && e.getAttribute(userIDTag).equals(userID) ){
+					viewElement = e;
+					break;
+				}
+			}
+		}
+		return viewElement;
+	}
+	
+	
+	// o o o o o o o o o o o o GET HOUSES o o o o o o o o o o o o 
+	private ArrayList<Element> getHouseElements(Element view){
+		ArrayList<Element> houseElements = new ArrayList<Element>();
+		updateViewNodeList();
+		
+		NodeList houses = view.getElementsByTagName(housesTag);
+		
+		//There's actually just one 'houses' element but I'm going for the more general solution just in case.
+		for(int i = 0; i < houses.getLength(); i++){
+			if(houses.item(i).getNodeType() == Node.ELEMENT_NODE){
+				NodeList houseNodes = ((Element)houses.item(i)).getElementsByTagName(houseTag);
+				
+				for(int j = 0; j < houseNodes.getLength(); j++){
+					if(houseNodes.item(i).getNodeType() == Node.ELEMENT_NODE && houseNodes.item(i) != null){
+						houseElements.add( (Element)houseNodes.item(i) );
+					}
+				}
+			}
+		}
 		return houseElements;
 	}
 	
 	// o o o o o o o o o o o o GET ROOMS o o o o o o o o o o o o 
-	
+	private ArrayList<Element> getRoomElements(Element house){
+		return null;
+	}
 	
 	
 	// o o o o o o o o o o o o GET ITEMS o o o o o o o o o o o o 
