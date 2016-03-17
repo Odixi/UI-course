@@ -75,43 +75,69 @@ public class ViewHandler extends XMLHandler {
 	//--------------- RETURN THE USERVIEW STRUCTURE --------------------
 	
 	public Hashtable<String, Boolean> getUserView(String userID){
+		
 		Hashtable<String, Boolean> userView = new Hashtable<String, Boolean>();
 		
 		//Iterate through views, find userID == userIDTag.getTextContent();
 		if( userHasView(userID) ){
 
 			Element view = getViewElement(userID);
-			
 			ArrayList<Element> houseElements = getHouseElements(view);
+			
 			//Iterate through houses
-			for(int i = 0; i < houseElements.size(); i++){
-				//inView = true/false?
-				if(houseElements.get(i).getAttribute(houseIDTag) != null && houseElements.get(i).getAttribute(inView) != null){
+			if( !houseElements.isEmpty() ){
+				for(int i = 0; i < houseElements.size(); i++){
 					
-					//Add house info (ID, inView) to hashtable 
-					userView.put(houseElements.get(i).getAttribute(houseIDTag), parseBoolean( houseElements.get(i).getAttribute(inView).trim() ) );
-					
+					//inView = true/false?
+					if(houseElements.get(i).getAttribute(houseIDTag) != null && houseElements.get(i).getAttribute(inView) != null){
+						//Add house info (ID, inView) to hashtable 
+						userView.put(houseElements.get(i).getAttribute(houseIDTag), parseBoolean( houseElements.get(i).getAttribute(inView).trim() ) );
+					}
 					//Rooms
 					ArrayList<Element> roomElements = getRoomElements(houseElements.get(i));
 					
-					for(int j = 0; j < roomElements.size(); j++){
-						
-						//inView = true/false?
-						
-						//Lights, sensors and appliance
-						
+					if( !roomElements.isEmpty() ){
+						for(int j = 0; j < roomElements.size(); j++){
+							
 							//inView = true/false?
-	
+							if(roomElements.get(i).getAttribute(roomIDTag) != null && roomElements.get(i).getAttribute(inView) != null){
+								userView.put(roomElements.get(i).getAttribute(roomIDTag), parseBoolean(roomElements.get(i).getAttribute(inView)) );
+							}
+							
+							//Lights, sensors and appliance
+							ArrayList<Element> itemElements = getItemElements( roomElements.get(j) );
+							if( !itemElements.isEmpty() ){
+								
+								for(int k = 0; k < itemElements.size(); k++){
+									//inView = true/false?
+									if(roomElements.get(k).hasAttribute(lightIDTag)){
+										if(roomElements.get(k).getAttribute(inView) != null){
+											userView.put(roomElements.get(k).getAttribute(lightIDTag), parseBoolean(roomElements.get(k).getAttribute(inView)) );
+										}	
+									} else if(roomElements.get(k).hasAttribute(sensorIDTag)){
+										if(roomElements.get(k).getAttribute(inView) != null){
+											userView.put(roomElements.get(k).getAttribute(sensorIDTag), parseBoolean(roomElements.get(k).getAttribute(inView)) );
+										}
+									} else if(roomElements.get(k).hasAttribute(applianceIDTag)){
+										if(roomElements.get(k).getAttribute(inView) != null){
+											userView.put(roomElements.get(k).getAttribute(applianceIDTag), parseBoolean(roomElements.get(k).getAttribute(inView)) );
+										}
+									}
+								}
+							}
+						}
 					}
 				}	
 			}				
 		} else {
+
+			//TODO 
 			//return list where for all: inView = false
 			
-			
+	
 		}
 		
-		return null;
+		return userView;
 	}
 	
 	
@@ -188,13 +214,46 @@ public class ViewHandler extends XMLHandler {
 	
 	// o o o o o o o o o o o o GET ROOMS o o o o o o o o o o o o 
 	private ArrayList<Element> getRoomElements(Element house){
-		return null;
+		ArrayList<Element> roomElements = new ArrayList<Element>();
+		updateViewNodeList();
+		
+		NodeList rooms = house.getElementsByTagName(roomTag);
+		
+		//There's actually just one 'houses' element but I'm going for the more general solution just in case.
+		for(int i = 0; i < rooms.getLength(); i++){
+			if(rooms.item(i).getNodeType() == Node.ELEMENT_NODE && rooms.item(i) != null){
+				roomElements.add( (Element) rooms.item(i));
+			}
+		}
+		return roomElements;
 	}
-	
 	
 	// o o o o o o o o o o o o GET ITEMS o o o o o o o o o o o o 
 	private ArrayList<Element> getItemElements(Element room){
-		return null;
+		ArrayList<Element> itemElements = new ArrayList<Element>();
+		
+		//Lights
+		NodeList lightNodes = room.getElementsByTagName(lightTag);
+		for(int i = 0; i < lightNodes.getLength(); i++){
+			if(lightNodes.item(i).getNodeType() == Node.ELEMENT_NODE && lightNodes.item(i) != null){
+				itemElements.add( (Element) lightNodes.item(i) );
+			}
+		}
+		//Sensors
+		NodeList sensorNodes = room.getElementsByTagName(sensorTag);
+		for(int i = 0; i < sensorNodes.getLength(); i++){
+			if(sensorNodes.item(i).getNodeType() == Node.ELEMENT_NODE && sensorNodes.item(i) != null){
+				itemElements.add( (Element) sensorNodes.item(i) );
+			}
+		}
+		//Appliances
+		NodeList applianceNodes = room.getElementsByTagName(applianceTag);
+		for(int i = 0; i < applianceNodes.getLength(); i++){
+			if(applianceNodes.item(i).getNodeType() == Node.ELEMENT_NODE && applianceNodes.item(i) != null){
+				itemElements.add( (Element) applianceNodes.item(i) );
+			}
+		}
+		return itemElements;
 	}
 	
 }
