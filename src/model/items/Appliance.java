@@ -2,6 +2,7 @@ package model.items;
 
 public class Appliance extends SmartItem {
 
+	private String defaultname = "Nameless appliance";
 	private boolean on;
 	
 	//CONSTRUCTOR
@@ -27,6 +28,20 @@ public class Appliance extends SmartItem {
 	
 	public boolean isON(){
 		return on;
+	}
+	
+	//--------- Name --------
+	
+	public void setDefaultname(){
+		super.setName(defaultname);
+	}
+	
+	public void setName(String name){
+		super.setName(name);
+	}
+	
+	public String getName(){
+		return super.getName();
 	}
 	
 }

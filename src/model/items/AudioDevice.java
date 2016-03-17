@@ -2,6 +2,7 @@ package model.items;
 
 public class AudioDevice extends Appliance {
 
+	private final String defaultname = "audio device";
 	private int volume;
 	
 	private static final int MAX_VOLUME = 100;
@@ -36,12 +37,27 @@ public class AudioDevice extends Appliance {
 		}
 	}
 	
+
 	public int getMaxVolume(){
 		return MAX_VOLUME;
 	}
 	
 	public int getMinVolume(){
 		return MIN_VOLUME;
+	}
+		
+	//--------- Name -------------------
+	
+	public void setName(String name){
+		super.setName(name);
+	}
+	
+	public String getName(){
+		return super.getName();
+	}
+	
+	public void setDefaultname(){
+		super.setName(defaultname);
 	}
 	
 }
