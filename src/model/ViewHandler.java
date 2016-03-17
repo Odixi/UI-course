@@ -75,7 +75,6 @@ public class ViewHandler extends XMLHandler {
 	//--------------- RETURN THE USERVIEW STRUCTURE --------------------
 	
 	public Hashtable<String, Boolean> getUserView(String userID){
-		
 		Hashtable<String, Boolean> userView = new Hashtable<String, Boolean>();
 		
 		//Iterate through views, find userID == userIDTag.getTextContent();

@@ -1,11 +1,11 @@
 package model.items;
 
-public class ElecDevice extends SmartItem {
+public class Appliance extends SmartItem {
 
 	private boolean on;
 	
 	//CONSTRUCTOR
-	public ElecDevice(){
+	public Appliance(){
 		
 		this.on = false;
 		

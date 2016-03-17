@@ -1,6 +1,6 @@
 package model.items;
 
-public class AudioDevice extends ElecDevice {
+public class AudioDevice extends Appliance {
 
 	private int volume;
 	
