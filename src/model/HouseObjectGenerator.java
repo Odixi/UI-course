@@ -9,6 +9,7 @@ import model.house.Room;
 import model.items.Appliance;
 import model.items.Light;
 import model.items.Sensor;
+import model.items.SensorType;
 import model.items.SmartItem;
 
 public class HouseObjectGenerator extends HouseHandler { //Or should it extend HouseHandler?
@@ -32,11 +33,12 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 	private static final String sensorTag = "sensor";
 	private static final String sensornameTag = "sensorName";
 	private static final String sensorIDTag = "sensorID";
+	private static final String sensorTypeTag = "sensorType";
 		//Appliances
 	private static final String applianceTag = "appliance";
 	private static final String appliancenameTag = "applianceName";
 	private static final String applianceIDTag = "applianceID";
-		
+	private static final String applianceTypeTag = "applianceType";
 	
 	public HouseObjectGenerator(){
 		super();
@@ -95,9 +97,32 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 	}
 	
 	public Sensor buildSensor(Element sensorElement){
+		//Initialize return value;
+		Sensor sensor = new Sensor(sensorElement.getAttribute(sensorIDTag));
 		
 		
-		return null;
+		//Set type
+		if(sensorElement.getElementsByTagName(sensorTypeTag) != null){
+			String type = sensorElement.getElementsByTagName(sensorTypeTag).item(0).getTextContent();
+			
+			if(type.equalsIgnoreCase("temperature")){
+				sensor.setSensorType(SensorType.TEMPERATURE);
+			} else if( type.equalsIgnoreCase("humidity") ){
+				sensor.setSensorType(SensorType.HUMIDITY);
+			} else if( type.equalsIgnoreCase("lightsensor") ){
+				sensor.setSensorType(SensorType.LIGHT);
+			}
+		}
+		
+		//Set name
+		if(sensorElement.getElementsByTagName(sensornameTag) != null){
+			//if( !sensorElement.getElementsByTagName(sensornameTag).item(0).getTextContent().isEmpty() ){
+				sensor.setSensorName( sensorElement.getElementsByTagName(sensornameTag).item(0).getTextContent() );
+			//}
+		} else {
+			sensor.setDefaultName();
+		}
+		return sensor;
 	}
 	
 	public Appliance buildAppliance(Element applianceElement){

@@ -1,7 +1,7 @@
 package model.items;
 
 public class Sensor extends SmartItem {
-
+	
 	private String sensorName;
 	private SensorType sensorType;
 	private SensorUnit sensorUnit;
@@ -10,7 +10,7 @@ public class Sensor extends SmartItem {
 	private double maxValue;	//This have to be defined for different units.
 	private double minValue;
 	
-	
+	//I'm actually using this constructor in HouseObject Generator
 	public Sensor(String sensorID){
 		super(sensorID);
 	}
@@ -36,16 +36,30 @@ public class Sensor extends SmartItem {
 		this.sensorType = type;
 		
 		switch (sensorType) {
-				//Set default values;
 				//TODO
+				//Set default values;
+				//Set maxValue & minValue
+		
 			case TEMPERATURE:
 				sensorUnit = SensorUnit.CELCIUS;
 				//Set maxValue & minValue
 			case HUMIDITY:
 				sensorUnit = SensorUnit.HUMIDITYPERCENT;
+				
 			case LIGHT:
 				sensorUnit = SensorUnit.LUMEN;
 		}	
+	}
+	
+	public void setDefaultName(){
+		switch(sensorType) {
+		case TEMPERATURE:
+			sensorName = "Temperature sensor";
+		case HUMIDITY:
+			sensorName = "Humidity sensor";
+		case LIGHT:
+			sensorName = "Light sensor";
+		}
 	}
 	
 	public String getSensorName(){
