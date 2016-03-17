@@ -45,7 +45,8 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 		super();
 	}
 	
-	public void buildHouses(){
+	//--------------- BUILD HOUSES ---------------------
+	public ArrayList<House> buildHouses(){
 		
 		ArrayList<Element> houseElements = super.getHouseElements();
 		ArrayList<House> houses = new ArrayList<House>();
@@ -70,8 +71,10 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 		}
 		
 		//return
+		return houses;
 	}
 	
+	//--------------- BUILD ROOMS ---------------------
 	public ArrayList<Room> buildRooms(String houseID){
 		
 		ArrayList<Element> roomElements = super.getRoomElements(houseID);
@@ -91,6 +94,7 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 		return rooms;
 	}
 	
+	//--------------- BUILD ITEMS ---------------------
 	public ArrayList<SmartItem> buildItems(String houseID, String roomID){
 		
 		ArrayList<Element> itemElements = super.getItemElements(houseID, roomID);
@@ -122,6 +126,7 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 		return items;
 	}
 	
+	//--------------- BUILD SENSOR ---------------------
 	public Sensor buildSensor(Element sensorElement){
 		//Initialize return value;
 		Sensor sensor = new Sensor(sensorElement.getAttribute(sensorIDTag));
@@ -150,6 +155,7 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 		return sensor;
 	}
 	
+	//--------------- BUILD APPLIANCE ---------------------
 	public Appliance buildAppliance(Element applianceElement){
 		Appliance machine = null;
 		
