@@ -204,6 +204,11 @@ public class HouseHandler extends XMLHandler {
 		return items;
 	}
 	
+	//--------------------- LIST OF LIGHTS -----------------------
+	
+	
+	
+	//
 	
 	// o-o-o-o-o-o-o-o-o HELP METHODS o-o-o-o-o-o-o-o-o-o-o-o
 	

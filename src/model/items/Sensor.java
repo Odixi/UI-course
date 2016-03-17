@@ -10,8 +10,29 @@ public class Sensor extends SmartItem {
 	private double maxValue;	//This have to be defined for different units.
 	private double minValue;
 	
-	public Sensor(String sensorName, SensorType type){
-		this.sensorName = sensorName;
+	
+	public Sensor(String sensorID){
+		super(sensorID);
+	}
+	
+	public Sensor(String sensorID, SensorType type){
+		super(sensorID);
+		setSensorType(type);
+	} //constructor
+	
+	public Sensor(String sensorID, String sensorName, SensorType type){
+		super(sensorID);
+		this.sensorName = sensorName;	
+		setSensorType(type);
+	} //constructor
+
+	public String getID(){
+		return super.getID();
+	}
+
+	//--------- SENSOR NAME ----------------
+	
+	public void setSensorType(SensorType type){
 		this.sensorType = type;
 		
 		switch (sensorType) {
@@ -25,13 +46,7 @@ public class Sensor extends SmartItem {
 			case LIGHT:
 				sensorUnit = SensorUnit.LUMEN;
 		}	
-		
-		
-		
-	} //constructor
-
-	
-	//--------- SENSOR NAME, TYPE & MEASURING UNIT ----------------
+	}
 	
 	public String getSensorName(){
 		return sensorName;
@@ -42,10 +57,14 @@ public class Sensor extends SmartItem {
 		sensorName = newSensorName;
 	}
 	
+	//--------- SENSOR TYPE ----------------
+	
 	public SensorType getSensorType() {
 		return sensorType;
 	}
 
+	//--------- SENSOR MEASURING UNIT ----------------
+	
 	public SensorUnit getSensorUnit() {
 		return sensorUnit;
 	}
@@ -56,7 +75,6 @@ public class Sensor extends SmartItem {
 		return sensorValue;
 	}
 
-	
 	/**
 	 * Returns true if the value was between set min & max (for the measuring unit) and value was therefore set successfully.
 	 * @param newValue

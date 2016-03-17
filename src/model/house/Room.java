@@ -15,6 +15,16 @@ public class Room {
 		
 	}
 	
+	//---------- SET ITEMS ----------------
+	public void setItems(ArrayList<SmartItem> items){
+		this.items = items;
+	}
+	
+	//---------- GET ITEMS ----------------
+	public ArrayList<SmartItem> getItems(){
+		return items;
+	}
+	
 	//---------- GET LIGHTS ----------------
 	public ArrayList<Light> getLights(){
 		ArrayList<Light> lights = new ArrayList<Light>();

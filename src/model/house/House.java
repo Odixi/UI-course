@@ -19,6 +19,14 @@ public class House {
 	}
 	
 	
+	public void setRooms(ArrayList<Room> rooms){
+		this.rooms = rooms;
+	}
+	
+	public ArrayList<Room> getRooms(){
+		return rooms;
+	}
+	
 	
 	
 }
