@@ -2,6 +2,7 @@ package model.items;
 
 public class AudioDevice extends Appliance {
 
+	private final String defaultname = "audio device";
 	private int volume;
 	
 	public AudioDevice(String applianceID){
@@ -32,6 +33,20 @@ public class AudioDevice extends Appliance {
 		} else {
 			return false;
 		}
+	}
+	
+	//--------- Name -------------------
+	
+	public void setName(String name){
+		super.setName(name);
+	}
+	
+	public String getName(){
+		return super.getName();
+	}
+	
+	public void setDefaultname(){
+		super.setName(defaultname);
 	}
 	
 }

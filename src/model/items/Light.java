@@ -3,19 +3,18 @@ package model.items;
 public class Light extends SmartItem {
 	
 	private final String defaultname = "Light";
-	private String lightname;
 	private boolean on;
 	
 	public Light(String lightID){
 		super(lightID);
-		this.lightname = defaultname;
+		setName(defaultname);
 		//Light is off by default. Saving the environment you know.
 		this.on = false;
 	}
 	
 	public Light(String lightID, String lightname){
 		super(lightID);
-		this.lightname = lightname;
+		setName(lightname);
 		//Light is off by default. Saving the environment you know.
 		this.on = false;
 	}
@@ -36,11 +35,11 @@ public class Light extends SmartItem {
 	//--------- Light name ------------
 	
 	public void setName(String lightname){
-		this.lightname = lightname;
+		super.setName(lightname);
 	}
 	
 	public String getName(){
-		return lightname;
+		return super.getName();
 	}
 	
 }

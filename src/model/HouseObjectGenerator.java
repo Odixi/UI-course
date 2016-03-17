@@ -7,6 +7,7 @@ import org.w3c.dom.*;
 import model.house.House;
 import model.house.Room;
 import model.items.Appliance;
+import model.items.AudioDevice;
 import model.items.Light;
 import model.items.Sensor;
 import model.items.SensorType;
@@ -100,10 +101,9 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 		//Initialize return value;
 		Sensor sensor = new Sensor(sensorElement.getAttribute(sensorIDTag));
 		
-		
 		//Set type
 		if(sensorElement.getElementsByTagName(sensorTypeTag) != null){
-			String type = sensorElement.getElementsByTagName(sensorTypeTag).item(0).getTextContent();
+			String type = sensorElement.getElementsByTagName(sensorTypeTag).item(0).getTextContent().trim();
 			
 			if(type.equalsIgnoreCase("temperature")){
 				sensor.setSensorType(SensorType.TEMPERATURE);
@@ -116,17 +116,38 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 		
 		//Set name
 		if(sensorElement.getElementsByTagName(sensornameTag) != null){
-			//if( !sensorElement.getElementsByTagName(sensornameTag).item(0).getTextContent().isEmpty() ){
-				sensor.setSensorName( sensorElement.getElementsByTagName(sensornameTag).item(0).getTextContent() );
-			//}
+			sensor.setSensorName( sensorElement.getElementsByTagName(sensornameTag).item(0).getTextContent() );
+		
 		} else {
 			sensor.setDefaultName();
 		}
+		
 		return sensor;
 	}
 	
 	public Appliance buildAppliance(Element applianceElement){
-		return null;
+		Appliance machine = null;
+		
+		//Appliance type
+		if(applianceElement.getElementsByTagName(applianceTypeTag) != null){
+			String type = applianceElement.getElementsByTagName(applianceTypeTag).item(0).getTextContent().trim();
+			
+			if(type.equalsIgnoreCase("audioDevice")){
+				machine = new AudioDevice(applianceElement.getAttribute(applianceIDTag));
+			}
+			else if(type.equalsIgnoreCase("turnOnOff")){
+				machine = new Appliance(applianceElement.getAttribute(applianceIDTag));
+			}
+		}
+		
+		//Appliance name
+		if(applianceElement.getElementsByTagName(appliancenameTag) != null){
+			machine.setName( applianceElement.getElementsByTagName(appliancenameTag).item(0).getTextContent());
+		} else {
+			machine.setDefaultname();
+		}
+		
+		return machine;
 	}
 	
 }
