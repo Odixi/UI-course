@@ -63,12 +63,16 @@ public class ViewHandler extends XMLHandler {
 	
 	public void createUserView(){	//Could also be called setUserView()
 
+		
+		
 	}
 	
 	
 	//--------------- UPDATE THE USERVIEW --------------------
 	
 	public void updateUserView(){
+		
+		
 		
 	}
 	
