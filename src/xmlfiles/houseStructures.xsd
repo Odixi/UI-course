@@ -102,5 +102,12 @@ xmlns="http://www.example.org/houseStructures" elementFormDefault="qualified">
         <xs:attribute name="applianceID" type="xs:ID" use="required"/>
     </xs:complexType>
 
-           
+    <!--  
+    <xs:simpleType name="myboolean">
+        <xs:restriction base="xs:boolean">
+            <xs:enumeration value="true"/>
+            <xs:enumeration value="false"/>
+        </xs:restriction>
+    </xs:simpleType>
+    -->
 </xs:schema>

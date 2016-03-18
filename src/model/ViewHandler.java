@@ -61,7 +61,7 @@ public class ViewHandler extends XMLHandler {
 	
 	//--------------- SAVE THE USERVIEW TO THE XML FOR THE FIRST TIME --------------------
 	
-	public void createUserView(){	//Could also be called setUserView()
+	public void createDefaultView(String userID){	//Could also be called setUserView()
 		
 		
 		
@@ -71,11 +71,103 @@ public class ViewHandler extends XMLHandler {
 	
 	//--------------- UPDATE THE USERVIEW --------------------
 	
-	public void updateUserView(){
+	public void updateUserView(String userID, Hashtable<String, Boolean> userview){
+			
+		//Iterate through views, find userID == userIDTag.getTextContent();
+		if( userHasView(userID) ){
+			
+			Element view = getViewElement(userID);
+			ArrayList<Element> houseElements = getHouseElements(view);
+			updateHouses(houseElements, userview);
+
+		} else {
+			
+			//TODO
 		
-		
-		
+		}
 	}
+	
+	//--------------- UPDATE THE HOUSES -------------------------------
+	public void updateHousesIncluded(ArrayList<Element> houseElements, Hashtable<String, Boolean> userview){
+		//Iterate through houses
+		if( !houseElements.isEmpty() ){
+			for(int i = 0; i < houseElements.size(); i++){
+				
+				//Rooms
+				ArrayList<Element> roomElements = getRoomElements(houseElements.get(i));
+				
+				//inView = true/false?
+				if(houseElements.get(i).getAttribute(houseIDTag) != null && houseElements.get(i).getAttribute(inView) != null){
+					
+					Boolean included = userview.get( houseElements.get(i).getAttribute(houseIDTag) );
+					houseElements.get(i).setAttribute(inView, included.toString());
+
+					if(included == false){
+						//TODO
+					} else if(included == true) {
+						
+					}
+				}
+			}
+		}
+	}
+	
+	//--------------- UPDATE THE ROOMS ---------------------------------
+	
+	public void updateRoomsIncluded(ArrayList<Element> roomElements, Hashtable<String, Boolean> userview){
+		
+		if( !roomElements.isEmpty() ){
+			for(int j = 0; j < roomElements.size(); j++){
+				
+				//inView = true/false?
+				if(roomElements.get(j).getAttribute(roomIDTag) != null && roomElements.get(j).getAttribute(inView) != null){
+					Boolean included = userview.get( roomElements.get(j).getAttribute(roomIDTag));
+					roomElements.get(j).setAttribute(inView, included.toString());
+				
+					ArrayList<Element> itemElements = getItemElements( roomElements.get(j) );
+					
+					if(included == false){
+						//TODO
+					}
+					else {
+						//Update the items
+						updateItemsIncluded(itemElements, userview);
+					}
+				}				
+			}
+		}
+	}
+	//--------------- UPDATE THE ITEMS --------------------------------
+							
+	public void updateItemsIncluded(ArrayList<Element> itemElements, Hashtable<String, Boolean> userview){
+		
+		//TODO
+		
+		if( !itemElements.isEmpty() ){
+			
+			for(int k = 0; k < itemElements.size(); k++){
+				//inView = true/false?
+				if(itemElements.get(k).hasAttribute(lightIDTag)){
+					if(itemElements.get(k).getAttribute(inView) != null){
+						 
+						Boolean included = userview.get( roomElements.get(j).getAttribute(roomIDTag));
+						roomElements.get(j).setAttribute(inView, included.toString());
+					}	
+				} else if(itemElements.get(k).hasAttribute(sensorIDTag)){
+					if(itemElements.get(k).getAttribute(inView) != null){
+						
+					}
+				} else if(itemElements.get(k).hasAttribute(applianceIDTag)){
+					if(itemElements.get(k).getAttribute(inView) != null){
+					}
+				}
+			}
+		} else {
+			//TODO ?
+		}
+	}
+	
+	
 	
 	//--------------- RETURN THE USERVIEW STRUCTURE --------------------
 	
@@ -114,17 +206,17 @@ public class ViewHandler extends XMLHandler {
 								
 								for(int k = 0; k < itemElements.size(); k++){
 									//inView = true/false?
-									if(roomElements.get(k).hasAttribute(lightIDTag)){
-										if(roomElements.get(k).getAttribute(inView) != null){
-											userView.put(roomElements.get(k).getAttribute(lightIDTag), parseBoolean(roomElements.get(k).getAttribute(inView)) );
+									if(itemElements.get(k).hasAttribute(lightIDTag)){
+										if(itemElements.get(k).getAttribute(inView) != null){
+											userView.put(itemElements.get(k).getAttribute(lightIDTag), parseBoolean(itemElements.get(k).getAttribute(inView)) );
 										}	
-									} else if(roomElements.get(k).hasAttribute(sensorIDTag)){
-										if(roomElements.get(k).getAttribute(inView) != null){
-											userView.put(roomElements.get(k).getAttribute(sensorIDTag), parseBoolean(roomElements.get(k).getAttribute(inView)) );
+									} else if(itemElements.get(k).hasAttribute(sensorIDTag)){
+										if(itemElements.get(k).getAttribute(inView) != null){
+											userView.put(itemElements.get(k).getAttribute(sensorIDTag), parseBoolean(itemElements.get(k).getAttribute(inView)) );
 										}
-									} else if(roomElements.get(k).hasAttribute(applianceIDTag)){
-										if(roomElements.get(k).getAttribute(inView) != null){
-											userView.put(roomElements.get(k).getAttribute(applianceIDTag), parseBoolean(roomElements.get(k).getAttribute(inView)) );
+									} else if(itemElements.get(k).hasAttribute(applianceIDTag)){
+										if(itemElements.get(k).getAttribute(inView) != null){
+											userView.put(itemElements.get(k).getAttribute(applianceIDTag), parseBoolean(itemElements.get(k).getAttribute(inView)) );
 										}
 									}
 								}
