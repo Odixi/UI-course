@@ -36,7 +36,7 @@ public class HouseHandler extends XMLHandler {
 	private static final String roomIDTag = "roomID";
 		//Lights
 	private static final String lightTag = "light";
-	private static final String lightnameTag = "ligthName";
+	private static final String lightnameTag = "lightName";
 	private static final String lightIDTag = "lightID";
 		//Sensors
 	private static final String sensorTag = "sensor";

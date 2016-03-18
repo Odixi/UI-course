@@ -28,7 +28,7 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 	private static final String roomIDTag = "roomID";
 		//Lights
 	private static final String lightTag = "light";
-	private static final String lightnameTag = "ligthName";
+	private static final String lightnameTag = "lightName";
 	private static final String lightIDTag = "lightID";
 		//Sensors
 	private static final String sensorTag = "sensor";
@@ -59,8 +59,6 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 				if( houseElements.get(i).getElementsByTagName(housenameTag) != null){
 					String name = houseElements.get(i).getElementsByTagName(housenameTag).item(0).getTextContent();
 					
-					System.out.println("TEST PRINT:" + name);
-					
 					houses.add( new House(id, name) );
 				} else {
 					houses.add( new House(id, "House "+i) );
@@ -85,7 +83,16 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 		
 		for(int i = 0; i < roomElements.size(); i++ ){
 			if( roomElements.get(i).hasAttribute(roomIDTag) ){
-				rooms.add( new Room(roomElements.get(i).getAttribute(roomIDTag)) );
+				String id = roomElements.get(i).getAttribute(roomIDTag);
+				
+				//Check if the room has a name 
+				if( roomElements.get(i).getElementsByTagName(roomnameTag) != null){
+					String name = roomElements.get(i).getElementsByTagName(roomnameTag).item(0).getTextContent();
+					
+					rooms.add( new Room(id, name) );
+				} else {
+					rooms.add( new Room(id, "Room "+i) );
+				}	
 			}
 		}
 		
@@ -103,14 +110,16 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 		ArrayList<Element> itemElements = super.getItemElements(houseID, roomID);
 		ArrayList<SmartItem> items = new ArrayList<SmartItem>();
 		
-		for(int i = 0; i < items.size(); i++){
+		for(int i = 0; i < itemElements.size(); i++){
 			//Element is light
 			if(itemElements.get(i).hasAttribute(lightIDTag)){
+				
 				//If light has a name
 				if(itemElements.get(i).getElementsByTagName(lightnameTag) != null){
 					
-					items.add( new Light( itemElements.get(i).getAttribute(lightIDTag), 
-							itemElements.get(i).getElementsByTagName(lightnameTag).item(0).getTextContent().trim() ));
+					items.add( new Light( itemElements.get(i).getAttribute(lightIDTag),
+							itemElements.get(i).getElementsByTagName(lightnameTag).item(0).getTextContent()));
+			
 				} else {
 					//No name specified, light gets default name defined by Light.java
 					items.add(new Light( itemElements.get(i).getAttribute(lightIDTag)) );
@@ -122,6 +131,7 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 			}
 			//Element is an appliance
 			if(itemElements.get(i).hasAttribute(applianceIDTag)){
+				
 				items.add( buildAppliance(itemElements.get(i)) );
 			}
 		}

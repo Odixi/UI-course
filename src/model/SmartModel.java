@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import model.HouseObjectGenerator;
 import model.house.House;
 import model.house.Room;
+import model.items.SmartItem;
 /*
  * Logiikan käsittely
  */
@@ -38,6 +39,14 @@ public class SmartModel {
 			for(Room room : rooms){
 				System.out.println("Roomname: " + room.getName() + ", roomID: " + room.getID());
 
+				ArrayList<SmartItem> items = room.getItems();
+				
+				System.out.println("items-list length: " + items.size());
+				
+				for(SmartItem item : items){
+					System.out.println("Itemname: " + item.getName() + ", itemID: " + item.getID()); 
+				}
+				
 			}
 		}
 		

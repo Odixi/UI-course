@@ -16,7 +16,7 @@ public class House {
 	
 	public House(String houseID, String name){
 		this.houseID = houseID;
-		this.name = houseID;
+		this.name = name;
 	}
 	
 	//----------- NAME & ID---------------
