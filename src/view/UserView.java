@@ -47,10 +47,11 @@ public class UserView extends VerticalLayout implements View{
     	
         //setHeight(ui.getCurrent().getPage().getBrowserWindowHeight(), Unit.PIXELS);
 		
-		String houseNow= new String ("Talo1");
+		String houseNow= "Cool House";
+		String houseIDNow="h002";
        
         //Luodaan pohja leiskaan tulevat vaakaleiskat
-        HorizontalLayout navigation = new HorizontalLayout();
+		HorizontalLayout navigation = new HorizontalLayout();
         //navigation.setHeight("20%");
         navigation.setWidth("100%");
       
@@ -99,7 +100,15 @@ public class UserView extends VerticalLayout implements View{
 
         houseSelect.addItems(homes.values());
         
+        houseSelect.addValueChangeListener(e -> //Notification.show("Value changed:"+
+                //String.valueOf(e.getProperty().getValue())),
+        		houseNow = (String) e.getProperty().getValue()
+        		);
+                
 
+        
+        
+        
         Button logOut= new Button("LogOut",new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
@@ -119,7 +128,7 @@ public class UserView extends VerticalLayout implements View{
 		Hashtable<String, String> roomNames = new Hashtable<String, String>();
         
         try {
-			roomNames = shsystem.getRoomNames(houseNow);
+			roomNames = shsystem.getRoomNames(houseIDNow);
 		} catch (RemoteException e) {e.printStackTrace();}
 		
 		topics.addComponent(new Label ("Rooms"));
