@@ -2,12 +2,15 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.UUID;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import com.gargoylesoftware.htmlunit.javascript.host.dom.Node;
+
+import model.house.Room;
 
 public class ViewHandler extends XMLHandler {
 
@@ -62,9 +65,12 @@ public class ViewHandler extends XMLHandler {
 	//--------------- SAVE THE USERVIEW TO THE XML FOR THE FIRST TIME --------------------
 	
 	public void createDefaultView(String userID){	//Could also be called setUserView()
+		Element view = viewsXML.createElement(viewTag);
+		view.setAttribute(viewIDTag, UUID.randomUUID().toString());
+		rootElement.appendChild(view);
 		
-		
-		
+		//User
+	
 		
 	}
 	
@@ -78,12 +84,11 @@ public class ViewHandler extends XMLHandler {
 			
 			Element view = getViewElement(userID);
 			ArrayList<Element> houseElements = getHouseElements(view);
-			updateHouses(houseElements, userview);
+			updateHousesIncluded(houseElements, userview);
 
 		} else {
-			
 			//TODO
-		
+			
 		}
 	}
 	
@@ -103,9 +108,11 @@ public class ViewHandler extends XMLHandler {
 					houseElements.get(i).setAttribute(inView, included.toString());
 
 					if(included == false){
-						//TODO
-					} else if(included == true) {
 						
+						//TODO ?
+						
+					} else if(included == true) {
+						updateRoomsIncluded(roomElements, userview);
 					}
 				}
 			}
@@ -127,7 +134,9 @@ public class ViewHandler extends XMLHandler {
 					ArrayList<Element> itemElements = getItemElements( roomElements.get(j) );
 					
 					if(included == false){
-						//TODO
+						//If the room is not included in the view, the items in it can't be either
+						itemsNotIncluded(itemElements);
+						
 					}
 					else {
 						//Update the items
@@ -140,9 +149,7 @@ public class ViewHandler extends XMLHandler {
 	//--------------- UPDATE THE ITEMS --------------------------------
 							
 	public void updateItemsIncluded(ArrayList<Element> itemElements, Hashtable<String, Boolean> userview){
-		
-		//TODO
-		
+
 		if( !itemElements.isEmpty() ){
 			
 			for(int k = 0; k < itemElements.size(); k++){
@@ -150,15 +157,21 @@ public class ViewHandler extends XMLHandler {
 				if(itemElements.get(k).hasAttribute(lightIDTag)){
 					if(itemElements.get(k).getAttribute(inView) != null){
 						 
-						Boolean included = userview.get( roomElements.get(j).getAttribute(roomIDTag));
-						roomElements.get(j).setAttribute(inView, included.toString());
+						Boolean included = userview.get( itemElements.get(k).getAttribute(lightIDTag));
+						itemElements.get(k).setAttribute(inView, included.toString());
 					}	
 				} else if(itemElements.get(k).hasAttribute(sensorIDTag)){
 					if(itemElements.get(k).getAttribute(inView) != null){
 						
+						Boolean included = userview.get( itemElements.get(k).getAttribute(sensorIDTag));
+						itemElements.get(k).setAttribute(inView, included.toString());
+						
 					}
 				} else if(itemElements.get(k).hasAttribute(applianceIDTag)){
 					if(itemElements.get(k).getAttribute(inView) != null){
+						
+						Boolean included = userview.get( itemElements.get(k).getAttribute(applianceIDTag));
+						itemElements.get(k).setAttribute(inView, included.toString());
 					}
 				}
 			}
@@ -167,7 +180,53 @@ public class ViewHandler extends XMLHandler {
 		}
 	}
 	
+	// <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 	
+	//--------------- SET HOUSES NOT INCLUDE IN VIEW -------------------------------
+	public void housesNotIncluded(ArrayList<Element> houseElements){
+		//Iterate through houses
+		if( !houseElements.isEmpty() ){
+			for(int i = 0; i < houseElements.size(); i++){
+				//inView = true/false?
+				if(houseElements.get(i).getAttribute(houseIDTag) != null && houseElements.get(i).getAttribute(inView) != null){
+
+					houseElements.get(i).setAttribute(inView, "false");
+				}
+			}
+		}
+	}
+	
+	//-------------------- SET ROOMS NOT INCLUDED IN VIEW ---------------------------------
+	
+	public void roomsNotIncluded(ArrayList<Element> roomElements){
+		
+		if( !roomElements.isEmpty() ){
+			for(int j = 0; j < roomElements.size(); j++){
+				
+				//inView = true/false?
+				if(roomElements.get(j).getAttribute(roomIDTag) != null && roomElements.get(j).getAttribute(inView) != null){
+					roomElements.get(j).setAttribute(inView, "false");
+				}				
+			}
+		}
+	}
+	//-------------------- SET ITEMS NOT INCLUDED IN VIEW --------------------------------
+	
+	public void itemsNotIncluded(ArrayList<Element> itemElements){
+
+		if( !itemElements.isEmpty() ){
+			
+			for(int k = 0; k < itemElements.size(); k++){
+				if(itemElements.get(k).getAttribute(inView) != null){
+					itemElements.get(k).setAttribute(inView, "false");
+				}	
+			}
+		} else {
+			//TODO ?
+		}
+	}
+
+	// <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 	
 	//--------------- RETURN THE USERVIEW STRUCTURE --------------------
 	

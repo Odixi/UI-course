@@ -29,7 +29,7 @@ xmlns="http://www.example.org/houseStructures" elementFormDefault="qualified">
             <xs:element name="houseName" type="xs:string"/>
             <xs:element name="room" type="roomType" minOccurs="1" maxOccurs="unbounded" />
         </xs:sequence>
-        <xs:attribute name="inView" type="xs:boolean"/>
+        <xs:attribute name="inView" type="xs:boolean" use="optional"/>
         <xs:attribute name="houseID" type="xs:ID" use="required"/>
     </xs:complexType>
 
@@ -42,7 +42,7 @@ xmlns="http://www.example.org/houseStructures" elementFormDefault="qualified">
             <xs:element name="sensor" type="sensorType" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="appliance" type="applianceType" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
-        <xs:attribute name="inView" type="xs:boolean" />
+        <xs:attribute name="inView" type="xs:boolean" use="optional"/>
         <xs:attribute name="roomID" type="xs:ID" use="required"/>
     </xs:complexType>
     
@@ -64,7 +64,7 @@ xmlns="http://www.example.org/houseStructures" elementFormDefault="qualified">
                 </xs:simpleType>
             </xs:element>
         </xs:sequence>
-        <xs:attribute name="inView" type="xs:boolean" />
+        <xs:attribute name="inView" type="xs:boolean" use="optional"/>
         <xs:attribute name="sensorID" type="xs:ID" use="required"/>
     </xs:complexType>
   
@@ -77,7 +77,7 @@ xmlns="http://www.example.org/houseStructures" elementFormDefault="qualified">
             <!-- Does light need more information? Dimmable or not maybe? Colour change possible? -->
             
         </xs:sequence>
-        <xs:attribute name="inView" type="xs:boolean" />
+        <xs:attribute name="inView" type="xs:boolean" use="optional"/>
         <xs:attribute name="lightID" type="xs:ID" use="required" />
     </xs:complexType>
   
@@ -98,16 +98,8 @@ xmlns="http://www.example.org/houseStructures" elementFormDefault="qualified">
                 </xs:simpleType>
             </xs:element>
         </xs:sequence>
-        <xs:attribute name="inView" type="xs:boolean" />
+        <xs:attribute name="inView" type="xs:boolean" use="optional"/>
         <xs:attribute name="applianceID" type="xs:ID" use="required"/>
     </xs:complexType>
 
-    <!--  
-    <xs:simpleType name="myboolean">
-        <xs:restriction base="xs:boolean">
-            <xs:enumeration value="true"/>
-            <xs:enumeration value="false"/>
-        </xs:restriction>
-    </xs:simpleType>
-    -->
 </xs:schema>
