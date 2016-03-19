@@ -34,6 +34,8 @@ public class UserView extends VerticalLayout implements View{
 	
 	//Attributes
 	private SmartHSystem shsystem;
+	String houseNow = new String();
+	String houseIDNow = new String();
  
     public UserView(SmartUI ui, SmartHSystem shsystem){
     	
@@ -47,8 +49,10 @@ public class UserView extends VerticalLayout implements View{
     	
         //setHeight(ui.getCurrent().getPage().getBrowserWindowHeight(), Unit.PIXELS);
 		
-		String houseNow= "Cool House";
-		String houseIDNow="h002";
+		houseNow="Frist House";
+		houseIDNow="h001";
+		
+
        
         //Luodaan pohja leiskaan tulevat vaakaleiskat
 		HorizontalLayout navigation = new HorizontalLayout();
@@ -100,15 +104,11 @@ public class UserView extends VerticalLayout implements View{
 
         houseSelect.addItems(homes.values());
         
-        houseSelect.addValueChangeListener(e -> //Notification.show("Value changed:"+
-                //String.valueOf(e.getProperty().getValue())),
+        houseSelect.addValueChangeListener(e -> 
         		houseNow = (String) e.getProperty().getValue()
         		);
                 
 
-        
-        
-        
         Button logOut= new Button("LogOut",new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
@@ -223,6 +223,8 @@ public class UserView extends VerticalLayout implements View{
         addComponent(houseManager);
        
         setComponentAlignment(houseManager, Alignment.MIDDLE_CENTER);
+        
+        
         
     }
        
