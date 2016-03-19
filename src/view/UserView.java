@@ -84,7 +84,7 @@ public class UserView extends VerticalLayout implements View{
         
      // ----- Kodin valinta----- //   
         ComboBox houseSelect = new ComboBox();
-        houseSelect.setInputPrompt("Change home");
+        houseSelect.setInputPrompt("Change homw");
         houseSelect.setFilteringMode(FilteringMode.CONTAINS);
         houseSelect.setTextInputAllowed(false);
         houseSelect.setNullSelectionAllowed(false);
@@ -99,11 +99,11 @@ public class UserView extends VerticalLayout implements View{
         houseSelect.addItems(homes.values());
         
 
-        viewBuilder vB=new viewBuilder();
-        houseSelect.addValueChangeListener(e ->
+       viewBuilder vB=new viewBuilder();
+       houseSelect.addValueChangeListener(e ->
         		addComponent(vB.houseViewer((String) e.getProperty().getValue(), houseIDNow, shsystem))
         		);
-                
+        
 
         Button logOut= new Button("LogOut",new Button.ClickListener() {
             @Override
