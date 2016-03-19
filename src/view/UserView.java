@@ -1,9 +1,3 @@
-/*TO DO
- * 
- * Kunt taloa vaihdetaan, niin houseNow:n pit�� vaihtua
- * 
- */
-
 package view;
  
 import java.rmi.RemoteException;
@@ -104,6 +98,7 @@ public class UserView extends VerticalLayout implements View{
 
         houseSelect.addItems(homes.values());
         
+
         houseSelect.addValueChangeListener(e -> 
         		houseNow = (String) e.getProperty().getValue()
         		);
@@ -123,6 +118,7 @@ public class UserView extends VerticalLayout implements View{
         
        
  //---------------------Paneelin sis�lt� ----------------------------------  
+       
         
         //ArrayList<String> roomNames = new ArrayList<String>();
 		Hashtable<String, String> roomNames = new Hashtable<String, String>();
@@ -136,7 +132,7 @@ public class UserView extends VerticalLayout implements View{
 		rooms.addComponent(new Label(""));
 		for(String value : roomNames.values()){
 			String currentRoomString = roomNames.get(value);
-			Label currentRoom = new Label (currentRoomString);
+			Label currentRoom = new Label (currentRoomString+" id "+value);   //welll, here's something that needs to be changed
 			topics.addComponent(currentRoom);
 		}
 		for(String value : roomNames.values()){					//This probably needs to change a little...
@@ -205,7 +201,7 @@ public class UserView extends VerticalLayout implements View{
 			moreButton.setIcon(FontAwesome.PLUS);
 			rooms.addComponent(moreButton);
 		}
-	
+        
                
         
         //Lis�t��n n�m� paneelin layouttiin
@@ -217,6 +213,7 @@ public class UserView extends VerticalLayout implements View{
         rooms.setSizeFull();
         
         houseManager.setContent(managerLayout);
+        
        
         //Lopuksi lisätään nää kaikki oikeassa järjestyksessä layouttiin
         addComponent(navigation);
@@ -224,7 +221,7 @@ public class UserView extends VerticalLayout implements View{
        
         setComponentAlignment(houseManager, Alignment.MIDDLE_CENTER);
         
-        
+       
         
     }
        
