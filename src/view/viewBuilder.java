@@ -23,51 +23,23 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Slider;
 import com.vaadin.server.FontAwesome;
- 
-public class UserView extends VerticalLayout implements View{
-	
-	//Attributes
-	private SmartHSystem shsystem;
-	String houseNow = new String();
-	String houseIDNow = new String();
- 
-    public UserView(SmartUI ui, SmartHSystem shsystem){
-    	
-    	super();
-		
-		//For RMI calls
-		this.shsystem = shsystem;
-		
-		setMargin(true);
-		setSpacing(true);
-    	
-        //setHeight(ui.getCurrent().getPage().getBrowserWindowHeight(), Unit.PIXELS);
-		
-		houseNow="Frist House";
-		houseIDNow="h001";
-		
 
-       
-        //Luodaan pohja leiskaan tulevat vaakaleiskat
-		HorizontalLayout navigation = new HorizontalLayout();
-        //navigation.setHeight("20%");
-        navigation.setWidth("100%");
-      
-       
-        Panel houseManager= new Panel("");
+public class viewBuilder {
+	
+	
+	public Panel houseViewer(String houseNow, String houseIDNow, SmartHSystem shsystem){
+		Panel houseManager= new Panel("");
     	VerticalLayout managerLayout = new VerticalLayout();
     	managerLayout.setSpacing(true);
     	managerLayout.setMargin(true);
     	
-    	houseManager.setWidth(ui.getCurrent().getPage().getBrowserWindowWidth()*0.8f, Unit.PIXELS);
+    	houseManager.setWidth(800f, Unit.PIXELS);
     	houseManager.setHeight(500f, Unit.PIXELS);
     	
     	managerLayout.setHeight(houseManager.getHeight()*0.95f, Unit.PIXELS);
     	managerLayout.setWidth(houseManager.getWidth()*0.95f, Unit.PIXELS);
     	
-    	
-// ---------Vaakaleiskat jotka voidaan lis�t� paneeliin----------------------        
-        HorizontalLayout topics = new HorizontalLayout();
+    	HorizontalLayout topics = new HorizontalLayout();
         topics.setHeight(houseManager.getHeight(), Unit.PIXELS);
         topics.setWidth(houseManager.getWidth(), Unit.PIXELS);
        
@@ -78,51 +50,9 @@ public class UserView extends VerticalLayout implements View{
         HorizontalLayout rooms = new HorizontalLayout();
         rooms.setHeight(houseManager.getHeight(), Unit.PIXELS);
         rooms.setWidth(houseManager.getWidth(), Unit.PIXELS);
-       
     	
-
-        
-     // ----- Kodin valinta----- //   
-        ComboBox houseSelect = new ComboBox();
-        houseSelect.setInputPrompt("Change home");
-        houseSelect.setFilteringMode(FilteringMode.CONTAINS);
-        houseSelect.setTextInputAllowed(false);
-        houseSelect.setNullSelectionAllowed(false);
-        
-        //ArrayList<String> homes = new ArrayList<String>();
-        Hashtable<String, String> homes = new Hashtable<String, String>();  
-        
-		try {
-			homes = shsystem.getHouseNames();
-		} catch (RemoteException e) {e.printStackTrace();}
-
-        houseSelect.addItems(homes.values());
-        
-
-        viewBuilder vB=new viewBuilder();
-        houseSelect.addValueChangeListener(e ->
-        		addComponent(vB.houseViewer((String) e.getProperty().getValue(), houseIDNow, shsystem))
-        		);
-                
-
-        Button logOut= new Button("LogOut",new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                ui.getNavigator().navigateTo(ui.LOGINVIEW);
-            }
-        });
-        logOut.setIcon(FontAwesome.SIGN_OUT);
-        navigation.addComponent(houseSelect);
-        navigation.setComponentAlignment(houseSelect, Alignment.MIDDLE_LEFT);
-        navigation.addComponent(logOut);
-        navigation.setComponentAlignment(logOut, Alignment.MIDDLE_RIGHT);
-        
-       
- //---------------------Paneelin sis�lt� ----------------------------------  
-       
-        
-        //ArrayList<String> roomNames = new ArrayList<String>();
-		Hashtable<String, String> roomNames = new Hashtable<String, String>();
+    	
+        Hashtable<String, String> roomNames = new Hashtable<String, String>();
         
         try {
 			roomNames = shsystem.getRoomNames(houseIDNow);
@@ -216,22 +146,10 @@ public class UserView extends VerticalLayout implements View{
         houseManager.setContent(managerLayout);
         
        
-        //Lopuksi lisätään nää kaikki oikeassa järjestyksessä layouttiin
-        addComponent(navigation);
-        addComponent(houseManager);
-       
-        setComponentAlignment(houseManager, Alignment.MIDDLE_CENTER);
         
-       
+        return houseManager;
         
-    }
-       
-    @Override
-    public void enter(ViewChangeEvent event) {
-        // TODO Auto-generated method stub
-        Notification.show("userview");
-       
-    }
-   
- 
+	}
+	
+
 }
