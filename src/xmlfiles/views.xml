@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<views xmlns="http://www.example.org/views" xmlns:p="http://www.example.org/houseStructures" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/views views.xsd ">
+  <view viewID="idvalue0">
+    <user userID="idvalue1"/>
+    <houses>
+      <house houseID="idvalue2">
+        <p:houseName>p:houseName</p:houseName>
+        <p:room roomID="idvalue3">
+          <p:roomName>p:roomName</p:roomName>
+        </p:room>
+      </house>
+    </houses>
+  </view>
+</views>
