@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 import model.UserAccountHandler;
+import model.ViewHandler;
 import model.HouseHandler;
 import model.AdminAccountHandler;
 
@@ -19,9 +20,11 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 
 	private static final long serialVersionUID = -4915065514625313433L;
 	
+	//Handlers
 	private UserAccountHandler userHandler;
 	private AdminAccountHandler adminHandler;
 	private HouseHandler houseHandler;
+	private ViewHandler viewHandler;
 	
 	public SmartHSystemImp() throws RemoteException {
 		super();
@@ -34,6 +37,8 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		adminHandler = new AdminAccountHandler();
 		//Create house handler
 		houseHandler = new HouseHandler();
+		//ViewHandler
+		viewHandler = new ViewHandler(houseHandler);
 		
 	} //constructor
 
@@ -48,7 +53,7 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		for(String key : roomnames.keySet()){
 			System.out.println("Room: " + roomnames.get(key) + " ID: " + key);
 		}
-		
+
 		/*
 		Hashtable<String, String> housenames = getHouseNames();
 		
@@ -74,6 +79,9 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		for(String name : users){
 			System.out.println("Username: " + name);
 		}*/
+		
+		//TODO Remove, for testing only
+		viewHandler.createDefaultView("ppp666");
 		
 	}
 	

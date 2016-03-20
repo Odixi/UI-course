@@ -19,6 +19,8 @@ public class ViewHandler extends XMLHandler {
 	private Element rootElement;
 	private NodeList viewNodeList;
 	
+	private HouseHandler houseHandler;
+	
 	// >>> XML tags
 	
 	private static final String inView = "inView";
@@ -27,6 +29,7 @@ public class ViewHandler extends XMLHandler {
 	private static final String viewIDTag = "viewID";
 
 	private static final String userIDTag = "userID";
+	private static final String userTag = "user";
 	
 	private static final String housesTag = "houses";
 		//House
@@ -52,8 +55,11 @@ public class ViewHandler extends XMLHandler {
 	
 	//CONSTRUCTOR
 	
-	public ViewHandler(){
+	public ViewHandler(HouseHandler houseHandler){
 
+		//Isn't needed too much.... But you know.
+		this.houseHandler = houseHandler;
+		
 		viewsXML = getDocument(filepath);
 		viewsXML.getDocumentElement().normalize();
 		
@@ -70,7 +76,42 @@ public class ViewHandler extends XMLHandler {
 		rootElement.appendChild(view);
 		
 		//User
-	
+		Element user = viewsXML.createElement(userTag);
+		user.setAttribute(userIDTag, userID);
+		view.appendChild(user);
+		
+		//Houses
+		Element houses = viewsXML.createElement(housesTag);
+		view.appendChild(houses);
+		
+		//Calls houseHandler so the method returns all houses that are found in the system.
+		ArrayList<Element> houseList = houseHandler.getHouseElements();
+		
+		housesNotIncluded(houseList);
+			
+		for(Element house : houseList){
+			houses.appendChild(house);
+			ArrayList<Element> rooms = houseHandler.getRoomElements(house);
+			
+			roomsNotIncluded(rooms);
+			
+			for(Element room : rooms){
+				house.appendChild(room);
+				ArrayList<Element> items = houseHandler.getItemElements(room);
+				
+				itemsNotIncluded(items);
+				
+				for(Element item : items){
+					room.appendChild(item);
+				}
+			}
+		}
+		
+		//Save the information to the XML file (self created method in XMLHandler class)
+		writeXML(viewsXML, filepath);
+		
+		//FOR TESTING ETC:
+		System.out.println("Userview for user " + userID + " created!");
 		
 	}
 	
@@ -344,8 +385,7 @@ public class ViewHandler extends XMLHandler {
 		return viewElement;
 	}
 	
-	
-	// o o o o o o o o o o o o GET HOUSES o o o o o o o o o o o o 
+	// o o o o o o o o o o o o GET HOUSES IN VIEW o o o o o o o o o o o o 
 	private ArrayList<Element> getHouseElements(Element view){
 		ArrayList<Element> houseElements = new ArrayList<Element>();
 		updateViewNodeList();
