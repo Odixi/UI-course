@@ -2,6 +2,8 @@ package model;
 
 import org.xml.sax.*;
 
+import com.gargoylesoftware.htmlunit.javascript.host.dom.Node;
+
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -266,5 +268,51 @@ public class HouseHandler extends XMLHandler {
 		}
 		return roomElement;
 	}
+	
+// <><><><><><><><><><> GET ROOMS/ITEMS BY INPUTTING HOUSE/ROOM ELEMENT <><><><><><><><><><>
+	
+	// o o o o o o o o o o o o GET ROOMS o o o o o o o o o o o o 
+		public ArrayList<Element> getRoomElements(Element house){
+			ArrayList<Element> roomElements = new ArrayList<Element>();
+			updateHouseList();
+			
+			NodeList rooms = house.getElementsByTagName(roomTag);
+			
+			//There's actually just one 'houses' element but I'm going for the more general solution just in case.
+			for(int i = 0; i < rooms.getLength(); i++){
+				if(rooms.item(i).getNodeType() == Node.ELEMENT_NODE && rooms.item(i) != null){
+					roomElements.add( (Element) rooms.item(i));
+				}
+			}
+			return roomElements;
+		}
+		
+		// o o o o o o o o o o o o GET ITEMS o o o o o o o o o o o o 
+		public ArrayList<Element> getItemElements(Element room){
+			ArrayList<Element> itemElements = new ArrayList<Element>();
+			
+			//Lights
+			NodeList lightNodes = room.getElementsByTagName(lightTag);
+			for(int i = 0; i < lightNodes.getLength(); i++){
+				if(lightNodes.item(i).getNodeType() == Node.ELEMENT_NODE && lightNodes.item(i) != null){
+					itemElements.add( (Element) lightNodes.item(i) );
+				}
+			}
+			//Sensors
+			NodeList sensorNodes = room.getElementsByTagName(sensorTag);
+			for(int i = 0; i < sensorNodes.getLength(); i++){
+				if(sensorNodes.item(i).getNodeType() == Node.ELEMENT_NODE && sensorNodes.item(i) != null){
+					itemElements.add( (Element) sensorNodes.item(i) );
+				}
+			}
+			//Appliances
+			NodeList applianceNodes = room.getElementsByTagName(applianceTag);
+			for(int i = 0; i < applianceNodes.getLength(); i++){
+				if(applianceNodes.item(i).getNodeType() == Node.ELEMENT_NODE && applianceNodes.item(i) != null){
+					itemElements.add( (Element) applianceNodes.item(i) );
+				}
+			}
+			return itemElements;
+		}
 	
 }
