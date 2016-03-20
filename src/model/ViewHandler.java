@@ -90,7 +90,9 @@ public class ViewHandler extends XMLHandler {
 		housesNotIncluded(houseList);
 			
 		for(Element house : houseList){
-			houses.appendChild(house);
+			houses.appendChild(viewsXML.importNode(house, true));
+			//houses.appendChild(house);
+			
 			ArrayList<Element> rooms = houseHandler.getRoomElements(house);
 			
 			roomsNotIncluded(rooms);
@@ -229,11 +231,12 @@ public class ViewHandler extends XMLHandler {
 		if( !houseElements.isEmpty() ){
 			for(int i = 0; i < houseElements.size(); i++){
 				//inView = true/false?
-				if(houseElements.get(i).getAttribute(houseIDTag) != null && houseElements.get(i).getAttribute(inView) != null){
-
-					houseElements.get(i).setAttribute(inView, "false");
+				if(houseElements.get(i).getAttribute(houseIDTag) != null){
+						houseElements.get(i).setAttribute(inView, "false");
 				}
 			}
+		} else {
+			//TODO ?
 		}
 	}
 	
@@ -245,10 +248,12 @@ public class ViewHandler extends XMLHandler {
 			for(int j = 0; j < roomElements.size(); j++){
 				
 				//inView = true/false?
-				if(roomElements.get(j).getAttribute(roomIDTag) != null && roomElements.get(j).getAttribute(inView) != null){
+				if(roomElements.get(j).getAttribute(roomIDTag) != null){
 					roomElements.get(j).setAttribute(inView, "false");
 				}				
 			}
+		} else {
+			//TODO ?
 		}
 	}
 	//-------------------- SET ITEMS NOT INCLUDED IN VIEW --------------------------------
@@ -258,9 +263,7 @@ public class ViewHandler extends XMLHandler {
 		if( !itemElements.isEmpty() ){
 			
 			for(int k = 0; k < itemElements.size(); k++){
-				if(itemElements.get(k).getAttribute(inView) != null){
-					itemElements.get(k).setAttribute(inView, "false");
-				}	
+				itemElements.get(k).setAttribute(inView, "false");
 			}
 		} else {
 			//TODO ?
