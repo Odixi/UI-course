@@ -68,14 +68,15 @@ public class RoomListComponent extends CustomComponent {
 				checkBoxes = new HiddenValueCheckBox[rooms.size()][];
 				roomLayouts = new VerticalLayout[rooms.size()];
 				itemLayouts = new VerticalLayout[rooms.size()];
-				ArrayList<String> items;
+				Hashtable<String, String> items;
 				
 				int i = 0;
+				int j = 0;
 				
 				for (String key : rooms.keySet()){
 					
 					// Haetaan erikseen jokaisen huoneen esineet
-					items = shsystem.getItems(houseName, rooms.get(key)); //TODO Method call going to change
+					items = shsystem.getItems(houseName, rooms.get(key));
 					checkBoxes[i] = new HiddenValueCheckBox[items.size() + 1];
 					
 					roomLayouts[i] = new VerticalLayout();
@@ -90,7 +91,7 @@ public class RoomListComponent extends CustomComponent {
 					layout.setComponentAlignment(roomLayouts[i], Alignment.TOP_RIGHT);
 					layout.setComponentAlignment(itemLayouts[i], Alignment.TOP_RIGHT);
 				
-					for (int j = 0; j < items.size(); j++){
+					for (String itemKey : items.keySet()){
 						
 						// checkBox listan [x][0] vastaa aina itse huonetta! (Ei siis esine)
 						if (j == 0){
@@ -99,11 +100,13 @@ public class RoomListComponent extends CustomComponent {
 							roomLayouts[i].setComponentAlignment(checkBoxes[i][j], Alignment.TOP_LEFT);
 							checkBoxes[i][j].addValueChangeListener(listener);
 						}
-						checkBoxes[i][j+1] = new HiddenValueCheckBox(items.get(j),items.get(j));
+						checkBoxes[i][j+1] = new HiddenValueCheckBox(itemKey,items.get(itemKey));
 						itemLayouts[i].addComponent(checkBoxes[i][j+1]);
 						itemLayouts[i].setComponentAlignment(checkBoxes[i][j+1], Alignment.TOP_LEFT);
 						checkBoxes[i][j+1].addValueChangeListener(listener);
+						j++;
 					}
+					j = 0;
 					i++;
 				}
 				

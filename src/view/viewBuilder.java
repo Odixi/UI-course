@@ -81,18 +81,17 @@ public class viewBuilder {
 	            	roomManagerWindow.setWidth(600.0f, Unit.PIXELS);
 	            	VerticalLayout itemLayout = new VerticalLayout();
 	            	
-	            	ArrayList<String> items = new ArrayList<String>();
+	            	Hashtable<String,String> items = new Hashtable<String,String>();
 	            	
 	            	try {
-	        			items = shsystem.getItems(houseNow, currentRoomString);
+	        			items = shsystem.getItems(houseNow, currentRoomString); // Tosiaan muutin tuon ArrayListin Hastableksi -Ville
 	        		} catch (RemoteException e) {e.printStackTrace();}
-	            	
-	            	for(int i=0; i<items.size(); i++){
+	            	for(String itemKey : items.keySet()){
 	            		HorizontalLayout forItem =new HorizontalLayout();
 	            		forItem.setHeight(40.0f, Unit.PIXELS);
 	            		forItem.setWidth(590.0f, Unit.PIXELS);	
 	            		
-	            		forItem.addComponent(new Label ("item "+(i+1)+" name"));
+	            		forItem.addComponent(new Label (items.get(itemKey)));
 	            		Slider sample = new Slider();
 	                    sample.setImmediate(true);
 	                    sample.setMin(0.0);

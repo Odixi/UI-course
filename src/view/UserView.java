@@ -146,23 +146,27 @@ public class UserView extends VerticalLayout implements View{
 			Button moreButton = new Button("More", new Button.ClickListener() {
 	            @Override
 	            public void buttonClick(ClickEvent event) {
+	        
 	            	Window roomManagerWindow = new Window (currentRoomString);
 	            	roomManagerWindow.setHeight(400.0f, Unit.PIXELS);
 	            	roomManagerWindow.setWidth(600.0f, Unit.PIXELS);
 	            	VerticalLayout itemLayout = new VerticalLayout();
 	            	
-	            	ArrayList<String> items = new ArrayList<String>();
+	            	 // Muokkasin tuon items listan ArrayLististä Hashtableksi -Ville
+	            	
+	            	Hashtable<String,String> items = new Hashtable<String, String>();
 	            	
 	            	try {
 	        			items = shsystem.getItems(houseNow, currentRoomString);
 	        		} catch (RemoteException e) {e.printStackTrace();}
 	            	
-	            	for(int i=0; i<items.size(); i++){
+	            	
+	            	for(String itemKey : items.keySet()){
 	            		HorizontalLayout forItem =new HorizontalLayout();
 	            		forItem.setHeight(40.0f, Unit.PIXELS);
 	            		forItem.setWidth(590.0f, Unit.PIXELS);	
 	            		
-	            		forItem.addComponent(new Label ("item "+(i+1)+" name"));
+	            		forItem.addComponent(new Label (items.get(itemKey))); // Näköjäänsullavielä tämä vähänvaiheessa
 	            		Slider sample = new Slider();
 	                    sample.setImmediate(true);
 	                    sample.setMin(0.0);
@@ -195,6 +199,7 @@ public class UserView extends VerticalLayout implements View{
 	            		itemLayout.addComponent(forItem);
 	            		
 	            	}
+	            
 	            	roomManagerWindow.setContent(itemLayout);
 	            	UI.getCurrent().addWindow(roomManagerWindow);
 	            }
