@@ -64,23 +64,6 @@ public class AccountHandler extends XMLHandler {
 		return rootElement;
 	}
 
-	public String getFilepath(){
-		return filepath;
-	}
-	
-	public String getuserTag(){
-		return userTag;
-	}
-	
-	public String getusernameTag(){
-		return usernameTag;
-	}
-	
-	public String getpasswordTag(){
-		return passwordTag;
-	}
-	
-	
 	//------ PASSWORD MATCHING CHECK ----------
 	public boolean passwordMatch(String username, String password){
 		
@@ -172,6 +155,25 @@ public class AccountHandler extends XMLHandler {
 	} //usenameInUse()
 	
 	
+	//--------------- PASSWORD VALID -----------------------------------------
+	
+	public boolean passwordValid(String password){
+		
+		if(password.length() >= 8 && password.length() <= 24){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean passwordsMatch(String password, String confirmPassword){
+		if(password.equals(confirmPassword)){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	//--------------- CHANGE PASSWORD (ADMIN CHANGES) ------------------------
 	
 	public boolean changePasswordAdmin(String username, String newpassword){
@@ -216,6 +218,16 @@ public class AccountHandler extends XMLHandler {
 		writeXML(accountXML, filepath);
 		
 		return passwordChanged;
+	}
+	
+	//----------------- USERNAME VALID ---------------------------
+	
+	public boolean usernameValid(String username){
+		if( username.length() >= 3 && username.length() <= 24){
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	//----------------- CHANGE USERNAME --------------------------

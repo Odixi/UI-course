@@ -81,54 +81,68 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		}*/
 		
 		//TODO Remove, for testing only
-		viewHandler.createDefaultView("ppp666");
+//		viewHandler.createDefaultView("ppp666");
 		
 	}
 	
-	// • • • • • • • • USERS • • • • • • • • •
+	// • • • • • • • • • • • • BOTH USERS & ADMINS • • • • • • • • • • • • 
 	
+	public boolean passwordValid(String password) throws RemoteException {
+		return userHandler.passwordValid(password);
+	}
+	
+	public boolean usernameValid(String username) throws RemoteException {
+		return userHandler.usernameValid(username);
+	}
+	
+	// • • • • • • • • • • • • USERS • • • • • • • • • • • • 
+		
+		// ‹›‹›‹›‹›‹›‹›‹›‹›‹› USERNAME ‹›‹›‹›‹›‹›‹›‹›‹›‹›
+
 	public void newUser(String username, String password) throws RemoteException {
 		userHandler.createUser(username, password);
 	}
-
+	
 	public void deleteUser(String username) throws RemoteException {
 		userHandler.removeUser(username);
 	}
 	
-	// If password is an empty string, it won't be changed!
-	public boolean changePassword(String username, String oldPassword, String newPassword) throws RemoteException {
-		return userHandler.changePassword(username, oldPassword, newPassword);
-	}
-	
-	public boolean changePasswordAdmin(String username, String newPassword) throws RemoteException {
-		return userHandler.changePasswordAdmin(username, newPassword);
+	public boolean usernameAvailable(String username) throws RemoteException {
+		return userHandler.usernameInUse(username);
 	}
 
 	public boolean changeUsername(String oldUsername, String newUsername) throws RemoteException {
 		return userHandler.changeUsername(oldUsername, newUsername); 
 	}
+	
+	public ArrayList<String> getUsernames() throws RemoteException {
+		return userHandler.getUsernameList();
+	}
+	
+		// ‹›‹›‹›‹›‹›‹›‹›‹›‹› USER PASSWORD ‹›‹›‹›‹›‹›‹›‹›‹›‹›
+	
+	public boolean changePassword(String username, String oldPassword, String newPassword) throws RemoteException {
+		return userHandler.changePassword(username, oldPassword, newPassword);
+	}
+		
+		// ‹›‹›‹›‹›‹›‹›‹›‹›‹› USER LOGIN ‹›‹›‹›‹›‹›‹›‹›‹›‹›
 
 	public boolean userLogin(String username, String password) throws RemoteException {
 		//Returns true if the password is a match
 		return userHandler.passwordMatch(username, password);
 	}
 
-	public ArrayList<String> getUsernames() throws RemoteException {
-		return userHandler.getUsernameList();
-	}
+		// ‹›‹›‹›‹›‹›‹›‹›‹›‹› USER VIEW ‹›‹›‹›‹›‹›‹›‹›‹›‹›
 	
-	public Hashtable<String, Boolean> getUserView(String userName) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+	public Hashtable<String, Boolean> getUserView(String userID) throws RemoteException {
+		return viewHandler.getUserView(userID);
 	}
 
 	public void setUserView(Hashtable<String, Boolean> userView) throws RemoteException {
-		// TODO Auto-generated method stub
-		
+		//TODO
 	}
 
-	
-	// • • • • • • • • ADMINS • • • • • • • • •
+	// • • • • • • • • • • • • ADMINS • • • • • • • • • • • • 
 
 	public void newAdmin(String username, String password) throws RemoteException {
 		adminHandler.createUser(username, password);
@@ -146,34 +160,29 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		return adminHandler.getUsernameList();
 	}
 
+	public boolean changePasswordAdmin(String username, String newPassword) throws RemoteException {
+		return userHandler.changePasswordAdmin(username, newPassword);
+	}
 	
-	// • • • • • • • • HOUSES • • • • • • • • •
+	// • • • • • • • • • • • •  HOUSES • • • • • • • • • • • • 
 
 	@Override
 	public Hashtable<String, String> getHouseNames() throws RemoteException {
 		return  houseHandler.getHouseNameList();
-		/*ArrayList<String> list = new ArrayList<String>();
-		list.add("Talo1");
-		list.add("Talo2");
-		return list;*/
 	}
 
 	@Override
 	public Hashtable<String, String> getRoomNames(String houseID) throws RemoteException {
 		return houseHandler.getRoomNames(houseID);
-		/*ArrayList<String> list = new ArrayList<String>();
-		list.add("Huone1");
-		list.add("Huone2");
-		System.out.println(list.toString());
-		return list;*/
 	}
 
-	// ---->>>>>>>> WORKING ON THIS <<<<<<<<<-------
-	//		I'm not entirely sure how I should make it.
-	
 	public Hashtable<String, String> getItems(String houseID, String roomID) throws RemoteException {
 		return houseHandler.getItemNames(houseID, roomID);
 	//	return null;
 	}
 	
+	// • • • • • • • • • • • •  • • • • • • • • • • • • 
+	
+	
+	// • • • • • • • • • • • •  • • • • • • • • • • • • 
 }

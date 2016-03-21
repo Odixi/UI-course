@@ -79,79 +79,35 @@ public class ViewHandler extends XMLHandler {
 	//--------------- SAVE THE USERVIEW TO THE XML FOR THE FIRST TIME --------------------
 	
 	public void createDefaultView(String userID){	//Could also be called setUserView()
-//		Element view = viewsXML.createElement(viewTag);
-		Element view = viewsXML.createElementNS(viewNS, nsPrefix + ":" + viewPrefix);
-		view.setAttribute(viewIDTag, UUID.randomUUID().toString());
-		rootElement.appendChild(view);
-		
-		//TODO Does this work?
-		//view.setPrefix(viewPrefix);
-		
-		//User
-		//Element user = viewsXML.createElement(userTag);
-		Element user = viewsXML.createElementNS(viewNS, nsPrefix + ":" + userPrefix);
-		user.setAttribute(userIDTag, userID);
-		view.appendChild(user);
-		
-		Element houses = houseHandler.getRootElement();
-		//Should the element be cloned?
-		
-		Element newhouses = (Element) houses.cloneNode(true);
-		viewsXML.adoptNode(newhouses);
-		view.appendChild(newhouses);
-		viewsXML.renameNode(newhouses, viewNS, nsPrefix + ":" + housesPrefix);
-		
-		//newhouses.setPrefix(housesPrefix);		//DOESN'T WORK, %&¡€#?&*¿@!!
-		
-		//Element houses = houseHandler.getRootElement();
-		
-		/*
-		//Houses
-		//Element houses = viewsXML.createElement(housesTag);
-		
-		//TODO DOES THIS WORK?
-		Element houses = houseHandler.getRootElement();
-		Node housesNode = (Node) viewsXML.adoptNode(houses);
-		//view.appendChild(viewsXML.importNode(houses, true));
-		view.appendChild((org.w3c.dom.Node) housesNode);
-		
-		*/
-		/*
-		 
-		//Calls houseHandler so the method returns all houses that are found in the system.
-		ArrayList<Element> houseList = houseHandler.getHouseElements();
-		
-		housesNotIncluded(houseList);
+
+		//Check - just in case - if the user already has a view.
+		if( userHasView(userID)){
 			
-		for(Element house : houseList){
-			houses.appendChild(viewsXML.importNode(house, true));
-			//houses.appendChild(house);
+			System.out.println("User " + userID + " already has a view.");
 			
-			ArrayList<Element> rooms = houseHandler.getRoomElements(house);
+		} else {
+			Element view = viewsXML.createElementNS(viewNS, nsPrefix + ":" + viewPrefix);
+			view.setAttribute(viewIDTag, UUID.randomUUID().toString());
+			rootElement.appendChild(view);
 			
-			roomsNotIncluded(rooms);
+			//User
+			Element user = viewsXML.createElementNS(viewNS, nsPrefix + ":" + userPrefix);
+			user.setAttribute(userIDTag, userID);
+			view.appendChild(user);
 			
-			for(Element room : rooms){
-				house.appendChild(room);
+			Element houses = houseHandler.getRootElement();
+			
+			Element newhouses = (Element) houses.cloneNode(true);
+			viewsXML.adoptNode(newhouses);
+			view.appendChild(newhouses);
+			viewsXML.renameNode(newhouses, viewNS, nsPrefix + ":" + housesPrefix);
 				
-				ArrayList<Element> items = houseHandler.getItemElements(room);
-				
-				itemsNotIncluded(items);
-				
-				for(Element item : items){
-					room.appendChild(item);
-				}
-			}
+			//Save the information to the XML file (self created method in XMLHandler class)
+			writeXML(viewsXML, filepath);
+			
+			//FOR TESTING ETC:
+			System.out.println("Userview for user " + userID + " created!");
 		}
-		
-		 */
-		
-		//Save the information to the XML file (self created method in XMLHandler class)
-		writeXML(viewsXML, filepath);
-		
-		//FOR TESTING ETC:
-		System.out.println("Userview for user " + userID + " created!");
-		
 	}
 	
 	

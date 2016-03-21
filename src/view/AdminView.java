@@ -164,19 +164,22 @@ public class AdminView extends HorizontalLayout implements View{
 						return;
 					}
 					
-					if (passwordField.getValue() != "" && (passwordField.getValue().length() < 8 
-							|| passwordField.getValue().length() > 24)){
+					if ( !shsystem.passwordValid(passwordField.getValue()) ){
 						Notification.show("Password must be at least 8 characters long and 24 at most. \nNo changes made!");
 						return;
 					}
 					
-					if (passwordField.getValue() != null || passwordField.getValue() != ""){
+					if (passwordField.getValue() != null || !passwordField.getValue().isEmpty()){
 						shsystem.changePasswordAdmin((String)userSelect.getValue(), passwordField.getValue());
 					}
 					
-					if ((String)userSelect.getValue() != usernameField.getValue() && usernameField.getValue().length() > 3
-							&& usernameField.getValue().length() < 25){
-						shsystem.changeUsername((String)userSelect.getValue(), usernameField.getValue());
+					if (!userSelect.getValue().toString().equals(usernameField.getValue())){
+						if( shsystem.usernameValid(usernameField.getValue()) ){
+							shsystem.changeUsername((String)userSelect.getValue(), usernameField.getValue());
+						} else {
+							Notification.show("Username must be 3-24 characters long. No changes made!");
+							return;
+						}
 					}
 					
 					

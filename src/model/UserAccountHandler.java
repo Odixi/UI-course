@@ -33,8 +33,16 @@ public class UserAccountHandler extends AccountHandler {
 		return super.usernameInUse(username);
 	}
 	
+	public boolean usernameValid(String username){
+		return super.usernameValid(username);
+	}
+	
 	public boolean changeUsername(String oldUsername, String newUsername){
 		return super.changeUsername(oldUsername, newUsername);
+	}
+	
+	public boolean userPasswordValid(String password){
+		return super.passwordValid(password);
 	}
 	
 	public boolean changePassword(String username, String oldPassword, String newPassword){
