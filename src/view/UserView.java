@@ -28,8 +28,8 @@ public class UserView extends VerticalLayout implements View{
 	
 	//Attributes
 	private SmartHSystem shsystem;
-	String houseNow = new String();
-	String houseIDNow = new String();
+	private String houseNow = new String();
+	private String houseIDNow = new String();
  
     public UserView(SmartUI ui, SmartHSystem shsystem){
     	
