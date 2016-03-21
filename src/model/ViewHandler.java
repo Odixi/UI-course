@@ -168,7 +168,7 @@ public class ViewHandler extends XMLHandler {
 
 		} else {
 			//TODO
-			
+			System.out.println("User " + userID + " doesn't have a view!");
 		}
 	}
 	
