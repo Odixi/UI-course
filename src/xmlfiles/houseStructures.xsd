@@ -15,13 +15,14 @@ xmlns="http://www.example.org/houseStructures" elementFormDefault="qualified">
     </xs:annotation>
 
     <!-- ROOT:HOUSES -->	
-    <xs:element name="houses">
-        <xs:complexType>
+    <xs:element name="houses" type="housesType"/>
+    
+    
+    <xs:complexType name="housesType">
             <xs:sequence>
                 <xs:element name="house" type="houseType" minOccurs="1" maxOccurs="unbounded" />
             </xs:sequence>
-        </xs:complexType>
-    </xs:element>
+    </xs:complexType>
   
     <!-- houseType -->
     <xs:complexType name="houseType">
