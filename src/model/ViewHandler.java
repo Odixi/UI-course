@@ -80,13 +80,28 @@ public class ViewHandler extends XMLHandler {
 		user.setAttribute(userIDTag, userID);
 		view.appendChild(user);
 		
+		Element houses = houseHandler.getRootElement();
+		//Should the element be cloned?
+		
+		Element newhouses = (Element) houses.cloneNode(true);
+		viewsXML.adoptNode(newhouses);
+		view.appendChild(newhouses);
+		
+		//Element houses = houseHandler.getRootElement();
+		
+		/*
 		//Houses
 		//Element houses = viewsXML.createElement(housesTag);
 		
 		//TODO DOES THIS WORK?
 		Element houses = houseHandler.getRootElement();
-		view.appendChild(viewsXML.importNode(houses, true));
+		Node housesNode = (Node) viewsXML.adoptNode(houses);
+		//view.appendChild(viewsXML.importNode(houses, true));
+		view.appendChild((org.w3c.dom.Node) housesNode);
 		
+		*/
+		/*
+		 
 		//Calls houseHandler so the method returns all houses that are found in the system.
 		ArrayList<Element> houseList = houseHandler.getHouseElements();
 		
@@ -112,6 +127,8 @@ public class ViewHandler extends XMLHandler {
 				}
 			}
 		}
+		
+		 */
 		
 		//Save the information to the XML file (self created method in XMLHandler class)
 		writeXML(viewsXML, filepath);

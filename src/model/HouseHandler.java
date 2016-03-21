@@ -59,9 +59,12 @@ public class HouseHandler extends XMLHandler {
 		
 	} //constructor
 	
-	
 	public Element getRootElement(){
 		return rootElement;
+	}
+	
+	public Node getRootNode(){
+		return (Node) rootElement;
 	}
 	
 	//-------- LIST OF HOUSES (NAMES) -------------
