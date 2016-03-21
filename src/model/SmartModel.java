@@ -6,27 +6,47 @@ import model.HouseObjectGenerator;
 import model.house.House;
 import model.house.Room;
 import model.items.SmartItem;
-/*
- * Logiikan käsittely
+
+/**
+ * SmartModel holds the information regarding the state of different items (sensors, appliances etc)
+ * 
+ * @author Pilvi
+ *
  */
+
 public class SmartModel {
 
-	/*
+	private HouseObjectGenerator generator = new HouseObjectGenerator();
+	private ArrayList<House> houses;
+	
 	public SmartModel(){
 		
-	}*/
-	
-	public static void main(String args[]){
-		
 		HouseObjectGenerator generator = new HouseObjectGenerator();
-		
-		ArrayList<House> houses = generator.buildHouses(); 
-		
-		printHouseStructure(houses);
+		houses = generator.buildHouses(); 
 		
 	}
 	
-	//JUST FOR TESTING!S
+	//MAIN: FOR TESTING
+	public static void main(String args[]){
+	
+		//TODO Remove: For testing
+		//printHouseStructure();
+		
+	}
+	
+	// -<>-<>-<>-<>-<>-<>-<>-<>- GETTERS -<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-
+	
+	public ArrayList<House> getHouses(){
+		return houses;
+	}
+	
+	
+	
+	
+	
+	
+	//<o><o><o><o><o><o><o> JUST FOR TESTING! <o><o><o><o><o><o><o>
+	
 	public static void printHouseStructure(ArrayList<House> houses){
 		
 		for(House house : houses){
@@ -46,10 +66,8 @@ public class SmartModel {
 				for(SmartItem item : items){
 					System.out.println("Itemname: " + item.getName() + ", itemID: " + item.getID()); 
 				}
-				
 			}
-		}
-		
+		}	
 	}
 	
 }
