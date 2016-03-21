@@ -53,6 +53,14 @@ public class ViewHandler extends XMLHandler {
 	private static final String appliancenameTag = "applianceName";
 	private static final String applianceIDTag = "applianceID";
 	
+	//PREFIXES ETC.
+	private static final String viewNS = "http://www.example.org/views";
+	private static final String nsPrefix = "tns";
+	
+	private static final String viewPrefix = "view";
+	private static final String userPrefix = "user";
+	private static final String housesPrefix = "houses";
+	
 	//CONSTRUCTOR
 	
 	public ViewHandler(HouseHandler houseHandler){
@@ -71,12 +79,17 @@ public class ViewHandler extends XMLHandler {
 	//--------------- SAVE THE USERVIEW TO THE XML FOR THE FIRST TIME --------------------
 	
 	public void createDefaultView(String userID){	//Could also be called setUserView()
-		Element view = viewsXML.createElement(viewTag);
+//		Element view = viewsXML.createElement(viewTag);
+		Element view = viewsXML.createElementNS(viewNS, nsPrefix + ":" + viewPrefix);
 		view.setAttribute(viewIDTag, UUID.randomUUID().toString());
 		rootElement.appendChild(view);
 		
+		//TODO Does this work?
+		//view.setPrefix(viewPrefix);
+		
 		//User
-		Element user = viewsXML.createElement(userTag);
+		//Element user = viewsXML.createElement(userTag);
+		Element user = viewsXML.createElementNS(viewNS, nsPrefix + ":" + userPrefix);
 		user.setAttribute(userIDTag, userID);
 		view.appendChild(user);
 		
@@ -86,6 +99,9 @@ public class ViewHandler extends XMLHandler {
 		Element newhouses = (Element) houses.cloneNode(true);
 		viewsXML.adoptNode(newhouses);
 		view.appendChild(newhouses);
+		viewsXML.renameNode(newhouses, viewNS, nsPrefix + ":" + housesPrefix);
+		
+		//newhouses.setPrefix(housesPrefix);		//DOESN'T WORK, %&¡€#?&*¿@!!
 		
 		//Element houses = houseHandler.getRootElement();
 		
