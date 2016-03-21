@@ -45,15 +45,18 @@ public interface SmartHSystem extends Remote {
 	
 	public ArrayList<String> getAdminnames() throws RemoteException;
 	
+	
 	// ---------- Kyselyt taloista --------- //
 	
 	public Hashtable<String, String> getHouseNames() throws RemoteException; // Lista taloista
 	
 	public Hashtable<String, String> getRoomNames(String houseName) throws RemoteException; // Lista talonhuoneista
 	
-	public ArrayList<String> getItems(String houseName, String roomName) throws RemoteException;
+	public Hashtable<String, String> getItems(String houseID, String roomID) throws RemoteException;
 	
 	// varmaan sitten myös jotain kyselyitä, mitkä palauttaa itemin typin yms. mutta niitä 
 	// ainakaan vielä tarvitse
+	
+	
 	
 }

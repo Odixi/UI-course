@@ -171,11 +171,8 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	// ---->>>>>>>> WORKING ON THIS <<<<<<<<<-------
 	//		I'm not entirely sure how I should make it.
 	
-	public ArrayList<String> getItems(String houseName, String roomName) throws RemoteException {
-		ArrayList<String> list = new ArrayList<String>();
-		list.add("Esine1");
-		list.add("Esine2");
-		return list;
+	public Hashtable<String, String> getItems(String houseID, String roomID) throws RemoteException {
+		return houseHandler.getItemNames(houseID, roomID);
 	//	return null;
 	}
 	

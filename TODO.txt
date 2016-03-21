@@ -27,6 +27,10 @@ SmartHSystem:
 	- changePassword()
 	- changeUsername()
 	
+NOT NECESSARY FIXES:
+
+- If the houses.xml is not updated, views.xml is not updated
+
 
 DONE: 
 - getHouses (This bug is driving me nuts…)
