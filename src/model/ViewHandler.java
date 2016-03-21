@@ -81,8 +81,11 @@ public class ViewHandler extends XMLHandler {
 		view.appendChild(user);
 		
 		//Houses
-		Element houses = viewsXML.createElement(housesTag);
-		view.appendChild(houses);
+		//Element houses = viewsXML.createElement(housesTag);
+		
+		//TODO DOES THIS WORK?
+		Element houses = houseHandler.getRootElement();
+		view.appendChild(viewsXML.importNode(houses, true));
 		
 		//Calls houseHandler so the method returns all houses that are found in the system.
 		ArrayList<Element> houseList = houseHandler.getHouseElements();
@@ -99,6 +102,7 @@ public class ViewHandler extends XMLHandler {
 			
 			for(Element room : rooms){
 				house.appendChild(room);
+				
 				ArrayList<Element> items = houseHandler.getItemElements(room);
 				
 				itemsNotIncluded(items);

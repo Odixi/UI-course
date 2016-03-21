@@ -60,6 +60,10 @@ public class HouseHandler extends XMLHandler {
 	} //constructor
 	
 	
+	public Element getRootElement(){
+		return rootElement;
+	}
+	
 	//-------- LIST OF HOUSES (NAMES) -------------
 	
 	public Hashtable<String, String> getHouseNameList(){
