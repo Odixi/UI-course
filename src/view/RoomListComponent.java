@@ -122,7 +122,7 @@ public class RoomListComponent extends CustomComponent {
 		
 		// Haetaan käyttäjän oikeudet serveriltä
 		public void updateCheckBoxesFromServer(){
-			if ((String)av.getComboBox().getValue() != null){
+			if ( (String)av.getComboBox().getValue() != null ){
 			try {	
 				Hashtable<String, Boolean> hm = shsystem.getUserView((String)av.getComboBox().getValue());
 				

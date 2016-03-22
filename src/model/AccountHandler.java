@@ -2,6 +2,7 @@ package model;
 
 import org.w3c.dom.*;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.UUID;
 
 /**
@@ -262,6 +263,31 @@ public class AccountHandler extends XMLHandler {
 		return usernameWasChanged;	
 	}
 	
+	//--------------- LIST OF USERS ----------------------------
+	
+	public Hashtable<String, String> getUserList(){
+		Hashtable<String, String> userList = new Hashtable<String, String>();
+		
+		updateaccountNodeList();
+		
+		for(int i = 0; i < accountNodeList.getLength(); i++){
+			
+			if(accountNodeList.item(i).getNodeType() == Node.ELEMENT_NODE){
+				Element userElement = (Element) accountNodeList.item(i);
+				
+				if(userElement.getElementsByTagName(usernameTag).item(0) != null && userElement.hasAttribute(userIDTag)){
+					//Add username to the list
+					String username = userElement.getElementsByTagName(usernameTag).item(0).getTextContent().trim();
+					String userID = userElement.getAttribute(userIDTag).trim();
+					
+					userList.put(userID, username);
+					
+				}
+			}		
+		}
+		return userList;
+	}
+	
 	//--------------- LIST OF USERNAMES ----------------------------
 	
 	public ArrayList<String> getUsernameList(){
@@ -282,6 +308,8 @@ public class AccountHandler extends XMLHandler {
 		}
 		return usernameList;
 	}
+	
+	//------------------ GET USERID MATCHING USERNAME --------------------
 	
 	public String getUserID(String username){
 		String userID = "";

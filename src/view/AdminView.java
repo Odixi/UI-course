@@ -60,6 +60,8 @@ public class AdminView extends HorizontalLayout implements View{
 	private RoomListComponent[] houses;
 	private ArrayList<String> users;
 	
+	private Hashtable<String, String> userList;
+	
 	// ********** KONSTRUKTORI ********** //
 	public AdminView(SmartUI ui, SmartHSystem shsystem ){
 		
@@ -308,11 +310,23 @@ public class AdminView extends HorizontalLayout implements View{
 	public void updateUserList(){
 		userSelect.removeAllItems();
         try {
-			users = shsystem.getUsernames();
+			//users = shsystem.getUsernames();	//TODO
+			userList = shsystem.getUsers();
 		} catch (RemoteException e1) {
 			e1.printStackTrace();
 		}
-        userSelect.addItems(users);
+        //userSelect.addItems(users); //TODO
+     
+       /*//CHANGE
+        * I used this idea to bind userIDs to the Combobox
+        * https://vaadin.com/docs/-/part/framework/components/components-selection.html#components.selection.adding
+        * - Pilvi
+        */
+       for(String userID : userList.keySet()){
+    	   userSelect.addItem(userID);
+    	   userSelect.setItemCaption(userID, userList.get(userID));
+    	   
+       }
 	}
 	
 	// Palauttaa valitun käyttäjän

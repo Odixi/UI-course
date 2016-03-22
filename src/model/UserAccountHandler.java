@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 //import org.jasypt.util.text.BasicTextEncryptor;
+import java.util.Hashtable;
 
 
 public class UserAccountHandler extends AccountHandler {
@@ -53,5 +54,9 @@ public class UserAccountHandler extends AccountHandler {
 		return super.getUsernameList();
 	}
 
+	public Hashtable<String, String> getUsers(){
+		return super.getUserList();
+	}
+	
 }
 

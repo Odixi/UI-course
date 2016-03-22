@@ -22,6 +22,8 @@ public interface SmartHSystem extends Remote {
 	
 	public void deleteUser(String username) throws RemoteException;
 
+	public Hashtable<String, String> getUsers() throws RemoteException;
+	
 		// ‹›‹›‹›‹›‹›‹›‹›‹›‹› USERNAME ‹›‹›‹›‹›‹›‹›‹›‹›‹›		
 	
 	public boolean usernameAvailable(String username) throws RemoteException;

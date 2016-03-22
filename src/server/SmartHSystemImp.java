@@ -96,8 +96,6 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	}
 	
 	// • • • • • • • • • • • • USERS • • • • • • • • • • • • 
-		
-		// ‹›‹›‹›‹›‹›‹›‹›‹›‹› USERNAME ‹›‹›‹›‹›‹›‹›‹›‹›‹›
 
 	public void newUser(String username, String password) throws RemoteException {
 		userHandler.createUser(username, password);
@@ -106,6 +104,12 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	public void deleteUser(String username) throws RemoteException {
 		userHandler.removeUser(username);
 	}
+	
+	public Hashtable<String, String> getUsers() throws RemoteException {
+		return userHandler.getUserList();
+	}
+	
+		// ‹›‹›‹›‹›‹›‹›‹›‹›‹› USERNAME ‹›‹›‹›‹›‹›‹›‹›‹›‹›
 	
 	public boolean usernameAvailable(String username) throws RemoteException {
 		return userHandler.usernameInUse(username);
