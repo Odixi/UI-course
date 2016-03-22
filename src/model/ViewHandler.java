@@ -259,16 +259,6 @@ public class ViewHandler extends XMLHandler {
 			for(int i = 0; i < houseElements.size(); i++){
 				//inView = true/false?
 				houseElements.get(i).setAttribute(inView, "false");
-				
-				//TODO FOR TESTING
-				
-				if(houseElements.get(0).equals( houseElements.get(1))){
-					System.out.println("Oh shit.");
-				}
-				
-				System.out.println("Setting attribute inView for houseElement " + i);
-				System.out.println(houseElements.get(i).getAttribute(houseIDTag).trim());
-				
 			}
 		} else {
 			//TODO ?
@@ -389,35 +379,44 @@ public class ViewHandler extends XMLHandler {
 		viewNodeList = viewsXML.getElementsByTagName(viewTag);
 	}
 	
-	//Pretty studip and probably unnecessary method.
+	//Pretty stupid and probably unnecessary method.
 	private boolean userHasView(String userID){
+		System.out.println("userHasView checked");
 		boolean hasView = false;
-		updateViewNodeList();
 		
-		for(int i = 0; i < viewNodeList.getLength(); i++){
-			if(viewNodeList.item(i).getNodeType() == Node.ELEMENT_NODE){
-				Element viewElement = (Element) viewNodeList.item(i);
-			
-				if(viewElement.getAttribute(userIDTag) != null && viewElement.getAttribute(userIDTag).equals(userID) ){
-					hasView = true;
-					break;
-				}
-			}
+		if(getViewElement(userID) != null){
+			hasView = true;
 		}
-		return hasView;	
+		
+		System.out.println("userHasView: " + hasView); //TODO REMOVE
+		
+		return hasView;
 	}
 	
 
 	private Element getViewElement(String userID){
 		Element viewElement = null;
+		updateViewNodeList();
 		
 		for(int i = 0; i < viewNodeList.getLength(); i++){
-			if(viewNodeList.item(i).getNodeType() == Node.ELEMENT_NODE){
+			if(viewNodeList.item(i) != null && viewNodeList.item(i).getNodeType() == Node.ELEMENT_NODE){
+				
 				Element e = (Element) viewNodeList.item(i);
 			
-				if(e.getAttribute(userIDTag) != null && e.getAttribute(userIDTag).equals(userID) ){
-					viewElement = e;
-					break;
+				NodeList users = e.getElementsByTagName(userTag);
+				
+				//TODO REMOVE
+				System.out.println("Users " + users.getLength());
+				
+				for(int u = 0; u < users.getLength(); u++){
+					if(users.item(u).getNodeType() == Node.ELEMENT_NODE){
+						Element userElement = ((Element)users.item(u));
+						
+						if(userElement.getAttribute(userIDTag) != null && e.getAttribute(userIDTag).equals(userID) ){
+							viewElement = e;
+							break;
+						}
+					}
 				}
 			}
 		}
@@ -435,9 +434,7 @@ public class ViewHandler extends XMLHandler {
 		updateViewNodeList();
 		
 		NodeList houses = view.getElementsByTagName(housesTag);
-		//TODO REMOVE
-		System.out.println("houses by houseTag: " + houses.getLength());
-		
+
 		//There's actually just one 'houses' element but I'm going for the more general solution just in case.
 		for(int i = 0; i < houses.getLength(); i++){
 			if(houses.item(i).getNodeType() == Node.ELEMENT_NODE){
@@ -450,12 +447,7 @@ public class ViewHandler extends XMLHandler {
 				}
 			}
 		}
-		
-		//TODO JUST FOR TESTING
-		for(Element house : houseElements){
-			house.toString();
-		}
-		
+
 		return houseElements;
 	}
 	
