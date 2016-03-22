@@ -77,11 +77,16 @@ public class ViewHandler extends XMLHandler {
 	
 	
 	//--------------- SAVE THE USERVIEW TO THE XML FOR THE FIRST TIME --------------------
-	
+	/**
+	 * Creates a view where all houses, rooms & items are set not included. (Basically an empty view.)
+	 * @param userID
+	 */
 	public void createDefaultView(String userID){	//Could also be called setUserView()
 
 		//Check - just in case - if the user already has a view.
 		if( userHasView(userID)){
+			
+			//TODO Check if this actually works
 			
 			System.out.println("User " + userID + " already has a view.");
 			
@@ -95,13 +100,32 @@ public class ViewHandler extends XMLHandler {
 			user.setAttribute(userIDTag, userID);
 			view.appendChild(user);
 			
-			Element houses = houseHandler.getRootElement();
+			Element housesRoot = houseHandler.getRootElement();
 			
-			Element newhouses = (Element) houses.cloneNode(true);
+			//Copy houses structure to the view
+			Element newhouses = (Element) housesRoot.cloneNode(true);
 			viewsXML.adoptNode(newhouses);
 			view.appendChild(newhouses);
 			viewsXML.renameNode(newhouses, viewNS, nsPrefix + ":" + housesPrefix);
+
+			//Go through all elements and set them not included (inView = false) in the view.
+			
+			ArrayList<Element> houseElements = getHouseElements(view);
+			housesNotIncluded(houseElements);
+			
+			for(Element h : houseElements){
+				System.out.println("House element: " + h);
+			}
+			
+			for(Element house : houseElements){
+				ArrayList<Element> roomElements = getRoomElements(house);
+				roomsNotIncluded(roomElements);
 				
+				for(Element room : roomElements){
+					itemsNotIncluded( getItemElements(room) );
+				}
+			}
+			
 			//Save the information to the XML file (self created method in XMLHandler class)
 			writeXML(viewsXML, filepath);
 			
@@ -233,6 +257,10 @@ public class ViewHandler extends XMLHandler {
 			for(int i = 0; i < houseElements.size(); i++){
 				//inView = true/false?
 				houseElements.get(i).setAttribute(inView, "false");
+				
+				//TODO FOR TESTING
+				System.out.println("Setting attribute inView for houseElement " + i);
+				
 			}
 		} else {
 			//TODO ?
@@ -389,6 +417,11 @@ public class ViewHandler extends XMLHandler {
 	}
 	
 	// o o o o o o o o o o o o GET HOUSES IN VIEW o o o o o o o o o o o o 
+	/**
+	 *
+	 * @param view
+	 * @return
+	 */ //TODO Kuvaus
 	private ArrayList<Element> getHouseElements(Element view){
 		ArrayList<Element> houseElements = new ArrayList<Element>();
 		updateViewNodeList();
