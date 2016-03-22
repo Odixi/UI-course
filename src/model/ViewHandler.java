@@ -253,6 +253,8 @@ public class ViewHandler extends XMLHandler {
 	//--------------- SET HOUSES NOT INCLUDE IN VIEW -------------------------------
 	public void housesNotIncluded(ArrayList<Element> houseElements){
 		//Iterate through houses
+		System.out.println("Is houseElements empty? " + houseElements.isEmpty());
+		
 		if( !houseElements.isEmpty() ){
 			for(int i = 0; i < houseElements.size(); i++){
 				//inView = true/false?
@@ -260,6 +262,7 @@ public class ViewHandler extends XMLHandler {
 				
 				//TODO FOR TESTING
 				System.out.println("Setting attribute inView for houseElement " + i);
+				System.out.println(houseElements.get(i).toString());
 				
 			}
 		} else {
@@ -436,7 +439,7 @@ public class ViewHandler extends XMLHandler {
 				NodeList houseNodes = ((Element)houses.item(i)).getElementsByTagName(houseTag);
 				
 				for(int j = 0; j < houseNodes.getLength(); j++){
-					if(houseNodes.item(i).getNodeType() == Node.ELEMENT_NODE && houseNodes.item(i) != null){
+					if(houseNodes.item(i).getNodeType() == Node.ELEMENT_NODE){
 						houseElements.add( (Element)houseNodes.item(i) );
 					}
 				}
