@@ -29,9 +29,9 @@ public class ViewHandler extends XMLHandler {
 	private static final String viewIDTag = "viewID";
 
 	private static final String userIDTag = "userID";
-	private static final String userTag = "user";
+	private static final String userTag = "tns:user";
 	
-	private static final String housesTag = "houses";
+	private static final String housesTag = "tns:houses";
 		//House
 	private static final String houseTag = "house";
 	private static final String housenameTag = "houseName";
@@ -91,6 +91,7 @@ public class ViewHandler extends XMLHandler {
 			System.out.println("User " + userID + " already has a view.");
 			
 		} else {
+			
 			Element view = viewsXML.createElementNS(viewNS, nsPrefix + ":" + viewPrefix);
 			view.setAttribute(viewIDTag, UUID.randomUUID().toString());
 			rootElement.appendChild(view);
@@ -109,14 +110,13 @@ public class ViewHandler extends XMLHandler {
 			viewsXML.renameNode(newhouses, viewNS, nsPrefix + ":" + housesPrefix);
 
 			//Go through all elements and set them not included (inView = false) in the view.
-			
+		
 			ArrayList<Element> houseElements = getHouseElements(view);
+			
+			System.out.println("Number of house elements: " + houseElements.size());
+			
 			housesNotIncluded(houseElements);
-			
-			for(Element h : houseElements){
-				System.out.println("House element: " + h);
-			}
-			
+
 			for(Element house : houseElements){
 				ArrayList<Element> roomElements = getRoomElements(house);
 				roomsNotIncluded(roomElements);
@@ -427,6 +427,8 @@ public class ViewHandler extends XMLHandler {
 		updateViewNodeList();
 		
 		NodeList houses = view.getElementsByTagName(housesTag);
+		//TODO REMOVE
+		System.out.println("houses by houseTag: " + houses.getLength());
 		
 		//There's actually just one 'houses' element but I'm going for the more general solution just in case.
 		for(int i = 0; i < houses.getLength(); i++){
@@ -440,6 +442,12 @@ public class ViewHandler extends XMLHandler {
 				}
 			}
 		}
+		
+		//TODO JUST FOR TESTING
+		for(Element house : houseElements){
+			house.toString();
+		}
+		
 		return houseElements;
 	}
 	
