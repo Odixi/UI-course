@@ -128,6 +128,21 @@ public class ViewHandler extends XMLHandler {
 		}
 	}
 	
+	//-------------- UPDATE THE HOUSE STRUCTURE IN VIEW ----------------------
+	
+	public void updateTheHouseStructureInView(String userID){
+		
+		if( userHasView(userID) ){
+			
+			//NodeList houses = viewsXML.getElementsByTagName();
+			
+		} else {
+			
+			//TODO Create view?
+			
+		}
+	}
+	
 	//--------------- UPDATE THE HOUSES -------------------------------
 	public void updateHousesIncluded(ArrayList<Element> houseElements, Hashtable<String, Boolean> userview){
 		//Iterate through houses
@@ -138,8 +153,8 @@ public class ViewHandler extends XMLHandler {
 				ArrayList<Element> roomElements = getRoomElements(houseElements.get(i));
 				
 				//inView = true/false?
-				if(houseElements.get(i).getAttribute(houseIDTag) != null && houseElements.get(i).getAttribute(inView) != null){
-					
+				if(houseElements.get(i).getAttribute(houseIDTag) != null){
+						
 					Boolean included = userview.get( houseElements.get(i).getAttribute(houseIDTag) );
 					houseElements.get(i).setAttribute(inView, included.toString());
 
@@ -163,7 +178,8 @@ public class ViewHandler extends XMLHandler {
 			for(int j = 0; j < roomElements.size(); j++){
 				
 				//inView = true/false?
-				if(roomElements.get(j).getAttribute(roomIDTag) != null && roomElements.get(j).getAttribute(inView) != null){
+				if(roomElements.get(j).getAttribute(roomIDTag) != null){
+
 					Boolean included = userview.get( roomElements.get(j).getAttribute(roomIDTag));
 					roomElements.get(j).setAttribute(inView, included.toString());
 				
@@ -191,24 +207,16 @@ public class ViewHandler extends XMLHandler {
 			for(int k = 0; k < itemElements.size(); k++){
 				//inView = true/false?
 				if(itemElements.get(k).hasAttribute(lightIDTag)){
-					if(itemElements.get(k).getAttribute(inView) != null){
-						 
 						Boolean included = userview.get( itemElements.get(k).getAttribute(lightIDTag));
 						itemElements.get(k).setAttribute(inView, included.toString());
-					}	
-				} else if(itemElements.get(k).hasAttribute(sensorIDTag)){
-					if(itemElements.get(k).getAttribute(inView) != null){
 						
+				} else if(itemElements.get(k).hasAttribute(sensorIDTag)){
 						Boolean included = userview.get( itemElements.get(k).getAttribute(sensorIDTag));
 						itemElements.get(k).setAttribute(inView, included.toString());
 						
-					}
 				} else if(itemElements.get(k).hasAttribute(applianceIDTag)){
-					if(itemElements.get(k).getAttribute(inView) != null){
-						
 						Boolean included = userview.get( itemElements.get(k).getAttribute(applianceIDTag));
 						itemElements.get(k).setAttribute(inView, included.toString());
-					}
 				}
 			}
 		} else {
@@ -224,9 +232,7 @@ public class ViewHandler extends XMLHandler {
 		if( !houseElements.isEmpty() ){
 			for(int i = 0; i < houseElements.size(); i++){
 				//inView = true/false?
-				if(houseElements.get(i).getAttribute(houseIDTag) != null){
-						houseElements.get(i).setAttribute(inView, "false");
-				}
+				houseElements.get(i).setAttribute(inView, "false");
 			}
 		} else {
 			//TODO ?
@@ -350,6 +356,7 @@ public class ViewHandler extends XMLHandler {
 	//Pretty studip and probably unnecessary method.
 	private boolean userHasView(String userID){
 		boolean hasView = false;
+		updateViewNodeList();
 		
 		for(int i = 0; i < viewNodeList.getLength(); i++){
 			if(viewNodeList.item(i).getNodeType() == Node.ELEMENT_NODE){

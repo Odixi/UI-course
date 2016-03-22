@@ -81,7 +81,7 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		}*/
 		
 		//TODO Remove, for testing only
-//		viewHandler.createDefaultView("ppp666");
+		viewHandler.createDefaultView("ppp666");
 		
 	}
 	
