@@ -137,9 +137,12 @@ public class RoomListComponent extends CustomComponent {
 						inner:
 						for (int i = 0; i < checkBoxes.length; i++){
 							for (int j = 0; j < checkBoxes[i].length; j++){
-								if (key == checkBoxes[i][j].getHiddenValue()){
+								if (key.equals(checkBoxes[i][j].getHiddenValue())){
 									checkBoxes[i][j].setValue(hm.get(key));
 									break inner;
+								}
+								else if (key.equals(houseBox.getHiddenValue())){
+									houseBox.setValue(hm.get(key));
 								}
 							}
 						}

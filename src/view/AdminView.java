@@ -301,7 +301,7 @@ public class AdminView extends HorizontalLayout implements View{
 			userViewSelectLabel.setValue("<font size=\"4\">Edit View</font>");
 		}
 		else{
-			usernameField.setValue((String)userSelect.getValue());
+			usernameField.setValue((String)userSelect.getItemCaption(userSelect.getValue()));
 			//userViewSelectLabel.setValue("<font size=\"4\">Edit " + userSelect.getValue() + "'s view" +  "</font>");
 			userViewSelectLabel.setValue("<font size=\"4\">Edit " + userSelect.getItemCaption( userSelect.getValue().toString() ) + "'s view" +  "</font>");
 		}
@@ -342,10 +342,16 @@ public class AdminView extends HorizontalLayout implements View{
 	public String getSelectedUsername(){
 		//getValue returns userID
 		//getItemCaption gives the username
+		if (userSelect.getValue() == null){
+			return null;
+		}
 		return userSelect.getItemCaption( userSelect.getValue().toString() );
 	}
 	
 	public String getSelectedUserID(){
+		if (userSelect.getValue() == null){
+			return null;
+		}
 		return userSelect.getValue().toString();
 	}
 	
