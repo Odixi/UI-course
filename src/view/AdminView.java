@@ -135,8 +135,9 @@ public class AdminView extends HorizontalLayout implements View{
         userSelect.addValueChangeListener(new ValueChangeListener() {		
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				Notification.show(userSelect.getValue() + " selected");
+				Notification.show( getSelectedUsername() + " selected"); //Show the name of the selected user
 				updateContent();
+				
 				for (int i = 0; i < houses.length; i++){
 					houses[i].updateCheckBoxesFromServer();
 				}
@@ -212,7 +213,6 @@ public class AdminView extends HorizontalLayout implements View{
         leftLayout.addComponent(saveChanges);
 		
 	}
-	
 	
 	// ********** KESKIOSA ********** //
 	
@@ -302,7 +302,8 @@ public class AdminView extends HorizontalLayout implements View{
 		}
 		else{
 			usernameField.setValue((String)userSelect.getValue());
-			userViewSelectLabel.setValue("<font size=\"4\">Edit " + userSelect.getValue() + "'s view" +  "</font>");
+			//userViewSelectLabel.setValue("<font size=\"4\">Edit " + userSelect.getValue() + "'s view" +  "</font>");
+			userViewSelectLabel.setValue("<font size=\"4\">Edit " + userSelect.getItemCaption( userSelect.getValue().toString() ) + "'s view" +  "</font>");
 		}
 	}
 	
@@ -326,12 +327,25 @@ public class AdminView extends HorizontalLayout implements View{
     	   userSelect.addItem(userID);
     	   userSelect.setItemCaption(userID, userList.get(userID));
     	   
+    	   /* Emxample of getting the values
+    	   String id = (String) userSelect.getValue();
+    	   userSelect.getItemCaption(id);
+    	   
+    	   Compact:
+    	   userSelect.getItemCaption( (String) userSelect.getValue() );
+    	   */
        }
 	}
 	
 	// Palauttaa valitun käyttäjän
-	public String getSelectedUser(){
-		return (String)userSelect.getValue();
+	public String getSelectedUsername(){
+		//getValue returns userID
+		//getItemCaption gives the username
+		return userSelect.getItemCaption( userSelect.getValue().toString() );
+	}
+	
+	public String getSelectedUserID(){
+		return userSelect.getValue().toString();
 	}
 	
 	public ComboBox getComboBox(){
@@ -432,7 +446,7 @@ class RemoveUserPopupContent implements PopupView.Content{
 				}
 				else{
 					try {
-						sh.deleteUser(av.getSelectedUser());
+						sh.deleteUser(av.getSelectedUsername());
 						Notification.show(user + " Deleted");
 						av.updateUserList();
 					} catch (RemoteException e) {e.printStackTrace();}

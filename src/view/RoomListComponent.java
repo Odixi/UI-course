@@ -37,6 +37,7 @@ public class RoomListComponent extends CustomComponent {
 	AdminView av;
 	
 		public RoomListComponent(String houseID, String houseName, SmartHSystem shsystem, AdminView av){
+			
 			this.av = av;
 			panel = new Panel();
 		
@@ -73,10 +74,13 @@ public class RoomListComponent extends CustomComponent {
 				int i = 0;
 				int j = 0;
 				
-				for (String key : rooms.keySet()){
+				for (String roomID : rooms.keySet()){
 					
 					// Haetaan erikseen jokaisen huoneen esineet
-					items = shsystem.getItems(houseName, rooms.get(key));
+					
+					//Call getItems with houseID and roomID (Hashtable key)
+					items = shsystem.getItems(houseID, roomID);
+					
 					checkBoxes[i] = new HiddenValueCheckBox[items.size() + 1];
 					
 					roomLayouts[i] = new VerticalLayout();
@@ -95,7 +99,7 @@ public class RoomListComponent extends CustomComponent {
 						
 						// checkBox listan [x][0] vastaa aina itse huonetta! (Ei siis esine)
 						if (j == 0){
-							checkBoxes[i][j] = new HiddenValueCheckBox(key, rooms.get(key));
+							checkBoxes[i][j] = new HiddenValueCheckBox(roomID, rooms.get(roomID));
 							roomLayouts[i].addComponent(checkBoxes[i][j]);
 							roomLayouts[i].setComponentAlignment(checkBoxes[i][j], Alignment.TOP_LEFT);
 							checkBoxes[i][j].addValueChangeListener(listener);
@@ -122,24 +126,30 @@ public class RoomListComponent extends CustomComponent {
 		
 		// Haetaan käyttäjän oikeudet serveriltä
 		public void updateCheckBoxesFromServer(){
-			if ( (String)av.getComboBox().getValue() != null ){
-			try {	
-				Hashtable<String, Boolean> hm = shsystem.getUserView((String)av.getComboBox().getValue());
-				
-				for (String key : hm.keySet()){
-					inner:
-					for (int i = 0; i < checkBoxes.length; i++){
-						for (int j = 0; j < checkBoxes[i].length; j++){
-							if (key == checkBoxes[i][j].getHiddenValue()){
-								checkBoxes[i][j].setValue(hm.get(key));
-								break inner;
+			
+			if ( av.getSelectedUserID() != null ){ //If user is selected
+				try {	
+					
+					//System.out.println("This should be userID: " + (String)av.getComboBox().getValue() ); //TODO REMOVE
+					System.out.println("This should be userID: " + av.getSelectedUserID() ); //TODO REMOVE
+					
+					//Hashtable<String, Boolean> hm = shsystem.getUserView( av.getComboBox().getValue().toString().trim() );
+					Hashtable<String, Boolean> hm = shsystem.getUserView( av.getSelectedUserID() );
+					
+					for (String key : hm.keySet()){
+						inner:
+						for (int i = 0; i < checkBoxes.length; i++){
+							for (int j = 0; j < checkBoxes[i].length; j++){
+								if (key == checkBoxes[i][j].getHiddenValue()){
+									checkBoxes[i][j].setValue(hm.get(key));
+									break inner;
+								}
 							}
 						}
 					}
-				}
-				
-			} catch (RemoteException e) {e.printStackTrace();}	
-			}
+					
+				} catch (RemoteException e) {e.printStackTrace();}	
+			} //if
 		}
 		
 		// Disabloidaan / enablidaan checkboxit, riippuen sen vanhempien valoinnoista
