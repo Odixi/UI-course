@@ -75,6 +75,20 @@ public class ViewHandler extends XMLHandler {
 		
 	} //constructor
 	
+	//TODO userHasView is checked kind of unnecessarily in createDefaultView & updateUserView
+	
+	// >>>>>>>>>>>>>>>>>>>>>>>>>>>> SET USERVIEW  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	
+	public void setUserView(String userID, Hashtable<String, Boolean> userview){
+		
+		if( !userHasView(userID) ){
+			createDefaultView(userID);
+		}
+		
+		updateUserView(userID, userview);
+	
+	}
+
 	
 	//--------------- SAVE THE USERVIEW TO THE XML FOR THE FIRST TIME --------------------
 	/**
@@ -138,18 +152,10 @@ public class ViewHandler extends XMLHandler {
 	//--------------- UPDATE THE USERVIEW --------------------
 	
 	public void updateUserView(String userID, Hashtable<String, Boolean> userview){
-			
-		//Iterate through views, find userID == userIDTag.getTextContent();
-		if( userHasView(userID) ){
-			
+		
 			Element view = getViewElement(userID);
 			ArrayList<Element> houseElements = getHouseElements(view);
 			updateHousesIncluded(houseElements, userview);
-
-		} else {
-			//TODO
-			System.out.println("User " + userID + " doesn't have a view!");
-		}
 	}
 	
 	//-------------- UPDATE THE HOUSE STRUCTURE IN VIEW ----------------------

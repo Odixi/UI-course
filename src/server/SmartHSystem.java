@@ -42,7 +42,7 @@ public interface SmartHSystem extends Remote {
 		
 	public Hashtable<String, Boolean> getUserView(String userName) throws RemoteException;
 	
-	public void setUserView(Hashtable<String, Boolean> userView) throws RemoteException;
+	public void setUserView(String userID, Hashtable<String, Boolean> userview) throws RemoteException;
 	
 // • • • • • • • • ADMINS • • • • • • • • •
 
@@ -70,6 +70,7 @@ public interface SmartHSystem extends Remote {
 	// varmaan sitten myös jotain kyselyitä, mitkä palauttaa itemin typin yms. mutta niitä 
 	// ainakaan vielä tarvitse
 	
+	// • • • • • • • • VIEWS • • • • • • • • •
 	
 	
 }
