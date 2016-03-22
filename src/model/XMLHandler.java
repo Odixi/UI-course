@@ -1,9 +1,12 @@
 package model;
 
 import java.io.File;
+import java.io.IOException;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
@@ -11,13 +14,33 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
 
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 public class XMLHandler {
 
+	private DocumentBuilderFactory factory;
+	private DocumentBuilder builder;
+	private DOMSource source;
+	
+	private Schema schema;
+	
 	public XMLHandler(){
+		
+		factory = DocumentBuilderFactory.newInstance();
+		factory.setIgnoringComments(true);
+		factory.setIgnoringElementContentWhitespace(true);
+		
+		try {
+			builder = factory.newDocumentBuilder();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -26,17 +49,9 @@ public class XMLHandler {
 	public Document getDocument(String filepath) {		
 		
 		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			factory.setIgnoringComments(true);
-			factory.setIgnoringElementContentWhitespace(true);
-			
-			//TODO Can't be used right now as there is no schema or DTD for HouseBuild
-			//factory.setValidating(true);
-			
-			DocumentBuilder builder = factory.newDocumentBuilder();
-
+		
 			return builder.parse(new InputSource(filepath));
-			
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	
@@ -46,6 +61,22 @@ public class XMLHandler {
 	} //getDocument()
 	
 	
+	//---------------- CREATE DOCUMENT ---------------------
+	
+	public Document createDocument(){
+		
+		try {
+			
+			return builder.newDocument();
+			
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return null;
+		
+	}
+	
 	//--------------- WRITE INTO THE XML FILE -------------
 	
 	public void writeXML(Document doc, String filepath){
@@ -54,11 +85,11 @@ public class XMLHandler {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			
-			//Make the XML look pretty when stuff is added (pretty = intendentet)
+			//Make the XML look pretty when stuff is added (pretty = intendented)
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 			
-			DOMSource source = new DOMSource(doc);
+			source = new DOMSource(doc);
 			StreamResult result = new StreamResult(new File(filepath) );
 			transformer.transform(source, result);
 			
@@ -69,5 +100,36 @@ public class XMLHandler {
 		}
 		
 	} //writeXML
+	
+	//-------------- LOAD SCHEMA -------------------------
+	
+	public Schema loadSchema(String filepath){
+		schema = null;
+		
+		try {
+			String language = XMLConstants.W3C_XML_SCHEMA_NS_URI;
+			SchemaFactory schemaFactory = SchemaFactory.newInstance(language);
+			schema = schemaFactory.newSchema(new File(filepath));
+			
+			return schema;
+			
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	//------------ VALIDATE DOC -----------------------------
+	
+	public void validateDoc(Schema schema, Document doc){
+		Validator validator = schema.newValidator();
+		
+		try {
+			validator.validate(new DOMSource(doc));
+		} catch (SAXException | IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 }

@@ -21,6 +21,8 @@ public class ViewHandler extends XMLHandler {
 	
 	private HouseHandler houseHandler;
 	
+	private Hashtable<String, String> filelist;
+	
 	// >>> XML tags
 	
 	private static final String inView = "inView";
@@ -111,8 +113,8 @@ public class ViewHandler extends XMLHandler {
 			
 			//User
 			Element user = viewsXML.createElementNS(viewNS, nsPrefix + ":" + userPrefix);
-			user.setAttribute(userIDTag, userID);
 			view.appendChild(user);
+			user.setAttribute(userIDTag, userID);
 			
 			Element housesRoot = houseHandler.getRootElement();
 			
@@ -151,10 +153,11 @@ public class ViewHandler extends XMLHandler {
 	//--------------- UPDATE THE USERVIEW --------------------
 	
 	public void updateUserView(String userID, Hashtable<String, Boolean> userview){
+
+		Element view = getViewElement(userID);		
+		ArrayList<Element> houseElements = getHouseElements(view);
+		updateHousesIncluded(houseElements, userview);
 		
-			Element view = getViewElement(userID);
-			ArrayList<Element> houseElements = getHouseElements(view);
-			updateHousesIncluded(houseElements, userview);
 	}
 	
 	//-------------- UPDATE THE HOUSE STRUCTURE IN VIEW ----------------------
@@ -435,14 +438,9 @@ public class ViewHandler extends XMLHandler {
 						
 						//Check if the userID matches userNodes userID
 						if(userElement.hasAttribute(userIDTag)){
-							
-							System.out.println("User has ID!");
-							
+
 							if( userElement.getAttribute(userIDTag).equals(userID) ){
-							
-								//Correct view found
-								System.out.println("Correct view found! Is it null? " + (returnViewElement == null)); //TODO REMOVE
-								
+
 								returnViewElement = viewElement;
 								break;
 								
@@ -454,7 +452,7 @@ public class ViewHandler extends XMLHandler {
 		}
 		
 		System.out.println("Is view null?" + (returnViewElement == null));
-		
+
 		return returnViewElement;
 	}
 	
@@ -465,15 +463,19 @@ public class ViewHandler extends XMLHandler {
 	 * @return
 	 */ //TODO Kuvaus
 	private ArrayList<Element> getHouseElements(Element view){
+		
 		ArrayList<Element> houseElements = new ArrayList<Element>();
 		updateViewNodeList();
 		
-		NodeList houses = view.getElementsByTagName(housesTag);
+		NodeList housesRoot = view.getElementsByTagName(housesTag);
+		
+		//REMOVE Just for testing
+		System.out.println("Houses: " + housesRoot);
 
 		//There's actually just one 'houses' element but I'm going for the more general solution just in case.
-		for(int i = 0; i < houses.getLength(); i++){
-			if(houses.item(i).getNodeType() == Node.ELEMENT_NODE){
-				NodeList houseNodes = ((Element)houses.item(i)).getElementsByTagName(houseTag);
+		for(int i = 0; i < housesRoot.getLength(); i++){
+			if(housesRoot.item(i).getNodeType() == Node.ELEMENT_NODE){
+				NodeList houseNodes = ((Element)housesRoot.item(i)).getElementsByTagName(houseTag);
 				
 				for(int j = 0; j < houseNodes.getLength(); j++){
 					if(houseNodes.item(j).getNodeType() == Node.ELEMENT_NODE){

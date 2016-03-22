@@ -28,11 +28,11 @@ public class AccountHandler extends XMLHandler {
 	private Document accountXML;
 	private Element rootElement;
 	
-	private String filepath;
-	private String userTag;
-	private String userIDTag;
-	private String usernameTag;
-	private String passwordTag;
+	private final String filepath;
+	private final String userTag;
+	private final String userIDTag;
+	private final String usernameTag;
+	private final String passwordTag;
 	
 	//>>>> CONSTUCTOR <<<<<
 	public AccountHandler(String filepath, String userTag, String userIDTag, String usernameTag, String passwordTag){	
@@ -312,12 +312,14 @@ public class AccountHandler extends XMLHandler {
 	//------------------ GET USERID MATCHING USERNAME --------------------
 	
 	public String getUserID(String username){
-		String userID = "";
+		String userID = null;
 		
 		Element userElement = getUser(username);
 		
-		if(userElement.hasAttribute(userIDTag)){
-			userID = userElement.getAttribute(userIDTag).trim();
+		if(userElement != null){ //If a user matching the username doesn't exist, userElement == null
+			if(userElement.hasAttribute(userIDTag)){
+				userID = userElement.getAttribute(userIDTag).trim();
+			}
 		}
 		
 		return userID;
