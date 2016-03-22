@@ -53,6 +53,7 @@ public class AdminView extends HorizontalLayout implements View{
 	
 	//Right side
 	private Button logoutButton;
+	private Button manageHouses;
 	
 	//Middle
 	Label userViewSelectLabel;
@@ -134,6 +135,9 @@ public class AdminView extends HorizontalLayout implements View{
 			public void valueChange(ValueChangeEvent event) {
 				Notification.show(userSelect.getValue() + " selected");
 				updateContent();
+				for (int i = 0; i < houses.length; i++){
+					houses[i].updateCheckBoxesFromServer();
+				}
 			}
 		});
 
@@ -274,6 +278,17 @@ public class AdminView extends HorizontalLayout implements View{
         rightLayout.addComponent(logoutButton);
         rightLayout.setComponentAlignment(logoutButton, Alignment.TOP_RIGHT);
         
+        // -------- Manage house items state button ------ //
+      
+        manageHouses = new Button("Manga houses", 
+        		new Button.ClickListener() {
+						@Override
+			public void buttonClick(ClickEvent event) {
+				// TODO Kun vaihdetaan talonhallinta näkymään
+				
+			}
+		});
+                
 	}
 	
 	// Hakee serveriltä valitun käyttäjän tiedot ja päivättää ne
