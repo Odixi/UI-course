@@ -167,16 +167,15 @@ public class AdminView extends HorizontalLayout implements View{
 				// Käyttäjänimen ja / tai salasanan muutos
 				try {
 					if (usernameField.getValue().length() < 3 || usernameField.getValue().length() > 24){
-						Notification.show("Username must be atleast 3 characters and 24 at most \nNo changes made!");
+						Notification.show("Username must be 3-24 characters long \nNo changes made!");
 						return;
 					}
 					
-					if ( !shsystem.passwordValid(passwordField.getValue()) ){
-						Notification.show("Password must be at least 8 characters long and 24 at most. \nNo changes made!");
-						return;
-					}
-					
-					if (passwordField.getValue() != null || !passwordField.getValue().isEmpty()){
+					if (passwordField.getValue() != null && passwordField.getValue() != ""){
+						if ( !shsystem.passwordValid(passwordField.getValue()) ){
+							Notification.show("Password must be 8-24 characters long. \nNo changes made!");
+							return;
+						}
 						shsystem.changePasswordAdmin((String)userSelect.getValue(), passwordField.getValue());
 					}
 					
@@ -195,13 +194,13 @@ public class AdminView extends HorizontalLayout implements View{
 				// Laitetaan userViewValue hashtableen chackboxien avaimet ja arvot
 				Hashtable<String, Boolean> userViewValues = new Hashtable<>();
 				for (int i = 0; i < houses.length; i++){
-					HiddenValueCheckBox[][] cbList = houses[i].getChackBoxes();
-					for (int j = 0; j < cbList.length; j++){
-						for (int k = 0; k < cbList[j].length; k++){
-							userViewValues.put(cbList[j][k].getHiddenValue(), cbList[j][k].getValue());
-						} // for k
+					ArrayList<HiddenValueCheckBox> cbList = houses[i].getCheckBoxes();
+					for (int j = 0; j < cbList.size(); j++){
+							userViewValues.put(cbList.get(j).getHiddenValue(), cbList.get(j).getValue());
 					} // for j
 				} // for i
+				
+				System.out.println(userViewValues.toString());
 				
 				try {
 					shsystem.setUserView(shsystem.getUserID((String)userSelect.getValue()),userViewValues);
@@ -302,8 +301,8 @@ public class AdminView extends HorizontalLayout implements View{
 		}
 		else{
 			usernameField.setValue((String)userSelect.getItemCaption(userSelect.getValue()));
-			//userViewSelectLabel.setValue("<font size=\"4\">Edit " + userSelect.getValue() + "'s view" +  "</font>");
 			userViewSelectLabel.setValue("<font size=\"4\">Edit " + userSelect.getItemCaption( userSelect.getValue().toString() ) + "'s view" +  "</font>");
+			passwordField.setValue("");
 		}
 	}
 	

@@ -121,8 +121,15 @@ public class RoomListComponent extends CustomComponent {
 			setCompositionRoot(panel);
 		}
 		
-		public HiddenValueCheckBox[][] getChackBoxes(){
-			return checkBoxes;
+		public ArrayList<HiddenValueCheckBox> getCheckBoxes(){
+			ArrayList<HiddenValueCheckBox> list = new ArrayList<HiddenValueCheckBox>();
+			for (int i = 0; i < checkBoxes.length; i++){
+				for (int j = 0; j < checkBoxes[i].length; j++){
+					list.add(checkBoxes[i][j]);
+				}
+			}
+			list.add(houseBox);
+			return list;
 		}
 		
 		// Haetaan käyttäjän oikeudet serveriltä
