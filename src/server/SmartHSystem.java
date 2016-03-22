@@ -30,6 +30,10 @@ public interface SmartHSystem extends Remote {
 	
 	public ArrayList<String> getUsernames() throws RemoteException;
 	
+		// ‹›‹›‹›‹›‹›‹›‹›‹›‹› USER ID ‹›‹›‹›‹›‹›‹›‹›‹›‹›		
+	
+	public String getUserID(String username) throws RemoteException;
+	
 		// ‹›‹›‹›‹›‹›‹›‹›‹›‹› USER PASSWORD ‹›‹›‹›‹›‹›‹›‹›‹›‹›	
 	
 	public boolean changePassword(String username, String oldPassword, String newPassword) throws RemoteException;

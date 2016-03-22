@@ -283,6 +283,18 @@ public class AccountHandler extends XMLHandler {
 		return usernameList;
 	}
 	
+	public String getUserID(String username){
+		String userID = "";
+		
+		Element userElement = getUser(username);
+		
+		if(userElement.hasAttribute(userIDTag)){
+			userID = userElement.getAttribute(userIDTag).trim();
+		}
+		
+		return userID;
+	}
+	
 	// o-o-o-o-o-o-o-o-o HELP METHODS o-o-o-o-o-o-o-o-o-o-o-o
 	
 	private void updateaccountNodeList(){

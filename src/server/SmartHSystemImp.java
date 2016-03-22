@@ -119,6 +119,12 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		return userHandler.getUsernameList();
 	}
 	
+		// ‹›‹›‹›‹›‹›‹›‹›‹›‹› USER ID ‹›‹›‹›‹›‹›‹›‹›‹›‹›	
+	
+	public String getUserID(String username) throws RemoteException {
+		return userHandler.getUserID(username);
+	}
+	
 		// ‹›‹›‹›‹›‹›‹›‹›‹›‹› USER PASSWORD ‹›‹›‹›‹›‹›‹›‹›‹›‹›
 	
 	public boolean changePassword(String username, String oldPassword, String newPassword) throws RemoteException {
