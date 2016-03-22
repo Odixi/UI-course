@@ -157,12 +157,15 @@ public class AdminView extends HorizontalLayout implements View{
         passwordField = new PasswordField("Pasword");
         leftLayout.addComponent(passwordField);
         
+        
         // ----- Save changes button ----- //
         
         saveChanges = new Button("Save Changes", new Button.ClickListener() {
 			
 			@Override
 			public void buttonClick(ClickEvent event) {
+				
+				boolean needsUpdate = false;
 				
 				// Käyttäjänimen ja / tai salasanan muutos
 				try {
@@ -176,12 +179,12 @@ public class AdminView extends HorizontalLayout implements View{
 							Notification.show("Password must be 8-24 characters long. \nNo changes made!");
 							return;
 						}
-						shsystem.changePasswordAdmin((String)userSelect.getValue(), passwordField.getValue());
+						shsystem.changePasswordAdmin((String)userSelect.getItemCaption(userSelect.getValue()), passwordField.getValue());
 					}
-					
-					if (!userSelect.getValue().toString().equals(usernameField.getValue())){
+					if (!userSelect.getItemCaption(userSelect.getValue()).toString().equals(usernameField.getValue())){
 						if( shsystem.usernameValid(usernameField.getValue()) ){
-							shsystem.changeUsername((String)userSelect.getValue(), usernameField.getValue());
+							shsystem.changeUsername((String)userSelect.getItemCaption(userSelect.getValue()), usernameField.getValue());
+							needsUpdate = true;
 						} else {
 							Notification.show("Username must be 3-24 characters long. No changes made!");
 							return;
@@ -200,15 +203,16 @@ public class AdminView extends HorizontalLayout implements View{
 					} // for j
 				} // for i
 				
-				System.out.println(userViewValues.toString());
-				
 				try {
 					
 					shsystem.setUserView( getSelectedUserID(), userViewValues);
 					
 					//shsystem.setUserView(shsystem.getUserID((String)userSelect.getValue()),userViewValues);
 				} catch (RemoteException e) {e.printStackTrace();}
-				Notification.show("Changens saved");
+				if (needsUpdate){
+					updateUserList();
+				}
+				Notification.show("Changes saved");
 				
 			}// Click listener
 		});
