@@ -319,42 +319,55 @@ public class ViewHandler extends XMLHandler {
 		
 		//Iterate through houses
 		if( !houseElements.isEmpty() ){
-			for(int i = 0; i < houseElements.size(); i++){
+			for(int houseIndex = 0; houseIndex < houseElements.size(); houseIndex++){
 				
 				//inView = true/false?
-				if(houseElements.get(i).getAttribute(houseIDTag) != null && houseElements.get(i).getAttribute(inView) != null){
+				if( houseElements.get(houseIndex).getAttribute(houseIDTag) != null ){
+					if( houseElements.get(houseIndex).getAttribute(inView) == null){
+						houseElements.get(houseIndex).setAttribute(inView, "false");
+					}
+					
 					//Add house info (ID, inView) to hashtable 
-					userView.put(houseElements.get(i).getAttribute(houseIDTag), parseBoolean( houseElements.get(i).getAttribute(inView).trim() ) );
+					userView.put(houseElements.get(houseIndex).getAttribute(houseIDTag), parseBoolean( houseElements.get(houseIndex).getAttribute(inView).trim() ) );
 				}
 				//Rooms
-				ArrayList<Element> roomElements = getRoomElements(houseElements.get(i));
+				ArrayList<Element> roomElements = getRoomElements(houseElements.get(houseIndex));
 				
 				if( !roomElements.isEmpty() ){
-					for(int j = 0; j < roomElements.size(); j++){
+					for(int roomIndex = 0; roomIndex < roomElements.size(); roomIndex++){
 						
 						//inView = true/false?
-						if(roomElements.get(i).getAttribute(roomIDTag) != null && roomElements.get(i).getAttribute(inView) != null){
-							userView.put(roomElements.get(i).getAttribute(roomIDTag), parseBoolean(roomElements.get(i).getAttribute(inView)) );
+						if(roomElements.get(roomIndex).getAttribute(roomIDTag) != null ){
+							if( roomElements.get(roomIndex).getAttribute(inView) == null){
+								roomElements.get(roomIndex).setAttribute(inView, "false");
+							}
+							//Add room info to hashtable
+							userView.put(roomElements.get(roomIndex).getAttribute(roomIDTag), parseBoolean(roomElements.get(roomIndex).getAttribute(inView)) );
 						}
 						
 						//Lights, sensors and appliance
-						ArrayList<Element> itemElements = getItemElements( roomElements.get(j) );
+						ArrayList<Element> itemElements = getItemElements( roomElements.get(roomIndex) );
 						if( !itemElements.isEmpty() ){
 							
-							for(int k = 0; k < itemElements.size(); k++){
+							for(int itemIndex = 0; itemIndex < itemElements.size(); itemIndex++){
 								//inView = true/false?
-								if(itemElements.get(k).hasAttribute(lightIDTag)){
-									if(itemElements.get(k).getAttribute(inView) != null){
-										userView.put(itemElements.get(k).getAttribute(lightIDTag), parseBoolean(itemElements.get(k).getAttribute(inView)) );
+								if(itemElements.get(itemIndex).hasAttribute(lightIDTag)){
+									if(itemElements.get(itemIndex).getAttribute(inView) == null){
+										itemElements.get(itemIndex).setAttribute(inView, "false");
 									}	
-								} else if(itemElements.get(k).hasAttribute(sensorIDTag)){
-									if(itemElements.get(k).getAttribute(inView) != null){
-										userView.put(itemElements.get(k).getAttribute(sensorIDTag), parseBoolean(itemElements.get(k).getAttribute(inView)) );
+									userView.put(itemElements.get(itemIndex).getAttribute(lightIDTag), parseBoolean(itemElements.get(itemIndex).getAttribute(inView)) );
+									
+								} else if(itemElements.get(itemIndex).hasAttribute(sensorIDTag)){
+									if(itemElements.get(itemIndex).getAttribute(inView) == null){
+										itemElements.get(itemIndex).setAttribute(inView, "false");
 									}
-								} else if(itemElements.get(k).hasAttribute(applianceIDTag)){
-									if(itemElements.get(k).getAttribute(inView) != null){
-										userView.put(itemElements.get(k).getAttribute(applianceIDTag), parseBoolean(itemElements.get(k).getAttribute(inView)) );
+									userView.put(itemElements.get(itemIndex).getAttribute(sensorIDTag), parseBoolean(itemElements.get(itemIndex).getAttribute(inView)) );
+									
+								} else if(itemElements.get(itemIndex).hasAttribute(applianceIDTag)){
+									if(itemElements.get(itemIndex).getAttribute(inView) == null){
+										 itemElements.get(itemIndex).setAttribute(inView, "false");
 									}
+									userView.put(itemElements.get(itemIndex).getAttribute(applianceIDTag), parseBoolean(itemElements.get(itemIndex).getAttribute(inView)));
 								}
 							}
 						}
@@ -362,12 +375,12 @@ public class ViewHandler extends XMLHandler {
 				}
 			}	
 		}				
-			
+		
 		return userView;
 	}
 	
 	
-// o.o.o.o.o.o.o.o.o.o.o.o.o.o.o HELP METHODS o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o
+// o.o.o.o.o.o.o.o.o.o.o.o.o.o.o HELP METHODS o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o
 	
 	private boolean parseBoolean(String b){
 		if(b.equals("0") || b.equalsIgnoreCase("true")){

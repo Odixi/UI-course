@@ -83,6 +83,10 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		//TODO Remove, for testing only
 		viewHandler.createDefaultView("ppp666");
 		
+		Hashtable<String, Boolean> pilviView = viewHandler.getUserView("ppp666");
+		
+		System.out.println(pilviView);
+		
 	}
 	
 	// • • • • • • • • • • • • BOTH USERS & ADMINS • • • • • • • • • • • • 
