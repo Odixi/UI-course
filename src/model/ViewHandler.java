@@ -25,7 +25,7 @@ public class ViewHandler extends XMLHandler {
 	
 	private static final String inView = "inView";
 	
-	private static final String viewTag = "view";	
+	private static final String viewTag = "tns:view";	
 	private static final String viewIDTag = "viewID";
 
 	private static final String userIDTag = "userID";
