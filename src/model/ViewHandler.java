@@ -21,7 +21,9 @@ public class ViewHandler extends XMLHandler {
 	
 	private HouseHandler houseHandler;
 	
+	//FileList
 	private Hashtable<String, String> filelist;
+	private final String rootfilepath = "src/xmlfiles.viewsfiles/";
 	
 	// >>> XML tags
 	
@@ -147,6 +149,14 @@ public class ViewHandler extends XMLHandler {
 			//FOR TESTING ETC:
 			System.out.println("Userview for user " + userID + " created!");
 		}
+	}
+	
+	//--------------- GET FILEPATH ---------------------------
+	
+		//This is needed for the idea that every view would be saved in its own file.
+	
+	public String createFilepath(String userID){
+		return rootfilepath + userID + ".xml";
 	}
 	
 	
