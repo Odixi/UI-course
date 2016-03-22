@@ -203,7 +203,10 @@ public class AdminView extends HorizontalLayout implements View{
 				System.out.println(userViewValues.toString());
 				
 				try {
-					shsystem.setUserView(shsystem.getUserID((String)userSelect.getValue()),userViewValues);
+					
+					shsystem.setUserView( getSelectedUserID(), userViewValues);
+					
+					//shsystem.setUserView(shsystem.getUserID((String)userSelect.getValue()),userViewValues);
 				} catch (RemoteException e) {e.printStackTrace();}
 				Notification.show("Changens saved");
 				
