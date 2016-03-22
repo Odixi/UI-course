@@ -261,8 +261,13 @@ public class ViewHandler extends XMLHandler {
 				houseElements.get(i).setAttribute(inView, "false");
 				
 				//TODO FOR TESTING
+				
+				if(houseElements.get(0).equals( houseElements.get(1))){
+					System.out.println("Oh shit.");
+				}
+				
 				System.out.println("Setting attribute inView for houseElement " + i);
-				System.out.println(houseElements.get(i).toString());
+				System.out.println(houseElements.get(i).getAttribute(houseIDTag).trim());
 				
 			}
 		} else {
@@ -439,8 +444,8 @@ public class ViewHandler extends XMLHandler {
 				NodeList houseNodes = ((Element)houses.item(i)).getElementsByTagName(houseTag);
 				
 				for(int j = 0; j < houseNodes.getLength(); j++){
-					if(houseNodes.item(i).getNodeType() == Node.ELEMENT_NODE){
-						houseElements.add( (Element)houseNodes.item(i) );
+					if(houseNodes.item(j).getNodeType() == Node.ELEMENT_NODE){
+						houseElements.add( (Element)houseNodes.item(j) );
 					}
 				}
 			}
