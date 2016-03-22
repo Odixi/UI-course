@@ -39,6 +39,7 @@ public class RoomListComponent extends CustomComponent {
 		public RoomListComponent(String houseID, String houseName, SmartHSystem shsystem, AdminView av){
 			
 			this.av = av;
+			this.shsystem = shsystem;
 			panel = new Panel();
 		
 			layout = new VerticalLayout();
@@ -130,10 +131,6 @@ public class RoomListComponent extends CustomComponent {
 			if ( av.getSelectedUserID() != null ){ //If user is selected
 				try {	
 					
-					//System.out.println("This should be userID: " + (String)av.getComboBox().getValue() ); //TODO REMOVE
-					System.out.println("This should be userID: " + av.getSelectedUserID() ); //TODO REMOVE
-					
-					//Hashtable<String, Boolean> hm = shsystem.getUserView( av.getComboBox().getValue().toString().trim() );
 					Hashtable<String, Boolean> hm = shsystem.getUserView( av.getSelectedUserID() );
 					
 					for (String key : hm.keySet()){

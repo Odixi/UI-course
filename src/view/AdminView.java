@@ -316,6 +316,7 @@ public class AdminView extends HorizontalLayout implements View{
 		} catch (RemoteException e1) {
 			e1.printStackTrace();
 		}
+        
         //userSelect.addItems(users); //TODO
      
        /*//CHANGE
