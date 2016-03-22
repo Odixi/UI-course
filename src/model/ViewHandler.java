@@ -84,7 +84,7 @@ public class ViewHandler extends XMLHandler {
 	public void createDefaultView(String userID){	//Could also be called setUserView()
 
 		//Check - just in case - if the user already has a view.
-		if( userHasView(userID)){
+		if( userHasView(userID) ){
 			
 			//TODO Check if this actually works
 			
@@ -379,48 +379,68 @@ public class ViewHandler extends XMLHandler {
 		viewNodeList = viewsXML.getElementsByTagName(viewTag);
 	}
 	
-	//Pretty stupid and probably unnecessary method.
+	//.o.o.o.o.o.o.o.o.o.o.o. USER HAS VIEW? .o.o.o.o.o.o.o.o.o.o.o.
+
 	private boolean userHasView(String userID){
-		System.out.println("userHasView checked");
 		boolean hasView = false;
-		
-		if(getViewElement(userID) != null){
+
+		if( getViewElement(userID) != null){
 			hasView = true;
-		}
+		} 
 		
-		System.out.println("userHasView: " + hasView); //TODO REMOVE
-		
+		System.out.println("userHasView checked for user " + userID + ". Result: " + hasView); //REMOVE
 		return hasView;
 	}
 	
-
+	// .o.o.o.o.o.o.o.o.o.o.o. GET VIEW ELEMENT .o.o.o.o.o.o.o.o.o.o.o.
+	/**
+	 * 
+	 * @param userID
+	 * @return
+	 */
 	private Element getViewElement(String userID){
-		Element viewElement = null;
+		
+		Element returnViewElement = null;
 		updateViewNodeList();
 		
-		for(int i = 0; i < viewNodeList.getLength(); i++){
-			if(viewNodeList.item(i) != null && viewNodeList.item(i).getNodeType() == Node.ELEMENT_NODE){
-				
-				Element e = (Element) viewNodeList.item(i);
+		//Iterate through views
+		for(int viewIndex = 0; viewIndex < viewNodeList.getLength(); viewIndex++){
 			
-				NodeList users = e.getElementsByTagName(userTag);
+			//Check that viewnode is element node (for type casting)
+			if( viewNodeList.item(viewIndex) != null && viewNodeList.item(viewIndex).getNodeType() == Node.ELEMENT_NODE ){
 				
-				//TODO REMOVE
-				System.out.println("Users " + users.getLength());
+				Element viewElement = (Element) viewNodeList.item(viewIndex);
+				NodeList userNodes = viewElement.getElementsByTagName(userTag);
 				
-				for(int u = 0; u < users.getLength(); u++){
-					if(users.item(u).getNodeType() == Node.ELEMENT_NODE){
-						Element userElement = ((Element)users.item(u));
+				for( int userNodeIndex = 0; userNodeIndex < userNodes.getLength(); userNodeIndex++ ){
+					//Check that usernode is element node (for type casting)
+					if( userNodes.item(userNodeIndex) != null && userNodes.item(userNodeIndex).getNodeType() == Node.ELEMENT_NODE){
 						
-						if(userElement.getAttribute(userIDTag) != null && e.getAttribute(userIDTag).equals(userID) ){
-							viewElement = e;
-							break;
+						Element userElement = (Element) userNodes.item(userNodeIndex);
+						
+						//Check if the userID matches userNodes userID
+						if(userElement.hasAttribute(userIDTag)){
+							
+							System.out.println("User has ID!");
+							
+							if( userElement.getAttribute(userIDTag).equals(userID) ){
+							
+								//Correct view found
+								System.out.println("Correct view found! Is it null? " + (returnViewElement == null)); //TODO REMOVE
+								
+								returnViewElement = viewElement;
+								break;
+								
+							}
 						}
 					}
 				}
 			}
 		}
-		return viewElement;
+		
+		System.out.println("Is view null?" + (returnViewElement == null));
+		
+		return returnViewElement;
 	}
 	
 	// o o o o o o o o o o o o GET HOUSES IN VIEW o o o o o o o o o o o o 
