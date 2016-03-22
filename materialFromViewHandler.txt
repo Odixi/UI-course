@@ -1,0 +1,44 @@
+		//newhouses.setPrefix(housesPrefix);		//DOESN'T WORK, %&¡€#?&*¿@!!
+		
+		//Element houses = houseHandler.getRootElement();
+		
+		/*
+		//Houses
+		//Element houses = viewsXML.createElement(housesTag);
+		
+		//TODO DOES THIS WORK?
+		Element houses = houseHandler.getRootElement();
+		Node housesNode = (Node) viewsXML.adoptNode(houses);
+		//view.appendChild(viewsXML.importNode(houses, true));
+		view.appendChild((org.w3c.dom.Node) housesNode);
+		
+		*/
+		/*
+		 
+		//Calls houseHandler so the method returns all houses that are found in the system.
+		ArrayList<Element> houseList = houseHandler.getHouseElements();
+		
+		housesNotIncluded(houseList);
+			
+		for(Element house : houseList){
+			houses.appendChild(viewsXML.importNode(house, true));
+			//houses.appendChild(house);
+			
+			ArrayList<Element> rooms = houseHandler.getRoomElements(house);
+			
+			roomsNotIncluded(rooms);
+			
+			for(Element room : rooms){
+				house.appendChild(room);
+				
+				ArrayList<Element> items = houseHandler.getItemElements(room);
+				
+				itemsNotIncluded(items);
+				
+				for(Element item : items){
+					room.appendChild(item);
+				}
+			}
+		}
+		
+		 */
