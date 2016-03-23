@@ -10,12 +10,14 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.shared.ui.combobox.FilteringMode;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.PopupView;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
@@ -51,10 +53,6 @@ public class UserView extends VerticalLayout implements View{
 			e1.printStackTrace();
 		}
 		
-		// Label that tells the current user
-		Label loggedUser = new Label(ui.getUsername());
-		addComponent(loggedUser);
-		
 		setMargin(true);
 		setSpacing(true);
        
@@ -64,26 +62,27 @@ public class UserView extends VerticalLayout implements View{
         
      // ----- Kodin valinta----- //   
         houseSelect = new ComboBox();
-        houseSelect.setInputPrompt("Change home");
+        houseSelect.setInputPrompt("Select house");
+        houseSelect.setCaption("Select house");
         houseSelect.setFilteringMode(FilteringMode.CONTAINS);
         houseSelect.setTextInputAllowed(false);
         houseSelect.setNullSelectionAllowed(false);
         
-        Hashtable<String, String> homes = new Hashtable<String, String>();  
+        Hashtable<String, String> houses = new Hashtable<String, String>();  
         
 		try {
-			homes = shsystem.getHouseNames();
+			houses = shsystem.getHouseNames();
 		} catch (RemoteException e) {e.printStackTrace();}
 
-		
-		for (String houseID : homes.keySet()){
+		for (String houseID : houses.keySet()){
 			if (userView.get(houseID)){
 				houseSelect.addItem(houseID);
-				houseSelect.setItemCaption(houseID, homes.get(houseID));
+				houseSelect.setItemCaption(houseID, houses.get(houseID));
 				houseSelect.select(houseID); // Koska haluan, että joku arvo on valmiiksi valittu, 
 			}
 		}
        
+		// When changing the house, build a view for new one.
        houseSelect.addValueChangeListener(new ValueChangeListener() {	
     	   @Override
 			public void valueChange(ValueChangeEvent event) {
@@ -93,9 +92,38 @@ public class UserView extends VerticalLayout implements View{
 			
 		}
        });
+
+       navigation.addComponent(houseSelect);
+       navigation.setComponentAlignment(houseSelect, Alignment.MIDDLE_LEFT);
        
 
-        Button logOut= new Button("LogOut",new Button.ClickListener() {
+       // ------ Smart Home -title ------ //
+       Label smartHomeLabel = new Label("<font size=\"7\">Smart Home</font>");
+       smartHomeLabel.setContentMode(ContentMode.HTML);
+       smartHomeLabel.setSizeUndefined();
+       navigation.addComponent(smartHomeLabel);
+       navigation.setComponentAlignment(smartHomeLabel, Alignment.MIDDLE_CENTER);
+       
+       HorizontalLayout rightLayout = new HorizontalLayout();
+       rightLayout.setSpacing(true);
+       
+		// Label that tells the current user
+		Label loggedUser = new Label("<font size=\"4\">" + ui.getUsername() + "</font>");
+		loggedUser.setContentMode(ContentMode.HTML);
+		loggedUser.setSizeUndefined();
+		rightLayout.addComponent(loggedUser);
+		rightLayout.setComponentAlignment(loggedUser, Alignment.MIDDLE_RIGHT);
+		
+		// ------ Change Password ------ //
+		
+		ChangePasswordPopupContent cpContent = new ChangePasswordPopupContent(shsystem);
+		PopupView changePassword = new PopupView(cpContent);
+		cpContent.setPopupView(changePassword);
+		rightLayout.addComponent(changePassword);
+		rightLayout.setComponentAlignment(changePassword, Alignment.MIDDLE_RIGHT);
+       
+		// ------ Logout ------ //
+        Button logOut= new Button("Logout",new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
             	ui.getNavigator().removeView(ui.USERVIEW);
@@ -103,13 +131,14 @@ public class UserView extends VerticalLayout implements View{
             }
         });
         logOut.setIcon(FontAwesome.SIGN_OUT);
-        navigation.addComponent(houseSelect);
-        navigation.setComponentAlignment(houseSelect, Alignment.MIDDLE_LEFT);
-        navigation.addComponent(logOut);
-        navigation.setComponentAlignment(logOut, Alignment.MIDDLE_RIGHT);
+        rightLayout.addComponent(logOut);
+        rightLayout.setComponentAlignment(logOut, Alignment.MIDDLE_RIGHT);
         
-        
+        navigation.addComponent(rightLayout);
+        navigation.setComponentAlignment(rightLayout, Alignment.MIDDLE_RIGHT);
         addComponent(navigation);
+        
+        // initiate house view if the user has the rights
         if (!houseSelect.isEmpty()){
         	htb = new HouseTabSheet(shsystem, ui, (String)houseSelect.getValue(), userView);
 			addComponent(htb);
