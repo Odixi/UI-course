@@ -304,6 +304,7 @@ public class AdminView extends HorizontalLayout implements View{
 		//TODO
 		if (userSelect.getValue() == null){
 			usernameField.setValue("");
+			passwordField.setValue("");
 			userViewSelectLabel.setValue("<font size=\"4\">Edit View</font>");
 		}
 		else{
