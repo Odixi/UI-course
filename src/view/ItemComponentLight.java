@@ -42,5 +42,9 @@ public class ItemComponentLight extends CustomComponent{
 	public void update(){
 		// TODO
 	}
+	
+	public String toString(){
+		return "Light";
+	}
 
 }

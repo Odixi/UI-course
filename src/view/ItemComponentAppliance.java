@@ -9,7 +9,7 @@ import com.vaadin.ui.VerticalLayout;
 import model.items.Appliance;
 import server.SmartHSystem;
 
-public class ItemComponentAppliance extends CustomComponent{
+public class ItemComponentAppliance extends CustomComponent implements ItemComponent{
 	
 	private Panel panel;
 	private VerticalLayout layout;
@@ -41,6 +41,10 @@ public class ItemComponentAppliance extends CustomComponent{
 	 */
 	public void update(){
 		// TODO
+	}
+	
+	public String toString(){
+		return "Apliance";
 	}
 
 }

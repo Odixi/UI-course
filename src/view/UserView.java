@@ -160,6 +160,11 @@ public class UserView extends VerticalLayout implements View{
         Notification.show("HI " + ui.getUsername() + "!");
        
     }
-   
+   /**
+    * This sould be run when server push happens. Updates every item in the view.
+    */
+    public void update(){
+    	htb.update();
+    }
  
 }

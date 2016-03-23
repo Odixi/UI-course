@@ -37,5 +37,19 @@ public class RoomContentComponent extends CustomComponent {
 		setCompositionRoot(layout);
 		
 	}
+	/**
+	 * Update item states
+	 */
+	public void update(){
+		ItemComponent c;
+		for (int i = 0; i < layout.getComponentCount(); i++){
+			if (layout.getComponent(i) instanceof ItemComponent){
+				c = (ItemComponent)layout.getComponent(i);
+				c.update();
+			}
+				
+		}
+		
+	}
 
 }

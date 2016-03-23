@@ -15,7 +15,7 @@ import server.SmartHSystem;
  * Displays sensor name and value inside panel (at least for now)
  */
 
-public class ItemComponentSensor extends CustomComponent{
+public class ItemComponentSensor extends CustomComponent implements ItemComponent{
 	
 	private Sensor sensor;
 	private Panel panel;
@@ -45,5 +45,9 @@ public class ItemComponentSensor extends CustomComponent{
 	// TODO method for updating the item state
 	public void update(){
 		
+	}
+	
+	public String toString(){
+		return "Sensor";
 	}
 }

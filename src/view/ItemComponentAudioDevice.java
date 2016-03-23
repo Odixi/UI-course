@@ -13,7 +13,7 @@ import com.vaadin.ui.VerticalLayout;
 import model.items.AudioDevice;
 import server.SmartHSystem;
 
-public class ItemComponentAudioDevice extends CustomComponent {
+public class ItemComponentAudioDevice extends CustomComponent implements ItemComponent{
 	private Panel panel;
 	private VerticalLayout layout;
 	private AudioDevice audioDevice;
@@ -72,6 +72,10 @@ public class ItemComponentAudioDevice extends CustomComponent {
 	 */
 	public void update(){
 		// TODO
+	}
+	
+	public String toString(){
+		return "AudioDevice";
 	}
 
 }
