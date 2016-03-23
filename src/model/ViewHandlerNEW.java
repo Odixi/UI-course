@@ -76,6 +76,8 @@ public class ViewHandlerNEW extends XMLHandler {
 	public void setUserView(String userID, Hashtable<String, Boolean> userview){
 		//TODO Copy
 	}
+	
+	
 		
 	public Hashtable<String, Boolean> getUserView(String userID){
 		
