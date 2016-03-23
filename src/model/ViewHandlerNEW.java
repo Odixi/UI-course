@@ -114,7 +114,7 @@ public class ViewHandlerNEW extends XMLHandler {
 		} else {
 			File file = new File( filelist.get(userID) );
 			
-			if(file.exists()){
+			if(file.exists() && file.isFile()){
 				return true;
 				
 			} else {
