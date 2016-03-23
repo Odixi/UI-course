@@ -87,7 +87,7 @@ public class LoginView extends VerticalLayout implements View{
     
     	// ----- Käyttäjän valinta ----- // 
     	
-        ComboBox userSelect = new ComboBox("Select user");
+        userSelect = new ComboBox("Select user");
         userSelect.setInputPrompt("No user selected");
         userSelect.setFilteringMode(FilteringMode.CONTAINS);
         userSelect.setImmediate(true);
@@ -142,15 +142,16 @@ public class LoginView extends VerticalLayout implements View{
             			//String securePassword = cryptor.encrypt(passwordField.getValue());
             			
             			try {
-							match = shsystem.userLogin( userSelect.getValue().toString(), passwordField.getValue().trim());
+							match = shsystem.userLogin( getSelectedUsername(), passwordField.getValue().trim());
 							//TODO For testing
-							System.out.println("Username: " + userSelect.getValue().toString());
+							System.out.println("Username: " + getSelectedUsername());
 							System.out.println("Password written: " + passwordField.getValue().trim());
 							
             			} catch (RemoteException e) { e.printStackTrace();}
             			
             			if(match == true){
-            				ui.setUser(getSelectedUserID());
+            				ui.setUser(getSelectedUserID(), getSelectedUsername());
+            				ui.getNavigator().addView(ui.USERVIEW, new UserView(ui, shsystem));
             				ui.getNavigator().navigateTo(ui.USERVIEW);
             				
             			} else if(match == false) {
@@ -172,6 +173,8 @@ public class LoginView extends VerticalLayout implements View{
                 new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
+            	ui.setUser(getSelectedUserID(), getSelectedUsername());
+            	ui.getNavigator().addView(ui.USERVIEW, new UserView(ui, shsystem));
                 ui.getNavigator().navigateTo(ui.USERVIEW);
             }
         });

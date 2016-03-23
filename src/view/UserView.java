@@ -31,24 +31,39 @@ public class UserView extends VerticalLayout implements View{
 	//Attributes
 	private SmartHSystem shsystem;
 	private HouseTabSheet htb;
+	private HorizontalLayout navigation;
+	private ComboBox houseSelect;
+	private Hashtable<String, Boolean> userView;
+	private SmartUI ui;
  
     public UserView(SmartUI ui, SmartHSystem shsystem){
     	
     	super();
+    	this.ui = ui;
 		
 		//For RMI calls
 		this.shsystem = shsystem;
+		
+		// Let's get the users view from server
+		try {
+			userView = shsystem.getUserView(ui.getUserID());
+		} catch (RemoteException e1) {
+			e1.printStackTrace();
+		}
+		
+		// Label that tells the current user
+		Label loggedUser = new Label(ui.getUsername());
+		addComponent(loggedUser);
 		
 		setMargin(true);
 		setSpacing(true);
        
         //Luodaan pohja leiskaan tulevat vaakaleiskat
-		HorizontalLayout navigation = new HorizontalLayout();
+		navigation = new HorizontalLayout();
         navigation.setWidth("100%");
- 
         
      // ----- Kodin valinta----- //   
-        ComboBox houseSelect = new ComboBox();
+        houseSelect = new ComboBox();
         houseSelect.setInputPrompt("Change home");
         houseSelect.setFilteringMode(FilteringMode.CONTAINS);
         houseSelect.setTextInputAllowed(false);
@@ -62,9 +77,11 @@ public class UserView extends VerticalLayout implements View{
 
 		
 		for (String houseID : homes.keySet()){
-			houseSelect.addItem(houseID);
-			houseSelect.setItemCaption(houseID, homes.get(houseID));
-			houseSelect.select(houseID); // Koska haluan, että joku arvo on valmiiksi valittu, 
+			if (userView.get(houseID)){
+				houseSelect.addItem(houseID);
+				houseSelect.setItemCaption(houseID, homes.get(houseID));
+				houseSelect.select(houseID); // Koska haluan, että joku arvo on valmiiksi valittu, 
+			}
 		}
        
        houseSelect.addValueChangeListener(new ValueChangeListener() {	
@@ -81,6 +98,7 @@ public class UserView extends VerticalLayout implements View{
         Button logOut= new Button("LogOut",new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
+            	ui.getNavigator().removeView(ui.USERVIEW);
                 ui.getNavigator().navigateTo(ui.LOGINVIEW);
             }
         });
@@ -92,14 +110,16 @@ public class UserView extends VerticalLayout implements View{
         
         
         addComponent(navigation);
-		htb = new HouseTabSheet(shsystem, ui, (String)houseSelect.getValue());
-		addComponent(htb);
+        if (!houseSelect.isEmpty()){
+        	htb = new HouseTabSheet(shsystem, ui, (String)houseSelect.getValue());
+			addComponent(htb);
+    	}
     }
        
     @Override
     public void enter(ViewChangeEvent event) {
         // TODO Auto-generated method stub
-        Notification.show("userview");
+        Notification.show("HI " + ui.getUsername() + "!");
        
     }
    

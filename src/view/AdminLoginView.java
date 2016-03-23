@@ -77,7 +77,7 @@ public class AdminLoginView extends VerticalLayout implements View{
             	} catch (RemoteException e){e.printStackTrace();}
             	if (match){
             		try {
-						ui.setUser(shsystem.getUserID(usernameField.getValue()));
+						ui.setUser(shsystem.getUserID(usernameField.getValue()), usernameField.getValue());
 					} catch (RemoteException e) {e.printStackTrace();}
             		ui.getNavigator().navigateTo(ui.ADMINVIEW);
             	}
