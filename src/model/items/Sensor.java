@@ -36,7 +36,7 @@ public class Sensor extends SmartItem {
 	public void setDefaultName(){
 		switch(sensorType) {
 		case TEMPERATURE:
-			super.setName("Temperature sensor");;
+			super.setName("Temperature sensor");
 		case HUMIDITY:
 			super.setName("Humidity sensor");;
 		case LIGHT:

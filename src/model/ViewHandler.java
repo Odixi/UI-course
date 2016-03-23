@@ -57,6 +57,11 @@ public class ViewHandler extends XMLHandler {
 	private static final String appliancenameTag = "applianceName";
 	private static final String applianceIDTag = "applianceID";
 	
+	private static final String controllerTag = "controller";
+	private static final String controllernameTag = "controllerName";
+	private static final String controllerIDTag = "controllerID";
+	private static final String controllerTypeTag = "controllerType";
+	
 	//PREFIXES ETC.
 	private static final String viewNS = "http://www.example.org/views";
 	private static final String nsPrefix = "tns";
@@ -249,16 +254,20 @@ public class ViewHandler extends XMLHandler {
 			for(int k = 0; k < itemElements.size(); k++){
 				//inView = true/false?
 				if(itemElements.get(k).hasAttribute(lightIDTag)){
-						Boolean included = userview.get( itemElements.get(k).getAttribute(lightIDTag));
-						itemElements.get(k).setAttribute(inView, included.toString());
+					Boolean included = userview.get( itemElements.get(k).getAttribute(lightIDTag));
+					itemElements.get(k).setAttribute(inView, included.toString());
 						
 				} else if(itemElements.get(k).hasAttribute(sensorIDTag)){
-						Boolean included = userview.get( itemElements.get(k).getAttribute(sensorIDTag));
-						itemElements.get(k).setAttribute(inView, included.toString());
+					Boolean included = userview.get( itemElements.get(k).getAttribute(sensorIDTag));
+					itemElements.get(k).setAttribute(inView, included.toString());
 						
 				} else if(itemElements.get(k).hasAttribute(applianceIDTag)){
-						Boolean included = userview.get( itemElements.get(k).getAttribute(applianceIDTag));
-						itemElements.get(k).setAttribute(inView, included.toString());
+					Boolean included = userview.get( itemElements.get(k).getAttribute(applianceIDTag));
+					itemElements.get(k).setAttribute(inView, included.toString());
+						
+				} else if(itemElements.get(k).hasAttribute(controllerIDTag)){
+					Boolean included = userview.get( itemElements.get(k).getAttribute(controllerIDTag));
+					itemElements.get(k).setAttribute(inView, included.toString());
 				}
 			}
 		} else {
@@ -381,6 +390,12 @@ public class ViewHandler extends XMLHandler {
 										 itemElements.get(itemIndex).setAttribute(inView, "false");
 									}
 									userView.put(itemElements.get(itemIndex).getAttribute(applianceIDTag), parseBoolean(itemElements.get(itemIndex).getAttribute(inView)));
+									
+								} else if(itemElements.get(itemIndex).hasAttribute(controllerIDTag)){
+									if(itemElements.get(itemIndex).getAttribute(inView) == null ){
+										itemElements.get(itemIndex).setAttribute(inView, "false");
+									}
+									userView.put(itemElements.get(itemIndex).getAttribute(controllerIDTag), parseBoolean(itemElements.get(itemIndex).getAttribute(inView)) );
 								}
 							}
 						}
@@ -525,6 +540,7 @@ public class ViewHandler extends XMLHandler {
 				itemElements.add( (Element) lightNodes.item(i) );
 			}
 		}
+		
 		//Sensors
 		NodeList sensorNodes = room.getElementsByTagName(sensorTag);
 		for(int i = 0; i < sensorNodes.getLength(); i++){
@@ -532,6 +548,7 @@ public class ViewHandler extends XMLHandler {
 				itemElements.add( (Element) sensorNodes.item(i) );
 			}
 		}
+		
 		//Appliances
 		NodeList applianceNodes = room.getElementsByTagName(applianceTag);
 		for(int i = 0; i < applianceNodes.getLength(); i++){
@@ -539,6 +556,15 @@ public class ViewHandler extends XMLHandler {
 				itemElements.add( (Element) applianceNodes.item(i) );
 			}
 		}
+		
+		//Controllers
+		NodeList controllerNodes = room.getElementsByTagName(controllerTag);
+		for(int i = 0; i < controllerNodes.getLength(); i++ ){
+			if(controllerNodes.item(i).getNodeType() == Node.ELEMENT_NODE && controllerNodes.item(i) != null ){
+				itemElements.add( (Element) controllerNodes.item(i) );
+			}
+		}
+		
 		return itemElements;
 	}
 	

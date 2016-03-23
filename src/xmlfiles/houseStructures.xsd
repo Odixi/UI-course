@@ -42,6 +42,7 @@ xmlns="http://www.example.org/houseStructures" elementFormDefault="qualified">
             <xs:element name="light" type="lightType" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="sensor" type="sensorType" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="appliance" type="applianceType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="controller" type="controllerType" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name="inView" type="xs:boolean" use="optional"/>
         <xs:attribute name="roomID" type="xs:ID" use="required"/>
@@ -117,6 +118,8 @@ xmlns="http://www.example.org/houseStructures" elementFormDefault="qualified">
                 </xs:simpleType>
             </xs:element>
         </xs:sequence>
+        <xs:attribute name="inView" type="xs:boolean" use="optional"/>
+        <xs:attribute name="controllerID" type="xs:ID" use="required"/>    
     </xs:complexType>
 
 </xs:schema>

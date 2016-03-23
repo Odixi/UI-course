@@ -8,6 +8,8 @@ import model.house.House;
 import model.house.Room;
 import model.items.Appliance;
 import model.items.AudioDevice;
+import model.items.Controller;
+import model.items.ControllerType;
 import model.items.Light;
 import model.items.Sensor;
 import model.items.SensorType;
@@ -40,6 +42,11 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 	private static final String appliancenameTag = "applianceName";
 	private static final String applianceIDTag = "applianceID";
 	private static final String applianceTypeTag = "applianceType";
+	
+	private static final String controllerTag = "controller";
+	private static final String controllernameTag = "controllerName";
+	private static final String controllerIDTag = "controllerID";
+	private static final String controllerTypeTag = "controllerType";
 	
 	public HouseObjectGenerator(){
 		super();
@@ -192,6 +199,33 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 		}
 		
 		return machine;
+	}
+	
+	//--------------- BUILD CONTROLLER ---------------------
+	public Controller buildController(Element controllerElement){
+		Controller controllerObject = null;
+		
+		//Controller type
+		if(controllerElement.getElementsByTagName(controllerTypeTag) != null){
+			String type = controllerElement.getElementsByTagName(controllerTypeTag).item(0).getTextContent().trim();
+			
+			if(type.equalsIgnoreCase("temperature")){
+				controllerObject = new Controller( controllerElement.getAttribute(controllerIDTag), ControllerType.TEMPERATURE );
+			}
+			
+			//TODO More types?
+			
+		}
+		
+		//Controller name
+		if( controllerElement.getElementsByTagName(controllernameTag) != null ){
+			controllerObject.setName( controllerElement.getElementsByTagName(controllernameTag).item(0).getTextContent() );
+		} else {
+			//If controller doesn't have name defined, set default name
+			controllerObject.setDefaultName();
+		}
+		
+		return controllerObject;
 	}
 	
 }

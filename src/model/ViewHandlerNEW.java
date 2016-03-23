@@ -48,6 +48,11 @@ public class ViewHandlerNEW extends XMLHandler {
 	private static final String appliancenameTag = "applianceName";
 	private static final String applianceIDTag = "applianceID";
 	
+	private static final String controllerTag = "controller";
+	private static final String controllernameTag = "controllerName";
+	private static final String controllerIDTag = "controllerID";
+	private static final String controllerTypeTag = "controllerType";
+	
 	//PREFIXES ETC.
 	private static final String viewNS = "http://www.example.org/views";
 	private static final String nsPrefix = "tns";
