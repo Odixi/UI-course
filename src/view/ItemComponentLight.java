@@ -1,5 +1,6 @@
 package view;
 
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
@@ -14,7 +15,7 @@ public class ItemComponentLight extends CustomComponent{
 	private VerticalLayout layout;
 	private Light light;
 	private Label name;
-	private Label value;
+	private CheckBox on;
 	
 	public ItemComponentLight(SmartHSystem shsystem, String itemID){
 		
@@ -27,10 +28,10 @@ public class ItemComponentLight extends CustomComponent{
 		
 		// TODO Get the light object from server
 		name = new Label("Light. Just test.");
-		value = new Label("on/off");
+		on = new CheckBox("Light");
 		
 		layout.addComponent(name);
-		layout.addComponent(value);
+		layout.addComponent(on);
 		
 		setCompositionRoot(panel);
 	}
@@ -38,7 +39,7 @@ public class ItemComponentLight extends CustomComponent{
 	/**
 	 * Update the state of the component from server
 	 */
-	public void update(Light newLight){
+	public void update(){
 		// TODO
 	}
 

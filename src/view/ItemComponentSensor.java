@@ -43,7 +43,7 @@ public class ItemComponentSensor extends CustomComponent{
 	}
 	
 	// TODO method for updating the item state
-	public void update(Sensor newSensor){
+	public void update(){
 		
 	}
 }

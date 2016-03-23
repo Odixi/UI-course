@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import com.vaadin.client.ui.Icon;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.navigator.View;
@@ -67,6 +68,7 @@ public class UserView extends VerticalLayout implements View{
         houseSelect.setFilteringMode(FilteringMode.CONTAINS);
         houseSelect.setTextInputAllowed(false);
         houseSelect.setNullSelectionAllowed(false);
+        houseSelect.setIcon(FontAwesome.HOME);
         
         Hashtable<String, String> houses = new Hashtable<String, String>();  
         
@@ -108,11 +110,12 @@ public class UserView extends VerticalLayout implements View{
        rightLayout.setSpacing(true);
        
 		// Label that tells the current user
-		Label loggedUser = new Label("<font size=\"4\">" + ui.getUsername() + "</font>");
+		Label loggedUser = new Label(FontAwesome.USER.getHtml() + "<font size=\"4\"> " + ui.getUsername() + "</font>");
 		loggedUser.setContentMode(ContentMode.HTML);
 		loggedUser.setSizeUndefined();
 		rightLayout.addComponent(loggedUser);
 		rightLayout.setComponentAlignment(loggedUser, Alignment.MIDDLE_RIGHT);
+
 		
 		// ------ Change Password ------ //
 		
@@ -144,6 +147,11 @@ public class UserView extends VerticalLayout implements View{
         	htb = new HouseTabSheet(shsystem, ui, (String)houseSelect.getValue(), userView);
 			addComponent(htb);
     	}
+        else{
+        	Label nLabel = new Label("<font size=\"5\">You don't have rights to any houses! Please, contact system admin.</font>");
+        	nLabel.setContentMode(ContentMode.HTML);
+        	addComponent(nLabel);
+        }
     }
        
     @Override

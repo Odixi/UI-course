@@ -1,8 +1,13 @@
 package view;
 
+import com.vaadin.data.Property;
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.Slider;
 import com.vaadin.ui.VerticalLayout;
 
 import model.items.AudioDevice;
@@ -13,7 +18,8 @@ public class ItemComponentAudioDevice extends CustomComponent {
 	private VerticalLayout layout;
 	private AudioDevice audioDevice;
 	private Label name;
-	private Label value;
+	private Slider volume;
+	private CheckBox on;
 	
 	public ItemComponentAudioDevice(SmartHSystem shsystem, String itemID){
 		
@@ -26,10 +32,37 @@ public class ItemComponentAudioDevice extends CustomComponent {
 		
 		// TODO Get the light object from server
 		name = new Label("AudioDevice. Just test.");
-		value = new Label("Value");
+		on = new CheckBox("AudioDevice");
+		
+		on.addValueChangeListener(new Property.ValueChangeListener() {
+			
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				// TODO Auto-generated method stub
+				if (on.getValue()){
+					volume.setEnabled(true);
+				}
+				else{
+					volume.setEnabled(false);
+					volume.setValue(0.0);
+				}
+				
+			}
+		});
+		
+		volume = new Slider();
+		
+		volume.addValueChangeListener(new Property.ValueChangeListener() {
+			
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				// TODO Auto-generated method stub
+				Notification.show(volume.getValue().toString());
+			}
+		});
 		
 		layout.addComponent(name);
-		layout.addComponent(value);
+		layout.addComponent(volume);
 		
 		setCompositionRoot(panel);
 	}
@@ -37,7 +70,7 @@ public class ItemComponentAudioDevice extends CustomComponent {
 	/**
 	 * Update the state of the component from server
 	 */
-	public void update(AudioDevice newAudioDevice){
+	public void update(){
 		// TODO
 	}
 
