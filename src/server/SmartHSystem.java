@@ -69,7 +69,7 @@ public interface SmartHSystem extends Remote {
 	
 	public Hashtable<String, String> getHouseNames() throws RemoteException; // Lista taloista
 	
-	public Hashtable<String, String> getRoomNames(String houseName) throws RemoteException; // Lista talonhuoneista
+	public Hashtable<String, String> getRoomNames(String houseID) throws RemoteException; // Lista talonhuoneista
 	
 	public Hashtable<String, String> getItems(String houseID, String roomID) throws RemoteException;
 	

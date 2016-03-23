@@ -150,8 +150,7 @@ public class LoginView extends VerticalLayout implements View{
             			} catch (RemoteException e) { e.printStackTrace();}
             			
             			if(match == true){
-            				//Let the user in
-            				//TODO Open the user-specific view
+            				ui.setUser(getSelectedUserID());
             				ui.getNavigator().navigateTo(ui.USERVIEW);
             				
             			} else if(match == false) {
