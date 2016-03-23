@@ -63,6 +63,8 @@ public class XMLHandler {
 	
 	//---------------- CREATE DOCUMENT ---------------------
 	
+		//TODO Is this pointless?
+		
 	public Document createDocument(){
 		
 		try {
@@ -90,8 +92,8 @@ public class XMLHandler {
 			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 			
 			source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File(filepath) );
-			transformer.transform(source, result);
+			StreamResult streamResult = new StreamResult(new File(filepath) );
+			transformer.transform(source, streamResult);
 			
 		} catch (TransformerConfigurationException e) {	
 			e.printStackTrace();
