@@ -1,8 +1,11 @@
 package view;
 
+import java.rmi.RemoteException;
+
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.PopupView;
 import com.vaadin.ui.VerticalLayout;
@@ -20,7 +23,7 @@ public class ChangePasswordPopupContent implements PopupView.Content {
 	VerticalLayout layout;
 	PopupView pv;
 	
-	public ChangePasswordPopupContent(SmartHSystem shsystem){
+	public ChangePasswordPopupContent(SmartHSystem shsystem, String username){
 		
 		layout = new VerticalLayout();
 		layout.setMargin(true);
@@ -41,7 +44,30 @@ public class ChangePasswordPopupContent implements PopupView.Content {
 			
 			@Override
 			public void buttonClick(ClickEvent event) {
-				
+				if (!nps1.getValue().equals(nps2.getValue())){
+					Notification.show("The passwords don't match!");
+				}
+				else{
+					if (nps1.getValue().length() >= 8 && nps1.getValue().length() <= 25){
+						try {
+							if (shsystem.changePassword(username, ops.getValue(), nps1.getValue())){
+								Notification.show("Password changed");
+								pv.setPopupVisible(false);
+								nps1.setValue("");
+								nps2.setValue("");
+								ops.setValue("");
+							}
+							else{
+								Notification.show("Old password is wrong!");
+							}
+						} catch (RemoteException e) {
+						e.printStackTrace();
+						}
+					}
+					else{
+						Notification.show("New password must be 8-25 characters long!");
+					}
+				}
 			}
 		});
 		horLayout.addComponent(save);
@@ -51,6 +77,9 @@ public class ChangePasswordPopupContent implements PopupView.Content {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				pv.setPopupVisible(false);
+				nps1.setValue("");
+				nps2.setValue("");
+				ops.setValue("");
 			}
 		});
 		

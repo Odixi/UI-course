@@ -116,9 +116,10 @@ public class UserView extends VerticalLayout implements View{
 		
 		// ------ Change Password ------ //
 		
-		ChangePasswordPopupContent cpContent = new ChangePasswordPopupContent(shsystem);
+		ChangePasswordPopupContent cpContent = new ChangePasswordPopupContent(shsystem, ui.getUsername());
 		PopupView changePassword = new PopupView(cpContent);
 		cpContent.setPopupView(changePassword);
+		changePassword.setHideOnMouseOut(false);
 		rightLayout.addComponent(changePassword);
 		rightLayout.setComponentAlignment(changePassword, Alignment.MIDDLE_RIGHT);
        
