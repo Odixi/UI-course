@@ -2,6 +2,8 @@ package view;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Hashtable;
+
 import com.google.gwt.cell.client.ButtonCellBase.DefaultAppearance.Style;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.vaadin.navigator.View;
@@ -31,8 +33,8 @@ public class LoginView extends VerticalLayout implements View{
 
 	//Attributes
 	private SmartHSystem shsystem;
-	private Panel loginPanel;
-	//private BasicTextEncryptor cryptor;
+	private Panel loginPanel;	
+	private ComboBox userSelect;
 	
 
 	//CONSTRUCTOR
@@ -93,12 +95,22 @@ public class LoginView extends VerticalLayout implements View{
         userSelect.setNullSelectionAllowed(false);
         
         
-        ArrayList<String> kayt = new ArrayList<String>();
+
+        Hashtable<String, String> userList = new Hashtable<String, String>();
+        
 		try {
-			kayt = shsystem.getUsernames();
+
+			//Fetch usernames & IDs from the server
+			userList = shsystem.getUsers();
+			
 		} catch (RemoteException e) {e.printStackTrace();}
 
-        userSelect.addItems(kayt);
+		//Set userIDs as items to combobox and add usernames as caption (what is actually shown in combobox)
+		for(String userID : userList.keySet()){
+			userSelect.addItem(userID);
+			userSelect.setItemCaption( userID, userList.get(userID) );
+		}
+		
         panelLayout.addComponent(userSelect);
         userSelect.setSizeFull();
         
@@ -180,6 +192,32 @@ public class LoginView extends VerticalLayout implements View{
      // ---------- Navigaatio nappulat /END---------- //
         
 	} //constructor
+	
+	//GETTERS FOR SELECTED USER AND THEIR ID
+	/**
+	 * Returns the username of the currently selected user
+	 * @return
+	 */
+	public String getSelectedUsername(){
+		
+		if(userSelect.getValue() == null){
+			return null;
+		}
+		return userSelect.getItemCaption( userSelect.getValue().toString() );
+	}
+	
+	/**
+	 * Returns the userID of the currently selected user
+	 * @return
+	 */
+	public String getSelectedUserID(){
+		
+		if(userSelect.getValue() == null){
+			return null;
+		}
+		return userSelect.getValue().toString();
+		
+	}
 	
 	@Override
 	public void enter(ViewChangeEvent event) {
