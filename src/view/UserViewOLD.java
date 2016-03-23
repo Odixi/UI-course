@@ -24,14 +24,14 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.Slider;
 import com.vaadin.server.FontAwesome;
  
-public class UserView extends VerticalLayout implements View{
+public class UserViewOLD extends VerticalLayout implements View{
 	
 	//Attributes
 	private SmartHSystem shsystem;
 	private String houseNow = new String();
 	private String houseIDNow = new String();
  
-    public UserView(SmartUI ui, SmartHSystem shsystem){
+    public UserViewOLD(SmartUI ui, SmartHSystem shsystem){
     	
     	super();
 		
