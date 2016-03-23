@@ -3,6 +3,7 @@ package model;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.UUID;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -71,36 +72,99 @@ public class ViewHandlerNEW extends XMLHandler {
 	}//constructor
 
 	
+	// >>>>>>>>>>>>>>>>>>>>>>>>>>>> SET USERVIEW  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	
-	public void createDefaultView(String userID){
-		//TODO Copy
-		
-		
-	}
-	
+	/** Set which houses/rooms/items are included in the userview.
+	 * If user doesn't yet have a saved view, the view is created and then updated to match the
+	 * values given in the hashtable.
+	 * 
+	 * @param userID The ID of the user that the view is set for.
+	 * @param userview Hashtable includes IDs of all houses/rooms/items and whether they are included in the view.
+	 */
 	public void setUserView(String userID, Hashtable<String, Boolean> userview){
-		//TODO Copy
+		
+		if( !userHasView(userID) ){
+			createDefaultView(userID);
+		}
+		
+		updateUserView(userID, userview);
+		
 	}
 	
+	// >>>>>>>>>>>>>>>>>>>>>>>>>>>> GET USERVIEW  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	
-		
+	/**
+	 * 
+	 * @param userID
+	 * @return
+	 */
 	public Hashtable<String, Boolean> getUserView(String userID){
 		
-		//Check that the user has a view
-		if( userHasView(userID) ){
-			
-			
-			
-		} else {
-			//If the user doesn't have a view, create one
-
-			//TODO Create view
-			
+		//If the user doesn't have a view, create one
+		if( !userHasView(userID) ){
+			createDefaultView(userID);
 		}
-
 		return null;
 	}
 	
+	/** Creates a view where no houses/rooms/items are included.
+	 * @param userID The ID of the user that the view is created for.
+	 */
+	private void createDefaultView(String userID){
+		
+		//TODO Copy
+		Document userViewDocument = createDocument();
+		Element rootElement = getRootElement( userViewDocument );
+	
+		
+		
+		Element view = userViewDocument.createElementNS(viewNS, nsPrefix + ":" + viewPrefix);
+		view.setAttribute(viewIDTag, UUID.randomUUID().toString());
+		rootElement.appendChild(view);
+		
+		//User
+		Element user = userViewDocument.createElementNS(viewNS, nsPrefix + ":" + userPrefix);
+		view.appendChild(user);
+		user.setAttribute(userIDTag, userID);
+		
+		Element housesRoot = houseHandler.getRootElement();
+		
+		//Copy houses structure to the view
+		Element newhouses = (Element) housesRoot.cloneNode(true);
+		userViewDocument.adoptNode(newhouses);
+		view.appendChild(newhouses);
+		userViewDocument.renameNode(newhouses, viewNS, nsPrefix + ":" + housesPrefix);
+
+		//Go through all elements and set them not included (inView = false) in the view.
+	
+		ArrayList<Element> houseElements = getHouseElements(view);
+		
+		System.out.println("Number of house elements: " + houseElements.size());
+		
+		housesNotIncluded(houseElements);
+
+		for(Element house : houseElements){
+			ArrayList<Element> roomElements = getRoomElements(house);
+			roomsNotIncluded(roomElements);
+			
+			for(Element room : roomElements){
+				itemsNotIncluded( getItemElements(room) );
+			}
+		}
+		
+		
+		String filepath = createFilepath(userID);
+		filelist.put(userID, filepath);
+		
+		//Save the information to the XML file (self created method in XMLHandler class)
+		writeXML(userViewDocument, filepath);
+		
+		//FOR TESTING ETC:
+		System.out.println("Userview for user " + userID + " created!");
+	
+	} //createDefaultView
+	
+		
 	//---------------------- USER HAS A VIEW ? ------------------------
 	/** Check if a view (file) has been created for the user.
 	 * @param userID
@@ -182,11 +246,9 @@ public class ViewHandlerNEW extends XMLHandler {
 	 * @param filepath
 	 * @return
 	 */
-	private Element getRootElement(String filepath){
-		
-		Document doc = getDocument(filepath);
+	
+	private Element getRootElement(Document doc){ //Pointless...
 		return doc.getDocumentElement();
-		
 	}
 	
 	private String parseBoolean(String booleanString){
