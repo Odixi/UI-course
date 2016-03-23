@@ -22,7 +22,8 @@ import java_cup.version;
 import server.SmartHSystem;
 
 /*
- *  Hierarkinen ruksiboxi lista talon huoneista ja niiden esineistä
+ *  AdminVIewin komponentti, jossa
+ *  hierarkinen ruksiboxi lista talon huoneista ja niiden esineistä
  */
 public class RoomListComponent extends CustomComponent {
 

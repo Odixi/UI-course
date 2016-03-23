@@ -23,6 +23,7 @@ public class SmartUI extends UI {
 	public static class Servlet extends VaadinServlet {}
 	
 	private Navigator navigator;
+	private String user;
 	
 	//Näkymien nimet:
 	protected static final String LOGINVIEW = "loginview";
@@ -39,6 +40,7 @@ public class SmartUI extends UI {
 		
 		formRMIConnection();
 		
+		user = "";
 		navigator = new Navigator(this, this);
 		
 		navigator.addView(LOGINVIEW, new LoginView(this, shsystem));
@@ -53,6 +55,14 @@ public class SmartUI extends UI {
 
 	public Navigator getNavigator() {
 		return navigator;
+	}
+	
+	public String getUser(){
+		return user;
+	}
+	
+	public void setUser(String userId){
+		this.user = userId;
 	}
 
 	// • • • FORMING RMI-CONNECTION • • • 
