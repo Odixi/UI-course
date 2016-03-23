@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.example.org/views"
+           xmlns:user="http://www.example.org/users"
+           xmlns:hs="http://www.example.org/houseStructures"
+           xmlns:tns="http://www.example.org/views"
+           elementFormDefault="qualified">
+     <xs:import schemaLocation="users.xsd"
+                namespace="http://www.example.org/users" />
+     <xs:import schemaLocation="houseStructures.xsd"
+                namespace="http://www.example.org/houseStructures" />
+     
+     <xs:annotation>
+        <xs:documentation>
+            This XSD file describes the house structure used in our course assignment for our user interface design course
+            in University of Turku.
+            All rights reserved.
+            
+            No, really, use it if you want to.
+            
+        </xs:documentation>
+    </xs:annotation>
+
+    <!-- ROOT:VIEWS -->
+    <xs:element name="views" type="tns:viewsType" />
+        
+    <!-- root type -->    
+    <xs:complexType name="viewsType">
+            <xs:sequence>
+                <xs:element name="view" type="tns:viewType" minOccurs="1" maxOccurs="unbounded" />
+            </xs:sequence>
+    </xs:complexType>
+
+    <!-- viewType -->    
+    <xs:complexType name="viewType">
+        <xs:sequence>
+            <xs:element name="user">
+                <xs:complexType>
+                    <xs:attribute name="userID" type="xs:ID" use="required"/>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="houses" type="hs:housesType" minOccurs="1" maxOccurs="1" />  
+        </xs:sequence>
+        <xs:attribute name="viewID" type="xs:ID" use="required" /> <!-- Is this actually needed? -->
+    </xs:complexType>
+</xs:schema>

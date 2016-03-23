@@ -102,5 +102,21 @@ xmlns="http://www.example.org/houseStructures" elementFormDefault="qualified">
         <xs:attribute name="inView" type="xs:boolean" use="optional"/>
         <xs:attribute name="applianceID" type="xs:ID" use="required"/>
     </xs:complexType>
+    
+    <xs:complexType name="controllerType">
+        <xs:sequence>
+            <xs:element name="controllerName" type="xs:string"/>
+            <xs:element name="controllerType">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="temperature"/>
+                        
+                        <!-- Add more types -->
+                        
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
 
 </xs:schema>
