@@ -43,7 +43,7 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		//ViewHandler
 		viewHandler = new ViewHandler(houseHandler);
 		
-		newViewHandler = new ViewHandlerNEW(houseHandler);
+		//newViewHandler = new ViewHandlerNEW(houseHandler);
 		
 	} //constructor
 
@@ -85,7 +85,7 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 			System.out.println("Username: " + name);
 		}*/
 		
-		newViewHandler.createDefaultView("ppp666");
+		//newViewHandler.createDefaultView("ppp666");
 		
 	}
 	

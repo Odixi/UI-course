@@ -126,7 +126,7 @@ public class ViewHandlerNEW extends XMLHandler {
 		} else { //If user doesn't yet have a view, default view is created.
 
 			Document userViewDocument = createDocument();
-			
+			Element rootElement = userViewDocument.createElement("view");
 		
 			if(rootElement == null){
 				System.out.println("rootElement null");
