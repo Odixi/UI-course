@@ -9,6 +9,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import com.gargoylesoftware.htmlunit.javascript.host.dom.Node;
+
+import exceptions.DocumentNullException;
+import exceptions.ElementNullException;
+
 public class ViewHandlerNEW extends XMLHandler {
 	
 	//HouseHandler gives the access to XML file describing house structures
@@ -68,7 +73,8 @@ public class ViewHandlerNEW extends XMLHandler {
 	public ViewHandlerNEW(HouseHandler houseHandler){
 		
 		this.houseHandler = houseHandler;		
-	
+		this.filelist = new Hashtable<String, String>();
+		
 	}//constructor
 
 	
@@ -110,58 +116,67 @@ public class ViewHandlerNEW extends XMLHandler {
 	/** Creates a view where no houses/rooms/items are included.
 	 * @param userID The ID of the user that the view is created for.
 	 */
-	private void createDefaultView(String userID){
+	//TODO Make private (?)
+	public void createDefaultView(String userID){
 		
-		//TODO Copy
-		Document userViewDocument = createDocument();
-		Element rootElement = getRootElement( userViewDocument );
-	
-		
-		
-		Element view = userViewDocument.createElementNS(viewNS, nsPrefix + ":" + viewPrefix);
-		view.setAttribute(viewIDTag, UUID.randomUUID().toString());
-		rootElement.appendChild(view);
-		
-		//User
-		Element user = userViewDocument.createElementNS(viewNS, nsPrefix + ":" + userPrefix);
-		view.appendChild(user);
-		user.setAttribute(userIDTag, userID);
-		
-		Element housesRoot = houseHandler.getRootElement();
-		
-		//Copy houses structure to the view
-		Element newhouses = (Element) housesRoot.cloneNode(true);
-		userViewDocument.adoptNode(newhouses);
-		view.appendChild(newhouses);
-		userViewDocument.renameNode(newhouses, viewNS, nsPrefix + ":" + housesPrefix);
-
-		//Go through all elements and set them not included (inView = false) in the view.
-	
-		ArrayList<Element> houseElements = getHouseElements(view);
-		
-		System.out.println("Number of house elements: " + houseElements.size());
-		
-		housesNotIncluded(houseElements);
-
-		for(Element house : houseElements){
-			ArrayList<Element> roomElements = getRoomElements(house);
-			roomsNotIncluded(roomElements);
+		if( userHasView(userID) ){
 			
-			for(Element room : roomElements){
-				itemsNotIncluded( getItemElements(room) );
+			//TODO What if the method is called on user that has a view?
+			
+		} else { //If user doesn't yet have a view, default view is created.
+
+			Document userViewDocument = createDocument();
+			
+		
+			if(rootElement == null){
+				System.out.println("rootElement null");
 			}
+			
+			
+			Element view = userViewDocument.createElementNS(viewNS, nsPrefix + ":" + viewPrefix);
+			view.setAttribute(viewIDTag, UUID.randomUUID().toString());
+			rootElement.appendChild(view);
+			
+			//User
+			Element user = userViewDocument.createElementNS(viewNS, nsPrefix + ":" + userPrefix);
+			view.appendChild(user);
+			user.setAttribute(userIDTag, userID);
+			
+			Element housesRoot = houseHandler.getRootElement();
+			
+			//Copy houses structure to the view
+			Element newhouses = (Element) housesRoot.cloneNode(true);
+			userViewDocument.adoptNode(newhouses);
+			view.appendChild(newhouses);
+			userViewDocument.renameNode(newhouses, viewNS, nsPrefix + ":" + housesPrefix);
+		
+			//Go through all elements and set them not included (inView = false) in the view.
+		
+			ArrayList<Element> houseElements = getHouseElements(view);
+			
+			System.out.println("Number of house elements: " + houseElements.size());
+			
+			housesNotIncluded(houseElements);
+		
+			for(Element house : houseElements){
+				ArrayList<Element> roomElements = getRoomElements(house);
+				roomsNotIncluded(roomElements);
+				
+				for(Element room : roomElements){
+					itemsNotIncluded( getItemElements(room) );
+				}
+			}
+			
+			String filepath = createFilepath(userID);
+			filelist.put(userID, filepath);
+			
+			//Save the information to the XML file (self created method in XMLHandler class)
+			writeXML(userViewDocument, filepath);
+			
+			//FOR TESTING ETC:
+			System.out.println("Userview for user " + userID + " created!");
 		}
-		
-		
-		String filepath = createFilepath(userID);
-		filelist.put(userID, filepath);
-		
-		//Save the information to the XML file (self created method in XMLHandler class)
-		writeXML(userViewDocument, filepath);
-		
-		//FOR TESTING ETC:
-		System.out.println("Userview for user " + userID + " created!");
-	
+			
 	} //createDefaultView
 	
 		
@@ -251,6 +266,22 @@ public class ViewHandlerNEW extends XMLHandler {
 		return doc.getDocumentElement();
 	}
 	
+	/**
+	 * 
+	 * @param userID
+	 * @return
+	 */
+	private Document getUserviewDocument(String userID){
+		String filepath = filelist.get(userID);
+		
+		if(filepath != null){
+			return getDocument(filepath);
+		} else {
+			return null;
+		}
+	}
+	
+	
 	private String parseBoolean(String booleanString){
 		//TODO COPY;
 		return null;
@@ -258,10 +289,36 @@ public class ViewHandlerNEW extends XMLHandler {
 	
 //	updateViewNodeList()
 	
-
-	private Element getViewElement(String userID){
-		//TODO ?
-		return null;
+	
+	/**
+	 * Get the view
+	 * @param doc
+	 * @return
+	 * @throws DocumentNullException
+	 * @throws ElementNullException
+	 */
+	
+	//TODO Is this method actually even needed?
+	private Element getViewElement(Document doc) throws DocumentNullException, ElementNullException{
+		
+		Element viewElement = null;
+		
+		if(doc == null){
+			throw new DocumentNullException("Parameter doc is null");
+		}
+		
+		NodeList viewNodes = doc.getElementsByTagName(viewTag);
+		
+		if(viewNodes.item(0).getNodeType() == Node.ELEMENT_NODE ){
+			viewElement = (Element) viewNodes.item(0);
+		}
+		
+		if(viewElement == null){
+			//If view element isn't found, throw exception
+			throw new ElementNullException("View element not found.");
+		}
+		
+		return viewElement;
 	}
 	
 	private ArrayList<Element> getHouseElements(Element viewElement){

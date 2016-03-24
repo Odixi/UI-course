@@ -7,6 +7,7 @@ import java.util.Hashtable;
 
 import model.UserAccountHandler;
 import model.ViewHandler;
+import model.ViewHandlerNEW;
 import model.HouseHandler;
 import model.AdminAccountHandler;
 
@@ -26,6 +27,8 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	private HouseHandler houseHandler;
 	private ViewHandler viewHandler;
 	
+	private ViewHandlerNEW newViewHandler;
+	
 	public SmartHSystemImp() throws RemoteException {
 		super();
 		
@@ -39,6 +42,8 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		houseHandler = new HouseHandler();
 		//ViewHandler
 		viewHandler = new ViewHandler(houseHandler);
+		
+		newViewHandler = new ViewHandlerNEW(houseHandler);
 		
 	} //constructor
 
@@ -79,6 +84,8 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		for(String name : users){
 			System.out.println("Username: " + name);
 		}*/
+		
+		newViewHandler.createDefaultView("ppp666");
 		
 	}
 	
