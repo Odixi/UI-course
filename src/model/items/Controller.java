@@ -57,6 +57,8 @@ public class Controller extends SmartItem {
 		switch(type){
 			case TEMPERATURE:
 				unit = SensorUnit.CELCIUS;	
+				maxValue = 150;
+				minValue = -50;
 				//TODO Min & max value?
 				//minValue = 
 				//maxValue = 
@@ -76,12 +78,19 @@ public class Controller extends SmartItem {
 		return value;
 	}
 	
+	/**
+	 * 
+	 * @param newValue
+	 * @return
+	 */
 	public boolean setValue(double newValue){
-		//if... //TODO
-		
-		this.value = newValue;
-		
-		return true; //TODO
+
+		if(newValue <= maxValue && newValue >= minValue){
+			this.value = newValue;
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 }

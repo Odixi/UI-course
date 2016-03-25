@@ -11,6 +11,7 @@ import model.ViewHandler;
 import model.ViewHandlerNEW;
 import model.items.SmartItem;
 import model.HouseHandler;
+import model.SmartModel;
 import model.AdminAccountHandler;
 
 /**
@@ -28,14 +29,14 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	private AdminAccountHandler adminHandler;
 	private HouseHandler houseHandler;
 	private ViewHandler viewHandler;
+	private SmartModel model;
 	
 	private ViewHandlerNEW newViewHandler;
+
 	
 	public SmartHSystemImp() throws RemoteException {
 		super();
 		
-		//TODO
-	
 		//Crete object that handles activity regarding user accounts
 		userHandler = new UserAccountHandler();
 		//Crete object that handles activity regarding admin accounts
@@ -45,8 +46,11 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		//ViewHandler
 		viewHandler = new ViewHandler(houseHandler);
 		
-		newViewHandler = new ViewHandlerNEW(houseHandler);
+		//House objects etc. are generated inside the SmartModel
+		model = new SmartModel();
 		
+		newViewHandler = new ViewHandlerNEW(houseHandler);
+	
 	} //constructor
 
 
@@ -169,21 +173,20 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	
 	// ------------ getSmartItem() - Two ways --------------------------
 	@Override
-	public SmartItem getSmartItem(String ItemID) throws RemoteException {
-		// TODO Auto-generated method stub
+	public SmartItem getSmartItem(String itemID) throws RemoteException {
+		//return model.getSmartItem(itemID);
 		return null;
 	}
 	
 	@Override
-	public SmartItem getSmartItem(String houseID, String roomID, String ItemID) throws RemoteException {
-		// TODO Auto-generated method stub
+	public SmartItem getSmartItem(String houseID, String roomID, String itemID) throws RemoteException {
+		//return model.getSmartItem(houseID, roomID, itemID);
 		return null;
 	}
 
 
 	@Override
 	public void turnLightOn(String houseID, String roomID, String itemID) throws RemoteException {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -213,11 +216,12 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	public void setAudioVolume(String houseID, String roomID, int volume) throws RemoteException {
 		// TODO Auto-generated method stub
 		
+		
 	}
 
 
 	@Override
-	public void setControllerValue(String houseID, String roomID, double value) throws RemoteException {
+	public void setControllerValue(String houseID, String roomID, String itemID, double value) throws RemoteException {
 		// TODO Auto-generated method stub
 		
 	}

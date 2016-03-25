@@ -6,7 +6,9 @@ import java.util.Hashtable;
 import com.sun.corba.se.impl.io.TypeMismatchException;
 
 import exceptions.IDMatchNotFoundException;
+import exceptions.IDTypeMismatch;
 import model.items.Appliance;
+import model.items.AudioDevice;
 import model.items.Controller;
 import model.items.Light;
 import model.items.Sensor;
@@ -90,6 +92,18 @@ public class Room {
 		return appliances;
 	}
 	
+	//---------- GET AUDIO DEVICES ----------------
+		public Hashtable<String, Appliance> getAudioDevices(){
+			Hashtable<String, Appliance> audiodevices = new Hashtable<String, Appliance>();
+			
+			for(String itemID : audiodevices.keySet()){
+				if(audiodevices.get(itemID) instanceof AudioDevice){
+					audiodevices.put(itemID, (AudioDevice)audiodevices.get(itemID));
+				}
+			}
+			return audiodevices;
+		}
+	
 //-------------- GET LONE OBJECTS --------------
 
 	/**
@@ -110,44 +124,55 @@ public class Room {
 	/** 
 	 * @param itemID
 	 * @return
+	 * @throws IDTypeMismatch 
 	 */
-	public Light getLight(String itemID){
+	public Light getLight(String itemID) throws IDTypeMismatch {
 		
 		if( items.get(itemID) instanceof Light){
 			return (Light)items.get(itemID);
 		} else {
-			throw new TypeMismatchException("Item " + itemID + " is not a light.");
+			throw new IDTypeMismatch("Item " + itemID + " is not a light.");
 		}
 	}
 	
 	//------------- GET SENSOR BY ITEM ID -------------------
-	public Sensor getSensor(String itemID){
+	public Sensor getSensor(String itemID) throws IDTypeMismatch{
 		
 		if( items.get(itemID) instanceof Sensor){
 			return (Sensor)items.get(itemID);
 		} else {
-			throw new TypeMismatchException("Item " + itemID + " is not a sensor.");
+			throw new IDTypeMismatch("Item " + itemID + " is not a sensor.");
 		}
 	}
 	
 	//------------- GET CONTROLLER BY ITEM ID -------------------
-	public Controller getController(String itemID){
+	public Controller getController(String itemID) throws IDTypeMismatch{
 		
 		if( items.get(itemID) instanceof Controller){
 			return (Controller)items.get(itemID);
 		} else {
-			throw new TypeMismatchException("Item " + itemID + " is not a controller.");
+			throw new IDTypeMismatch("Item " + itemID + " is not a controller.");
 		}
 	}
 	
 	//------------- GET APPLIANCE BY ITEM ID -------------------
-	public Appliance getAppliance(String itemID){
+	public Appliance getAppliance(String itemID) throws IDTypeMismatch{
 		
 		if( items.get(itemID) instanceof Appliance){
 			return (Appliance)items.get(itemID);
 		} else {
-			throw new TypeMismatchException("Item " + itemID + " is not a appliance.");
+			throw new IDTypeMismatch("Item " + itemID + " is not an appliance.");
 		}
+	}
+	
+	//------------- GET AUDIO DEVICE BY ITEM ID -------------------
+	public AudioDevice getAudioDevice(String itemID) throws IDTypeMismatch {
+		
+		if( items.get(itemID) instanceof AudioDevice ){
+			return (AudioDevice)items.get(itemID);
+		} else {
+			throw new IDTypeMismatch("Item " + itemID + " is not an audio device.");
+		}	
 	}
 	
 }

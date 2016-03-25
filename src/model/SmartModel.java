@@ -1,9 +1,11 @@
 package model;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
 import exceptions.IDMatchNotFoundException;
+import exceptions.IDTypeMismatch;
 import model.HouseObjectGenerator;
 import model.house.House;
 import model.house.Room;
@@ -119,22 +121,35 @@ public class SmartModel {
 	
 	//<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x> LIGHTS <x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>
 	
-	public void turnLightOn(String itemID){
-		
+	public void turnLightOn(String houseID, String roomID, String itemID) throws IDMatchNotFoundException, IDTypeMismatch {
+		getHouse(houseID).getRoom(roomID).getLight(itemID).turnON();
 	}
-	
-	public void turnLightOff(String itemID){
-		
-		
-		
+
+	public void turnLightOff(String houseID, String roomID, String itemID) throws IDMatchNotFoundException, IDTypeMismatch {
+		getHouse(houseID).getRoom(roomID).getLight(itemID).turnOFF();
 	}
 	
 	//<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x> SENSORS <x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>
 	
 	//<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x> CONTROLLERS <x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>
 	
+	public boolean setControllerValue(String houseID, String roomID, String itemID, double newValue) throws IDTypeMismatch, IDMatchNotFoundException{
+		return getHouse(houseID).getRoom(roomID).getController(itemID).setValue(newValue);
+	}
+	
 	//<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x> APPLIANCES <x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>
 	
+	public void turnApplianceOn(String houseID, String roomID, String itemID) throws IDMatchNotFoundException, IDTypeMismatch {
+		getHouse(houseID).getRoom(roomID).getAppliance(itemID).turnON();
+	}
+
+	public void turnApplianceOff(String houseID, String roomID, String itemID) throws IDMatchNotFoundException, IDTypeMismatch {
+		getHouse(houseID).getRoom(roomID).getAppliance(itemID).turnOFF();
+	}
+
+	public boolean setAudioVolume(String houseID, String roomID, String itemID, int newVolume) throws IDMatchNotFoundException, IDTypeMismatch {
+		return getHouse(houseID).getRoom(roomID).getAudioDevice(itemID).setVolume(newVolume);
+	}
 	
 // o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o HELP METHODS o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o
 	

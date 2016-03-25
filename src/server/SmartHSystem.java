@@ -94,6 +94,6 @@ public interface SmartHSystem extends Remote {
 	
 	public void setAudioVolume(String houseID, String roomID, int volume) throws RemoteException;
 	
-	public void setControllerValue(String houseID, String roomID, double value) throws RemoteException;
+	public void setControllerValue(String houseID, String roomID, String itemID, double value) throws RemoteException;
 	
 }
