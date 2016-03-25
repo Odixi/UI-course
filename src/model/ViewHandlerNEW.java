@@ -92,7 +92,7 @@ public class ViewHandlerNEW extends XMLHandler {
 		
 		if( !userHasView(userID) ){
 			
-		//	createDefaultView(userID);
+	//	createDefaultView(userID);
 	
 		}
 		
@@ -127,28 +127,21 @@ public class ViewHandlerNEW extends XMLHandler {
 	//TODO Should the method throw the exception or handle it inside the method?
 	
 	public void createDefaultView(String userID) throws ElementNullException{
-		
-		if( userHasView(userID) ){
 			
 			//TODO What if the method is called on user that has a view?
+			//Do nothing
 			
-		} else { //If user doesn't yet have a view, default view is created.
+		if( !userHasView(userID) ){ //If user doesn't yet have a view, default view is created.
 
 			Document userViewDocument = createDocument();
-			Element rootElement = userViewDocument.createElement("view");
-		
-			if(rootElement == null){
-				System.out.println("rootElement null");
-			}
-			
-			
-			Element view = userViewDocument.createElementNS(viewNS, nsPrefix + ":" + viewPrefix);
-			view.setAttribute(viewIDTag, UUID.randomUUID().toString());
-			rootElement.appendChild(view);
+
+			Element viewRoot = userViewDocument.createElementNS(viewNS, nsPrefix + ":" + viewPrefix);
+			viewRoot.setAttribute(viewIDTag, UUID.randomUUID().toString());
+			userViewDocument.appendChild(viewRoot);
 			
 			//User
 			Element user = userViewDocument.createElementNS(viewNS, nsPrefix + ":" + userPrefix);
-			view.appendChild(user);
+			viewRoot.appendChild(user);
 			user.setAttribute(userIDTag, userID);
 			
 			Element housesRoot = houseHandler.getRootElement();
@@ -156,18 +149,17 @@ public class ViewHandlerNEW extends XMLHandler {
 			//Copy houses structure to the view
 			Element newhouses = (Element) housesRoot.cloneNode(true);
 			userViewDocument.adoptNode(newhouses);
-			view.appendChild(newhouses);
+			viewRoot.appendChild(newhouses);
 			userViewDocument.renameNode(newhouses, viewNS, nsPrefix + ":" + housesPrefix);
 		
-			//Go through all elements and set them not included (inView = false) in the view.
-		
-			//TODO WORK ON THIS PIECE OF S...
-			ArrayList<Element> houseElements = getHouseElements(view);
+			ArrayList<Element> houseElements = getHouseElements(viewRoot);
 
-			System.out.println("Number of house elements: " + houseElements.size());
+			System.out.println("Number of house elements: " + houseElements.size()); //REMOVE For testing
 			
+			//Set the houses not included in the view
 			housesNotIncluded(houseElements);
 		
+			//Followed by setting all rooms in the houses and items in the rooms to not included in the view.
 			for(Element house : houseElements){
 				ArrayList<Element> roomElements = getRoomElements(house);
 				roomsNotIncluded(roomElements);
@@ -177,7 +169,10 @@ public class ViewHandlerNEW extends XMLHandler {
 				}
 			}
 			
+			//All view files are saved to the same folder and each is named after the user's ID.
 			String filepath = createFilepath(userID);
+			
+			//Save the user ID and the view files path to filelist
 			filelist.put(userID, filepath);
 			
 			//Save the information to the XML file (self created method in XMLHandler class)
@@ -215,6 +210,8 @@ public class ViewHandlerNEW extends XMLHandler {
 		}
 	}
 	
+	
+	
 	//-------------------- UPDATE THE USERVIEW --------------------------
 	
 	/** Update which items are included in the user's view.
@@ -243,19 +240,68 @@ public class ViewHandlerNEW extends XMLHandler {
 	public void updateItemsIncluded(ArrayList<Element> itemElements, Hashtable<String, Boolean> userview){
 		//TODO Copy
 	}
+
 	
-	public void housesNotIncluded(ArrayList<Element> houseElements){
-		//TODO Copy
+	//------------------------- DELETE THE USERVIEW --------------------------------------
+	
+	public boolean deleteUserview(){
+		
+		//TODO 
+		
+		return false;
 	}
 	
-	public void roomsNotIncluded(ArrayList<Element> roomElements){
-		//TODO Copy
+// <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+	
+	//--------------- SET HOUSES NOT INCLUDE IN VIEW -------------------------------
+	/** Sets the attribute (inView) for each house in the list to false therefore stating that none of the houses are included in the view.
+	 * @param houseElements List of houseElements that need to be set not included.
+	 */
+	private void housesNotIncluded(ArrayList<Element> houseElements){
+		
+		//Iterate through houses and for each house set inView (attribute stating whether the element is included in the view ) false.
+		if( !houseElements.isEmpty() ){
+			for(int i = 0; i < houseElements.size(); i++){
+				houseElements.get(i).setAttribute(inView, "false");
+			}
+		} else {
+			//TODO What do I do if there are no house elements?
+			//Do I have to do something?
+		}
 	}
 	
-	public void itemsNotIncluded(ArrayList<Element> itemElements){
-		//TODO Copy
+	//-------------------- SET ROOMS NOT INCLUDED IN VIEW ---------------------------------
+	/** Sets the attribute (inView) for each room in the list to false therefore stating that none of the rooms are included in the view.
+	 * @param houseElements List of houseElements that need to be set not included.
+	 */
+	private void roomsNotIncluded(ArrayList<Element> roomElements){
+		
+		if( !roomElements.isEmpty() ){
+			for(int j = 0; j < roomElements.size(); j++){
+				roomElements.get(j).setAttribute(inView, "false");				
+			}
+		} else {
+			//TODO ?
+		}
 	}
 	
+	//-------------------- SET ITEMS NOT INCLUDED IN VIEW --------------------------------
+	/** Sets the attribute (inView) for each item in the list to false therefore stating that none of the items are included in the view.
+	 * @param houseElements List of houseElements that need to be set not included.
+	 */
+	private void itemsNotIncluded(ArrayList<Element> itemElements){
+		
+		if( !itemElements.isEmpty() ){
+			
+			for(int itemIndex = 0; itemIndex < itemElements.size(); itemIndex++){
+				itemElements.get(itemIndex).setAttribute(inView, "false");
+			}
+		} else {
+			//TODO ?
+		}
+	}
+	
+// <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 
 	
 // o.o.o.o.o.o.o.o.o.o.o.o.o.o.o HELP METHODS o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o
@@ -356,6 +402,7 @@ public class ViewHandlerNEW extends XMLHandler {
 			if(housesRoot.item(i).getNodeType() == Node.ELEMENT_NODE){
 				NodeList houseNodes = ((Element)housesRoot.item(i)).getElementsByTagName(houseTag);
 				
+				//Go through and add to the ArrayList all the 'house' elements.
 				for(int j = 0; j < houseNodes.getLength(); j++){
 					if(houseNodes.item(j).getNodeType() == Node.ELEMENT_NODE){
 						houseElements.add( (Element)houseNodes.item(j) );
