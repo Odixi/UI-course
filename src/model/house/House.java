@@ -1,12 +1,13 @@
 package model.house;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 public class House {
 
 	private String name;
 	private final String houseID;
-	private ArrayList<Room> rooms;
+	private Hashtable<String, Room> rooms;
 
 	//--------- CONSTRUCTORS -------------
 	
@@ -35,11 +36,11 @@ public class House {
 	
 	//------- ROOMS ------------------
 	
-	public void setRooms(ArrayList<Room> rooms){
+	public void setRooms(Hashtable<String, Room> rooms){
 		this.rooms = rooms;
 	}
 	
-	public ArrayList<Room> getRooms(){
+	public Hashtable<String, Room> getRooms(){
 		return rooms;
 	}
 	

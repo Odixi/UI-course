@@ -1,6 +1,7 @@
 package model.house;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import model.items.Appliance;
 import model.items.Light;
@@ -12,7 +13,7 @@ public class Room {
 	private String name;
 	private final String roomID; 
 	
-	private ArrayList<SmartItem> items;
+	private Hashtable<String, SmartItem> items;
 	
 	//--------- CONSTUCTORS --------------------------
 	
@@ -41,45 +42,45 @@ public class Room {
 	
 	//---------- SET & GET ITEMS ----------------
 	
-	public void setItems(ArrayList<SmartItem> items){
+	public void setItems(Hashtable<String, SmartItem> items){
 		this.items = items;
 	}
 
-	public ArrayList<SmartItem> getItems(){
+	public Hashtable<String, SmartItem> getItems(){
 		return items;
 	}
 	
 	//---------- GET LIGHTS ----------------
-	public ArrayList<Light> getLights(){
-		ArrayList<Light> lights = new ArrayList<Light>();
+	public Hashtable<String, Light> getLights(){
+		Hashtable<String, Light> lights = new Hashtable<String, Light>();
 		
-		for(SmartItem item : items){
-			if(item instanceof Light){
-				lights.add((Light)item);
+		for(String itemID : lights.keySet()){
+			if(lights.get(itemID) instanceof Light){
+				lights.put(itemID, (Light)lights.get(itemID));
 			}
 		}
 		return lights;
 	}
 	
 	//---------- GET SENSORS ----------------
-	public ArrayList<Sensor> getSensors(){
-		ArrayList<Sensor> sensors = new ArrayList<Sensor>();
+	public Hashtable<String, Sensor> getSensors(){
+		Hashtable<String, Sensor> sensors = new Hashtable<String, Sensor>();
 		
-		for(SmartItem item : items){
-			if(item instanceof Sensor){
-				sensors.add((Sensor)item);
+		for(String itemID : sensors.keySet()){
+			if(sensors.get(itemID) instanceof Sensor){
+				sensors.put(itemID, (Sensor)sensors.get(itemID));
 			}
 		}
 		return sensors;
 	}
 	
 	//---------- GET APPLIANCES ----------------
-	public ArrayList<Appliance> getAppliances(){
-		ArrayList<Appliance> appliances = new ArrayList<Appliance>();
+	public Hashtable<String, Appliance> getAppliances(){
+		Hashtable<String, Appliance> appliances = new Hashtable<String, Appliance>();
 		
-		for(SmartItem item : items){
-			if(item instanceof Appliance){
-				appliances.add((Appliance)item);
+		for(String itemID : appliances.keySet()){
+			if(appliances.get(itemID) instanceof Appliance){
+				appliances.put(itemID, (Appliance)appliances.get(itemID));
 			}
 		}
 		return appliances;
