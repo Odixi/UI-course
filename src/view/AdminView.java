@@ -173,7 +173,10 @@ public class AdminView extends HorizontalLayout implements View{
 			
 			@Override
 			public void buttonClick(ClickEvent event) {
-				
+				if (userSelect.getValue() == null){
+					Notification.show("Select a user first!");
+					return;
+				}
 				boolean needsUpdate = false;
 				
 				// Käyttäjänimen ja / tai salasanan muutos
@@ -408,6 +411,11 @@ class CreateUserPopupContent implements PopupView.Content{
 	private Button ok;
 	private PopupView pv;
 	
+	/**
+	 * 
+	 * @param sh, SmartHSystem for RMI calls
+	 * @param av, AdminView where this is created in
+	 */
 	public CreateUserPopupContent(SmartHSystem sh, AdminView av) {
 		hl = new HorizontalLayout();
 		hl.setMargin(true);
@@ -434,16 +442,24 @@ class CreateUserPopupContent implements PopupView.Content{
 		hl.addComponent(ok);
 		hl.setComponentAlignment(ok, Alignment.BOTTOM_RIGHT);
 	}
-
+	/**
+	 * @return The HTML caption where this view is invoked from
+	 */
 	@Override
 	public String getMinimizedValueAsHTML() {
 		return "Create new user";
 	}
-
+	/**
+	 * @return Component component, Component which represents the view
+	 */
 	@Override
 	public Component getPopupComponent() {
 		return hl;
 	}
+	/**
+	 * To set the Corresponding popupview
+	 * @param pv
+	 */
 	public void setPopupView(PopupView pv){
 		this.pv = pv;
 	}
