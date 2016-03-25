@@ -13,6 +13,7 @@ import com.gargoylesoftware.htmlunit.javascript.host.dom.Node;
 
 import exceptions.DocumentNullException;
 import exceptions.ElementNullException;
+import exceptions.XMLBrokenException;
 
 public class ViewHandlerNEW extends XMLHandler {
 	
@@ -90,7 +91,9 @@ public class ViewHandlerNEW extends XMLHandler {
 	public void setUserView(String userID, Hashtable<String, Boolean> userview){
 		
 		if( !userHasView(userID) ){
-			createDefaultView(userID);
+			
+		//	createDefaultView(userID);
+	
 		}
 		
 		updateUserView(userID, userview);
@@ -108,16 +111,22 @@ public class ViewHandlerNEW extends XMLHandler {
 		
 		//If the user doesn't have a view, create one
 		if( !userHasView(userID) ){
-			createDefaultView(userID);
+
+			//createDefaultView(userID);
+		
 		}
 		return null;
 	}
 	
 	/** Creates a view where no houses/rooms/items are included.
 	 * @param userID The ID of the user that the view is created for.
+	 * @throws ElementNullException 
 	 */
 	//TODO Make private (?)
-	public void createDefaultView(String userID){
+	
+	//TODO Should the method throw the exception or handle it inside the method?
+	
+	public void createDefaultView(String userID) throws ElementNullException{
 		
 		if( userHasView(userID) ){
 			
@@ -126,7 +135,7 @@ public class ViewHandlerNEW extends XMLHandler {
 		} else { //If user doesn't yet have a view, default view is created.
 
 			Document userViewDocument = createDocument();
-			
+			Element rootElement = userViewDocument.createElement("view");
 		
 			if(rootElement == null){
 				System.out.println("rootElement null");
@@ -152,8 +161,9 @@ public class ViewHandlerNEW extends XMLHandler {
 		
 			//Go through all elements and set them not included (inView = false) in the view.
 		
+			//TODO WORK ON THIS PIECE OF S...
 			ArrayList<Element> houseElements = getHouseElements(view);
-			
+
 			System.out.println("Number of house elements: " + houseElements.size());
 			
 			housesNotIncluded(houseElements);
@@ -223,6 +233,7 @@ public class ViewHandlerNEW extends XMLHandler {
 	
 	public void updateHousesIncluded(ArrayList<Element> houseElements, Hashtable<String, Boolean> userview){
 		//TODO Copy
+		
 	}
 	
 	public void updateRoomsIncluded(ArrayList<Element> roomElements, Hashtable<String, Boolean> userview){
@@ -296,10 +307,11 @@ public class ViewHandlerNEW extends XMLHandler {
 	 * @return
 	 * @throws DocumentNullException
 	 * @throws ElementNullException
+	 * @throws XMLBrokenException 
 	 */
 	
 	//TODO Is this method actually even needed?
-	private Element getViewElement(Document doc) throws DocumentNullException, ElementNullException{
+	private Element getViewElement(Document doc) throws DocumentNullException, ElementNullException, XMLBrokenException{
 		
 		Element viewElement = null;
 		
@@ -308,6 +320,14 @@ public class ViewHandlerNEW extends XMLHandler {
 		}
 		
 		NodeList viewNodes = doc.getElementsByTagName(viewTag);
+		
+		if(viewNodes.getLength() != 1){
+			/* View element should be the root of the file.
+			 * If there are multiple view elements, something is terribly wrong.
+			 * Therefore exception is thrown when such situation is encountered.
+			 */
+			throw new XMLBrokenException("There are multiple roots or 'view' is something other than the root element in the xml file representing the user's view.");
+		}
 		
 		if(viewNodes.item(0).getNodeType() == Node.ELEMENT_NODE ){
 			viewElement = (Element) viewNodes.item(0);
@@ -321,18 +341,88 @@ public class ViewHandlerNEW extends XMLHandler {
 		return viewElement;
 	}
 	
-	private ArrayList<Element> getHouseElements(Element viewElement){
-		//TODO
-		return null;
+	private ArrayList<Element> getHouseElements(Element viewElement) throws ElementNullException{
+		
+		ArrayList<Element> houseElements = new ArrayList<Element>();
+		
+		if(viewElement == null){
+			throw new ElementNullException("ViewElement null.");
+		}
+		
+		NodeList housesRoot = viewElement.getElementsByTagName(housesTag);
+
+		//There's actually just one 'houses' element but I'm going for the more general solution just in case.
+		for(int i = 0; i < housesRoot.getLength(); i++){
+			if(housesRoot.item(i).getNodeType() == Node.ELEMENT_NODE){
+				NodeList houseNodes = ((Element)housesRoot.item(i)).getElementsByTagName(houseTag);
+				
+				for(int j = 0; j < houseNodes.getLength(); j++){
+					if(houseNodes.item(j).getNodeType() == Node.ELEMENT_NODE){
+						houseElements.add( (Element)houseNodes.item(j) );
+					}
+				}
+			}
+		}
+
+		return houseElements;
+
 	}
 	
 	private ArrayList<Element> getRoomElements(Element houseElement){
-		//TODO
-		return null;
+		
+		ArrayList<Element> roomElements = new ArrayList<Element>();
+		
+		NodeList rooms = houseElement.getElementsByTagName(roomTag);
+		
+		//There's actually just one 'houses' element but I'm going for the more general solution just in case.
+		for(int i = 0; i < rooms.getLength(); i++){
+			if(rooms.item(i).getNodeType() == Node.ELEMENT_NODE && rooms.item(i) != null){
+				roomElements.add( (Element) rooms.item(i));
+			}
+		}
+		return roomElements;
 	}
 	
 	private ArrayList<Element> getItemElements(Element roomElement){
-		//TODO
-		return null;
+		
+		ArrayList<Element> itemElements = new ArrayList<Element>();
+		
+		//Lights
+		NodeList lightNodes = roomElement.getElementsByTagName(lightTag);
+		
+		for(int i = 0; i < lightNodes.getLength(); i++){
+			if(lightNodes.item(i).getNodeType() == Node.ELEMENT_NODE && lightNodes.item(i) != null){
+				itemElements.add( (Element) lightNodes.item(i) );
+			}
+		}
+		
+		//Sensors
+		NodeList sensorNodes = roomElement.getElementsByTagName(sensorTag);
+		
+		for(int i = 0; i < sensorNodes.getLength(); i++){
+			if(sensorNodes.item(i).getNodeType() == Node.ELEMENT_NODE && sensorNodes.item(i) != null){
+				itemElements.add( (Element) sensorNodes.item(i) );
+			}
+		}
+		
+		//Appliances
+		NodeList applianceNodes = roomElement.getElementsByTagName(applianceTag);
+		
+		for(int i = 0; i < applianceNodes.getLength(); i++){
+			if(applianceNodes.item(i).getNodeType() == Node.ELEMENT_NODE && applianceNodes.item(i) != null){
+				itemElements.add( (Element) applianceNodes.item(i) );
+			}
+		}
+		
+		//Controllers
+		NodeList controllerNodes = roomElement.getElementsByTagName(controllerTag);
+		
+		for(int i = 0; i < controllerNodes.getLength(); i++ ){
+			if(controllerNodes.item(i).getNodeType() == Node.ELEMENT_NODE && controllerNodes.item(i) != null ){
+				itemElements.add( (Element) controllerNodes.item(i) );
+			}
+		}
+		
+		return itemElements;
 	}
 }
