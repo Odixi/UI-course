@@ -21,15 +21,16 @@
         </xs:documentation>
     </xs:annotation>
 
-    <!-- ROOT:VIEWS -->
-    <xs:element name="views" type="tns:viewsType" />
+    <!-- ROOT:VIEW -->
+    <xs:element name="view" type="tns:viewType" />
         
-    <!-- root type -->    
+    <!-- root type 
     <xs:complexType name="viewsType">
             <xs:sequence>
                 <xs:element name="view" type="tns:viewType" minOccurs="1" maxOccurs="unbounded" />
             </xs:sequence>
     </xs:complexType>
+    -->    
 
     <!-- viewType -->    
     <xs:complexType name="viewType">
