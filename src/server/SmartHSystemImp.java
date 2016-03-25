@@ -53,45 +53,9 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	
 	public void testPrintConsole(String message) throws RemoteException {
 		System.out.println("Message: " + message);
-		
-		Hashtable<String, String> roomnames = getRoomNames("h001");
-		
-		for(String key : roomnames.keySet()){
-			System.out.println("Room: " + roomnames.get(key) + " ID: " + key);
-		}
 
-		/*
-		Hashtable<String, String> housenames = getHouseNames();
-		
-		System.out.println("Test new getHousenames-method:");
-		
-		for(String key : housenames.keySet()){
-			System.out.println("House: " + housenames.get(key) + " ID: " + key);
-		}
-		*/
-		/*
-		System.out.println("Houses length: " + houses.size());
-		for(String house : houses){
-			System.out.println(house);
-		}
-		
-		System.out.println("Let's test username & adminname fetching");
-		ArrayList<String> admins = getAdminnames();
-		for(String name : admins){
-			System.out.println("Admin name: " + name);
-		}
-
-		ArrayList<String> users = getUsernames();
-		for(String name : users){
-			System.out.println("Username: " + name);
-		}*/
-		
-		try {
-			newViewHandler.createDefaultView("ppp666");
-		} catch (ElementNullException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//Testing testing...
+		newViewHandler.createDefaultView("ppp666");
 		
 	}
 	

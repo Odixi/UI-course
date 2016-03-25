@@ -92,7 +92,7 @@ public class ViewHandlerNEW extends XMLHandler {
 		
 		if( !userHasView(userID) ){
 			
-	//	createDefaultView(userID);
+			createDefaultView(userID);
 	
 		}
 		
@@ -109,24 +109,54 @@ public class ViewHandlerNEW extends XMLHandler {
 	 */
 	public Hashtable<String, Boolean> getUserView(String userID){
 		
+		Hashtable<String, Boolean> userview = new Hashtable<String, Boolean>();
+		
 		//If the user doesn't have a view, create one
 		if( !userHasView(userID) ){
 
-			//createDefaultView(userID);
+			createDefaultView(userID);
 		
 		}
+		
+		//We know that the userview file for the user matching userID exists.
+		
+		//Get the view element/houses element
+		
+		try {
+			
+			Element viewElement = getViewElement(userID);
+			
+		} catch (DocumentNullException e) {
+			// TODO Auto-generated catch block		//TODO WHAT DO I DO?
+			e.printStackTrace();
+		} catch (ElementNullException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (XMLBrokenException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+//		ArrayList<Element> houseElements = getHouseElements(viewElement);
+		
+		
+		
 		return null;
 	}
 	
+	
+	
+	
+	
+	
+	//--------------------------- CREATE DEFAULT USERVIEW ----------------------------------------
 	/** Creates a view where no houses/rooms/items are included.
 	 * @param userID The ID of the user that the view is created for.
 	 * @throws ElementNullException 
 	 */
 	//TODO Make private (?)
-	
-	//TODO Should the method throw the exception or handle it inside the method?
-	
-	public void createDefaultView(String userID) throws ElementNullException{
+
+	public void createDefaultView(String userID) {
 			
 			//TODO What if the method is called on user that has a view?
 			//Do nothing
@@ -315,15 +345,6 @@ public class ViewHandlerNEW extends XMLHandler {
 		return rootfilepath + userID + ".xml";
 	}
 	
-	/** Return the root element of the given document
-	 * @param filepath
-	 * @return
-	 */
-	
-	private Element getRootElement(Document doc){ //Pointless...
-		return doc.getDocumentElement();
-	}
-	
 	/**
 	 * 
 	 * @param userID
@@ -335,7 +356,7 @@ public class ViewHandlerNEW extends XMLHandler {
 		if(filepath != null){
 			return getDocument(filepath);
 		} else {
-			return null;
+			return null;	//TODO Or throw exception? 
 		}
 	}
 	
@@ -358,7 +379,10 @@ public class ViewHandlerNEW extends XMLHandler {
 	 */
 	
 	//TODO Is this method actually even needed?
-	private Element getViewElement(Document doc) throws DocumentNullException, ElementNullException, XMLBrokenException{
+	private Element getViewElement(String userID) throws DocumentNullException, ElementNullException, XMLBrokenException{
+		
+		Document doc = getUserviewDocument(userID);
+		
 		
 		Element viewElement = null;
 		
@@ -388,14 +412,10 @@ public class ViewHandlerNEW extends XMLHandler {
 		return viewElement;
 	}
 	
-	private ArrayList<Element> getHouseElements(Element viewElement) throws ElementNullException{
+	private ArrayList<Element> getHouseElements(Element viewElement) {
 		
 		ArrayList<Element> houseElements = new ArrayList<Element>();
-		
-		if(viewElement == null){
-			throw new ElementNullException("ViewElement null.");
-		}
-		
+
 		NodeList housesRoot = viewElement.getElementsByTagName(housesTag);
 
 		//There's actually just one 'houses' element but I'm going for the more general solution just in case.
