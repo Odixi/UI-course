@@ -80,18 +80,19 @@ public interface SmartHSystem extends Remote {
 	
 	public SmartItem getSmartItem(String ItemID) throws RemoteException;
 	
+	public SmartItem getSmartItem(String houseID, String roomID, String ItemID) throws RemoteException;
 
 	// These can be done differently
-	public void turnLightOn(String itemID)throws RemoteException;
+	public void turnLightOn(String houseID, String roomID, String itemID)throws RemoteException;
 	
-	public void turnLightOff(String itemID)throws RemoteException;
+	public void turnLightOff(String houseID, String roomID, String itemID)throws RemoteException;
 	
-	public void turnApplianceOn(String itemID) throws RemoteException;
+	public void turnApplianceOn(String houseID, String roomID, String itemID) throws RemoteException;
 	
-	public void turnApplianceOff(String itemID) throws RemoteException;
+	public void turnApplianceOff(String houseID, String roomID, String itemID) throws RemoteException;
 	
-	public void setAudioVolume(int volume) throws RemoteException;
+	public void setAudioVolume(String houseID, String roomID, int volume) throws RemoteException;
 	
-	public void setControllerValue(double value) throws RemoteException;
+	public void setControllerValue(String houseID, String roomID, double value) throws RemoteException;
 	
 }

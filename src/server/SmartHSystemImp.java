@@ -163,58 +163,67 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 
 	public Hashtable<String, String> getItems(String houseID, String roomID) throws RemoteException {
 		return houseHandler.getItemNames(houseID, roomID);
-	//	return null;
 	}
-
-
+	
+	// • • • • • • • • • • • •  VIEWS  • • • • • • • • • • • • 
+	
+	// ------------ getSmartItem() - Two ways --------------------------
 	@Override
 	public SmartItem getSmartItem(String ItemID) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	// • • • • • • • • • • • •  Views • • • • • • • • • • • • 
 	
 	@Override
-	public void turnLightOn(String itemID) throws RemoteException {
+	public SmartItem getSmartItem(String houseID, String roomID, String ItemID) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void turnLightOn(String houseID, String roomID, String itemID) throws RemoteException {
 		// TODO Auto-generated method stub
 		
 	}
 
 
 	@Override
-	public void turnLightOff(String itemID) throws RemoteException {
+	public void turnLightOff(String houseID, String roomID, String itemID) throws RemoteException {
 		// TODO Auto-generated method stub
 		
 	}
 
 
 	@Override
-	public void turnApplianceOn(String itemID) throws RemoteException {
+	public void turnApplianceOn(String houseID, String roomID, String itemID) throws RemoteException {
 		// TODO Auto-generated method stub
 		
 	}
 
 
 	@Override
-	public void turnApplianceOff(String itemID) throws RemoteException {
+	public void turnApplianceOff(String houseID, String roomID, String itemID) throws RemoteException {
 		// TODO Auto-generated method stub
 		
 	}
 
 
 	@Override
-	public void setAudioVolume(int volume) throws RemoteException {
+	public void setAudioVolume(String houseID, String roomID, int volume) throws RemoteException {
 		// TODO Auto-generated method stub
 		
 	}
 
 
 	@Override
-	public void setControllerValue(double value) throws RemoteException {
+	public void setControllerValue(String houseID, String roomID, double value) throws RemoteException {
 		// TODO Auto-generated method stub
 		
 	}
+
+
+	
 	
 	// • • • • • • • • • • • •  • • • • • • • • • • • • 
 	

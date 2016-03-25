@@ -3,7 +3,11 @@ package model.house;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import com.sun.corba.se.impl.io.TypeMismatchException;
+
+import exceptions.IDMatchNotFoundException;
 import model.items.Appliance;
+import model.items.Controller;
 import model.items.Light;
 import model.items.Sensor;
 import model.items.SmartItem;
@@ -86,5 +90,64 @@ public class Room {
 		return appliances;
 	}
 	
+//-------------- GET LONE OBJECTS --------------
+
+	/**
+	 * 
+	 * @param itemID
+	 * @return
+	 * @throws IDMatchNotFoundException
+	 */
+	public SmartItem getItem(String itemID) throws IDMatchNotFoundException{
+		
+		if(items.contains(itemID)){
+			return items.get(itemID);
+		} else {
+			throw new IDMatchNotFoundException("SmartItem matching id " + itemID + " not found in the room " + getID());
+		}
+	}
+	
+	/** 
+	 * @param itemID
+	 * @return
+	 */
+	public Light getLight(String itemID){
+		
+		if( items.get(itemID) instanceof Light){
+			return (Light)items.get(itemID);
+		} else {
+			throw new TypeMismatchException("Item " + itemID + " is not a light.");
+		}
+	}
+	
+	//------------- GET SENSOR BY ITEM ID -------------------
+	public Sensor getSensor(String itemID){
+		
+		if( items.get(itemID) instanceof Sensor){
+			return (Sensor)items.get(itemID);
+		} else {
+			throw new TypeMismatchException("Item " + itemID + " is not a sensor.");
+		}
+	}
+	
+	//------------- GET CONTROLLER BY ITEM ID -------------------
+	public Controller getController(String itemID){
+		
+		if( items.get(itemID) instanceof Controller){
+			return (Controller)items.get(itemID);
+		} else {
+			throw new TypeMismatchException("Item " + itemID + " is not a controller.");
+		}
+	}
+	
+	//------------- GET APPLIANCE BY ITEM ID -------------------
+	public Appliance getAppliance(String itemID){
+		
+		if( items.get(itemID) instanceof Appliance){
+			return (Appliance)items.get(itemID);
+		} else {
+			throw new TypeMismatchException("Item " + itemID + " is not a appliance.");
+		}
+	}
 	
 }

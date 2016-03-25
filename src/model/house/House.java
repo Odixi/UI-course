@@ -3,6 +3,8 @@ package model.house;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import exceptions.IDMatchNotFoundException;
+
 public class House {
 
 	private String name;
@@ -44,6 +46,19 @@ public class House {
 		return rooms;
 	}
 	
-	
+	/**
+	 * 
+	 * @param roomID
+	 * @return
+	 * @throws IDMatchNotFoundException 
+	 */
+	public Room getRoom(String roomID) throws IDMatchNotFoundException{
+		
+		if(rooms.contains(roomID)){
+			return rooms.get(roomID);
+		} else {
+			throw new IDMatchNotFoundException("Room matching id " + roomID + "in house " + getID() + " not found.");
+		}
+	}
 	
 }

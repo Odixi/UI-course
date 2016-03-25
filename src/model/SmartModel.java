@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import exceptions.IDMatchNotFoundException;
 import model.HouseObjectGenerator;
 import model.house.House;
 import model.house.Room;
@@ -37,14 +38,27 @@ public class SmartModel {
 	
 	// -<>-<>-<>-<>-<>-<>-<>-<>- GETTERS -<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-
 	
-	public ArrayList<House> getHouses(){
+	/**
+	 * 
+	 * @return
+	 */
+	public Hashtable<String, House> getHouses(){
 		return houses;
 	}
 	
-	
-	
-	
-	
+	/**
+	 * 
+	 * @param houseID
+	 * @return
+	 * @throws IDMatchNotFoundException
+	 */
+	public House getHouse(String houseID) throws IDMatchNotFoundException{
+		if(houses.containsKey(houseID)){
+			return houses.get(houseID);
+		} else {
+			throw new IDMatchNotFoundException("House matching id " + houseID + " not found.");
+		}
+	}
 	
 	//<o><o><o><o><o><o><o> JUST FOR TESTING! <o><o><o><o><o><o><o>
 	
@@ -54,21 +68,92 @@ public class SmartModel {
 			System.out.println("Housename: " + house.getName());
 			System.out.println("HouseID: " + house.getID() + "\n");
 			
-			ArrayList<Room> rooms = house.getRooms();
+			Hashtable<String, Room> rooms = house.getRooms();
 			System.out.println("House has " + rooms.size() + " rooms:");
 			
-			for(Room room : rooms){
-				System.out.println("Roomname: " + room.getName() + ", roomID: " + room.getID());
+			for(String roomID : rooms.keySet()){
+				System.out.println("Roomname: " + rooms.get(roomID).getName() + ", roomID: " + roomID);
 
-				ArrayList<SmartItem> items = room.getItems();
+				Hashtable<String, SmartItem> items = rooms.get(roomID).getItems();
 				
 				System.out.println("items-list length: " + items.size());
 				
-				for(SmartItem item : items){
-					System.out.println("Itemname: " + item.getName() + ", itemID: " + item.getID()); 
+				for(String itemID : items.keySet()){
+					System.out.println("Itemname: " + items.get(itemID).getName() + ", itemID: " + itemID); 
 				}
 			}
 		}	
+	}
+	
+	// x.x.x.x.x.x.x.x.x.x.x.x.x.x.x GET SMART ITEM  x.x.x.x.x.x.x.x.x.x.x.x.x.x.x 
+	/**
+	 * 
+	 * @param itemID
+	 * @return
+	 * @throws IDMatchNotFoundException
+	 */
+	public SmartItem getSmartItem(String itemID) throws IDMatchNotFoundException{
+		
+		Hashtable<String, SmartItem> allItems = getAllItems();
+		
+		if(allItems.contains(itemID)){
+			return allItems.get(itemID);
+		} else {
+			throw new IDMatchNotFoundException("SmartItem matching id " + itemID + " not found.");
+		}
+		
+	}
+	
+	/**
+	 * 
+	 * @param houseID
+	 * @param roomID
+	 * @param itemID
+	 * @return
+	 * @throws IDMatchNotFoundException 
+	 */
+	public SmartItem getSmartItem(String houseID, String roomID, String itemID) throws IDMatchNotFoundException{
+		
+		return getHouse(houseID).getRoom(roomID).getItem(itemID);
+	}
+	
+	//<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x> LIGHTS <x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>
+	
+	public void turnLightOn(String itemID){
+		
+	}
+	
+	public void turnLightOff(String itemID){
+		
+		
+		
+	}
+	
+	//<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x> SENSORS <x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>
+	
+	//<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x> CONTROLLERS <x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>
+	
+	//<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x> APPLIANCES <x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>
+	
+	
+// o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o HELP METHODS o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o
+	
+	/** Returns all the items from the entire house system in one huge Hashtable.
+	 * @return Hashtable<String, SmartItem> containing all items from all the houses.
+	 */
+	public Hashtable<String, SmartItem> getAllItems(){
+		
+		Hashtable<String, SmartItem> allItems = new Hashtable<String, SmartItem>();
+		
+		for(String houseID : houses.keySet()){
+			Hashtable<String, Room> rooms = houses.get(houseID).getRooms();
+			
+			for(String roomID : rooms.keySet()){
+				allItems.putAll(rooms.get(roomID).getItems());
+			}
+		}
+		
+		return allItems;
 	}
 	
 }
