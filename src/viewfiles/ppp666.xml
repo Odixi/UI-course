@@ -1,19 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><tns:views xmlns="http://www.example.org/houseStructures" xmlns:tns="http://www.example.org/views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/views views.xsd ">
-           
-  <tns:view viewID="idvalue0">
-    <tns:user userID="idvalue1"/>
-    <tns:houses>
-      <house houseID="idvalue2">
-        <houseName>houseName</houseName>
-        <room roomID="idvalue3">
-          <roomName>roomName</roomName>
-        </room>
-      </house>
-    </tns:houses>
-  </tns:view>
-<tns:view viewID="b524701e-11e4-4a1c-8cbe-233701e32d18">
-        <tns:user userID=""/>
-        <tns:houses xmlns="http://www.example.org/houseStructures" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/houseStructures houseStructures.xsd ">
+<?xml version="1.0" encoding="UTF-8"?><tns:view xmlns:tns="http://www.example.org/views" viewID="6b652cb3-8426-4ac2-a370-c164ada88ad3">
+    <tns:user userID="ppp666"/>
+    <tns:houses xmlns="http://www.example.org/houseStructures" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/houseStructures houseStructures.xsd ">
    
         
   <house houseID="h001" inView="false">
@@ -81,8 +68,10 @@
             </appliance>
         </room>
   </house>
+ 
+  
+  
+  
 
-        </tns:houses>
-    </tns:view>
-    
-</tns:views>
+</tns:houses>
+</tns:view>

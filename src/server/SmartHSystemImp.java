@@ -5,6 +5,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import exceptions.ElementNullException;
 import model.UserAccountHandler;
 import model.ViewHandler;
 import model.ViewHandlerNEW;
@@ -43,7 +44,7 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		//ViewHandler
 		viewHandler = new ViewHandler(houseHandler);
 		
-		//newViewHandler = new ViewHandlerNEW(houseHandler);
+		newViewHandler = new ViewHandlerNEW(houseHandler);
 		
 	} //constructor
 
@@ -85,7 +86,12 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 			System.out.println("Username: " + name);
 		}*/
 		
-		//newViewHandler.createDefaultView("ppp666");
+		try {
+			newViewHandler.createDefaultView("ppp666");
+		} catch (ElementNullException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
