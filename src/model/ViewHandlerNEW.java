@@ -91,7 +91,9 @@ public class ViewHandlerNEW extends XMLHandler {
 	public void setUserView(String userID, Hashtable<String, Boolean> userview){
 		
 		if( !userHasView(userID) ){
-			createDefaultView(userID);
+			
+		//	createDefaultView(userID);
+	
 		}
 		
 		updateUserView(userID, userview);
@@ -109,16 +111,22 @@ public class ViewHandlerNEW extends XMLHandler {
 		
 		//If the user doesn't have a view, create one
 		if( !userHasView(userID) ){
-			createDefaultView(userID);
+
+			//createDefaultView(userID);
+		
 		}
 		return null;
 	}
 	
 	/** Creates a view where no houses/rooms/items are included.
 	 * @param userID The ID of the user that the view is created for.
+	 * @throws ElementNullException 
 	 */
 	//TODO Make private (?)
-	public void createDefaultView(String userID){
+	
+	//TODO Should the method throw the exception or handle it inside the method?
+	
+	public void createDefaultView(String userID) throws ElementNullException{
 		
 		if( userHasView(userID) ){
 			
@@ -154,14 +162,8 @@ public class ViewHandlerNEW extends XMLHandler {
 			//Go through all elements and set them not included (inView = false) in the view.
 		
 			//TODO WORK ON THIS PIECE OF S...
-			ArrayList<Element> houseElements;
-			try {
-				houseElements = getHouseElements(view);
-			} catch (ElementNullException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+			ArrayList<Element> houseElements = getHouseElements(view);
+
 			System.out.println("Number of house elements: " + houseElements.size());
 			
 			housesNotIncluded(houseElements);
