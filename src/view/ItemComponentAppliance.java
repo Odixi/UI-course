@@ -8,18 +8,43 @@ import com.vaadin.ui.VerticalLayout;
 
 import model.items.Appliance;
 import server.SmartHSystem;
-
+/**
+ * Custom component for appliance type item.
+ * Displays name and a checkbox to turn the appliance on or off
+ * @author Ville
+ *
+ */
 public class ItemComponentAppliance extends CustomComponent implements ItemComponent{
+	
+	private String itemID;
+	private String houseID;
+	private String roomID;
+	
+	private SmartHSystem shsystem;
+	private Appliance appliance;
 	
 	private Panel panel;
 	private VerticalLayout layout;
-	private Appliance appliance;
 	private Label name;
 	private CheckBox value;
 	
-	public ItemComponentAppliance(SmartHSystem shsystem, String itemID, Appliance appliance){
+	/**
+	 * 
+	 * @param shsystem
+	 * @param houseID
+	 * @param roomID
+	 * @param itemID
+	 * @param appliance
+	 */
+	public ItemComponentAppliance(SmartHSystem shsystem,String houseID, String roomID, String itemID, Appliance appliance){
 		
 		this.appliance = appliance;
+		this.shsystem = shsystem;
+		
+		this.itemID = itemID;
+		this.houseID = houseID;
+		this.roomID = roomID;
+		
 		panel = new Panel();
 		layout = new VerticalLayout();
 		layout.setMargin(true);

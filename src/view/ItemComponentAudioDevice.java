@@ -12,18 +12,38 @@ import com.vaadin.ui.VerticalLayout;
 
 import model.items.AudioDevice;
 import server.SmartHSystem;
-
+/**
+ * Custom component for aduio devices.
+ * Displays name, checkbox and slider.
+ * Checkbox turn on / off the device.
+ * Slider changes the volume of the audio device.
+ * @author Ville
+ *
+ */
 public class ItemComponentAudioDevice extends CustomComponent implements ItemComponent{
+	
+	private String itemID;
+	private String houseID;
+	private String roomID;
+	
+	private SmartHSystem shsystem;
+	private AudioDevice audioDevice;
+	
 	private Panel panel;
 	private VerticalLayout layout;
-	private AudioDevice audioDevice;
 	private Label name;
 	private Slider volume;
 	private CheckBox on;
 	
-	public ItemComponentAudioDevice(SmartHSystem shsystem, String itemID, AudioDevice audioDevice){
+	public ItemComponentAudioDevice(SmartHSystem shsystem,String houseID, String roomID, String itemID, AudioDevice audioDevice){
 		
 		this.audioDevice = audioDevice;
+		this.shsystem = shsystem;
+		
+		this.itemID = itemID;
+		this.houseID = houseID;
+		this.roomID = roomID;
+		
 		panel = new Panel();
 		layout = new VerticalLayout();
 		layout.setMargin(true);

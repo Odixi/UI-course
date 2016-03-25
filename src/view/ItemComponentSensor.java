@@ -1,5 +1,7 @@
 package view;
 
+import java.rmi.RemoteException;
+
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
@@ -18,14 +20,26 @@ import server.SmartHSystem;
 public class ItemComponentSensor extends CustomComponent implements ItemComponent{
 	
 	private Sensor sensor;
+	private SmartHSystem shsystem;
+	
+	private String itemID;
+	private String houseID;
+	private String roomID;
+	
 	private Panel panel;
 	private VerticalLayout layout;
 	private Label name;
 	private Label value;
 	
-	public ItemComponentSensor(SmartHSystem shsystem, String itemID, Sensor sensor){
+	public ItemComponentSensor(SmartHSystem shsystem,String houseID, String roomID, String itemID, Sensor sensor){
 		
 		this.sensor = sensor;
+		this.shsystem = shsystem;
+		
+		this.itemID = itemID;
+		this.houseID = houseID;
+		this.roomID = roomID;
+		
 		panel = new Panel();
 		layout = new VerticalLayout();
 		layout.setMargin(true);
@@ -33,9 +47,9 @@ public class ItemComponentSensor extends CustomComponent implements ItemComponen
 		
 		panel.setContent(layout);
 		
-		// TODO Get the sensor object from server
-		name = new Label("Sensor. Just test.");
-		value = new Label("Value");
+		
+		name = new Label(sensor.getName());
+		value = new Label(sensor.getSensorValue() + sensor.getSensorUnit().getUnit());
 		
 		layout.addComponent(name);
 		layout.addComponent(value);
@@ -43,9 +57,16 @@ public class ItemComponentSensor extends CustomComponent implements ItemComponen
 		setCompositionRoot(panel);
 	}
 	
-	// TODO method for updating the item state
+	/**
+	 * Updates sensor value from server
+	 */
 	public void update(){
-		
+		try {
+			sensor = (Sensor)shsystem.getSmartItem(itemID);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		value.setValue(sensor.getSensorValue() + sensor.getSensorUnit().getUnit());
 	}
 	
 	public String toString(){

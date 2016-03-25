@@ -9,17 +9,35 @@ import com.vaadin.ui.VerticalLayout;
 import model.items.Light;
 import server.SmartHSystem;
 
+/**
+ * Custom component for light type items.
+ * Displays name and checkboxto turn the ligh on or off
+ * @author Ville
+ *
+ */
 public class ItemComponentLight extends CustomComponent implements ItemComponent{
+	
+	private String itemID;
+	private String houseID;
+	private String roomID;
+	
+	private SmartHSystem shsystem;
+	private Light light;
 	
 	private Panel panel;
 	private VerticalLayout layout;
-	private Light light;
 	private Label name;
 	private CheckBox on;
 	
-	public ItemComponentLight(SmartHSystem shsystem, String itemID, Light light){
+	public ItemComponentLight(SmartHSystem shsystem,String houseID, String roomID, String itemID, Light light){
 		
 		this.light = light;
+		this.shsystem = shsystem;
+		
+		this.itemID = itemID;
+		this.houseID = houseID;
+		this.roomID = roomID;
+		
 		panel = new Panel();
 		layout = new VerticalLayout();
 		layout.setMargin(true);
