@@ -9,7 +9,7 @@ import com.vaadin.ui.VerticalLayout;
 import model.items.Light;
 import server.SmartHSystem;
 
-public class ItemComponentLight extends CustomComponent{
+public class ItemComponentLight extends CustomComponent implements ItemComponent{
 	
 	private Panel panel;
 	private VerticalLayout layout;
@@ -17,8 +17,9 @@ public class ItemComponentLight extends CustomComponent{
 	private Label name;
 	private CheckBox on;
 	
-	public ItemComponentLight(SmartHSystem shsystem, String itemID){
+	public ItemComponentLight(SmartHSystem shsystem, String itemID, Light light){
 		
+		this.light = light;
 		panel = new Panel();
 		layout = new VerticalLayout();
 		layout.setMargin(true);

@@ -78,6 +78,7 @@ public interface SmartHSystem extends Remote {
 	
 	// • • • • • • • • VIEWS • • • • • • • • •
 	
+	// Moro parametres(like houseID and RoomID) can be added if it makes things easier
 	public SmartItem getSmartItem(String ItemID) throws RemoteException;
 	
 

@@ -23,8 +23,9 @@ public class ItemComponentSensor extends CustomComponent implements ItemComponen
 	private Label name;
 	private Label value;
 	
-	public ItemComponentSensor(SmartHSystem shsystem, String itemID){
+	public ItemComponentSensor(SmartHSystem shsystem, String itemID, Sensor sensor){
 		
+		this.sensor = sensor;
 		panel = new Panel();
 		layout = new VerticalLayout();
 		layout.setMargin(true);

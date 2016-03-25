@@ -17,8 +17,9 @@ public class ItemComponentAppliance extends CustomComponent implements ItemCompo
 	private Label name;
 	private CheckBox value;
 	
-	public ItemComponentAppliance(SmartHSystem shsystem, String itemID){
+	public ItemComponentAppliance(SmartHSystem shsystem, String itemID, Appliance appliance){
 		
+		this.appliance = appliance;
 		panel = new Panel();
 		layout = new VerticalLayout();
 		layout.setMargin(true);
