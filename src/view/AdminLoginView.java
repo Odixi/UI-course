@@ -16,9 +16,17 @@ import server.SmartHSystem;
 
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
-
+/**
+ * A login view for andmins to login.
+ * @author Ville
+ *
+ */
 public class AdminLoginView extends VerticalLayout implements View{
-
+	/**
+	 * Construktor to build the view.
+	 * @param ui The UI, in which the view is build to
+	 * @param shsystem SmartHSystem for RMI calls to interact with the backend
+	 */
 	public AdminLoginView(SmartUI ui, SmartHSystem shsystem){
 		
 		setMargin(true);
@@ -90,7 +98,9 @@ public class AdminLoginView extends VerticalLayout implements View{
         setComponentAlignment(loginButton, Alignment.MIDDLE_CENTER);
         
 	}
-	
+	/**
+	 * This method is run when user enters this view
+	 */
 	@Override
 	public void enter(ViewChangeEvent event) {
 		// TODO Auto-generated method stub

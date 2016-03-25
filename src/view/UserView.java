@@ -28,7 +28,13 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Slider;
 import com.vaadin.server.FontAwesome;
- 
+
+/**
+ * A view for user to observe and mangage the current state of the items in the houses.
+ * @author Ville
+ *
+ */
+
 public class UserView extends VerticalLayout implements View{
 	
 	//Attributes
@@ -39,6 +45,13 @@ public class UserView extends VerticalLayout implements View{
 	private Hashtable<String, Boolean> userView;
 	private SmartUI ui;
  
+	// ------ Construktor ------ //
+	
+	/**
+	 * Construktor to build the view
+	 * @param ui, the UI, to which the view is build
+	 * @param shsystem, SmartHSystem for RMI calls to interact with the backend
+	 */
     public UserView(SmartUI ui, SmartHSystem shsystem){
     	
     	super();
@@ -153,7 +166,10 @@ public class UserView extends VerticalLayout implements View{
         	addComponent(nLabel);
         }
     }
-       
+      
+    /**
+     * This method is run when user enters the view
+     */
     @Override
     public void enter(ViewChangeEvent event) {
         // TODO Auto-generated method stub

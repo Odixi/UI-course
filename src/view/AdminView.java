@@ -33,7 +33,11 @@ import com.vaadin.ui.Tree;
 import com.vaadin.ui.VerticalLayout;
 
 import server.SmartHSystem;
-
+/**
+ * A view for admins to manage users and their views.
+ * @author Ville
+ *
+ */
 public class AdminView extends HorizontalLayout implements View{
 	
 	private SmartHSystem shsystem;
@@ -64,6 +68,10 @@ public class AdminView extends HorizontalLayout implements View{
 	private Hashtable<String, String> userList;
 	
 	// ********** KONSTRUKTORI ********** //
+	 /** Construktor to build the view
+	 * @param ui, the UI, to which the view is build
+	 * @param shsystem, SmartHSystem for RMI calls to interact with the backend
+	 */
 	public AdminView(SmartUI ui, SmartHSystem shsystem ){
 		
 		super();
@@ -268,7 +276,7 @@ public class AdminView extends HorizontalLayout implements View{
 	
 	// ********** OIKEA PUOLI ********** //
 	
-	public void initRight(){
+	private void initRight(){
         // ---------- Oikea puoli ---------- //
         
         rightLayout = new VerticalLayout();
@@ -300,9 +308,8 @@ public class AdminView extends HorizontalLayout implements View{
                 
 	}
 	
-	// Hakee serveriltä valitun käyttäjän tiedot ja päivättää ne
+	// When user is changed, change the usernameField and UserViewSelectLabel to represent the right user
 	private void updateContent(){
-		//TODO
 		if (userSelect.getValue() == null){
 			usernameField.setValue("");
 			passwordField.setValue("");
@@ -315,17 +322,16 @@ public class AdminView extends HorizontalLayout implements View{
 		}
 	}
 	
-	// Haetaan käyttäjät serveriltä
+	/**
+	 * Updates the list of users from server
+	 */
 	public void updateUserList(){
 		userSelect.removeAllItems();
         try {
-			//users = shsystem.getUsernames();	//TODO
 			userList = shsystem.getUsers();
 		} catch (RemoteException e1) {
 			e1.printStackTrace();
 		}
-        
-        //userSelect.addItems(users); //TODO
      
        /*//CHANGE
         * I used this idea to bind userIDs to the Combobox
@@ -345,8 +351,10 @@ public class AdminView extends HorizontalLayout implements View{
     	   */
        }
 	}
-	
-	// Palauttaa valitun käyttäjän
+	/**
+	 * 
+	 * @return String username, Currently selected users username
+	 */
 	public String getSelectedUsername(){
 		//getValue returns userID
 		//getItemCaption gives the username
@@ -355,7 +363,10 @@ public class AdminView extends HorizontalLayout implements View{
 		}
 		return userSelect.getItemCaption( userSelect.getValue().toString() );
 	}
-	
+	/**
+	 * 
+	 * @return String userID, Currently selected users userID
+	 */
 	public String getSelectedUserID(){
 		if (userSelect.getValue() == null){
 			return null;
@@ -363,10 +374,16 @@ public class AdminView extends HorizontalLayout implements View{
 		return userSelect.getValue().toString();
 	}
 	
+	/**
+	 * 
+	 * @return ComboBox userSelect
+	 */
 	public ComboBox getComboBox(){
 		return userSelect;
 	}
-	
+	/**
+	 * This method is run when user enters the view
+	 */
 	@Override
 	public void enter(ViewChangeEvent event) {
 		
@@ -375,11 +392,14 @@ public class AdminView extends HorizontalLayout implements View{
 } // AdminView
 
 /*
- * Sisältä mikä näytetäänkun painetaan Create usernappia
+ * Sisältä mikä näytetään kun painetaan Create usernappia
  * -> Tekstikenttä mihin syötetään uuden käyttäjän nimi
  * 
  * Ajatus olisi se, että ensin luodaan uusi käyttäjä anoastaan nimellä, ja
  * myöhemmin sen muita ominasuuksia voidaan muokata käyttäjien muakkausnäkymässä
+ */
+/**
+ * This class is used to build the popup views contet, when the 'Create user' button is pressed in AdminView
  */
 class CreateUserPopupContent implements PopupView.Content{
 	
@@ -430,8 +450,8 @@ class CreateUserPopupContent implements PopupView.Content{
 	
 }
 
-/*
- * Sisältö mikä näytetäänkun painetaan Remove ures nappia
+/**
+ * This class is used to build the popup views contet, when the 'Remove user' button is pressed in AdminView
  */
 class RemoveUserPopupContent implements PopupView.Content{
 	
