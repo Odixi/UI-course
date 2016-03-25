@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import model.HouseObjectGenerator;
 import model.house.House;
@@ -17,7 +18,7 @@ import model.items.SmartItem;
 public class SmartModel {
 
 	private HouseObjectGenerator generator = new HouseObjectGenerator();
-	private ArrayList<House> houses;
+	private Hashtable<String, House> houses;
 	
 	public SmartModel(){
 		

@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import org.w3c.dom.*;
 
@@ -53,10 +54,10 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 	}
 	
 	//--------------- BUILD HOUSES ---------------------
-	public ArrayList<House> buildHouses(){
+	public Hashtable<String, House> buildHouses(){
 		
 		ArrayList<Element> houseElements = super.getHouseElements();
-		ArrayList<House> houses = new ArrayList<House>();
+		Hashtable<String, House> houses = new Hashtable<String, House>();
 		
 		for(int i = 0; i < houseElements.size(); i++ ){
 			if( houseElements.get(i).hasAttribute(houseIDTag) ){
@@ -66,27 +67,27 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 				if( houseElements.get(i).getElementsByTagName(housenameTag) != null){
 					String name = houseElements.get(i).getElementsByTagName(housenameTag).item(0).getTextContent();
 					
-					houses.add( new House(id, name) );
+					houses.put(id, new House(id, name));
+					
 				} else {
-					houses.add( new House(id, "House "+i) );
+					//houses.add( new House(id, "House "+i) );
+					houses.put(id, new House(id, "House " +i));
 				}
 			} 
 		}
 		
-		//Create rooms
-		for(int i = 0; i < houses.size(); i++){
-			houses.get(i).setRooms( buildRooms(houses.get(i).getID() ));
+		for(String houseID : houses.keySet()){
+			houses.get(houseID).setRooms( buildRooms(houseID) );
 		}
 		
-		//return
 		return houses;
 	}
 	
 	//--------------- BUILD ROOMS ---------------------
-	public ArrayList<Room> buildRooms(String houseID){
+	public Hashtable<String, Room> buildRooms(String houseID){
 		
 		ArrayList<Element> roomElements = super.getRoomElements(houseID);
-		ArrayList<Room> rooms = new ArrayList<Room>();
+		Hashtable<String, Room> rooms = new Hashtable<String, Room>();
 		
 		for(int i = 0; i < roomElements.size(); i++ ){
 			if( roomElements.get(i).hasAttribute(roomIDTag) ){
@@ -96,50 +97,57 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 				if( roomElements.get(i).getElementsByTagName(roomnameTag) != null){
 					String name = roomElements.get(i).getElementsByTagName(roomnameTag).item(0).getTextContent();
 					
-					rooms.add( new Room(id, name) );
+					rooms.put(id, new Room(id, name) );
 				} else {
-					rooms.add( new Room(id, "Room "+i) );
+					rooms.put(id, new Room(id, "Room "+i) );
 				}	
 			}
 		}
 		
 		//Create items
-		for(int i = 0; i < rooms.size(); i++ ){
-			rooms.get(i).setItems( buildItems(houseID, rooms.get(i).getID()) );
+		for(String roomID : rooms.keySet()){
+			rooms.get(roomID).setItems( buildItems(houseID, roomID) );
 		}
 		
 		return rooms;
 	}
 	
 	//--------------- BUILD ITEMS ---------------------
-	public ArrayList<SmartItem> buildItems(String houseID, String roomID){
+	public Hashtable<String, SmartItem> buildItems(String houseID, String roomID){
 		
 		ArrayList<Element> itemElements = super.getItemElements(houseID, roomID);
-		ArrayList<SmartItem> items = new ArrayList<SmartItem>();
+		Hashtable<String, SmartItem> items = new Hashtable<String, SmartItem>();
 		
 		for(int i = 0; i < itemElements.size(); i++){
+			
 			//Element is light
 			if(itemElements.get(i).hasAttribute(lightIDTag)){
 				
+				String lightID = itemElements.get(i).getAttribute(lightIDTag);
+				
 				//If light has a name
 				if(itemElements.get(i).getElementsByTagName(lightnameTag) != null){
-					
-					items.add( new Light( itemElements.get(i).getAttribute(lightIDTag),
-							itemElements.get(i).getElementsByTagName(lightnameTag).item(0).getTextContent()));
+					items.put(lightID, new Light( lightID, itemElements.get(i).getElementsByTagName(lightnameTag).item(0).getTextContent()));
 			
 				} else {
 					//No name specified, light gets default name defined by Light.java
-					items.add(new Light( itemElements.get(i).getAttribute(lightIDTag)) );
+					items.put(lightID, new Light(lightID) );
 				}
 			}
 			//Element is a sensor
-			if(itemElements.get(i).hasAttribute(sensorIDTag)){
-				items.add( buildSensor(itemElements.get(i)) );
+			else if(itemElements.get(i).hasAttribute(sensorIDTag)){
+				items.put(itemElements.get(i).getAttribute(sensorIDTag),
+						buildSensor(itemElements.get(i)) );
 			}
 			//Element is an appliance
-			if(itemElements.get(i).hasAttribute(applianceIDTag)){
-				
-				items.add( buildAppliance(itemElements.get(i)) );
+			else if(itemElements.get(i).hasAttribute(applianceIDTag)){
+				items.put(itemElements.get(i).getAttribute(applianceIDTag),
+						buildAppliance(itemElements.get(i)) );
+			}
+			//Element is a controller
+			else if(itemElements.get(i).hasAttribute(controllerIDTag)){
+				items.put(itemElements.get(i).getAttribute(controllerIDTag),
+						buildController(itemElements.get(i)));
 			}
 		}
 	
@@ -149,56 +157,56 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 	//--------------- BUILD SENSOR ---------------------
 	public Sensor buildSensor(Element sensorElement){
 		//Initialize return value;
-		Sensor sensor = new Sensor(sensorElement.getAttribute(sensorIDTag));
+		Sensor sensorObject = new Sensor(sensorElement.getAttribute(sensorIDTag));
 		
 		//Set type
 		if(sensorElement.getElementsByTagName(sensorTypeTag) != null){
 			String type = sensorElement.getElementsByTagName(sensorTypeTag).item(0).getTextContent().trim();
 			
 			if(type.equalsIgnoreCase("temperature")){
-				sensor.setSensorType(SensorType.TEMPERATURE);
+				sensorObject.setSensorType(SensorType.TEMPERATURE);
 			} else if( type.equalsIgnoreCase("humidity") ){
-				sensor.setSensorType(SensorType.HUMIDITY);
+				sensorObject.setSensorType(SensorType.HUMIDITY);
 			} else if( type.equalsIgnoreCase("lightsensor") ){
-				sensor.setSensorType(SensorType.LIGHT);
+				sensorObject.setSensorType(SensorType.LIGHT);
 			}
 		}
 		
 		//Set name
 		if(sensorElement.getElementsByTagName(sensornameTag) != null){
-			sensor.setSensorName( sensorElement.getElementsByTagName(sensornameTag).item(0).getTextContent() );
+			sensorObject.setSensorName( sensorElement.getElementsByTagName(sensornameTag).item(0).getTextContent() );
 		
 		} else {
-			sensor.setDefaultName();
+			sensorObject.setDefaultName();
 		}
 		
-		return sensor;
+		return sensorObject;
 	}
 	
 	//--------------- BUILD APPLIANCE ---------------------
 	public Appliance buildAppliance(Element applianceElement){
-		Appliance machine = null;
+		Appliance applianceObject = null;
 		
 		//Appliance type
 		if(applianceElement.getElementsByTagName(applianceTypeTag) != null){
 			String type = applianceElement.getElementsByTagName(applianceTypeTag).item(0).getTextContent().trim();
 			
 			if(type.equalsIgnoreCase("audioDevice")){
-				machine = new AudioDevice(applianceElement.getAttribute(applianceIDTag));
+				applianceObject = new AudioDevice(applianceElement.getAttribute(applianceIDTag));
 			}
 			else if(type.equalsIgnoreCase("turnOnOff")){
-				machine = new Appliance(applianceElement.getAttribute(applianceIDTag));
+				applianceObject = new Appliance(applianceElement.getAttribute(applianceIDTag));
 			}
 		}
 		
 		//Appliance name
 		if(applianceElement.getElementsByTagName(appliancenameTag) != null){
-			machine.setName( applianceElement.getElementsByTagName(appliancenameTag).item(0).getTextContent());
+			applianceObject.setName( applianceElement.getElementsByTagName(appliancenameTag).item(0).getTextContent());
 		} else {
-			machine.setDefaultname();
+			applianceObject.setDefaultname();
 		}
 		
-		return machine;
+		return applianceObject;
 	}
 	
 	//--------------- BUILD CONTROLLER ---------------------
@@ -214,7 +222,6 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 			}
 			
 			//TODO More types?
-			
 		}
 		
 		//Controller name
