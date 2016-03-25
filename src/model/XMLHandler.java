@@ -92,12 +92,23 @@ public class XMLHandler {
 			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 			
 			source = new DOMSource(doc);
+			
+			//TODO Should this case be handled in here or in separate method?
+			File xmlViewFile = new File(filepath);
+			
+			if( !xmlViewFile.exists() ){ //If the file for the user's view doesn't yet exist/has been deleted, it is created.
+				xmlViewFile.createNewFile();
+			}
+			
+			//StreamResult streamResult = new StreamResult(new File(filepath) );
 			StreamResult streamResult = new StreamResult(new File(filepath) );
 			transformer.transform(source, streamResult);
 			
 		} catch (TransformerConfigurationException e) {	
 			e.printStackTrace();
 		} catch (TransformerException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		

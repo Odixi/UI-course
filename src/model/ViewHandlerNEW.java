@@ -22,7 +22,7 @@ public class ViewHandlerNEW extends XMLHandler {
 
 	//FileList
 	private Hashtable<String, String> filelist;
-	private final String rootfilepath = "src/xmlfiles.viewsfiles/";
+	private final String rootfilepath = "src/viewfiles/";
 	
 	// >>> XML tags
 	private static final String inView = "inView";
@@ -311,6 +311,7 @@ public class ViewHandlerNEW extends XMLHandler {
 	 * @return 
 	 */
 	private String createFilepath(String userID){
+		System.out.println("Filepath generated: " + rootfilepath + userID + ".xml"); //REMOVE For testing
 		return rootfilepath + userID + ".xml";
 	}
 	
