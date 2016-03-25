@@ -223,6 +223,7 @@ public class ViewHandlerNEW extends XMLHandler {
 	
 	public void updateHousesIncluded(ArrayList<Element> houseElements, Hashtable<String, Boolean> userview){
 		//TODO Copy
+		
 	}
 	
 	public void updateRoomsIncluded(ArrayList<Element> roomElements, Hashtable<String, Boolean> userview){
@@ -308,6 +309,13 @@ public class ViewHandlerNEW extends XMLHandler {
 		}
 		
 		NodeList viewNodes = doc.getElementsByTagName(viewTag);
+		
+		if(viewNodes.getLength() != 1){
+			/* View element should be the root of the file.
+			 * If there are multiple view elements, something is terribly wrong.
+			 * Therefore exception is thrown when such situation is encountered.
+			 */
+		}
 		
 		if(viewNodes.item(0).getNodeType() == Node.ELEMENT_NODE ){
 			viewElement = (Element) viewNodes.item(0);
