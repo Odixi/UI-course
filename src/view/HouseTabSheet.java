@@ -24,6 +24,7 @@ public class HouseTabSheet extends CustomComponent{
 		
 		tabsheet = new TabSheet();
 		this.userView = userView;
+		componentList = new ArrayList<RoomContentComponent>();
 		
 		try {
 			RoomContentComponent temp;
