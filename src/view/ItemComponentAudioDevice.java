@@ -21,8 +21,9 @@ public class ItemComponentAudioDevice extends CustomComponent implements ItemCom
 	private Slider volume;
 	private CheckBox on;
 	
-	public ItemComponentAudioDevice(SmartHSystem shsystem, String itemID){
+	public ItemComponentAudioDevice(SmartHSystem shsystem, String itemID, AudioDevice audioDevice){
 		
+		this.audioDevice = audioDevice;
 		panel = new Panel();
 		layout = new VerticalLayout();
 		layout.setMargin(true);
