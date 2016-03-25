@@ -4,6 +4,8 @@ import java.rmi.*;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import model.items.SmartItem;
+
 public interface SmartHSystem extends Remote {
 
 	// --------- FOR TESTING ------------------
@@ -73,10 +75,23 @@ public interface SmartHSystem extends Remote {
 	
 	public Hashtable<String, String> getItems(String houseID, String roomID) throws RemoteException;
 	
-	// varmaan sitten myös jotain kyselyitä, mitkä palauttaa itemin typin yms. mutta niitä 
-	// ainakaan vielä tarvitse
 	
 	// • • • • • • • • VIEWS • • • • • • • • •
 	
+	public SmartItem getSmartItem(String ItemID) throws RemoteException;
+	
+
+	// These can be done differently
+	public void turnLightOn(String itemID)throws RemoteException;
+	
+	public void turnLightOff(String itemID)throws RemoteException;
+	
+	public void turnApplianceOn(String itemID) throws RemoteException;
+	
+	public void turnApplianceOff(String itemID) throws RemoteException;
+	
+	public void setAudioVolume(int volume) throws RemoteException;
+	
+	public void setControllerValue(double value) throws RemoteException;
 	
 }

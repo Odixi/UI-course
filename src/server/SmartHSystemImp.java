@@ -9,6 +9,7 @@ import exceptions.ElementNullException;
 import model.UserAccountHandler;
 import model.ViewHandler;
 import model.ViewHandlerNEW;
+import model.items.SmartItem;
 import model.HouseHandler;
 import model.AdminAccountHandler;
 
@@ -199,6 +200,56 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	public Hashtable<String, String> getItems(String houseID, String roomID) throws RemoteException {
 		return houseHandler.getItemNames(houseID, roomID);
 	//	return null;
+	}
+
+
+	@Override
+	public SmartItem getSmartItem(String ItemID) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	// • • • • • • • • • • • •  Views • • • • • • • • • • • • 
+	
+	@Override
+	public void turnLightOn(String itemID) throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void turnLightOff(String itemID) throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void turnApplianceOn(String itemID) throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void turnApplianceOff(String itemID) throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void setAudioVolume(int volume) throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void setControllerValue(double value) throws RemoteException {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	// • • • • • • • • • • • •  • • • • • • • • • • • • 
