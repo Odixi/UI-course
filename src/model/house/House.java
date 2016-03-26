@@ -54,7 +54,7 @@ public class House {
 	 */
 	public Room getRoom(String roomID) throws IDMatchNotFoundException{
 		
-		if(rooms.contains(roomID)){
+		if(rooms.containsKey(roomID)){
 			return rooms.get(roomID);
 		} else {
 			throw new IDMatchNotFoundException("Room matching id " + roomID + "in house " + getID() + " not found.");

@@ -4,6 +4,8 @@ import java.rmi.*;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import exceptions.IDMatchNotFoundException;
+import exceptions.IDTypeMismatch;
 import model.items.SmartItem;
 
 public interface SmartHSystem extends Remote {
@@ -78,22 +80,26 @@ public interface SmartHSystem extends Remote {
 	
 	// • • • • • • • • VIEWS • • • • • • • • •
 	
-	// Moro parametres(like houseID and RoomID) can be added if it makes things easier
-	public SmartItem getSmartItem(String ItemID) throws RemoteException;
+	public SmartItem getSmartItem(String ItemID) throws RemoteException, IDMatchNotFoundException;
 	
-	public SmartItem getSmartItem(String houseID, String roomID, String ItemID) throws RemoteException;
+	public SmartItem getSmartItem(String houseID, String roomID, String ItemID) throws RemoteException, IDMatchNotFoundException;
 
-	// These can be done differently
-	public void turnLightOn(String houseID, String roomID, String itemID)throws RemoteException;
+	//---------- Lights ------------------------
 	
-	public void turnLightOff(String houseID, String roomID, String itemID)throws RemoteException;
+	public void turnLightOn(String houseID, String roomID, String itemID)throws RemoteException, IDMatchNotFoundException, IDTypeMismatch;
 	
-	public void turnApplianceOn(String houseID, String roomID, String itemID) throws RemoteException;
+	public void turnLightOff(String houseID, String roomID, String itemID)throws RemoteException, IDTypeMismatch, IDMatchNotFoundException;
 	
-	public void turnApplianceOff(String houseID, String roomID, String itemID) throws RemoteException;
+	//----------- Appliances & audio devices -----------------------
 	
-	public boolean setAudioVolume(String houseID, String roomID, int volume) throws RemoteException;
+	public void turnApplianceOn(String houseID, String roomID, String itemID) throws RemoteException, IDTypeMismatch, IDMatchNotFoundException;
 	
-	public boolean setControllerValue(String houseID, String roomID, String itemID, double value) throws RemoteException;
+	public void turnApplianceOff(String houseID, String roomID, String itemID) throws RemoteException, IDTypeMismatch, IDMatchNotFoundException;
+	
+	boolean setAudioVolume(String houseID, String roomID, String itemID, int volume) throws RemoteException, IDMatchNotFoundException, IDTypeMismatch;
+	
+	//----------- Controllers ----------------------------------------
+	
+	public boolean setControllerValue(String houseID, String roomID, String itemID, double value) throws RemoteException, IDTypeMismatch, IDMatchNotFoundException;
 	
 }

@@ -7,6 +7,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
+import exceptions.IDMatchNotFoundException;
 import model.items.Sensor;
 import server.SmartHSystem;
 
@@ -70,8 +71,11 @@ public class ItemComponentSensor extends CustomComponent implements ItemComponen
 	 */
 	public void update(){
 		try {
-			sensor = (Sensor)shsystem.getSmartItem(itemID);
+			sensor = (Sensor) shsystem.getSmartItem(itemID);
 		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (IDMatchNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		value.setValue(sensor.getSensorValue() + sensor.getSensorUnit().getUnit());

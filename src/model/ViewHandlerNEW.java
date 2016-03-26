@@ -113,42 +113,104 @@ public class ViewHandlerNEW extends XMLHandler {
 		
 		//If the user doesn't have a view, create one
 		if( !userHasView(userID) ){
-
 			createDefaultView(userID);
-		
+		}
+
+		Element viewElement;
+			
+		try {	
+			viewElement = getViewElement(userID);
+			
+		} catch (DocumentNullException | ElementNullException | XMLBrokenException e) {
+			System.out.println("Problem with user's (" + userID + ") view file. Recovering from problem by creating default view.");
+			
+			//Return the default view
+			return recoverWithDefaultView(userID);
 		}
 		
-		//We know that the userview file for the user matching userID exists.
+		ArrayList<Element> houseElements = getHouseElements(viewElement);
 		
-		//Get the view element/houses element
-		
-		try {
+		//Iterate through houses
+		for(int houseIndex = 0; houseIndex < houseElements.size(); houseIndex++){
 			
-			Element viewElement = getViewElement(userID);
-			
-		} catch (DocumentNullException e) {
-			// TODO Auto-generated catch block		//TODO WHAT DO I DO?
-			e.printStackTrace();
-		} catch (ElementNullException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (XMLBrokenException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//inView = true/false?
+			if( houseElements.get(houseIndex).getAttribute(houseIDTag) != null ){
+				if( houseElements.get(houseIndex).getAttribute(inView) == null){
+					houseElements.get(houseIndex).setAttribute(inView, "false");
+				}
+				
+				//Add house info (ID, inView) to hashtable 
+				userview.put(houseElements.get(houseIndex).getAttribute(houseIDTag), parseBoolean( houseElements.get(houseIndex).getAttribute(inView).trim() ) );
+			}
+			//Rooms
+			ArrayList<Element> roomElements = getRoomElements(houseElements.get(houseIndex));
+
+			for(int roomIndex = 0; roomIndex < roomElements.size(); roomIndex++){
+				
+				//inView = true/false?
+				if(roomElements.get(roomIndex).getAttribute(roomIDTag) != null ){
+					if( roomElements.get(roomIndex).getAttribute(inView) == null){
+						roomElements.get(roomIndex).setAttribute(inView, "false");
+					}
+					//Add room info to hashtable
+					userview.put(roomElements.get(roomIndex).getAttribute(roomIDTag), parseBoolean(roomElements.get(roomIndex).getAttribute(inView)) );
+				}
+				
+				//Lights, sensors and appliance
+				ArrayList<Element> itemElements = getItemElements( roomElements.get(roomIndex) );
+					
+				for(int itemIndex = 0; itemIndex < itemElements.size(); itemIndex++){
+					//inView = true/false?
+					if(itemElements.get(itemIndex).hasAttribute(lightIDTag)){
+						if(itemElements.get(itemIndex).getAttribute(inView) == null){
+							itemElements.get(itemIndex).setAttribute(inView, "false");
+						}	
+						userview.put(itemElements.get(itemIndex).getAttribute(lightIDTag), parseBoolean(itemElements.get(itemIndex).getAttribute(inView)) );
+						
+					} else if(itemElements.get(itemIndex).hasAttribute(sensorIDTag)){
+						if(itemElements.get(itemIndex).getAttribute(inView) == null){
+							itemElements.get(itemIndex).setAttribute(inView, "false");
+						}
+						userview.put(itemElements.get(itemIndex).getAttribute(sensorIDTag), parseBoolean(itemElements.get(itemIndex).getAttribute(inView)) );
+						
+					} else if(itemElements.get(itemIndex).hasAttribute(applianceIDTag)){
+						if(itemElements.get(itemIndex).getAttribute(inView) == null){
+							 itemElements.get(itemIndex).setAttribute(inView, "false");
+						}
+						userview.put(itemElements.get(itemIndex).getAttribute(applianceIDTag), parseBoolean(itemElements.get(itemIndex).getAttribute(inView)));
+						
+					} else if(itemElements.get(itemIndex).hasAttribute(controllerIDTag)){
+						if(itemElements.get(itemIndex).getAttribute(inView) == null ){
+							itemElements.get(itemIndex).setAttribute(inView, "false");
+						}
+						userview.put(itemElements.get(itemIndex).getAttribute(controllerIDTag), parseBoolean(itemElements.get(itemIndex).getAttribute(inView)) );
+					}
+				}
+			}
 		}
 		
-//		ArrayList<Element> houseElements = getHouseElements(viewElement);
-		
-		
-		
-		return null;
+		//Return the hashtable with houseIDs, roomIDs & itemIDs and corresponding boolean values telling whether object is included in the view or not
+		return userview;
 	}
 	
 	
+	/**
+	 * 
+	 * @param userID
+	 * @return
+	 */
+	private Hashtable<String, Boolean> recoverWithDefaultView(String userID){
+		
+		//Delete the corrupted file
+		deleteUserview(userID);
+		
+		//Create the default view for the user
+		createDefaultView(userID);
 	
+		return getUserView(userID);
+	}
 	
-	
-	
+
 	//--------------------------- CREATE DEFAULT USERVIEW ----------------------------------------
 	/** Creates a view where no houses/rooms/items are included.
 	 * @param userID The ID of the user that the view is created for.
@@ -274,11 +336,35 @@ public class ViewHandlerNEW extends XMLHandler {
 	
 	//------------------------- DELETE THE USERVIEW --------------------------------------
 	
-	public boolean deleteUserview(){
+	/**
+	 * 
+	 * @param userID
+	 * @return
+	 */
+	public boolean deleteUserview(String userID){
 		
-		//TODO 
-		
+		if(filelist.get(userID) != null){
+			//Get the filepath and delete the file
+			deleteFile( filelist.get(userID) );
+			filelist.remove(userID);
+			
+			return true;
+		}
 		return false;
+	}
+	
+	
+	/** Method deletes the file in the specified filepath. Prints whether the deletion was successful or not in the console.
+	 * @param filepath Filepath of the file to be deleted.
+	 */
+	private void deleteFile(String filepath){
+		File file = new File(filepath);
+		
+		if(file.delete()){
+			System.out.println("SmartModel: A file in filepath " + filepath + " deleted successfully.");
+		} else {
+			System.out.println("SmartModel: Deleting a file in filepath " + filepath + " failed.");
+		}
 	}
 	
 // <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
@@ -344,7 +430,7 @@ public class ViewHandlerNEW extends XMLHandler {
 		System.out.println("Filepath generated: " + rootfilepath + userID + ".xml"); //REMOVE For testing
 		return rootfilepath + userID + ".xml";
 	}
-	
+		
 	/**
 	 * 
 	 * @param userID
@@ -360,14 +446,20 @@ public class ViewHandlerNEW extends XMLHandler {
 		}
 	}
 	
-	
-	private String parseBoolean(String booleanString){
-		//TODO COPY;
-		return null;
+	/**
+	 * Parse boolean value out of the string acquired from a XML file. 
+	 * @param booleanString
+	 * @return
+	 */
+	private boolean parseBoolean(String booleanString){
+		
+		if(booleanString.equals("0") || booleanString.equalsIgnoreCase("true")){
+			return true;
+		} else {
+			return false;
+		}
 	}
-	
-//	updateViewNodeList()
-	
+
 	
 	/**
 	 * Get the view

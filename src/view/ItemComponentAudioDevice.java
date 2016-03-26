@@ -12,6 +12,8 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.Slider;
 import com.vaadin.ui.VerticalLayout;
 
+import exceptions.IDMatchNotFoundException;
+import exceptions.IDTypeMismatch;
 import model.items.AudioDevice;
 import server.SmartHSystem;
 /**
@@ -65,7 +67,14 @@ public class ItemComponentAudioDevice extends CustomComponent implements ItemCom
 					volume.setEnabled(true);
 					try {
 						shsystem.turnApplianceOn(houseID, roomID, itemID);
+						
 					} catch (RemoteException e) {
+						e.printStackTrace();
+					} catch (IDTypeMismatch e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IDMatchNotFoundException e) {
+						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -74,8 +83,15 @@ public class ItemComponentAudioDevice extends CustomComponent implements ItemCom
 					volume.setValue(0.0);
 					try{
 						shsystem.turnApplianceOff(houseID, roomID, itemID);
-						shsystem.setAudioVolume(houseID, roomID, 0);
+						shsystem.setAudioVolume(houseID, roomID, itemID, 0);
+						
 					}catch (RemoteException e){
+						e.printStackTrace();
+					} catch (IDMatchNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IDTypeMismatch e) {
+						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -91,8 +107,15 @@ public class ItemComponentAudioDevice extends CustomComponent implements ItemCom
 			public void valueChange(ValueChangeEvent event) {
 //				Notification.show(volume.getValue().toString());
 				try {
-					shsystem.setAudioVolume(houseID, roomID, volume.getValue().intValue());
+					shsystem.setAudioVolume(houseID, roomID, itemID, volume.getValue().intValue());
+					
 				} catch (RemoteException e) {
+					e.printStackTrace();
+				} catch (IDMatchNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IDTypeMismatch e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -110,7 +133,11 @@ public class ItemComponentAudioDevice extends CustomComponent implements ItemCom
 	public void update(){
 		try {
 			audioDevice = (AudioDevice) shsystem.getSmartItem(houseID, roomID, itemID);
+			
 		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (IDMatchNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		on.setValue(audioDevice.isON());

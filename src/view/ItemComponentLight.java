@@ -10,6 +10,8 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
+import exceptions.IDMatchNotFoundException;
+import exceptions.IDTypeMismatch;
 import model.items.Light;
 import server.SmartHSystem;
 
@@ -62,12 +64,24 @@ public class ItemComponentLight extends CustomComponent implements ItemComponent
 						shsystem.turnLightOn(houseID, roomID, itemID);
 					} catch (RemoteException e) {
 						e.printStackTrace();
+					} catch (IDMatchNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IDTypeMismatch e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				}
 				else {
 					try {
 						shsystem.turnLightOff(houseID, roomID, itemID);
 					} catch (RemoteException e) {
+						e.printStackTrace();
+					} catch (IDTypeMismatch e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IDMatchNotFoundException e) {
+						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -86,7 +100,11 @@ public class ItemComponentLight extends CustomComponent implements ItemComponent
 	public void update(){
 		try {
 			light = (Light) shsystem.getSmartItem(houseID, roomID, itemID);
+			
 		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (IDMatchNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

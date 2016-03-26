@@ -331,6 +331,7 @@ public class ViewHandler extends XMLHandler {
 		
 		if( !userHasView(userID) ){
 			//If user doesn't yet have a view, let's create them default view
+			System.out.println("User " + userID + " doesn't have a view so default view is being created.");
 			createDefaultView(userID);
 		} 
 		
@@ -491,6 +492,10 @@ public class ViewHandler extends XMLHandler {
 		
 		ArrayList<Element> houseElements = new ArrayList<Element>();
 		updateViewNodeList();
+		
+		if(view == null){
+			System.out.println("Oh shit, view is null");
+		}
 		
 		NodeList housesRoot = view.getElementsByTagName(housesTag);
 		
