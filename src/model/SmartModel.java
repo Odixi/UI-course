@@ -23,20 +23,16 @@ public class SmartModel {
 	private HouseObjectGenerator generator = new HouseObjectGenerator();
 	private Hashtable<String, House> houses;
 	
+	
+	//CONSTRUCTOR 
+	
 	public SmartModel(){
-		
+	
 		HouseObjectGenerator generator = new HouseObjectGenerator();
 		houses = generator.buildHouses(); 
 		
 	}
-	
-	//MAIN: FOR TESTING
-	public static void main(String args[]){
-	
-		//TODO Remove: For testing
-		//printHouseStructure();
-		
-	}
+
 	
 	// -<>-<>-<>-<>-<>-<>-<>-<>- GETTERS -<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-
 	
@@ -64,13 +60,13 @@ public class SmartModel {
 	
 	//<o><o><o><o><o><o><o> JUST FOR TESTING! <o><o><o><o><o><o><o>
 	
-	public static void printHouseStructure(ArrayList<House> houses){
+	public static void printHouseStructure(Hashtable<String, House> houses){
 		
-		for(House house : houses){
-			System.out.println("Housename: " + house.getName());
-			System.out.println("HouseID: " + house.getID() + "\n");
+		for( String houseID : houses.keySet() ){
+			System.out.println("Housename: " + houses.get(houseID).getName());
+			System.out.println("HouseID: " + houses.get(houseID).getID() + "\n");
 			
-			Hashtable<String, Room> rooms = house.getRooms();
+			Hashtable<String, Room> rooms = houses.get(houseID).getRooms();
 			System.out.println("House has " + rooms.size() + " rooms:");
 			
 			for(String roomID : rooms.keySet()){

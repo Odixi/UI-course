@@ -61,6 +61,8 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	public void testPrintConsole(String message) throws RemoteException {
 		System.out.println("Message: " + message);
 
+		model.printHouseStructure(model.getHouses());
+		
 		//Testing testing...
 		newViewHandler.createDefaultView("ppp666");
 		
