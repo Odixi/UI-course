@@ -91,13 +91,10 @@ public class ViewHandlerNEW extends XMLHandler {
 	public void setUserView(String userID, Hashtable<String, Boolean> userview){
 		
 		if( !userHasView(userID) ){
-			
 			createDefaultView(userID);
-	
 		}
 		
 		updateUserView(userID, userview);
-		
 	}
 	
 	// >>>>>>>>>>>>>>>>>>>>>>>>>>>> GET USERVIEW  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -216,14 +213,19 @@ public class ViewHandlerNEW extends XMLHandler {
 	 * @param userID The ID of the user that the view is created for.
 	 * @throws ElementNullException 
 	 */
-	//TODO Make private (?)
 
+	//TODO Make private, needs to be public for testing though.
 	public void createDefaultView(String userID) {
 			
-			//TODO What if the method is called on user that has a view?
-			//Do nothing
+		//Method is called on user that has a view. No need to do anything.
+		if( userHasView(userID) ){
 			
-		if( !userHasView(userID) ){ //If user doesn't yet have a view, default view is created.
+			System.out.println("User already has a view.");
+			 
+		}
+		
+		//If user doesn't yet have a view, default view is created.
+		else if( !userHasView(userID) ){ 
 
 			Document userViewDocument = createDocument();
 
@@ -272,8 +274,8 @@ public class ViewHandlerNEW extends XMLHandler {
 			
 			//FOR TESTING ETC:
 			System.out.println("Userview for user " + userID + " created!");
-		}
 			
+		}
 	} //createDefaultView
 	
 		
@@ -296,6 +298,7 @@ public class ViewHandlerNEW extends XMLHandler {
 			} else {
 				//If user doesn't have a file, but there's still path in filelist, it gets confusing
 				//Therefore delete the path since there isn't a file mathing it.
+				System.out.println("User " + userID + " had reference to file but file didn't exist. Reference was deleted."); //REMOVE For testing 
 				filelist.remove(userID);
 				return false;
 			}
@@ -312,27 +315,116 @@ public class ViewHandlerNEW extends XMLHandler {
 	 * @return
 	 */
 	public boolean updateUserView(String userID, Hashtable<String, Boolean> userview){
-		//TODO COPY (partially);
-		return false; //TODO?
-	}
-	
-	public void updateTheHouseStructureInView(String userID){
-		//TODO DO THIS IF YOU HAVE TIME
-	}
-	
-	public void updateHousesIncluded(ArrayList<Element> houseElements, Hashtable<String, Boolean> userview){
-		//TODO Copy
+
+		Element viewElement;
 		
+		try {
+			viewElement  = getViewElement(userID);
+			
+		} catch (DocumentNullException | ElementNullException | XMLBrokenException e) {
+			//TODO Document is corrupted. What should be done?
+			return false;
+		}
+		
+		ArrayList<Element> houseElements = getHouseElements(viewElement);
+		updateHousesIncluded(houseElements, userview);
+		
+		//Update the houses (set the value of inView attribute for each house)
+		for(Element house : houseElements){
+			
+			ArrayList<Element> roomElements = getRoomElements(house);
+			updateRoomsIncluded(roomElements, userview);
+			
+			for(Element room : roomElements){
+			
+				ArrayList<Element> itemElements = getItemElements(room);
+				updateItemsIncluded(itemElements, userview);
+			}
+		}
+		
+		return true;
 	}
 	
+	/**
+	 * 
+	 * @param houseElements
+	 * @param userview
+	 */
+	public void updateHousesIncluded(ArrayList<Element> houseElements, Hashtable<String, Boolean> userview){
+		
+		//Iterate through houses
+		if( !houseElements.isEmpty() ){
+			for(int i = 0; i < houseElements.size(); i++){
+				//inView = true/false?
+				if(houseElements.get(i).getAttribute(houseIDTag) != null){
+						
+					Boolean included = userview.get( houseElements.get(i).getAttribute(houseIDTag) );
+					houseElements.get(i).setAttribute(inView, included.toString());
+				}
+			}
+		}
+	} //updateHousesIncluded
+	
+	
+	/**
+	 * 
+	 * @param roomElements
+	 * @param userview
+	 */
 	public void updateRoomsIncluded(ArrayList<Element> roomElements, Hashtable<String, Boolean> userview){
-		//TODO Copy
+		
+		if( !roomElements.isEmpty() ){
+			for(int j = 0; j < roomElements.size(); j++){
+				
+				//inView = true/false?
+				if(roomElements.get(j).getAttribute(roomIDTag) != null){
+
+					Boolean included = userview.get( roomElements.get(j).getAttribute(roomIDTag));
+					roomElements.get(j).setAttribute(inView, included.toString());
+				}				
+			}
+		}		
 	}
 	
+	/**
+	 * 
+	 * @param itemElements
+	 * @param userview
+	 */
 	public void updateItemsIncluded(ArrayList<Element> itemElements, Hashtable<String, Boolean> userview){
-		//TODO Copy
+		
+		if( !itemElements.isEmpty() ){
+			
+			for(int k = 0; k < itemElements.size(); k++){
+				//inView = true/false?
+				if(itemElements.get(k).hasAttribute(lightIDTag)){
+					Boolean included = userview.get( itemElements.get(k).getAttribute(lightIDTag));
+					itemElements.get(k).setAttribute(inView, included.toString());
+						
+				} else if(itemElements.get(k).hasAttribute(sensorIDTag)){
+					Boolean included = userview.get( itemElements.get(k).getAttribute(sensorIDTag));
+					itemElements.get(k).setAttribute(inView, included.toString());
+						
+				} else if(itemElements.get(k).hasAttribute(applianceIDTag)){
+					Boolean included = userview.get( itemElements.get(k).getAttribute(applianceIDTag));
+					itemElements.get(k).setAttribute(inView, included.toString());
+						
+				} else if(itemElements.get(k).hasAttribute(controllerIDTag)){
+					Boolean included = userview.get( itemElements.get(k).getAttribute(controllerIDTag));
+					itemElements.get(k).setAttribute(inView, included.toString());
+				}
+			}
+		}
 	}
 
+	
+	//-------------------------- UPDATE THE HOUSE STRUCTURE IN VIEW -----------------------------------
+
+		public void updateTheHouseStructureInView(String userID){
+			
+			//TODO DO THIS IF YOU HAVE TIME
+		
+		}
 	
 	//------------------------- DELETE THE USERVIEW --------------------------------------
 	
@@ -504,6 +596,11 @@ public class ViewHandlerNEW extends XMLHandler {
 		return viewElement;
 	}
 	
+	/**
+	 * 
+	 * @param viewElement
+	 * @return
+	 */
 	private ArrayList<Element> getHouseElements(Element viewElement) {
 		
 		ArrayList<Element> houseElements = new ArrayList<Element>();
@@ -528,6 +625,11 @@ public class ViewHandlerNEW extends XMLHandler {
 
 	}
 	
+	/**
+	 * 
+	 * @param houseElement
+	 * @return
+	 */
 	private ArrayList<Element> getRoomElements(Element houseElement){
 		
 		ArrayList<Element> roomElements = new ArrayList<Element>();
@@ -543,6 +645,11 @@ public class ViewHandlerNEW extends XMLHandler {
 		return roomElements;
 	}
 	
+	/**
+	 * 
+	 * @param roomElement
+	 * @return
+	 */
 	private ArrayList<Element> getItemElements(Element roomElement){
 		
 		ArrayList<Element> itemElements = new ArrayList<Element>();
