@@ -1,5 +1,9 @@
 package view;
 
+import java.rmi.RemoteException;
+
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
@@ -45,9 +49,30 @@ public class ItemComponentLight extends CustomComponent implements ItemComponent
 		
 		panel.setContent(layout);
 		
-		// TODO Get the light object from server
-		name = new Label("Light. Just test.");
-		on = new CheckBox("Light");
+		name = new Label(light.getName()); // Should this be removed?
+		on = new CheckBox(light.getName());
+		
+		on.addValueChangeListener(new ValueChangeListener() {
+			
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				// When turning lights on / off...
+				if (on.getValue()){
+					try {
+						shsystem.turnLightOn(houseID, roomID, itemID);
+					} catch (RemoteException e) {
+						e.printStackTrace();
+					}
+				}
+				else {
+					try {
+						shsystem.turnLightOff(houseID, roomID, itemID);
+					} catch (RemoteException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		});
 		
 		layout.addComponent(name);
 		layout.addComponent(on);

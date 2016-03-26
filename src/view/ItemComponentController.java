@@ -105,5 +105,9 @@ public class ItemComponentController extends CustomComponent implements ItemComp
 		value.setValue(controller.getControllerValue() + controller.getControllerUnit().getUnit());
 		
 	}
+	
+	public String toString(){
+		return "Controller";
+	}
 
 }
