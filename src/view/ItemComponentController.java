@@ -11,10 +11,13 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
 import exceptions.IDMatchNotFoundException;
+import exceptions.IDTypeMismatch;
 
 import com.vaadin.ui.Button.ClickEvent;
 
 import model.items.Controller;
+import model.items.ControllerType;
+import model.items.SensorUnit;
 import server.SmartHSystem;
 /**
  * Custom component for controller type items
@@ -57,8 +60,6 @@ public class ItemComponentController extends CustomComponent implements ItemComp
 		
 		panel.setContent(layout);
 		
-		// TODO remove when getSmartItem works
-		controller = null;
 		if (controller == null){
 			name = new Label("Could not get data from server");
 			value = new Label("???");
@@ -67,12 +68,46 @@ public class ItemComponentController extends CustomComponent implements ItemComp
 			name = new Label(controller.getName());
 			value = new Label(controller.getControllerValue() + controller.getControllerUnit().getUnit());
 		}
+		
+		// Maybe I'll later add a way to change the values quiker (especially the light controller)
 		plus = new Button("+" , new Button.ClickListener() {
 			
 			@Override
 			public void buttonClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				
+				try {
+					double controllerValue = controller.getControllerValue();
+					if (controller.getControllerUnit() == SensorUnit.CELCIUS){
+						if (!shsystem.setControllerValue(houseID, roomID, itemID, controllerValue + 0.5)){
+							Notification.show("Out of range!");
+						}
+						update();
+					}
+					else if (controller.getControllerUnit() == SensorUnit.HUMIDITYPERCENT){
+						if (!shsystem.setControllerValue(houseID, roomID, itemID, controllerValue + 5.0)){
+							Notification.show("Out of range!");
+						}
+						update();
+					}
+					else if (controller.getControllerUnit() == SensorUnit.LUMEN){
+						// Lets add value: value + sqrt(value) + value * 0.1 
+						// Because why not
+						if (!shsystem.setControllerValue(houseID, roomID, itemID, 
+								controllerValue + Math.sqrt(controllerValue) + controllerValue * 0.1)){
+							Notification.show("Out of range!");
+						}
+						update();
+					}
+				}catch(RemoteException e){
+					e.printStackTrace();
+				}catch (IDMatchNotFoundException e){
+					e.printStackTrace();
+					name = new Label("Something went wrong! Try to refresh page");
+					value = new Label("???");
+				}catch(IDTypeMismatch e){
+					e.printStackTrace();
+					name = new Label("Something went wrong! Try to refresh page");
+					value = new Label("???");
+				}
 			}
 		});
 		
@@ -80,7 +115,40 @@ public class ItemComponentController extends CustomComponent implements ItemComp
 			
 			@Override
 			public void buttonClick(ClickEvent event) {
-				// TODO Auto-generated method stub
+				try {
+					double controllerValue = controller.getControllerValue();
+					if (controller.getControllerUnit() == SensorUnit.CELCIUS){
+						if (!shsystem.setControllerValue(houseID, roomID, itemID, controllerValue - 0.5)){
+							Notification.show("Out of range!");
+						}
+						update();
+					}
+					else if (controller.getControllerUnit() == SensorUnit.HUMIDITYPERCENT){
+						if (!shsystem.setControllerValue(houseID, roomID, itemID, controllerValue - 5.0)){
+							Notification.show("Out of range!");
+						}
+						update();
+					}
+					else if (controller.getControllerUnit() == SensorUnit.LUMEN){
+						// Lets add value: value + sqrt(value) + value * 0.1 
+						// Because why not
+						if (!shsystem.setControllerValue(houseID, roomID, itemID, 
+								controllerValue - Math.sqrt(controllerValue) - controllerValue * 0.1)){
+							Notification.show("Out of range!");
+						}
+						update();
+					}
+				}catch(RemoteException e){
+					e.printStackTrace();
+				}catch (IDMatchNotFoundException e){
+					e.printStackTrace();
+					name = new Label("Something went wrong! Try to refresh page");
+					value = new Label("???");
+				}catch(IDTypeMismatch e){
+					e.printStackTrace();
+					name = new Label("Something went wrong! Try to refresh page");
+					value = new Label("???");
+				}
 				
 			}
 		});
