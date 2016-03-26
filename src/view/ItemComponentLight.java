@@ -100,7 +100,11 @@ public class ItemComponentLight extends CustomComponent implements ItemComponent
 	public void update(){
 		try {
 			light = (Light) shsystem.getSmartItem(houseID, roomID, itemID);
+			
 		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (IDMatchNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
