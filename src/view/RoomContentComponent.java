@@ -6,6 +6,7 @@ import java.util.Hashtable;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.VerticalLayout;
 
+import exceptions.IDMatchNotFoundException;
 import model.items.Appliance;
 import model.items.AudioDevice;
 import model.items.Controller;
@@ -35,29 +36,31 @@ public class RoomContentComponent extends CustomComponent {
 			items = shsystem.getItems(houseID, roomID);
 			for (String key : items.keySet()){
 				if (userView.get(key)){
-					layout.addComponent( new ItemComponentController(shsystem,houseID, roomID, key, new Controller(key)));
-					/*//TODO use this when getSmartItem is implemented
-					SmartItem si = shsystem.getSmartItem(houseID, roomId, key);
+//					layout.addComponent( new ItemComponentController(shsystem,houseID, roomID, key, new Controller(key)));
+
+					SmartItem si = shsystem.getSmartItem(houseID, roomID, key);
 					if (si instanceof Sensor){
-						layout.addComponent(new ItemComponentSensor(shsystem, key, (Sensor)si));
+						layout.addComponent(new ItemComponentSensor(shsystem, houseID, roomID, key, (Sensor)si));
 					}
 					else if (si instanceof Appliance){
-						layout.addComponent(new ItemComponentAppliance(shsystem, key, (Appliance)si));
+						layout.addComponent(new ItemComponentAppliance(shsystem, houseID, roomID, key, (Appliance)si));
 					}
 					else if (si instanceof AudioDevice){
-						layout.addComponent(new ItemComponentAudioDevice(shsystem, key, (AudioDevice)si));
+						layout.addComponent(new ItemComponentAudioDevice(shsystem, houseID, roomID, key, (AudioDevice)si));
 					}
 					else if (si instanceof Light){
-						layout.addComponent(new ItemComponentLight(shsystem, key, (Light)si));
+						layout.addComponent(new ItemComponentLight(shsystem, houseID, roomID, key, (Light)si));
 					}
 					else if (si instanceof Controller){
-						layout.addComponent(new ItemComponentController(shsystem, key, (Controller)si));
+						layout.addComponent(new ItemComponentController(shsystem, houseID, roomID, key, (Controller)si));
 					}
-					*/
 				}
 				
 			}
 		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (IDMatchNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		setCompositionRoot(layout);
