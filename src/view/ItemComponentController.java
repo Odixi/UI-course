@@ -9,6 +9,9 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
+
+import exceptions.IDMatchNotFoundException;
+
 import com.vaadin.ui.Button.ClickEvent;
 
 import model.items.Controller;
@@ -100,6 +103,9 @@ public class ItemComponentController extends CustomComponent implements ItemComp
 		try {
 			controller = (Controller) shsystem.getSmartItem(itemID);
 		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (IDMatchNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		value.setValue(controller.getControllerValue() + controller.getControllerUnit().getUnit());

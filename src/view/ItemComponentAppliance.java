@@ -10,6 +10,8 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
+import exceptions.IDMatchNotFoundException;
+import exceptions.IDTypeMismatch;
 import jdk.internal.org.objectweb.asm.tree.analysis.Value;
 import model.items.Appliance;
 import server.SmartHSystem;
@@ -70,12 +72,24 @@ public class ItemComponentAppliance extends CustomComponent implements ItemCompo
 						shsystem.turnApplianceOn(houseID, roomID, itemID);
 					} catch (RemoteException e) {
 						e.printStackTrace();
+					} catch (IDTypeMismatch e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IDMatchNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				}
 				else{
 					try {
 						shsystem.turnApplianceOff(houseID, roomID, itemID);
 					} catch (RemoteException e) {
+						e.printStackTrace();
+					} catch (IDTypeMismatch e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IDMatchNotFoundException e) {
+						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -96,6 +110,9 @@ public class ItemComponentAppliance extends CustomComponent implements ItemCompo
 		try {
 			appliance = (Appliance) shsystem.getSmartItem(houseID, roomID, itemID);
 		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (IDMatchNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		value.setValue(appliance.isON());

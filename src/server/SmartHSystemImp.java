@@ -186,64 +186,49 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	
 	// ------------ getSmartItem() - Two ways --------------------------
 	@Override
-	public SmartItem getSmartItem(String itemID) throws RemoteException {
-		//return model.getSmartItem(itemID);
-		return null;
+	public SmartItem getSmartItem(String itemID) throws RemoteException, IDMatchNotFoundException {
+		return model.getSmartItem(itemID);
 	}
 	
 	@Override
-	public SmartItem getSmartItem(String houseID, String roomID, String itemID) throws RemoteException {
-		//return model.getSmartItem(houseID, roomID, itemID);
-		return null;
+	public SmartItem getSmartItem(String houseID, String roomID, String itemID) throws RemoteException, IDMatchNotFoundException {
+		return model.getSmartItem(houseID, roomID, itemID);
 	}
 
 
 	@Override
-	public void turnLightOn(String houseID, String roomID, String itemID) throws RemoteException {
-//		model.turnLightOn(houseID, roomID, itemID);
-		//OR
-		/*
-		try {
-			model.turnLightOn(houseID, roomID, itemID);
-		} catch (IDMatchNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IDTypeMismatch e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} */
+	public void turnLightOn(String houseID, String roomID, String itemID) throws RemoteException, IDMatchNotFoundException, IDTypeMismatch {
+		model.turnLightOn(houseID, roomID, itemID);
 	}
 
 
 	@Override
-	public void turnLightOff(String houseID, String roomID, String itemID) throws RemoteException {
-		//model.turnLightOff(houseID, roomID, itemID);
+	public void turnLightOff(String houseID, String roomID, String itemID) throws RemoteException, IDMatchNotFoundException, IDTypeMismatch {
+		model.turnLightOff(houseID, roomID, itemID);
 	}
 
 
 	@Override
-	public void turnApplianceOn(String houseID, String roomID, String itemID) throws RemoteException {
-//		model.turnApplianceOn(houseID, roomID, itemID);
+	public void turnApplianceOn(String houseID, String roomID, String itemID) throws RemoteException, IDMatchNotFoundException, IDTypeMismatch {
+		model.turnApplianceOn(houseID, roomID, itemID);
+	}
+	
+	
+	@Override
+	public void turnApplianceOff(String houseID, String roomID, String itemID) throws RemoteException, IDMatchNotFoundException, IDTypeMismatch {
+		model.turnApplianceOff(houseID, roomID, itemID);
 	}
 
 
 	@Override
-	public void turnApplianceOff(String houseID, String roomID, String itemID) throws RemoteException {
-//		model.turnApplianceOff(houseID, roomID, itemID);
+	public boolean setAudioVolume(String houseID, String roomID, String itemID, int volume) throws RemoteException, IDMatchNotFoundException, IDTypeMismatch {
+		return model.setAudioVolume(houseID, roomID, itemID, volume);
 	}
 
 
 	@Override
-	public boolean setAudioVolume(String houseID, String roomID, int volume) throws RemoteException {
-//		return model.setAudioVolume(houseID, roomID, itemID, volume)
-		return false;
-	}
-
-
-	@Override
-	public boolean setControllerValue(String houseID, String roomID, String itemID, double value) throws RemoteException {
-//		return model.setControllerValue(houseID, roomID, itemID, newValue)
-		return false;
+	public boolean setControllerValue(String houseID, String roomID, String itemID, double value) throws RemoteException, IDTypeMismatch, IDMatchNotFoundException {
+		return model.setControllerValue(houseID, roomID, itemID, value);
 	}
 
 
