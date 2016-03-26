@@ -31,6 +31,14 @@ public class ItemComponentSensor extends CustomComponent implements ItemComponen
 	private Label name;
 	private Label value;
 	
+	/**
+	 * 
+	 * @param shsystem
+	 * @param houseID
+	 * @param roomID
+	 * @param itemID
+	 * @param sensor
+	 */
 	public ItemComponentSensor(SmartHSystem shsystem,String houseID, String roomID, String itemID, Sensor sensor){
 		
 		this.sensor = sensor;
