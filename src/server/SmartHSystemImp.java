@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 import exceptions.ElementNullException;
+import exceptions.IDMatchNotFoundException;
+import exceptions.IDTypeMismatch;
 import model.UserAccountHandler;
 import model.ViewHandler;
 import model.ViewHandlerNEW;
@@ -171,6 +173,17 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	
 	// • • • • • • • • • • • •  VIEWS  • • • • • • • • • • • • 
 	
+	/*
+	 * (non-Javadoc)
+	 * @see server.SmartHSystem#getSmartItem(java.lang.String)
+	 * 
+	 * Basically all of the methods to be used in the following methods throw an exception or a few.
+	 * I'm torn between two options:
+	 * 1) Handle the exception/s in here.
+	 * 2) Throw the exception/s meaning that they need to be handled in the UI.
+	 * 
+	 */
+	
 	// ------------ getSmartItem() - Two ways --------------------------
 	@Override
 	public SmartItem getSmartItem(String itemID) throws RemoteException {
@@ -187,48 +200,53 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 
 	@Override
 	public void turnLightOn(String houseID, String roomID, String itemID) throws RemoteException {
-		
+//		model.turnLightOn(houseID, roomID, itemID);
+		//OR
+		/*
+		try {
+			model.turnLightOn(houseID, roomID, itemID);
+		} catch (IDMatchNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IDTypeMismatch e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} */
 	}
 
 
 	@Override
 	public void turnLightOff(String houseID, String roomID, String itemID) throws RemoteException {
-		// TODO Auto-generated method stub
-		
+		//model.turnLightOff(houseID, roomID, itemID);
 	}
 
 
 	@Override
 	public void turnApplianceOn(String houseID, String roomID, String itemID) throws RemoteException {
-		// TODO Auto-generated method stub
-		
+//		model.turnApplianceOn(houseID, roomID, itemID);
 	}
 
 
 	@Override
 	public void turnApplianceOff(String houseID, String roomID, String itemID) throws RemoteException {
-		// TODO Auto-generated method stub
-		
+//		model.turnApplianceOff(houseID, roomID, itemID);
 	}
 
 
 	@Override
-	public void setAudioVolume(String houseID, String roomID, int volume) throws RemoteException {
-		// TODO Auto-generated method stub
-		
-		
+	public boolean setAudioVolume(String houseID, String roomID, int volume) throws RemoteException {
+//		return model.setAudioVolume(houseID, roomID, itemID, volume)
+		return false;
 	}
 
 
 	@Override
-	public void setControllerValue(String houseID, String roomID, String itemID, double value) throws RemoteException {
-		// TODO Auto-generated method stub
-		
+	public boolean setControllerValue(String houseID, String roomID, String itemID, double value) throws RemoteException {
+//		return model.setControllerValue(houseID, roomID, itemID, newValue)
+		return false;
 	}
 
 
-	
-	
 	// • • • • • • • • • • • •  • • • • • • • • • • • • 
 	
 	

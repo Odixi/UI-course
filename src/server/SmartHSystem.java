@@ -92,8 +92,8 @@ public interface SmartHSystem extends Remote {
 	
 	public void turnApplianceOff(String houseID, String roomID, String itemID) throws RemoteException;
 	
-	public void setAudioVolume(String houseID, String roomID, int volume) throws RemoteException;
+	public boolean setAudioVolume(String houseID, String roomID, int volume) throws RemoteException;
 	
-	public void setControllerValue(String houseID, String roomID, String itemID, double value) throws RemoteException;
+	public boolean setControllerValue(String houseID, String roomID, String itemID, double value) throws RemoteException;
 	
 }
