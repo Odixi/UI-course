@@ -2,39 +2,47 @@ package view;
 
 import java.rmi.RemoteException;
 
-import com.vaadin.data.Property;
-import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.Slider;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
 
-import model.items.AudioDevice;
 import model.items.Controller;
 import server.SmartHSystem;
-
+/**
+ * Custom component for controller type items
+ * @author Ville
+ *
+ */
 public class ItemComponentController extends CustomComponent implements ItemComponent{
-
+	
+	private SmartHSystem shsystem;
+	private Controller controller;
+	
+	private String itemID;
+	private String houseID;
+	private String roomID;
+	
 	private Panel panel;
 	private VerticalLayout layout;
 	private HorizontalLayout layout2;
-	private Controller controller;
 	private Label name;
 	private Button plus;
 	private Button minus;
 	private Label value;
-	private String unit;
 	
 	
-	public ItemComponentController(SmartHSystem shsystem, String itemID, Controller controller){
+	public ItemComponentController(SmartHSystem shsystem,String houseID, String roomID, String itemID, Controller controller){
 		
 		this.controller = controller;
+		this.shsystem = shsystem;
+		this.itemID = itemID;
+		this.houseID = houseID;
+		this.roomID = roomID;
 		panel = new Panel();
 		
 		layout = new VerticalLayout();
@@ -46,18 +54,15 @@ public class ItemComponentController extends CustomComponent implements ItemComp
 		
 		panel.setContent(layout);
 		
-		try {
-			controller = (Controller) shsystem.getSmartItem(itemID);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
+		// TODO remove when getSmartItem works
+		controller = null;
 		if (controller == null){
 			name = new Label("Could not get data from server");
 			value = new Label("???");
 		}
 		else{
 			name = new Label(controller.getName());
-			value = new Label(controller.getControllerValue() + unit);
+			value = new Label(controller.getControllerValue() + controller.getControllerUnit().getUnit());
 		}
 		plus = new Button("+" , new Button.ClickListener() {
 			
@@ -92,8 +97,17 @@ public class ItemComponentController extends CustomComponent implements ItemComp
 	 * Update the state of the component from server
 	 */
 	public void update() {
-		// TODO Auto-generated method stub
+		try {
+			controller = (Controller) shsystem.getSmartItem(itemID);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		value.setValue(controller.getControllerValue() + controller.getControllerUnit().getUnit());
 		
+	}
+	
+	public String toString(){
+		return "Controller";
 	}
 
 }
