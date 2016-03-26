@@ -6,6 +6,8 @@ import java.util.Hashtable;
 
 import com.google.gwt.cell.client.ButtonCellBase.DefaultAppearance.Style;
 import com.google.gwt.user.client.ui.ClickListener;
+import com.vaadin.event.ShortcutListener;
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
@@ -36,11 +38,14 @@ public class LoginView extends VerticalLayout implements View{
 	private SmartHSystem shsystem;
 	private Panel loginPanel;	
 	private ComboBox userSelect;
+	private PasswordField passwordField;
+	private SmartUI ui;
 	
 
 	//CONSTRUCTOR
 	public LoginView(SmartUI ui, SmartHSystem shsystem){
 		super();
+		this.ui = ui;
 		
 		//For RMI calls
 		this.shsystem = shsystem;
@@ -116,7 +121,7 @@ public class LoginView extends VerticalLayout implements View{
         userSelect.setSizeFull();
         
       // ----- Salasana ----- //  
-        PasswordField passwordField = new PasswordField("Password");
+        passwordField = new PasswordField("Password");
         panelLayout.addComponent(passwordField);
         passwordField.setSizeFull();
         
@@ -125,48 +130,24 @@ public class LoginView extends VerticalLayout implements View{
                 new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
-            	// if username field is empty
-            	if (userSelect.getValue() == null){
-            		Notification.show("Select a user first");
-            		return;
-         		
-            	} else if(userSelect.getValue() != null) { //User selected
-            		
-            		if(passwordField.getValue() == null || passwordField.isEmpty()){ //Password not given
-            			Notification.show("Input the password please.");
-                		return;
-                		
-            		} else if (passwordField.getValue() != null){
-            			boolean match = false;
-            			
-            			//Encrypt the password
-            			//String securePassword = cryptor.encrypt(passwordField.getValue());
-            			
-            			try {
-							match = shsystem.userLogin( getSelectedUsername(), passwordField.getValue().trim());
-							//TODO For testing
-							System.out.println("Username: " + getSelectedUsername());
-							System.out.println("Password written: " + passwordField.getValue().trim());
-							
-            			} catch (RemoteException e) { e.printStackTrace();}
-            			
-            			if(match == true){
-            				ui.setUser(getSelectedUserID(), getSelectedUsername());
-            				ui.getNavigator().addView(ui.USERVIEW, new UserView(ui, shsystem));
-            				ui.getNavigator().navigateTo(ui.USERVIEW);
-            				
-            			} else if(match == false) {
-            				Notification.show("Incorrect password. Please try again.");
-                    		return;
-            			}
-            		}
-            	}
+            	login();
             } 
         }); //login-button listener
         
         panelLayout.addComponent(loginButton);
         loginPanel.setContent(panelLayout);
         setComponentAlignment(loginPanel, Alignment.TOP_CENTER);
+        
+        // ------ Shorcut listener for enter -> login ------ //
+        
+        this.addShortcutListener(new ShortcutListener("login", KeyCode.ENTER, null) {
+			
+			@Override
+			public void handleAction(Object sender, Object target) {
+				login();
+				
+			}
+		});
         
 		// ---------- Navigaatio nappulat - Väliaikaiset ---------- //
 		
@@ -220,6 +201,45 @@ public class LoginView extends VerticalLayout implements View{
 		}
 		return userSelect.getValue().toString();
 		
+	}
+	
+	private void login(){
+    	// if username field is empty
+    	if (userSelect.getValue() == null){
+    		Notification.show("Select a user first");
+    		return;
+ 		
+    	} else if(userSelect.getValue() != null) { //User selected
+    		
+    		if(passwordField.getValue() == null || passwordField.isEmpty()){ //Password not given
+    			Notification.show("Input the password please.");
+        		return;
+        		
+    		} else if (passwordField.getValue() != null){
+    			boolean match = false;
+    			
+    			//Encrypt the password
+    			//String securePassword = cryptor.encrypt(passwordField.getValue());
+    			
+    			try {
+					match = shsystem.userLogin( getSelectedUsername(), passwordField.getValue().trim());
+					//TODO For testing
+					System.out.println("Username: " + getSelectedUsername());
+					System.out.println("Password written: " + passwordField.getValue().trim());
+					
+    			} catch (RemoteException e) { e.printStackTrace();}
+    			
+    			if(match == true){
+    				ui.setUser(getSelectedUserID(), getSelectedUsername());
+    				ui.getNavigator().addView(ui.USERVIEW, new UserView(ui, shsystem));
+    				ui.getNavigator().navigateTo(ui.USERVIEW);
+    				
+    			} else if(match == false) {
+    				Notification.show("Incorrect password. Please try again.");
+            		return;
+    			}
+    		}
+    	}
 	}
 	
 	@Override

@@ -2,6 +2,8 @@ package view;
 
 import java.rmi.RemoteException;
 
+import com.vaadin.event.ShortcutListener;
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -22,12 +24,22 @@ import com.vaadin.ui.Label;
  *
  */
 public class AdminLoginView extends VerticalLayout implements View{
+	
+	private SmartHSystem shsystem;
+	private SmartUI ui;
+	
+	private TextField usernameField;
+	private PasswordField passwordField;
+	
 	/**
 	 * Construktor to build the view.
 	 * @param ui The UI, in which the view is build to
 	 * @param shsystem SmartHSystem for RMI calls to interact with the backend
 	 */
 	public AdminLoginView(SmartUI ui, SmartHSystem shsystem){
+		
+		this.shsystem = shsystem;
+		this.ui = ui;
 		
 		setMargin(true);
 		setSpacing(true);
@@ -54,13 +66,13 @@ public class AdminLoginView extends VerticalLayout implements View{
 			
 		// ----- Username field ----- //
 			
-			TextField usernameField = new TextField("Admin username");
+			usernameField = new TextField("Admin username");
 			addComponent(usernameField);
 			setComponentAlignment(usernameField, Alignment.MIDDLE_CENTER);
 			
 	        
 	      // ----- Salasana ----- //  
-        PasswordField passwordField = new PasswordField("Password");
+        passwordField = new PasswordField("Password");
         addComponent(passwordField);
         setComponentAlignment(passwordField, Alignment.MIDDLE_CENTER);
         
@@ -70,34 +82,49 @@ public class AdminLoginView extends VerticalLayout implements View{
                 new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
-            	// if username field is empty
-            	if (usernameField.getValue() == "" || usernameField.getValue() == null){
-            		Notification.show("Input a username please.");
-            		return;
-            	}
-            	if (passwordField.getValue() == "" || passwordField.getValue() == null){
-            		Notification.show("Input a password please");
-            		return;
-            	}
-            	boolean match = false;
-            	try{
-            		match = shsystem.adminLogin(usernameField.getValue(), passwordField.getValue()); // TODO tuleeko adminille joku oma login metodi?
-            	} catch (RemoteException e){e.printStackTrace();}
-            	if (match){
-            		try {
-						ui.setUser(shsystem.getUserID(usernameField.getValue()), usernameField.getValue());
-					} catch (RemoteException e) {e.printStackTrace();}
-            		ui.getNavigator().navigateTo(ui.ADMINVIEW);
-            	}
-            	else{
-            		Notification.show("Wrong username/password!");
-            	}
+            	login();
             }
         });
         addComponent(loginButton);
         setComponentAlignment(loginButton, Alignment.MIDDLE_CENTER);
         
+        // ----- Shortcut listerner: enter -> login ------ //
+        
+        this.addShortcutListener(new ShortcutListener("login", KeyCode.ENTER, null) {
+			
+			@Override
+			public void handleAction(Object sender, Object target) {
+				login();		
+			}
+		});
+        
 	}
+	
+	private void login(){
+    	// if username field is empty
+    	if (usernameField.getValue() == "" || usernameField.getValue() == null){
+    		Notification.show("Input a username please.");
+    		return;
+    	}
+    	if (passwordField.getValue() == "" || passwordField.getValue() == null){
+    		Notification.show("Input a password please");
+    		return;
+    	}
+    	boolean match = false;
+    	try{
+    		match = shsystem.adminLogin(usernameField.getValue(), passwordField.getValue()); // TODO tuleeko adminille joku oma login metodi?
+    	} catch (RemoteException e){e.printStackTrace();}
+    	if (match){
+    		try {
+				ui.setUser(shsystem.getUserID(usernameField.getValue()), usernameField.getValue());
+			} catch (RemoteException e) {e.printStackTrace();}
+    		ui.getNavigator().navigateTo(ui.ADMINVIEW);
+    	}
+    	else{
+    		Notification.show("Wrong username/password!");
+    	}
+    } // login
+	
 	/**
 	 * This method is run when user enters this view
 	 */
