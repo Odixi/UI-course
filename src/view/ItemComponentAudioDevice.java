@@ -1,5 +1,7 @@
 package view;
 
+import java.rmi.RemoteException;
+
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.ui.CheckBox;
@@ -59,13 +61,23 @@ public class ItemComponentAudioDevice extends CustomComponent implements ItemCom
 			
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				// TODO Auto-generated method stub
 				if (on.getValue()){
 					volume.setEnabled(true);
+					try {
+						shsystem.turnApplianceOn(houseID, roomID, itemID);
+					} catch (RemoteException e) {
+						e.printStackTrace();
+					}
 				}
 				else{
 					volume.setEnabled(false);
 					volume.setValue(0.0);
+					try{
+						shsystem.turnApplianceOff(houseID, roomID, itemID);
+						shsystem.setAudioVolume(houseID, roomID, 0);
+					}catch (RemoteException e){
+						e.printStackTrace();
+					}
 				}
 				
 			}
@@ -77,8 +89,12 @@ public class ItemComponentAudioDevice extends CustomComponent implements ItemCom
 			
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				// TODO Auto-generated method stub
-				Notification.show(volume.getValue().toString());
+//				Notification.show(volume.getValue().toString());
+				try {
+					shsystem.setAudioVolume(houseID, roomID, volume.getValue().intValue());
+				} catch (RemoteException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		
@@ -92,7 +108,13 @@ public class ItemComponentAudioDevice extends CustomComponent implements ItemCom
 	 * Update the state of the component from server
 	 */
 	public void update(){
-		// TODO
+		try {
+			audioDevice = (AudioDevice) shsystem.getSmartItem(houseID, roomID, itemID);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		on.setValue(audioDevice.isON());
+		audioDevice.setVolume(volume.getValue().intValue());
 	}
 	
 	public String toString(){

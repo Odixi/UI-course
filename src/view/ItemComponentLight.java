@@ -98,7 +98,11 @@ public class ItemComponentLight extends CustomComponent implements ItemComponent
 	 * Update the state of the component from server
 	 */
 	public void update(){
-		// TODO
+		try {
+			light = (Light) shsystem.getSmartItem(houseID, roomID, itemID);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public String toString(){

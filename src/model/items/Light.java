@@ -28,6 +28,12 @@ public class Light extends SmartItem {
 		this.on = false;}
 
 	//
+	
+	public boolean isON(){
+		return on;
+	}
+	
+	//
 	public String getID(){
 		return super.getID();
 	}
