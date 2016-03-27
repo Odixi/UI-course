@@ -101,9 +101,12 @@ public class ViewHandlerNEW extends XMLHandler {
 
 		if( !userHasView(userID) ){
 			createDefaultView(userID);
+
 		}
 		
+		//Returns boolean value indicating whether the update was successful.
 		return updateUserView(userID, userview);
+
 	}
 	
 	// >>>>>>>>>>>>>>>>>>>>>>>>>>>> GET USERVIEW  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -297,8 +300,6 @@ public class ViewHandlerNEW extends XMLHandler {
 			userViewDocument.renameNode(newhouses, viewNS, nsPrefix + ":" + housesPrefix);
 		
 			ArrayList<Element> houseElements = getHouseElements(viewRoot);
-
-			System.out.println("Number of house elements: " + houseElements.size()); //REMOVE For testing
 			
 			//Set the houses not included in the view
 			housesNotIncluded(houseElements);
@@ -373,10 +374,17 @@ public class ViewHandlerNEW extends XMLHandler {
 			
 		} catch (DocumentNullException | ElementNullException | XMLBrokenException e) {
 			//TODO Document is corrupted. What should be done?
+			System.out.println("The user's " + userID + " viewfile is corrupted. The file can't be updated.");
+			
+			//TODO Maybe the recovery method should be called?
+			
 			return false;
 		}
 		
 		ArrayList<Element> houseElements = getHouseElements(viewElement);
+		
+		System.out.println("houseElements lenght: " + houseElements.size());
+		
 		updateHousesIncluded(houseElements, userview);
 		
 		//Update the houses (set the value of inView attribute for each house)
@@ -682,10 +690,12 @@ public class ViewHandlerNEW extends XMLHandler {
 	 */
 	private ArrayList<Element> getHouseElements(Element viewElement) {
 		
+		//TODO Throw exceptions?
+		
 		ArrayList<Element> houseElements = new ArrayList<Element>();
 
 		NodeList housesRoot = viewElement.getElementsByTagName(housesTag);
-
+		
 		//There's actually just one 'houses' element but I'm going for the more general solution just in case.
 		for(int i = 0; i < housesRoot.getLength(); i++){
 			if(housesRoot.item(i).getNodeType() == Node.ELEMENT_NODE){
