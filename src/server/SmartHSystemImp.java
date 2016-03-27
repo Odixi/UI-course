@@ -165,11 +165,11 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	}
 
 	@Override
-	public Hashtable<String, String> getRoomNames(String houseID) throws RemoteException {
+	public Hashtable<String, String> getRoomNames(String houseID) throws RemoteException, ElementNullException {
 		return houseHandler.getRoomNames(houseID);
 	}
 
-	public Hashtable<String, String> getItems(String houseID, String roomID) throws RemoteException {
+	public Hashtable<String, String> getItems(String houseID, String roomID) throws RemoteException, ElementNullException {
 		return houseHandler.getItemNames(houseID, roomID);
 	}
 	

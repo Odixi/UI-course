@@ -21,6 +21,9 @@ import server.SmartHSystem;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Window;
+
+import exceptions.ElementNullException;
+
 import com.vaadin.ui.Slider;
 import com.vaadin.server.FontAwesome;
  
@@ -126,7 +129,12 @@ public class UserViewOLD extends VerticalLayout implements View{
         
         try {
 			roomNames = shsystem.getRoomNames(houseIDNow);
-		} catch (RemoteException e) {e.printStackTrace();}
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (ElementNullException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		topics.addComponent(new Label ("Rooms"));
 		lights.addComponent(new Label ("Lights" ));
@@ -158,7 +166,12 @@ public class UserViewOLD extends VerticalLayout implements View{
 	            	
 	            	try {
 	        			items = shsystem.getItems(houseNow, currentRoomString);
-	        		} catch (RemoteException e) {e.printStackTrace();}
+	        		} catch (RemoteException e) {
+	        			e.printStackTrace();
+	        		} catch (ElementNullException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 	            	
 	            	
 	            	for(String itemKey : items.keySet()){

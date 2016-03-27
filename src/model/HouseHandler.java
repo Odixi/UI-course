@@ -4,6 +4,8 @@ import org.xml.sax.*;
 
 import com.gargoylesoftware.htmlunit.javascript.host.dom.Node;
 
+import exceptions.ElementNullException;
+
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -119,10 +121,13 @@ public class HouseHandler extends XMLHandler {
 	 * Returns a hashtable where roomID is the key and room name value.
 	 * @param houseID
 	 * @return
+	 * @throws ElementNullException 
 	 */
-	public Hashtable<String, String> getRoomNames(String houseID){
+	public Hashtable<String, String> getRoomNames(String houseID) throws ElementNullException{
 		
 		Hashtable<String, String> roomNames = new Hashtable<String, String>();
+		
+		//The following line can throw ElementNullException if the house element matching the houseID can't be found.
 		ArrayList<Element> rooms = getRoomElements(houseID);
 		
 		for(int i = 0; i < rooms.size(); i++){
@@ -145,7 +150,7 @@ public class HouseHandler extends XMLHandler {
 	
 	//----------- LIST OF ROOMS (ELEMENTS) --------------------
 	
-	public ArrayList<Element> getRoomElements(String houseID){
+	public ArrayList<Element> getRoomElements(String houseID) throws ElementNullException{
 		updateHouseList();
 		ArrayList<Element> rooms = new ArrayList<Element>();
 		
@@ -153,7 +158,8 @@ public class HouseHandler extends XMLHandler {
 		
 		if(house == null){
 			
-			//TODO Do something
+			throw new ElementNullException("Element 'house' is null!");
+
 			
 		} else {
 			NodeList roomNodes = house.getElementsByTagName(roomTag);
@@ -169,16 +175,18 @@ public class HouseHandler extends XMLHandler {
 	
 	//----------- LIST OF ITEMS (NAMES) --------------------
 	
-	public Hashtable<String, String> getItemNames(String houseID, String roomID){		//TODO What parameters are needed for getting correct items?
+	public Hashtable<String, String> getItemNames(String houseID, String roomID) throws ElementNullException{
 		
 		Hashtable<String, String> itemNames = new Hashtable<String, String>();
+		
+		//This line can throw ElementNullException if a room element matching the roomID can't be found.
 		ArrayList<Element> items = getItemElements(houseID, roomID);
 	
 		//TODO Do better the naming when nametags are empty. (Use type when it comes to sensor and controller.)
 		
 		for(int i = 0; i < items.size(); i++){
 			//Lights: Get the names and the IDs
-			if(items.get(i).getAttribute(lightIDTag) != null){
+			if(items.get(i).hasAttribute(lightIDTag) && items.get(i).getAttribute(lightIDTag) != null){
 				
 				if( items.get(i).getElementsByTagName(lightnameTag).item(0) != null ){
 					itemNames.put(items.get(i).getAttribute(lightIDTag),
@@ -188,7 +196,7 @@ public class HouseHandler extends XMLHandler {
 				}
 			}
 			//Sensors: Get the names and the IDs
-			if( items.get(i).getAttribute(sensorIDTag) != null){
+			if(items.get(i).hasAttribute(sensorIDTag) && items.get(i).getAttribute(sensorIDTag) != null){
 				
 				if( items.get(i).getElementsByTagName(sensornameTag).item(0) != null ){
 					itemNames.put(items.get(i).getAttribute(sensorIDTag),
@@ -198,7 +206,7 @@ public class HouseHandler extends XMLHandler {
 				}
 			}
 			//Controllers: Get the names and the IDs
-			if( items.get(i).getElementsByTagName(controllerIDTag).item(0) != null ){
+			if( items.get(i).hasAttribute(controllerIDTag) && items.get(i).getAttribute(controllerIDTag) != null ){
 				
 				if(items.get(i).getElementsByTagName(controllernameTag).item(0) != null ){
 					itemNames.put( items.get(i).getAttribute(controllerIDTag),
@@ -210,7 +218,7 @@ public class HouseHandler extends XMLHandler {
 			}
 			
 			//Appliances: Get the names and the IDs
-			if( items.get(i).getAttribute(applianceIDTag) != null){
+			if( items.get(i).hasAttribute(applianceIDTag) && items.get(i).getAttribute(applianceIDTag) != null){
 				
 				if( items.get(i).getElementsByTagName(appliancenameTag).item(0) != null ){
 					itemNames.put(items.get(i).getAttribute(applianceIDTag),
@@ -227,48 +235,23 @@ public class HouseHandler extends XMLHandler {
 	
 	//----------- LIST OF ITEMS (ELEMENTS) --------------------
 	
-	public ArrayList<Element> getItemElements(String houseID, String roomID){
+	public ArrayList<Element> getItemElements(String houseID, String roomID) throws ElementNullException{
 		
 		ArrayList<Element> items = new ArrayList<Element>();
+		
 		Element room = getRoomElement(houseID, roomID);
 		
 		if(room == null){	//TODO Handle this situation better.
 			
-			System.out.println("Room " + roomID + " not found. Hence items can't be found either.");
-			return null; 
+			throw new ElementNullException("Room element can't be found!");
 			
 		} else {
-			//Lights
-			NodeList lightNodes = room.getElementsByTagName(lightTag);
-			for(int i = 0; i < lightNodes.getLength(); i++){
-				if(lightNodes.item(i).getNodeType() == Node.ELEMENT_NODE){
-					items.add( (Element) lightNodes.item(i) );
-				}
-			}
-			//Sensors
-			NodeList sensorNodes = room.getElementsByTagName(sensorTag);
-			for(int i = 0; i < sensorNodes.getLength(); i++){
-				if(sensorNodes.item(i).getNodeType() == Node.ELEMENT_NODE){
-					items.add( (Element) sensorNodes.item(i) );
-				}
-			}
-			//Appliances
-			NodeList applianceNodes = room.getElementsByTagName(applianceTag);
-			for(int i = 0; i < applianceNodes.getLength(); i++){
-				if(applianceNodes.item(i).getNodeType() == Node.ELEMENT_NODE){
-					items.add( (Element) applianceNodes.item(i) );
-				}
-			}
+			items = getItemElements(room);
 			
 		}
 		return items;
 	}
 	
-	//--------------------- LIST OF LIGHTS -----------------------
-	
-	
-	
-	//
 	
 	// o-o-o-o-o-o-o-o-o HELP METHODS o-o-o-o-o-o-o-o-o-o-o-o
 	
@@ -370,6 +353,15 @@ public class HouseHandler extends XMLHandler {
 					itemElements.add( (Element) applianceNodes.item(i) );
 				}
 			}
+			
+			//Controllers
+			NodeList controllerNodes = room.getElementsByTagName(controllerTag);
+			for(int i = 0; i < controllerNodes.getLength(); i++){
+				if(controllerNodes.item(i).getNodeType() == Node.ELEMENT_NODE && controllerNodes.item(i) != null){
+					itemElements.add( (Element) controllerNodes.item(i) );
+				}
+			}
+			
 			return itemElements;
 		}
 	

@@ -21,6 +21,9 @@ import server.SmartHSystem;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Window;
+
+import exceptions.ElementNullException;
+
 import com.vaadin.ui.Slider;
 import com.vaadin.server.FontAwesome;
 
@@ -56,7 +59,12 @@ public class viewBuilder {
         
         try {
 			roomNames = shsystem.getRoomNames(houseIDNow);
-		} catch (RemoteException e) {e.printStackTrace();}
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (ElementNullException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		topics.addComponent(new Label ("Rooms"));
 		lights.addComponent(new Label ("Lights" ));
@@ -85,7 +93,12 @@ public class viewBuilder {
 	            	
 	            	try {
 	        			items = shsystem.getItems(houseNow, currentRoomString); // Tosiaan muutin tuon ArrayListin Hastableksi -Ville
-	        		} catch (RemoteException e) {e.printStackTrace();}
+	        		} catch (RemoteException e) {
+	        			e.printStackTrace();
+	        		} catch (ElementNullException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 	            	for(String itemKey : items.keySet()){
 	            		HorizontalLayout forItem =new HorizontalLayout();
 	            		forItem.setHeight(40.0f, Unit.PIXELS);

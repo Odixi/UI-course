@@ -7,6 +7,7 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+import exceptions.ElementNullException;
 import exceptions.IDMatchNotFoundException;
 import model.items.Appliance;
 import model.items.AudioDevice;
@@ -62,6 +63,9 @@ public class RoomContentComponent extends CustomComponent {
 			e.printStackTrace();
 		} catch (IDMatchNotFoundException e) {
 			layout.addComponent(new Label("Could not get item from server. Something bad happend :("));
+			e.printStackTrace();
+		} catch (ElementNullException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		setCompositionRoot(layout);

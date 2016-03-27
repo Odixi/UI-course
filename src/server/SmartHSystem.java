@@ -4,6 +4,7 @@ import java.rmi.*;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import exceptions.ElementNullException;
 import exceptions.IDMatchNotFoundException;
 import exceptions.IDTypeMismatch;
 import model.items.SmartItem;
@@ -73,9 +74,9 @@ public interface SmartHSystem extends Remote {
 	
 	public Hashtable<String, String> getHouseNames() throws RemoteException; // Lista taloista
 	
-	public Hashtable<String, String> getRoomNames(String houseID) throws RemoteException; // Lista talonhuoneista
+	public Hashtable<String, String> getRoomNames(String houseID) throws RemoteException, ElementNullException; // Lista talonhuoneista
 	
-	public Hashtable<String, String> getItems(String houseID, String roomID) throws RemoteException;
+	public Hashtable<String, String> getItems(String houseID, String roomID) throws RemoteException, ElementNullException;
 	
 	
 	// • • • • • • • • VIEWS • • • • • • • • •

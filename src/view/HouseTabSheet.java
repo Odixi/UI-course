@@ -7,6 +7,7 @@ import java.util.Hashtable;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.TabSheet;
 
+import exceptions.ElementNullException;
 import server.SmartHSystem;
 /**
  * TabSheet component for houses
@@ -37,6 +38,10 @@ public class HouseTabSheet extends CustomComponent{
 				}
 			}
 		} catch (RemoteException e) {
+			e.printStackTrace();
+			
+		} catch (ElementNullException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		setCompositionRoot(tabsheet);

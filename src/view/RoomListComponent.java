@@ -18,6 +18,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
+import exceptions.ElementNullException;
 import java_cup.version;
 import server.SmartHSystem;
 
@@ -116,7 +117,12 @@ public class RoomListComponent extends CustomComponent {
 					i++;
 				}
 				
-			} catch (RemoteException e) {e.printStackTrace();}
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			} catch (ElementNullException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			updateCbs();
 			setCompositionRoot(panel);
