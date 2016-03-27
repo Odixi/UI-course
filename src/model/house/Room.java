@@ -114,7 +114,7 @@ public class Room {
 	 */
 	public SmartItem getItem(String itemID) throws IDMatchNotFoundException{
 		
-		if(items.contains(itemID)){
+		if(items.containsKey(itemID)){
 			return items.get(itemID);
 		} else {
 			throw new IDMatchNotFoundException("SmartItem matching id " + itemID + " not found in the room " + getID());

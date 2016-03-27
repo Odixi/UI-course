@@ -63,7 +63,7 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		model.printHouseStructure(model.getHouses());
 		
 		//Testing testing...
-		viewHandler.createDefaultView("ppp666");
+		//viewHandler.createDefaultView("ppp666");
 		
 	}
 	

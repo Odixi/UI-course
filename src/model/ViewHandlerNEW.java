@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.UUID;
 
+import org.apache.commons.io.FilenameUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -75,6 +76,15 @@ public class ViewHandlerNEW extends XMLHandler {
 		this.houseHandler = houseHandler;		
 		this.filelist = new Hashtable<String, String>();
 		
+		filelistUpToDate();
+		
+		//TODO REMOVE For testing
+		System.out.println("Userview files in the system: ");
+		
+		for(String userID : filelist.keySet() ){
+			System.out.println("User " + userID + " has userview " + filelist.get(userID) );
+		}
+		
 	}//constructor
 
 	
@@ -116,6 +126,8 @@ public class ViewHandlerNEW extends XMLHandler {
 		
 		//If the user doesn't have a view, create one
 		else if( !userHasView(userID) ){
+			System.out.println("getUserView: User " + userID + " doesn't have a view, so default is being created.");
+			
 			createDefaultView(userID);
 		}
 
@@ -255,7 +267,8 @@ public class ViewHandlerNEW extends XMLHandler {
 		if( userHasView(userID) ){
 			
 			System.out.println("User already has a view.");
-			 
+			return; //TODO Unnecessary
+			
 		}
 		
 		//If user doesn't yet have a view, default view is created.
@@ -320,7 +333,7 @@ public class ViewHandlerNEW extends XMLHandler {
 	 */
 	public boolean userHasView(String userID){
 		
-		if(filelist.get(userID) == null){
+		if( !filelist.containsKey(userID)){
 			return false;
 			
 		} else {
@@ -375,6 +388,15 @@ public class ViewHandlerNEW extends XMLHandler {
 				updateItemsIncluded(itemElements, userview);
 			}
 		}
+		
+
+		String filepath = filelist.get(userID);
+		
+		//Save the information to the XML file (self created method in XMLHandler class)
+		writeXML(getUserviewDocument(filepath), filepath);
+		
+		//FOR TESTING ETC:
+		System.out.println("Userview for user " + userID + " was updated!");
 		
 		return true;
 	}
@@ -557,6 +579,26 @@ public class ViewHandlerNEW extends XMLHandler {
 		return rootfilepath + userID + ".xml";
 	}
 		
+	/**
+	 * 
+	 */
+	private void filelistUpToDate(){
+		File viewfolder = new File(rootfilepath);
+		File[] listOfFiles = viewfolder.listFiles();
+		
+		for(int fileIndex = 0; fileIndex < listOfFiles.length; fileIndex++ ){
+			//Check that the file is a XML file
+			if( listOfFiles[fileIndex].isFile() && listOfFiles[fileIndex].getName().contains(".xml") ){
+				
+				String userID = FilenameUtils.removeExtension(listOfFiles[fileIndex].getName().trim() );
+				String filepath = rootfilepath + userID + ".xml";
+				filelist.put(userID, filepath);
+				
+			}
+		}
+		
+	}
+	
 	/**
 	 * 
 	 * @param userID
