@@ -94,15 +94,17 @@ public class ItemComponentAudioDevice extends CustomComponent implements ItemCom
 						//TODO
 						e.printStackTrace();
 					}
+					update(); // // TODO Should not be neede after UI.push is implemented
 				}
 				
 			}
 		});
 		
 		volume = new Slider();
-		volume.setCaption("Volume");
-		volume.setWidth(200f, Unit.PIXELS);
+		volume.setCaption("Volume " + audioDevice.getVolume() + "%");
+		volume.setWidth(300f, Unit.PIXELS);
 		volume.setValue((double) audioDevice.getVolume());
+		volume.setEnabled(audioDevice.isON());
 		
 		volume.addValueChangeListener(new Property.ValueChangeListener() {
 			
@@ -121,6 +123,7 @@ public class ItemComponentAudioDevice extends CustomComponent implements ItemCom
 					//TODO
 					e.printStackTrace();
 				}
+				update(); // TODO Should not be neede after UI.push is implemented
 			}
 		});
 		
@@ -146,6 +149,7 @@ public class ItemComponentAudioDevice extends CustomComponent implements ItemCom
 		}
 		on.setValue(audioDevice.isON());
 		audioDevice.setVolume(volume.getValue().intValue());
+		volume.setCaption("Volume " + audioDevice.getVolume() + "%");
 	}
 	
 	public String toString(){
