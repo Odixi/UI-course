@@ -76,14 +76,14 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 		}
 		
 		for(String houseID : houses.keySet()){
-			houses.get(houseID).setRooms( buildRooms(houseID) );
+			houses.get(houseID).setRooms( buildRooms(houseID, houses.get(houseID)) );
 		}
 		
 		return houses;
 	}
 	
 	//--------------- BUILD ROOMS ---------------------
-	public Hashtable<String, Room> buildRooms(String houseID) throws ElementNullException{
+	public Hashtable<String, Room> buildRooms(String houseID, House house) throws ElementNullException{
 		
 		ArrayList<Element> roomElements = super.getRoomElements(houseID);
 		Hashtable<String, Room> rooms = new Hashtable<String, Room>();
@@ -98,21 +98,26 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 					
 					rooms.put(id, new Room(id, name) );
 				} else {
-					rooms.put(id, new Room(id, "Room "+i) );
+					rooms.put(id, new Room(id, ("Room "+i)) );
 				}	
 			}
+		}
+
+		//Give every room the information that it belongs to this house
+		for( String roomID : rooms.keySet() ){
+			rooms.get(roomID).setHouse(house);
 		}
 		
 		//Create items
 		for(String roomID : rooms.keySet()){
-			rooms.get(roomID).setItems( buildItems(houseID, roomID) );
+			rooms.get(roomID).setItems( buildItems(houseID, roomID, house, rooms.get(roomID)) );
 		}
 		
 		return rooms;
 	}
 	
 	//--------------- BUILD ITEMS ---------------------
-	public Hashtable<String, SmartItem> buildItems(String houseID, String roomID) throws ElementNullException{
+	public Hashtable<String, SmartItem> buildItems(String houseID, String roomID, House house, Room room) throws ElementNullException{
 		
 		ArrayList<Element> itemElements = super.getItemElements(houseID, roomID);
 		Hashtable<String, SmartItem> items = new Hashtable<String, SmartItem>();
@@ -150,6 +155,12 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 			}
 		}
 	
+		//Give every room the information that it belongs to this house & this room
+		for( String itemID : items.keySet() ){
+			items.get(itemID).setHouse(house);
+			items.get(itemID).setRoom(room);
+		}
+		
 		return items;
 	}
 	
