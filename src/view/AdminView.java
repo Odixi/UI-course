@@ -217,9 +217,11 @@ public class AdminView extends HorizontalLayout implements View{
 				
 				try {
 					
-					shsystem.setUserView( getSelectedUserID(), userViewValues);
+					if(!shsystem.setUserView( getSelectedUserID(), userViewValues)){
+						Notification.show("Couldn't save userview!");
+						return;
+					}
 					
-					//shsystem.setUserView(shsystem.getUserID((String)userSelect.getValue()),userViewValues);
 				} catch (RemoteException e) {e.printStackTrace();}
 				if (needsUpdate){
 					updateUserList();
