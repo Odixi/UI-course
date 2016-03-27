@@ -35,4 +35,8 @@
         <username>Gandalf</username>
         <password>password</password>
     </user>
+<user userID="voldivol">
+        <username>Voldemort</username>
+        <password>killharry</password>
+    </user>
 </users>

@@ -318,6 +318,9 @@ public class ViewHandlerNEW extends XMLHandler {
 			String filepath = createFilepath(userID);
 			
 			//Save the user ID and the view files path to filelist
+			//TODO REMOVE
+			System.out.println("CreateDefaultView: userID " + userID + ", filepath: " + filepath);
+			
 			filelist.put(userID, filepath);
 			
 			//Save the information to the XML file (self created method in XMLHandler class)
@@ -374,7 +377,7 @@ public class ViewHandlerNEW extends XMLHandler {
 			
 		} catch (DocumentNullException | ElementNullException | XMLBrokenException e) {
 			//TODO Document is corrupted. What should be done?
-			System.out.println("The user's " + userID + " viewfile is corrupted. The file can't be updated.");
+			System.out.println("UpdateUserView: The user's " + userID + " viewfile is corrupted. The file can't be updated.");
 			
 			//TODO Maybe the recovery method should be called?
 			
@@ -382,9 +385,6 @@ public class ViewHandlerNEW extends XMLHandler {
 		}
 		
 		ArrayList<Element> houseElements = getHouseElements(viewElement);
-		
-		System.out.println("houseElements lenght: " + houseElements.size());
-		
 		updateHousesIncluded(houseElements, userview);
 		
 		//Update the houses (set the value of inView attribute for each house)
@@ -400,11 +400,13 @@ public class ViewHandlerNEW extends XMLHandler {
 			}
 		}
 		
-
 		String filepath = filelist.get(userID);
+		System.out.println("UpdateUserView: " + filepath);
 		
 		//Save the information to the XML file (self created method in XMLHandler class)
-		writeXML(getUserviewDocument(filepath), filepath);
+		System.out.println("Document not null? " + getUserviewDocument(filepath) != null);
+		
+		writeXML(getUserviewDocument(userID), filepath);
 		
 		//FOR TESTING ETC:
 		System.out.println("Userview for user " + userID + " was updated!");
@@ -616,11 +618,21 @@ public class ViewHandlerNEW extends XMLHandler {
 	 * @return
 	 */
 	private Document getUserviewDocument(String userID){
+		
+		System.out.println("getUserviewDocument: userID " + userID);
+		
 		String filepath = filelist.get(userID);
+		//TODO REMOVE For testing
+		System.out.println("getUserviewDocument: filepath " + filepath);
 		
 		if(filepath != null){
+			//TODO REMOVE
+			System.out.println("Is retrieved document null? " + getDocument(filepath) == null);
+			
 			return getDocument(filepath);
 		} else {
+			//TODO REMOVE
+			System.out.println("NOOOOOOOOOOOO! Return null");
 			return null;	//TODO Or throw exception? 
 		}
 	}
