@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.util.Hashtable;
 
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 import exceptions.IDMatchNotFoundException;
@@ -60,7 +61,7 @@ public class RoomContentComponent extends CustomComponent {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} catch (IDMatchNotFoundException e) {
-			// TODO Auto-generated catch block
+			layout.addComponent(new Label("Could not get item from server. Something bad happend :("));
 			e.printStackTrace();
 		}
 		setCompositionRoot(layout);

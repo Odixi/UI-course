@@ -75,7 +75,8 @@ public class ItemComponentSensor extends CustomComponent implements ItemComponen
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} catch (IDMatchNotFoundException e) {
-			// TODO Auto-generated catch block
+			name.setValue("Could not get data from server!");
+			value.setValue("-");
 			e.printStackTrace();
 		}
 		value.setValue(sensor.getSensorValue() + sensor.getSensorUnit().getUnit());

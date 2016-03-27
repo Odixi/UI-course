@@ -61,6 +61,7 @@ public class ItemComponentAppliance extends CustomComponent implements ItemCompo
 		
 		name = new Label(appliance.getName()); // Sould this just be removed?
 		value = new CheckBox(appliance.getName());
+		value.setValue(appliance.isON());
 		
 		value.addValueChangeListener(new ValueChangeListener() {
 			

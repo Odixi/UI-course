@@ -65,10 +65,10 @@ public class ItemComponentLight extends CustomComponent implements ItemComponent
 					} catch (RemoteException e) {
 						e.printStackTrace();
 					} catch (IDMatchNotFoundException e) {
-						// TODO Auto-generated catch block
+						on.setCaption("Could not get data from server!");
 						e.printStackTrace();
 					} catch (IDTypeMismatch e) {
-						// TODO Auto-generated catch block
+						on.setCaption("Could not get data from server!");
 						e.printStackTrace();
 					}
 				}
@@ -78,10 +78,10 @@ public class ItemComponentLight extends CustomComponent implements ItemComponent
 					} catch (RemoteException e) {
 						e.printStackTrace();
 					} catch (IDTypeMismatch e) {
-						// TODO Auto-generated catch block
+						on.setCaption("Could not get data from server!");
 						e.printStackTrace();
 					} catch (IDMatchNotFoundException e) {
-						// TODO Auto-generated catch block
+						on.setCaption("Could not get data from server!");
 						e.printStackTrace();
 					}
 				}

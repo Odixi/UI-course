@@ -55,9 +55,9 @@ public class ItemComponentAudioDevice extends CustomComponent implements ItemCom
 		
 		panel.setContent(layout);
 		
-		// TODO Get the light object from server
-		name = new Label("AudioDevice. Just test.");
-		on = new CheckBox("AudioDevice");
+		name = new Label(audioDevice.getName()); // Should this be removed?
+		on = new CheckBox(audioDevice.getName());
+		on.setValue(audioDevice.isON());
 		
 		on.addValueChangeListener(new Property.ValueChangeListener() {
 			
@@ -71,10 +71,10 @@ public class ItemComponentAudioDevice extends CustomComponent implements ItemCom
 					} catch (RemoteException e) {
 						e.printStackTrace();
 					} catch (IDTypeMismatch e) {
-						// TODO Auto-generated catch block
+						//TODO
 						e.printStackTrace();
 					} catch (IDMatchNotFoundException e) {
-						// TODO Auto-generated catch block
+						//TODO
 						e.printStackTrace();
 					}
 				}
@@ -88,10 +88,10 @@ public class ItemComponentAudioDevice extends CustomComponent implements ItemCom
 					}catch (RemoteException e){
 						e.printStackTrace();
 					} catch (IDMatchNotFoundException e) {
-						// TODO Auto-generated catch block
+						//TODO
 						e.printStackTrace();
 					} catch (IDTypeMismatch e) {
-						// TODO Auto-generated catch block
+						//TODO
 						e.printStackTrace();
 					}
 				}
@@ -100,6 +100,7 @@ public class ItemComponentAudioDevice extends CustomComponent implements ItemCom
 		});
 		
 		volume = new Slider();
+		volume.setValue((double) audioDevice.getVolume());
 		
 		volume.addValueChangeListener(new Property.ValueChangeListener() {
 			
@@ -112,10 +113,10 @@ public class ItemComponentAudioDevice extends CustomComponent implements ItemCom
 				} catch (RemoteException e) {
 					e.printStackTrace();
 				} catch (IDMatchNotFoundException e) {
-					// TODO Auto-generated catch block
+					//TODO
 					e.printStackTrace();
 				} catch (IDTypeMismatch e) {
-					// TODO Auto-generated catch block
+					//TODO
 					e.printStackTrace();
 				}
 			}

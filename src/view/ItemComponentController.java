@@ -102,11 +102,11 @@ public class ItemComponentController extends CustomComponent implements ItemComp
 					e.printStackTrace();
 				}catch (IDMatchNotFoundException e){
 					e.printStackTrace();
-					name = new Label("Something went wrong! Try to refresh page");
+					name = new Label("Something went wrong!");
 					value = new Label("???");
 				}catch(IDTypeMismatch e){
 					e.printStackTrace();
-					name = new Label("Something went wrong! Try to refresh page");
+					name = new Label("Something went wrong!");
 					value = new Label("???");
 				}
 			}
