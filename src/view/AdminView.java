@@ -285,6 +285,7 @@ public class AdminView extends HorizontalLayout implements View{
         // ---------- Oikea puoli ---------- //
         
         rightLayout = new VerticalLayout();
+        rightLayout.setSpacing(true);
         addComponent(rightLayout);
         
 		// ----- Logout button ----- //
@@ -302,14 +303,15 @@ public class AdminView extends HorizontalLayout implements View{
         
         // -------- Manage house items state button ------ //
       
-        manageHouses = new Button("Manga houses", 
+        manageHouses = new Button("Manage houses", 
         		new Button.ClickListener() {
 						@Override
 			public void buttonClick(ClickEvent event) {
-				// TODO Kun vaihdetaan talonhallinta näkymään
-				
+				ui.getNavigator().addView(ui.ADMINHOUSEVIEW, new AdminHouseView(ui, shsystem));
+				ui.getNavigator().navigateTo(ui.ADMINHOUSEVIEW);			
 			}
 		});
+        rightLayout.addComponent(manageHouses);
                 
 	}
 	

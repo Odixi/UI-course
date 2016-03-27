@@ -36,6 +36,7 @@ public class SmartUI extends UI implements UpdateListener{
 	protected static final String ADMINVIEW = "adminview";
 	protected static final String USERVIEW = "userview";
 	protected static final String ADMINLOGINVIEW = "adminloginview";
+	protected static final String ADMINHOUSEVIEW = "adminhouseview";
 	
 	//RMI
 	private Registry registry;
