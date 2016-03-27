@@ -5,7 +5,6 @@ import java.util.Hashtable;
 
 import org.w3c.dom.*;
 
-import exceptions.ElementNullException;
 import model.house.House;
 import model.house.Room;
 import model.items.Appliance;
@@ -119,47 +118,36 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 		ArrayList<Element> itemElements = super.getItemElements(houseID, roomID);
 		Hashtable<String, SmartItem> items = new Hashtable<String, SmartItem>();
 		
-		for(int itemIndex = 0; itemIndex < itemElements.size(); itemIndex++){
+		for(int i = 0; i < itemElements.size(); i++){
 			
 			//Element is light
-			if(itemElements.get(itemIndex).hasAttribute(lightIDTag)){
+			if(itemElements.get(i).hasAttribute(lightIDTag)){
 				
-				String lightID = itemElements.get(itemIndex).getAttribute(lightIDTag);
+				String lightID = itemElements.get(i).getAttribute(lightIDTag);
 				
 				//If light has a name
-				if(itemElements.get(itemIndex).getElementsByTagName(lightnameTag) != null){
-					items.put(lightID, new Light( lightID, itemElements.get(itemIndex).getElementsByTagName(lightnameTag).item(0).getTextContent()));
+				if(itemElements.get(i).getElementsByTagName(lightnameTag) != null){
+					items.put(lightID, new Light( lightID, itemElements.get(i).getElementsByTagName(lightnameTag).item(0).getTextContent()));
 			
 				} else {
 					//No name specified, light gets default name defined by Light.java
 					items.put(lightID, new Light(lightID) );
 				}
 			}
-			
 			//Element is a sensor
-			else if(itemElements.get(itemIndex).hasAttribute(sensorIDTag)){
-				items.put(itemElements.get(itemIndex).getAttribute(sensorIDTag),
-						buildSensor(itemElements.get(itemIndex)) );
+			else if(itemElements.get(i).hasAttribute(sensorIDTag)){
+				items.put(itemElements.get(i).getAttribute(sensorIDTag),
+						buildSensor(itemElements.get(i)) );
 			}
-			
 			//Element is an appliance
-			else if(itemElements.get(itemIndex).hasAttribute(applianceIDTag)){
-				items.put(itemElements.get(itemIndex).getAttribute(applianceIDTag),
-						buildAppliance(itemElements.get(itemIndex)) );
-				
-				//TODO REMOVE Just for testing...
-				//SmartItem newitem = items.get("New Appliance: " + itemElements.get(itemIndex).getAttribute(applianceIDTag)); 
-				//System.out.println("New appliance: "+ newitem.getName() + " ID: " + newitem.getID());
+			else if(itemElements.get(i).hasAttribute(applianceIDTag)){
+				items.put(itemElements.get(i).getAttribute(applianceIDTag),
+						buildAppliance(itemElements.get(i)) );
 			}
-			
 			//Element is a controller
-			else if(itemElements.get(itemIndex).hasAttribute(controllerIDTag)){
-				items.put(itemElements.get(itemIndex).getAttribute(controllerIDTag),
-						buildController(itemElements.get(itemIndex)));
-			}
-			//TODO REMOVE Just for testing...
-			else {
-				System.out.println("What the fuck is this item?");
+			else if(itemElements.get(i).hasAttribute(controllerIDTag)){
+				items.put(itemElements.get(i).getAttribute(controllerIDTag),
+						buildController(itemElements.get(i)));
 			}
 		}
 	
@@ -211,15 +199,13 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 			}
 		}
 		
-		if(applianceObject != null){
-			//Appliance name
-			if(applianceElement.getElementsByTagName(appliancenameTag) != null){
-				applianceObject.setName( applianceElement.getElementsByTagName(appliancenameTag).item(0).getTextContent());
-			} else {
-				applianceObject.setDefaultname();
-			}
+		//Appliance name
+		if(applianceElement.getElementsByTagName(appliancenameTag) != null){
+			applianceObject.setName( applianceElement.getElementsByTagName(appliancenameTag).item(0).getTextContent());
+		} else {
+			applianceObject.setDefaultname();
 		}
-
+		
 		return applianceObject;
 	}
 	
@@ -233,13 +219,9 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 			
 			if(type.equalsIgnoreCase("temperature")){
 				controllerObject = new Controller( controllerElement.getAttribute(controllerIDTag), ControllerType.TEMPERATURE );
-			} 
-			else if(type.equalsIgnoreCase("humidity")){
-				controllerObject = new Controller( controllerElement.getAttribute(controllerIDTag), ControllerType.HUMIDITY );
-			} 
-			else if(type.equalsIgnoreCase("light")){
-				controllerObject = new Controller( controllerElement.getAttribute(controllerIDTag), ControllerType.LIGHT );
-			} 
+			}
+			
+			//TODO More types?
 		}
 		
 		//Controller name
