@@ -178,7 +178,7 @@ public class HouseHandler extends XMLHandler {
 		
 		for(int i = 0; i < items.size(); i++){
 			//Lights: Get the names and the IDs
-			if(items.get(i).getAttribute(lightIDTag) != null){
+			if(items.get(i).hasAttribute(lightIDTag) && items.get(i).getAttribute(lightIDTag) != null){
 				
 				if( items.get(i).getElementsByTagName(lightnameTag).item(0) != null ){
 					itemNames.put(items.get(i).getAttribute(lightIDTag),
@@ -188,7 +188,7 @@ public class HouseHandler extends XMLHandler {
 				}
 			}
 			//Sensors: Get the names and the IDs
-			if( items.get(i).getAttribute(sensorIDTag) != null){
+			else if(items.get(i).hasAttribute(sensorIDTag) && items.get(i).getAttribute(sensorIDTag) != null){
 				
 				if( items.get(i).getElementsByTagName(sensornameTag).item(0) != null ){
 					itemNames.put(items.get(i).getAttribute(sensorIDTag),
@@ -198,7 +198,7 @@ public class HouseHandler extends XMLHandler {
 				}
 			}
 			//Controllers: Get the names and the IDs
-			if( items.get(i).getElementsByTagName(controllerIDTag).item(0) != null ){
+			else if(items.get(i).hasAttribute(controllerIDTag) && items.get(i).getAttribute(controllerIDTag) != null ){
 				
 				if(items.get(i).getElementsByTagName(controllernameTag).item(0) != null ){
 					itemNames.put( items.get(i).getAttribute(controllerIDTag),
@@ -210,7 +210,7 @@ public class HouseHandler extends XMLHandler {
 			}
 			
 			//Appliances: Get the names and the IDs
-			if( items.get(i).getAttribute(applianceIDTag) != null){
+			else if(items.get(i).hasAttribute(applianceIDTag) && items.get(i).getAttribute(applianceIDTag) != null){
 				
 				if( items.get(i).getElementsByTagName(appliancenameTag).item(0) != null ){
 					itemNames.put(items.get(i).getAttribute(applianceIDTag),

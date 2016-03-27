@@ -32,10 +32,20 @@ public class RoomContentComponent extends CustomComponent {
 		layout = new VerticalLayout();
 		this.userView = userView;
 		
+		//TODO REMOVE For testing
+		System.out.println("Hashtable userView in RoomContentComponent");
+		for(String itemID : this.userView.keySet()){
+			System.out.println("Item " + itemID + " has boolean value " + this.userView.get(itemID));
+		}
+		
 		try {
 			
 			items = shsystem.getItems(houseID, roomID);
 			for (String key : items.keySet()){
+				
+				//TODO REMOVE For testing
+				System.out.println("RoomContentComponent: item " + items.get(key) + " has key " + key);
+				
 				if (userView.get(key)){
 //					layout.addComponent( new ItemComponentController(shsystem,houseID, roomID, key, new Controller(key)));
 

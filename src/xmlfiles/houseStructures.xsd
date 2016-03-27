@@ -111,7 +111,8 @@ xmlns="http://www.example.org/houseStructures" elementFormDefault="qualified">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
                         <xs:enumeration value="temperature"/>
-                        
+                        <xs:enumeration value="humidity"/>
+                        <xs:enumeration value="light"/>
                         <!-- Add more types -->
                         
                     </xs:restriction>
