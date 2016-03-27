@@ -53,6 +53,7 @@ public class ItemComponentLight extends CustomComponent implements ItemComponent
 		
 		name = new Label(light.getName()); // Should this be removed?
 		on = new CheckBox(light.getName());
+		on.setValue(light.isON());
 		
 		on.addValueChangeListener(new ValueChangeListener() {
 			

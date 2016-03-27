@@ -44,11 +44,11 @@ public class RoomContentComponent extends CustomComponent {
 					if (si instanceof Sensor){
 						layout.addComponent(new ItemComponentSensor(shsystem, houseID, roomID, key, (Sensor)si));
 					}
-					else if (si instanceof Appliance){
-						layout.addComponent(new ItemComponentAppliance(shsystem, houseID, roomID, key, (Appliance)si));
-					}
 					else if (si instanceof AudioDevice){
 						layout.addComponent(new ItemComponentAudioDevice(shsystem, houseID, roomID, key, (AudioDevice)si));
+					}
+					else if (si instanceof Appliance){
+						layout.addComponent(new ItemComponentAppliance(shsystem, houseID, roomID, key, (Appliance)si));
 					}
 					else if (si instanceof Light){
 						layout.addComponent(new ItemComponentLight(shsystem, houseID, roomID, key, (Light)si));

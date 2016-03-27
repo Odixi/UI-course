@@ -100,6 +100,8 @@ public class ItemComponentAudioDevice extends CustomComponent implements ItemCom
 		});
 		
 		volume = new Slider();
+		volume.setCaption("Volume");
+		volume.setWidth(200f, Unit.PIXELS);
 		volume.setValue((double) audioDevice.getVolume());
 		
 		volume.addValueChangeListener(new Property.ValueChangeListener() {
@@ -122,7 +124,8 @@ public class ItemComponentAudioDevice extends CustomComponent implements ItemCom
 			}
 		});
 		
-		layout.addComponent(name);
+//		layout.addComponent(name);
+		layout.addComponent(on);
 		layout.addComponent(volume);
 		
 		setCompositionRoot(panel);
