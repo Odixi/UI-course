@@ -6,6 +6,7 @@ import java.rmi.registry.Registry;
 
 import javax.servlet.annotation.WebServlet;
 
+import com.vaadin.annotations.Push;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
@@ -14,9 +15,13 @@ import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
 
 import server.SmartHSystem;
+import model.DataPack;
+import model.UIUpdater;
+import model.UIUpdater.UpdateListener;
 
 @Theme("valo")
-public class SmartUI extends UI {
+@Push
+public class SmartUI extends UI implements UpdateListener{
 
 	@WebServlet(value = "/*", asyncSupported = true)
 	@VaadinServletConfiguration(productionMode = false, ui = SmartUI.class)
@@ -51,7 +56,7 @@ public class SmartUI extends UI {
 		navigator.addView(ADMINLOGINVIEW, new AdminLoginView(this, shsystem));
 		
 		navigator.navigateTo(LOGINVIEW);
-		
+		this.register();
 
 	}//init
 	/**
@@ -98,5 +103,46 @@ public class SmartUI extends UI {
     	try {
 			shsystem.testPrintConsole("Testing, testing... from SmartUI");
 		} catch (RemoteException e) {	e.printStackTrace();}
-	}	
+	}
+	
+	
+	
+	/**
+	 * Removes the UI from broadcasting list when session expires.
+	 */
+	@Override
+	public void detach() {
+		//TODO this.unregister(); (not working yet)
+		super.detach();
+	}
+	
+	//------------- UPDATE LISTENER OVERRIDES -------------
+	
+	/**
+	 * Adds the UI to broadcasting list so that it can receive regular updates from the server and other UIs.
+	 */
+	@Override
+	public void register() {
+		UIUpdater.getUpdater().register(this);
+	}
+	
+	/**
+	 * Removes the UI from broadcasting list.
+	 */
+	@Override
+	public void unregister() {
+		UIUpdater.getUpdater().unregister(this);
+	}
+	
+	/**
+	 * Unpacks received data elements into corresponding components. 	
+	 */
+	@Override
+	public void receiveUpdate(DataPack data) {
+		this.access(new Runnable(){
+			@Override
+			public void run(){
+				//TODO Unpack data to the UI
+			}});
+	}//receiveUpdate	
 }
