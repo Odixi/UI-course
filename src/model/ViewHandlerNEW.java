@@ -97,13 +97,13 @@ public class ViewHandlerNEW extends XMLHandler {
 	 * @param userID The ID of the user that the view is set for.
 	 * @param userview Hashtable includes IDs of all houses/rooms/items and whether they are included in the view.
 	 */
-	public void setUserView(String userID, Hashtable<String, Boolean> userview){
+	public boolean setUserView(String userID, Hashtable<String, Boolean> userview){
 
 		if( !userHasView(userID) ){
 			createDefaultView(userID);
 		}
 		
-		updateUserView(userID, userview);
+		return updateUserView(userID, userview);
 	}
 	
 	// >>>>>>>>>>>>>>>>>>>>>>>>>>>> GET USERVIEW  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
