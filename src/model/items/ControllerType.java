@@ -1,5 +1,7 @@
 package model.items;
 
 public enum ControllerType {
-	TEMPERATURE
+	TEMPERATURE,
+	HUMIDITY,
+	LIGHT
 }

@@ -2,7 +2,7 @@ package model.items;
 
 public class Controller extends SmartItem {
 
-	private ControllerType controllerType; //TODO Or should SensorType be used?
+	private ControllerType controllerType; //TODO Or should SensorType be used? Propably -Ville
 	private SensorUnit unit;
 	private double value;
 
@@ -33,6 +33,10 @@ public class Controller extends SmartItem {
 		switch(controllerType) {
 			case TEMPERATURE:
 				super.setName("Temperature controller");
+			case HUMIDITY:
+				super.setName("Humidity controller");
+			case LIGHT:
+				super.setName("Light controller");
 		}
 	}
 	
@@ -59,9 +63,14 @@ public class Controller extends SmartItem {
 				unit = SensorUnit.CELCIUS;	
 				maxValue = 150;
 				minValue = -50;
-				//TODO Min & max value?
-				//minValue = 
-				//maxValue = 
+			case HUMIDITY:
+				unit = SensorUnit.HUMIDITYPERCENT;
+				maxValue = 100;
+				minValue = 0;
+			case LIGHT:
+				unit = SensorUnit.LUMEN;
+				maxValue = 20000;
+				minValue = 0;
 		}
 		
 	}

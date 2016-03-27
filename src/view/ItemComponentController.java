@@ -60,6 +60,7 @@ public class ItemComponentController extends CustomComponent implements ItemComp
 		
 		panel.setContent(layout);
 		
+		// TODO unneccesary atm (this shouldn't ever happen)
 		if (controller == null){
 			name = new Label("Could not get data from server");
 			value = new Label("???");
