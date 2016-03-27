@@ -79,7 +79,7 @@ public class LoginView extends VerticalLayout implements View{
 		
 	// ---- desc. ----- //
 		
-	Label desc = new Label("When you're too lazy to turn the lights on"); //Juu
+	Label desc = new Label("When you're too lazy to turn the lights on"); //Juu TODO Come up with something better
     addComponent(desc);
           
     	// -------- Login Panel -------- //

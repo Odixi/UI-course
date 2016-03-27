@@ -382,6 +382,16 @@ public class AdminView extends HorizontalLayout implements View{
 	}
 	
 	/**
+	 * Just so after new user is created, it can be selected rightaway
+	 */
+	protected void setSelectedUser(String userID){
+		userSelect.setValue(userID);
+		updateContent();
+		for (RoomListComponent rlc : houses){
+			rlc.updateCheckBoxesFromServer();
+		}
+	}
+	/**
 	 * 
 	 * @return ComboBox userSelect
 	 */
@@ -439,6 +449,7 @@ class CreateUserPopupContent implements PopupView.Content{
 						Notification.show("User " + tf.getValue() + " created");
 						pv.setPopupVisible(false);
 						av.updateUserList();
+						av.setSelectedUser(sh.getUserID(tf.getValue()));
 					} catch (RemoteException e) {e.printStackTrace();}
 				}
 			}
