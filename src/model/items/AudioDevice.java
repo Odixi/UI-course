@@ -16,11 +16,7 @@ public class AudioDevice extends Appliance implements Serializable {
 		//By default volume is 0.
 		this.volume = 0;
 	}
-	
-	public String getID(){
-		return super.getID();
-	}
-	
+
 	public int getVolume(){
 		return volume;
 	}
@@ -49,14 +45,6 @@ public class AudioDevice extends Appliance implements Serializable {
 	}
 		
 	//--------- Name -------------------
-	
-	public void setName(String name){
-		super.setName(name);
-	}
-	
-	public String getName(){
-		return super.getName();
-	}
 	
 	public void setDefaultname(){
 		super.setName(defaultname);

@@ -35,19 +35,4 @@ public class Light extends SmartItem implements Serializable {
 		return on;
 	}
 	
-	//
-	public String getID(){
-		return super.getID();
-	}
-	
-	//--------- Light name ------------
-	
-	public void setName(String lightname){
-		super.setName(lightname);
-	}
-	
-	public String getName(){
-		return super.getName();
-	}
-	
 }

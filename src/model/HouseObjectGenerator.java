@@ -184,7 +184,7 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 		
 		//Set name
 		if(sensorElement.getElementsByTagName(sensornameTag) != null){
-			sensorObject.setSensorName( sensorElement.getElementsByTagName(sensornameTag).item(0).getTextContent() );
+			sensorObject.setName( sensorElement.getElementsByTagName(sensornameTag).item(0).getTextContent() );
 		
 		} else {
 			sensorObject.setDefaultName();

@@ -25,7 +25,7 @@ public class Sensor extends SmartItem implements Serializable {
 	
 	public Sensor(String sensorID, String sensorName, SensorType type){
 		super(sensorID);
-		super.setName(sensorName);	
+		setName(sensorName);	
 		setSensorType(type);
 	} //constructor
 
@@ -38,23 +38,14 @@ public class Sensor extends SmartItem implements Serializable {
 	public void setDefaultName(){
 		switch(sensorType) {
 			case TEMPERATURE:
-				super.setName("Temperature sensor");
+				setName("Temperature sensor");
 			case HUMIDITY:
-				super.setName("Humidity sensor");;
+				setName("Humidity sensor");;
 			case LIGHT:
-				super.setName("Light sensor");
+				setName("Light sensor");
 			}
 	}
-	
-	public String getSensorName(){
-		return super.getName();
-	}
-	
-	// >>>> IMPORTANT: Please do not call this method straight from the client. It fill fuck things up as changes are not made to XML.
-	public void setSensorName(String newSensorName){
-		super.setName(newSensorName);
-	}
-	
+
 	//--------- SENSOR TYPE ----------------
 
 	public SensorType getSensorType() {
