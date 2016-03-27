@@ -1,12 +1,7 @@
 package model;
 
-import org.xml.sax.*;
-
-import com.gargoylesoftware.htmlunit.javascript.host.dom.Node;
 
 import exceptions.ElementNullException;
-
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 

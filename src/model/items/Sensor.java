@@ -37,13 +37,13 @@ public class Sensor extends SmartItem implements Serializable {
 
 	public void setDefaultName(){
 		switch(sensorType) {
-		case TEMPERATURE:
-			super.setName("Temperature sensor");
-		case HUMIDITY:
-			super.setName("Humidity sensor");;
-		case LIGHT:
-			super.setName("Light sensor");
-		}
+			case TEMPERATURE:
+				super.setName("Temperature sensor");
+			case HUMIDITY:
+				super.setName("Humidity sensor");;
+			case LIGHT:
+				super.setName("Light sensor");
+			}
 	}
 	
 	public String getSensorName(){
