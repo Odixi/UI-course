@@ -1,6 +1,9 @@
 package view;
 
 import java.rmi.RemoteException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
@@ -41,10 +44,12 @@ public class ItemComponentController extends CustomComponent implements ItemComp
 	private Button minus;
 	private Label value;
 	
+	private DecimalFormat df;
 	
-	public ItemComponentController(SmartHSystem shsystem,String houseID, String roomID, String itemID, Controller controller){
+	
+	public ItemComponentController(SmartHSystem shsystem,String houseID, String roomID, String itemID, Controller control){
 		
-		this.controller = controller;
+		this.controller = control;
 		this.shsystem = shsystem;
 		this.itemID = itemID;
 		this.houseID = houseID;
@@ -60,6 +65,9 @@ public class ItemComponentController extends CustomComponent implements ItemComp
 		
 		panel.setContent(layout);
 		
+		df = new DecimalFormat("#.#"); // To round doubles
+		df.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.ENGLISH)); // To change seperating symbol
+		
 		// TODO unneccesary atm (this shouldn't ever happen)
 		if (controller == null){
 			name = new Label("Could not get data from server");
@@ -67,7 +75,7 @@ public class ItemComponentController extends CustomComponent implements ItemComp
 		}
 		else{
 			name = new Label(controller.getName());
-			value = new Label(controller.getControllerValue() + controller.getControllerUnit().getUnit());
+			value = new Label(df.format(controller.getControllerValue())+ " " + controller.getControllerUnit().getUnit());
 		}
 		
 		// Maybe I'll later add a way to change the values quiker (especially the light controller)
@@ -76,15 +84,15 @@ public class ItemComponentController extends CustomComponent implements ItemComp
 			@Override
 			public void buttonClick(ClickEvent event) {
 				try {
-					double controllerValue = controller.getControllerValue();
+					
 					if (controller.getControllerUnit() == SensorUnit.CELCIUS){
-						if (!shsystem.setControllerValue(houseID, roomID, itemID, controllerValue + 0.5)){
+						if (!shsystem.setControllerValue(houseID, roomID, itemID, controller.getControllerValue() + 0.5)){
 							Notification.show("Out of range!");
 						}
 						update();
 					}
 					else if (controller.getControllerUnit() == SensorUnit.HUMIDITYPERCENT){
-						if (!shsystem.setControllerValue(houseID, roomID, itemID, controllerValue + 5.0)){
+						if (!shsystem.setControllerValue(houseID, roomID, itemID, controller.getControllerValue() + 5.0)){
 							Notification.show("Out of range!");
 						}
 						update();
@@ -92,9 +100,20 @@ public class ItemComponentController extends CustomComponent implements ItemComp
 					else if (controller.getControllerUnit() == SensorUnit.LUMEN){
 						// Lets add value: value + sqrt(value) + value * 0.1 
 						// Because why not
-						if (!shsystem.setControllerValue(houseID, roomID, itemID, 
-								controllerValue + Math.sqrt(controllerValue) + controllerValue * 0.1)){
-							Notification.show("Out of range!");
+						
+						if (controller.getControllerValue() <= 0){
+							if (!shsystem.setControllerValue(houseID, roomID, itemID, 1)){
+								Notification.show("Out of range!");
+							}
+						}
+						else{
+							if (!shsystem.setControllerValue(houseID, roomID, itemID, 
+									controller.getControllerValue() + Math.sqrt(controller.getControllerValue()) + controller.getControllerValue() * 0.1)){
+								Notification.show("Out of range!");
+							}
+							else{
+								Notification.show("" + (controller.getControllerValue() + Math.sqrt(controller.getControllerValue()) + controller.getControllerValue() * 0.1));
+							}
 						}
 						update();
 					}
@@ -117,15 +136,14 @@ public class ItemComponentController extends CustomComponent implements ItemComp
 			@Override
 			public void buttonClick(ClickEvent event) {
 				try {
-					double controllerValue = controller.getControllerValue();
 					if (controller.getControllerUnit() == SensorUnit.CELCIUS){
-						if (!shsystem.setControllerValue(houseID, roomID, itemID, controllerValue - 0.5)){
+						if (!shsystem.setControllerValue(houseID, roomID, itemID, controller.getControllerValue() - 0.5)){
 							Notification.show("Out of range!");
 						}
 						update();
 					}
 					else if (controller.getControllerUnit() == SensorUnit.HUMIDITYPERCENT){
-						if (!shsystem.setControllerValue(houseID, roomID, itemID, controllerValue - 5.0)){
+						if (!shsystem.setControllerValue(houseID, roomID, itemID, controller.getControllerValue() - 5.0)){
 							Notification.show("Out of range!");
 						}
 						update();
@@ -134,7 +152,7 @@ public class ItemComponentController extends CustomComponent implements ItemComp
 						// Lets add value: value + sqrt(value) + value * 0.1 
 						// Because why not
 						if (!shsystem.setControllerValue(houseID, roomID, itemID, 
-								controllerValue - Math.sqrt(controllerValue) - controllerValue * 0.1)){
+								controller.getControllerValue() - Math.sqrt(controller.getControllerValue()) - controller.getControllerValue() * 0.1)){
 							Notification.show("Out of range!");
 						}
 						update();
@@ -154,8 +172,6 @@ public class ItemComponentController extends CustomComponent implements ItemComp
 			}
 		});
 			
-			
-			
 		layout.addComponent(name);
 		layout.addComponent(layout2);
 		layout2.addComponent(minus);
@@ -170,15 +186,15 @@ public class ItemComponentController extends CustomComponent implements ItemComp
 	 */
 	public void update() {
 		try {
-			controller = (Controller) shsystem.getSmartItem(itemID);
+			controller = (Controller) shsystem.getSmartItem(houseID, roomID, itemID);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} catch (IDMatchNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		value.setValue(controller.getControllerValue() + controller.getControllerUnit().getUnit());
-		
+		value.setValue(df.format(controller.getControllerValue()) + " " + controller.getControllerUnit().getUnit());
+		 
 	}
 	
 	public String toString(){
