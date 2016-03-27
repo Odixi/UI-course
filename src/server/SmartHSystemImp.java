@@ -9,7 +9,6 @@ import exceptions.ElementNullException;
 import exceptions.IDMatchNotFoundException;
 import exceptions.IDTypeMismatch;
 import model.UserAccountHandler;
-import model.ViewHandler;
 import model.ViewHandlerNEW;
 import model.items.SmartItem;
 import model.HouseHandler;
@@ -40,18 +39,20 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		
 		//Crete object that handles activity regarding user accounts
 		userHandler = new UserAccountHandler();
+		
 		//Crete object that handles activity regarding admin accounts
 		adminHandler = new AdminAccountHandler();
-		//Create house handler
+		
+		//Create house handler which handles the XML file representation of the house structures
 		houseHandler = new HouseHandler();
-		//ViewHandler
-		//viewHandler = new ViewHandler(houseHandler);
 		
 		//House objects etc. are generated inside the SmartModel
 		model = new SmartModel();
 		
+		//Create viewHandler that handles the xml files representing users' views.
 		viewHandler = new ViewHandlerNEW(houseHandler);
-	
+		
+		
 	} //constructor
 
 
