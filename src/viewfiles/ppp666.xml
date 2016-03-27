@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><tns:view xmlns:tns="http://www.example.org/views" viewID="f8c8f0d1-cf5e-4978-87e5-3f64c729d583">
+    <tns:user userID="ppp666"/>
+    <tns:houses xmlns="http://www.example.org/houseStructures" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/houseStructures houseStructures.xsd ">
+   
+        
+  <house houseID="h001" inView="false">
+      <houseName>First House</houseName>
+      <room inView="false" roomID="h001r101">
+           <roomName>Hall</roomName>
+           <light inView="false" lightID="h1r101L001">
+               <lightName>Ceiling light</lightName>
+           </light>
+      </room>
+      <room inView="false" roomID="h001r001">
+        <roomName>Living room</roomName>
+        <light inView="false" lightID="h1r1L001">
+           <lightName>Ceiling light</lightName>
+        </light>
+        <light inView="false" lightID="h1r1L002">
+           <lightName>Floor lamp</lightName>
+        </light>
+      </room>
+      <room inView="false" roomID="h001r002">
+           <roomName>Big bedroom</roomName>
+           <light inView="false" lightID="h1r2L001">
+                <lightName>Ceiling light</lightName>
+           </light>
+           <light inView="false" lightID="h1r2L002">
+                <lightName>Bedside lamp (right)</lightName>
+           </light>
+           <light inView="false" lightID="h1r2L003">
+                <lightName>Bedside lamp (left)</lightName>
+           </light>
+           <sensor inView="false" sensorID="h1r2S001">
+                <sensorName>Temperature</sensorName>
+                <sensorType>temperature</sensorType>
+           </sensor>
+      </room>
+      
+  </house>
+  
+  
+  
+  
+  <house houseID="h002" inView="false">
+        <houseName>Cool House</houseName>
+        
+        <room inView="false" roomID="h002001">
+            <roomName>Hall</roomName>
+            
+            <light inView="false" lightID="h2r1L001">
+                <lightName>Hall wall light</lightName>      
+            </light>
+            <appliance applianceID="h2r1AP001" inView="false">
+                <applianceName>Radio</applianceName>
+                <applianceType>audioDevice</applianceType>
+            </appliance>
+        </room>
+        <room inView="false" roomID="h002r002">
+            <roomName>Kitchen</roomName>
+            
+            <light inView="false" lightID="h2r2L001">
+                <lightName>Ceiling light</lightName>
+            </light>
+            <appliance applianceID="h2r2AP001" inView="false">
+                <applianceName>Coffee maker</applianceName>
+                <applianceType>turnOnOff</applianceType>
+            </appliance>
+        </room>
+  </house>
+ 
+  
+  
+  
+
+</tns:houses>
+</tns:view>
