@@ -51,7 +51,7 @@ public interface SmartHSystem extends Remote {
 
 		// ‹›‹›‹›‹›‹›‹›‹›‹›‹› USER VIEW ‹›‹›‹›‹›‹›‹›‹›‹›‹›
 		
-	public Hashtable<String, Boolean> getUserView(String userName) throws RemoteException;
+	public Hashtable<String, Boolean> getUserView(String userName) throws RemoteException, ElementNullException;
 	
 	public void setUserView(String userID, Hashtable<String, Boolean> userview) throws RemoteException;
 	

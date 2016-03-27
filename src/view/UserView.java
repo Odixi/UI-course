@@ -26,6 +26,9 @@ import server.SmartHSystem;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Window;
+
+import exceptions.ElementNullException;
+
 import com.vaadin.ui.Slider;
 import com.vaadin.server.FontAwesome;
 
@@ -67,6 +70,9 @@ public class UserView extends VerticalLayout implements View{
 			userView = shsystem.getUserView(ui.getUserID());
 		} catch (RemoteException e1) {
 			e1.printStackTrace();
+		} catch (ElementNullException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		setMargin(true);

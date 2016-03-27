@@ -112,8 +112,9 @@ public class ViewHandlerNEW extends XMLHandler {
 	 * 
 	 * @param userID
 	 * @return
+	 * @throws ElementNullException 
 	 */
-	public Hashtable<String, Boolean> getUserView(String userID){
+	public Hashtable<String, Boolean> getUserView(String userID) throws ElementNullException{
 		
 		Hashtable<String, Boolean> userview = new Hashtable<String, Boolean>();
 		
@@ -213,8 +214,9 @@ public class ViewHandlerNEW extends XMLHandler {
 	 * 
 	 * @param userID
 	 * @return
+	 * @throws ElementNullException 
 	 */
-	private Hashtable<String, Boolean> recoverWithDefaultView(String userID){
+	private Hashtable<String, Boolean> recoverWithDefaultView(String userID) throws ElementNullException{
 		
 		//Delete the corrupted file
 		deleteUserview(userID);
@@ -231,8 +233,9 @@ public class ViewHandlerNEW extends XMLHandler {
 	/**
 	 * 
 	 * @return
+	 * @throws ElementNullException 
 	 */
-	public Hashtable<String, Boolean> getNothingIncludedList(){
+	public Hashtable<String, Boolean> getNothingIncludedList() throws ElementNullException{
 		Hashtable<String, Boolean> nothingIncludedList = new Hashtable<String, Boolean>();
 		
 		Hashtable<String, String> houseNames = houseHandler.getHouseNameList();

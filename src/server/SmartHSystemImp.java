@@ -34,7 +34,7 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	private ViewHandlerNEW viewHandler;
 
 	
-	public SmartHSystemImp() throws RemoteException {
+	public SmartHSystemImp() throws RemoteException, ElementNullException {
 		super();
 		
 		//Crete object that handles activity regarding user accounts
@@ -127,7 +127,7 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 
 		// ‹›‹›‹›‹›‹›‹›‹›‹›‹› USER VIEW ‹›‹›‹›‹›‹›‹›‹›‹›‹›
 	
-	public Hashtable<String, Boolean> getUserView(String userID) throws RemoteException {
+	public Hashtable<String, Boolean> getUserView(String userID) throws RemoteException, ElementNullException {
 		return viewHandler.getUserView(userID);
 	}
 

@@ -5,6 +5,7 @@ import java.util.Hashtable;
 
 import org.w3c.dom.*;
 
+import exceptions.ElementNullException;
 import model.house.House;
 import model.house.Room;
 import model.items.Appliance;
@@ -54,7 +55,7 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 	}
 	
 	//--------------- BUILD HOUSES ---------------------
-	public Hashtable<String, House> buildHouses(){
+	public Hashtable<String, House> buildHouses() throws ElementNullException{
 		
 		ArrayList<Element> houseElements = super.getHouseElements();
 		Hashtable<String, House> houses = new Hashtable<String, House>();
@@ -84,7 +85,7 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 	}
 	
 	//--------------- BUILD ROOMS ---------------------
-	public Hashtable<String, Room> buildRooms(String houseID){
+	public Hashtable<String, Room> buildRooms(String houseID) throws ElementNullException{
 		
 		ArrayList<Element> roomElements = super.getRoomElements(houseID);
 		Hashtable<String, Room> rooms = new Hashtable<String, Room>();
@@ -113,7 +114,7 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 	}
 	
 	//--------------- BUILD ITEMS ---------------------
-	public Hashtable<String, SmartItem> buildItems(String houseID, String roomID){
+	public Hashtable<String, SmartItem> buildItems(String houseID, String roomID) throws ElementNullException{
 		
 		ArrayList<Element> itemElements = super.getItemElements(houseID, roomID);
 		Hashtable<String, SmartItem> items = new Hashtable<String, SmartItem>();

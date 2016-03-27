@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import exceptions.ElementNullException;
 import exceptions.IDMatchNotFoundException;
 import exceptions.IDTypeMismatch;
 import model.HouseObjectGenerator;
@@ -26,7 +27,7 @@ public class SmartModel {
 	
 	//CONSTRUCTOR 
 	
-	public SmartModel(){
+	public SmartModel() throws ElementNullException{
 	
 		HouseObjectGenerator generator = new HouseObjectGenerator();
 		houses = generator.buildHouses(); 
