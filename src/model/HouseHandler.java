@@ -49,6 +49,10 @@ public class HouseHandler extends XMLHandler {
 	private static final String appliancenameTag = "applianceName";
 	private static final String applianceIDTag = "applianceID";
 	
+	private static final String controllerTag = "controller";
+	private static final String controllernameTag = "controllerName";
+	private static final String controllerIDTag = "controllerID";
+	private static final String controllerTypeTag = "controllerType";
 	
 	//CONSTRUCTOR
 	public HouseHandler(){
@@ -79,9 +83,17 @@ public class HouseHandler extends XMLHandler {
 		ArrayList<Element> houseElements = getHouseElements();
 		
 		for(int i = 0; i < houseElements.size(); i++){
-			if(houseElements.get(i).getElementsByTagName(housenameTag).item(0) != null && houseElements.get(i).getAttribute(houseIDTag) != null){
-				houseNames.put(houseElements.get(i).getAttribute(houseIDTag), 
-						houseElements.get(i).getElementsByTagName(housenameTag).item(0).getTextContent());	
+			
+			if( houseElements.get(i).getAttribute(houseIDTag) != null ){
+				//If house has a name, use that name
+				if(houseElements.get(i).getElementsByTagName(housenameTag).item(0) != null){
+					
+					houseNames.put(houseElements.get(i).getAttribute(houseIDTag).trim(), 
+							houseElements.get(i).getElementsByTagName(housenameTag).item(0).getTextContent());
+				} else {
+					//If the house doesn't have a name, give it one.
+					houseNames.put(houseElements.get(i).getAttribute(houseIDTag).trim(), "House " + i);
+				}	
 			}
 		}
 		return houseNames;
@@ -114,9 +126,18 @@ public class HouseHandler extends XMLHandler {
 		ArrayList<Element> rooms = getRoomElements(houseID);
 		
 		for(int i = 0; i < rooms.size(); i++){
-			if(rooms.get(i).getElementsByTagName(roomnameTag).item(0) != null && rooms.get(i).getAttribute(roomIDTag) != null){
-				roomNames.put(rooms.get(i).getAttribute(roomIDTag).trim(),
-						rooms.get(i).getElementsByTagName(roomnameTag).item(0).getTextContent() );
+			if(rooms.get(i).getAttribute(roomIDTag) != null){
+			
+				//If room has a name, save that to the list
+				if( rooms.get(i).getElementsByTagName(roomnameTag).item(0) != null ){
+					
+					roomNames.put(rooms.get(i).getAttribute(roomIDTag).trim(),
+							rooms.get(i).getElementsByTagName(roomnameTag).item(0).getTextContent() );
+					
+				} else{
+				//...otherwise, come up with a name
+					roomNames.put(rooms.get(i).getAttribute(roomIDTag).trim(), "Room "+i);
+				}
 			}
 		}
 		return roomNames;
@@ -152,27 +173,57 @@ public class HouseHandler extends XMLHandler {
 		
 		Hashtable<String, String> itemNames = new Hashtable<String, String>();
 		ArrayList<Element> items = getItemElements(houseID, roomID);
+	
+		//TODO Do better the naming when nametags are empty. (Use type when it comes to sensor and controller.)
 		
 		for(int i = 0; i < items.size(); i++){
 			//Lights: Get the names and the IDs
-			if( items.get(i).getElementsByTagName(lightnameTag).item(0) != null && items.get(i).getAttribute(lightIDTag) != null){
-				itemNames.put(items.get(i).getAttribute(lightIDTag),
-						items.get(i).getElementsByTagName(lightnameTag).item(0).getTextContent() );
+			if(items.get(i).getAttribute(lightIDTag) != null){
+				
+				if( items.get(i).getElementsByTagName(lightnameTag).item(0) != null ){
+					itemNames.put(items.get(i).getAttribute(lightIDTag),
+							items.get(i).getElementsByTagName(lightnameTag).item(0).getTextContent() );
+				} else {
+					itemNames.put(items.get(i).getAttribute(lightIDTag), "Light "+i);
+				}
 			}
 			//Sensors: Get the names and the IDs
-			if( items.get(i).getElementsByTagName(sensornameTag).item(0) != null && items.get(i).getAttribute(sensorIDTag) != null){
-				itemNames.put(items.get(i).getAttribute(sensorIDTag),
+			if( items.get(i).getAttribute(sensorIDTag) != null){
+				
+				if( items.get(i).getElementsByTagName(sensornameTag).item(0) != null ){
+					itemNames.put(items.get(i).getAttribute(sensorIDTag),
 						items.get(i).getElementsByTagName(sensornameTag).item(0).getTextContent() );
+				} else {
+					itemNames.put(items.get(i).getAttribute(sensorIDTag), "Sensor "+i);
+				}
 			}
+			//Controllers: Get the names and the IDs
+			if( items.get(i).getElementsByTagName(controllerIDTag).item(0) != null ){
+				
+				if(items.get(i).getElementsByTagName(controllernameTag).item(0) != null ){
+					itemNames.put( items.get(i).getAttribute(controllerIDTag),
+							items.get(i).getElementsByTagName(controllernameTag).item(0).getTextContent());
+				} else {
+					//itemNames.put(items.get(i).getAttribute(controllerIDTag), items.get(i).getElementsByTagName(controllerTypeTag).item(0).toString()+i ); //TODO
+					itemNames.put(items.get(i).getAttribute(controllerIDTag), "Controller "+i);
+				}
+			}
+			
 			//Appliances: Get the names and the IDs
-			if( items.get(i).getElementsByTagName(appliancenameTag).item(0) != null && items.get(i).getAttribute(applianceIDTag) != null){
-				itemNames.put(items.get(i).getAttribute(applianceIDTag),
-						items.get(i).getElementsByTagName(appliancenameTag).item(0).getTextContent() );
+			if( items.get(i).getAttribute(applianceIDTag) != null){
+				
+				if( items.get(i).getElementsByTagName(appliancenameTag).item(0) != null ){
+					itemNames.put(items.get(i).getAttribute(applianceIDTag),
+							items.get(i).getElementsByTagName(appliancenameTag).item(0).getTextContent() );
+				} else {
+					itemNames.put(items.get(i).getAttribute(applianceIDTag), "Appliance "+i);
+				}
 			}
 		}
 		
 		return itemNames;
-	}
+		
+	} //getItemNames
 	
 	//----------- LIST OF ITEMS (ELEMENTS) --------------------
 	

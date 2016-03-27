@@ -30,10 +30,9 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	private UserAccountHandler userHandler;
 	private AdminAccountHandler adminHandler;
 	private HouseHandler houseHandler;
-	private ViewHandler viewHandler;
 	private SmartModel model;
 	
-	private ViewHandlerNEW newViewHandler;
+	private ViewHandlerNEW viewHandler;
 
 	
 	public SmartHSystemImp() throws RemoteException {
@@ -46,12 +45,12 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		//Create house handler
 		houseHandler = new HouseHandler();
 		//ViewHandler
-		viewHandler = new ViewHandler(houseHandler);
+		//viewHandler = new ViewHandler(houseHandler);
 		
 		//House objects etc. are generated inside the SmartModel
 		model = new SmartModel();
 		
-		newViewHandler = new ViewHandlerNEW(houseHandler);
+		viewHandler = new ViewHandlerNEW(houseHandler);
 	
 	} //constructor
 
@@ -64,7 +63,7 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		model.printHouseStructure(model.getHouses());
 		
 		//Testing testing...
-		newViewHandler.createDefaultView("ppp666");
+		viewHandler.createDefaultView("ppp666");
 		
 	}
 	

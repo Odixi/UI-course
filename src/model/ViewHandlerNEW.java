@@ -58,7 +58,6 @@ public class ViewHandlerNEW extends XMLHandler {
 	private static final String controllerTag = "controller";
 	private static final String controllernameTag = "controllerName";
 	private static final String controllerIDTag = "controllerID";
-	private static final String controllerTypeTag = "controllerType";
 	
 	//PREFIXES ETC.
 	private static final String viewNS = "http://www.example.org/views";
@@ -89,7 +88,7 @@ public class ViewHandlerNEW extends XMLHandler {
 	 * @param userview Hashtable includes IDs of all houses/rooms/items and whether they are included in the view.
 	 */
 	public void setUserView(String userID, Hashtable<String, Boolean> userview){
-		
+
 		if( !userHasView(userID) ){
 			createDefaultView(userID);
 		}
@@ -108,8 +107,15 @@ public class ViewHandlerNEW extends XMLHandler {
 		
 		Hashtable<String, Boolean> userview = new Hashtable<String, Boolean>();
 		
+		if(userID == null){
+			
+			//TODO Right now, the method is called with null value in the beginning of the program, when no user is selected.
+			return getNothingIncludedList();
+			
+		}
+		
 		//If the user doesn't have a view, create one
-		if( !userHasView(userID) ){
+		else if( !userHasView(userID) ){
 			createDefaultView(userID);
 		}
 
@@ -208,6 +214,34 @@ public class ViewHandlerNEW extends XMLHandler {
 	}
 	
 
+	//--------------------------- RETURN 'NOTHING INCLUDED' LIST --------------------------------
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Hashtable<String, Boolean> getNothingIncludedList(){
+		Hashtable<String, Boolean> nothingIncludedList = new Hashtable<String, Boolean>();
+		
+		Hashtable<String, String> houseNames = houseHandler.getHouseNameList();
+		
+		for(String houseID : houseNames.keySet()){
+			Hashtable<String, String> roomNames = houseHandler.getRoomNames(houseID);
+			nothingIncludedList.put(houseID, false);
+			
+			for(String roomID : roomNames.keySet()){
+				Hashtable<String, String> itemNames = houseHandler.getItemNames(houseID, roomID);
+				nothingIncludedList.put(roomID, false);
+				
+				for(String itemID : itemNames.keySet()){
+					nothingIncludedList.put(itemID, false);
+				}
+			}
+		}
+		
+		return nothingIncludedList;
+	}
+	
 	//--------------------------- CREATE DEFAULT USERVIEW ----------------------------------------
 	/** Creates a view where no houses/rooms/items are included.
 	 * @param userID The ID of the user that the view is created for.
