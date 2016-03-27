@@ -1,6 +1,8 @@
 package model.items;
 
-public class AudioDevice extends Appliance {
+import java.io.Serializable;
+
+public class AudioDevice extends Appliance implements Serializable {
 
 	private final String defaultname = "audio device";
 	private int volume;

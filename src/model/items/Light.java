@@ -1,6 +1,8 @@
 package model.items;
 
-public class Light extends SmartItem {
+import java.io.Serializable;
+
+public class Light extends SmartItem implements Serializable {
 	
 	private final String defaultname = "Light";
 	private boolean on;

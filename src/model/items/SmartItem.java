@@ -1,6 +1,8 @@
 package model.items;
 
-public class SmartItem {
+import java.io.Serializable;
+
+public class SmartItem implements Serializable {
 
 	private final String itemID;
 	private String name;

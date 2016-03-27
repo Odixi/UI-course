@@ -1,6 +1,8 @@
 package model.items;
 
-public class Appliance extends SmartItem {
+import java.io.Serializable;
+
+public class Appliance extends SmartItem implements Serializable {
 
 	private String defaultname = "Nameless appliance";
 	private boolean on;

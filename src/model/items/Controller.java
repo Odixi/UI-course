@@ -1,6 +1,8 @@
 package model.items;
 
-public class Controller extends SmartItem {
+import java.io.Serializable;
+
+public class Controller extends SmartItem implements Serializable {
 
 	private ControllerType controllerType; //TODO Or should SensorType be used? Propably -Ville
 	private SensorUnit unit;

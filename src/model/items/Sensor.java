@@ -1,6 +1,8 @@
 package model.items;
 
-public class Sensor extends SmartItem {
+import java.io.Serializable;
+
+public class Sensor extends SmartItem implements Serializable {
 
 	private SensorType sensorType;
 	private SensorUnit sensorUnit;
