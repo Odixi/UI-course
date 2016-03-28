@@ -135,10 +135,11 @@ public class ViewHandlerNEW extends XMLHandler {
 			createDefaultView(userID);
 		}
 
+		Document userviewDocument = getUserviewDocument(userID);
 		Element viewElement;
 			
 		try {	
-			viewElement = getViewElement(userID);
+			viewElement = getViewElement(userviewDocument);
 			
 		} catch (DocumentNullException | ElementNullException | XMLBrokenException e) {
 			System.out.println("Problem with user's (" + userID + ") view file. Recovering from problem by creating default view.");
@@ -371,10 +372,11 @@ public class ViewHandlerNEW extends XMLHandler {
 	 */
 	public boolean updateUserView(String userID, Hashtable<String, Boolean> userview) throws ElementNullException{
 
+		Document viewDocument = getUserviewDocument(userID);
 		Element viewElement;
 		
 		try {
-			viewElement  = getViewElement(userID);
+			viewElement  = getViewElement(viewDocument);
 			
 		} catch (DocumentNullException | ElementNullException | XMLBrokenException e) {
 			//TODO Document is corrupted. What should be done?
@@ -414,13 +416,10 @@ public class ViewHandlerNEW extends XMLHandler {
 		
 		String filepath = filelist.get(userID);
 		System.out.println("UpdateUserView: " + filepath);
-		
-		//Save the information to the XML file (self created method in XMLHandler class)
-		System.out.println("Document not null? " + (getUserviewDocument(userID) != null));
-		
+			
 		System.out.println("UpdateUserView: userID-parameter: " + userID);
 		
-		writeXML(getUserviewDocument(userID), filepath);
+		writeXML(viewDocument, filepath);
 		
 		//FOR TESTING ETC:
 		System.out.println("Userview for user " + userID + " was updated!");
@@ -470,9 +469,13 @@ public class ViewHandlerNEW extends XMLHandler {
 			for(int j = 0; j < roomElements.size(); j++){
 				
 				//inView = true/false?
-				if(roomElements.get(j).getAttribute(roomIDTag) != null){
+				if(roomElements.get(j).hasAttribute(roomIDTag) && roomElements.get(j).getAttribute(roomIDTag) != null){
 
 					Boolean included = userview.get( roomElements.get(j).getAttribute(roomIDTag));
+					
+					//TODO REMOVE For testing
+					System.out.println("Get house's (" + roomElements.get(j).getAttribute(roomIDTag).toString()  + "), inView attribute is: " + roomElements.get(j).getAttribute(inView).toString() );
+					System.out.println("Get house's (" + roomElements.get(j).getAttribute(roomIDTag).toString()  + "), inView attribute will be: " + included.toString() );
 					roomElements.get(j).setAttribute(inView, included.toString());
 				}				
 			}
@@ -489,7 +492,7 @@ public class ViewHandlerNEW extends XMLHandler {
 		if( !itemElements.isEmpty() ){
 			
 			for(int k = 0; k < itemElements.size(); k++){
-				//inView = true/false?
+
 				if(itemElements.get(k).hasAttribute(lightIDTag)){
 					Boolean included = userview.get( itemElements.get(k).getAttribute(lightIDTag));
 					itemElements.get(k).setAttribute(inView, included.toString());
@@ -686,10 +689,8 @@ public class ViewHandlerNEW extends XMLHandler {
 	 */
 	
 	//TODO Is this method actually even needed?
-	private Element getViewElement(String userID) throws DocumentNullException, ElementNullException, XMLBrokenException{
-		
-		Document doc = getUserviewDocument(userID);
-		
+	private Element getViewElement(Document doc) throws DocumentNullException, ElementNullException, XMLBrokenException{
+
 		/*
 		Element viewElement = null;
 		
