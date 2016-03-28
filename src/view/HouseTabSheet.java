@@ -27,6 +27,11 @@ public class HouseTabSheet extends CustomComponent{
 		this.userView = userView;
 		componentList = new ArrayList<RoomContentComponent>();
 		
+		//TODO REMOVE For testing
+		for(String itemID : userView.keySet() ){
+			System.out.println("Item: " + itemID + ", value: " + userView.get(itemID) );
+		}
+		
 		try {
 			RoomContentComponent temp;
 			rooms = shsystem.getRoomNames(houseID);

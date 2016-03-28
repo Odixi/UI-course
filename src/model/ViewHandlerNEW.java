@@ -691,7 +691,7 @@ public class ViewHandlerNEW extends XMLHandler {
 	//TODO Is this method actually even needed?
 	private Element getViewElement(Document doc) throws DocumentNullException, ElementNullException, XMLBrokenException{
 
-		/*
+		
 		Element viewElement = null;
 		
 		if(doc == null){
@@ -715,10 +715,10 @@ public class ViewHandlerNEW extends XMLHandler {
 		if(viewElement == null){
 			//If view element isn't found, throw exception
 			throw new ElementNullException("View element not found.");
-		}*/
+		}
 		
-		//return viewElement;
-		return doc.getDocumentElement();
+		return viewElement;
+		//return doc.getDocumentElement();
 	}
 	
 	/**
