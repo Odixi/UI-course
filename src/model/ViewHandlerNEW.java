@@ -80,10 +80,13 @@ public class ViewHandlerNEW extends XMLHandler {
 		
 		//TODO REMOVE For testing
 		System.out.println("Userview files in the system: ");
-		
 		for(String userID : filelist.keySet() ){
 			System.out.println("User " + userID + " has userview " + filelist.get(userID) );
 		}
+		
+		//Update the house structure in view files
+		
+		
 		
 	}//constructor
 
@@ -516,11 +519,30 @@ public class ViewHandlerNEW extends XMLHandler {
 	
 	//-------------------------- UPDATE THE HOUSE STRUCTURE IN VIEW -----------------------------------
 
-		public void updateTheHouseStructureInView(String userID){
+	/**
+	 * 
+	 * @param userID
+	 * @throws ElementNullException 
+	 */
+	
+	/*
+	 * This is a very inefficient and ugly way of doing this. I'm going to build something better if I have time.
+	 * However, making this enables editing the houses.xml without causing errors with already created userviews.
+	 */
+	
+	public void updateTheHouseStructuresInViews(String userID) throws ElementNullException{
 			
-			//TODO DO THIS IF YOU HAVE TIME
-		
+		//TODO DO THIS IF YOU HAVE TIME
+		for( String user : filelist.keySet() ){
+			Hashtable<String, Boolean> userview = getUserView(user);
+			
+			//Delete the old userview
+			deleteUserview(user);
+			setUserView(user, userview);
+			
 		}
+		
+	}
 	
 	//------------------------- DELETE THE USERVIEW --------------------------------------
 	
