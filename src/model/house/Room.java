@@ -1,5 +1,6 @@
 package model.house;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -14,7 +15,7 @@ import model.items.Light;
 import model.items.Sensor;
 import model.items.SmartItem;
 
-public class Room {
+public class Room implements Serializable {
 
 	private String name;
 	private final String roomID; 

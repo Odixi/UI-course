@@ -1,11 +1,12 @@
 package model.house;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
 import exceptions.IDMatchNotFoundException;
 
-public class House {
+public class House implements Serializable {
 
 	private String name;
 	private final String houseID;
