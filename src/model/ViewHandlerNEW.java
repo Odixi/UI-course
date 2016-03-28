@@ -102,7 +102,6 @@ public class ViewHandlerNEW extends XMLHandler {
 
 		if( !userHasView(userID) ){
 			createDefaultView(userID);
-
 		}
 		
 		//Returns boolean value indicating whether the update was successful.
@@ -390,6 +389,14 @@ public class ViewHandlerNEW extends XMLHandler {
 		}
 		
 		ArrayList<Element> houseElements = getHouseElements(viewElement);
+		
+		System.out.println("UpdateUserView: houseElements.size: "+ houseElements.size());
+		
+		//TODO REMOVE For testing
+		for(int i = 0; i < houseElements.size(); i++){
+			System.out.println("HouseElement's inView attribute: " + houseElements.get(i).getAttribute(inView).toString());
+		}
+		
 		updateHousesIncluded(houseElements, userview);
 		
 		//Update the houses (set the value of inView attribute for each house)
@@ -409,7 +416,9 @@ public class ViewHandlerNEW extends XMLHandler {
 		System.out.println("UpdateUserView: " + filepath);
 		
 		//Save the information to the XML file (self created method in XMLHandler class)
-		System.out.println("Document not null? " + getUserviewDocument(filepath) != null);
+		System.out.println("Document not null? " + (getUserviewDocument(userID) != null));
+		
+		System.out.println("UpdateUserView: userID-parameter: " + userID);
 		
 		writeXML(getUserviewDocument(userID), filepath);
 		
@@ -430,10 +439,20 @@ public class ViewHandlerNEW extends XMLHandler {
 		if( !houseElements.isEmpty() ){
 			for(int i = 0; i < houseElements.size(); i++){
 				//inView = true/false?
-				if(houseElements.get(i).getAttribute(houseIDTag) != null){
+				if(houseElements.get(i).hasAttribute(houseIDTag) && houseElements.get(i).getAttribute(houseIDTag) != null){
 						
 					Boolean included = userview.get( houseElements.get(i).getAttribute(houseIDTag) );
-					houseElements.get(i).setAttribute(inView, included.toString());
+					
+					if( houseElements.get(i).hasAttribute(inView) ){
+						//TODO REMOVE For testing
+						System.out.println("Get house's (" + houseElements.get(i).getAttribute(houseIDTag).toString()  + "), inView attribute is: " + houseElements.get(i).getAttribute(inView).toString() );
+						System.out.println("Get house's (" + houseElements.get(i).getAttribute(houseIDTag).toString()  + "), inView attribute will be: " + included.toString() );
+						houseElements.get(i).setAttribute(inView, included.toString());
+					
+					} else {
+						//TODO REMOVE: for testing
+						System.out.println("House doesn't have inView attribute!");
+					}
 				}
 			}
 		}
@@ -671,7 +690,7 @@ public class ViewHandlerNEW extends XMLHandler {
 		
 		Document doc = getUserviewDocument(userID);
 		
-		
+		/*
 		Element viewElement = null;
 		
 		if(doc == null){
@@ -681,10 +700,10 @@ public class ViewHandlerNEW extends XMLHandler {
 		NodeList viewNodes = doc.getElementsByTagName(viewTag);
 		
 		if(viewNodes.getLength() != 1){
-			/* View element should be the root of the file.
-			 * If there are multiple view elements, something is terribly wrong.
-			 * Therefore exception is thrown when such situation is encountered.
-			 */
+			// View element should be the root of the file.
+			 // If there are multiple view elements, something is terribly wrong.
+			 // Therefore exception is thrown when such situation is encountered.
+			 
 			throw new XMLBrokenException("There are multiple roots or 'view' is something other than the root element in the xml file representing the user's view.");
 		}
 		
@@ -695,9 +714,10 @@ public class ViewHandlerNEW extends XMLHandler {
 		if(viewElement == null){
 			//If view element isn't found, throw exception
 			throw new ElementNullException("View element not found.");
-		}
+		}*/
 		
-		return viewElement;
+		//return viewElement;
+		return doc.getDocumentElement();
 	}
 	
 	/**
