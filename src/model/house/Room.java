@@ -19,12 +19,14 @@ public class Room {
 	private String name;
 	private final String roomID; 
 	
+	private House house;
 	private Hashtable<String, SmartItem> items;
 	
 	//--------- CONSTUCTORS --------------------------
 	
 	public Room(String roomID){
 		this.roomID = roomID;
+		this.house = house;
 	}
 	
 	public Room(String roomID, String name){
@@ -44,6 +46,16 @@ public class Room {
 	
 	public String getName(){
 		return name;
+	}
+	
+	//---------- HOUSE WHERE ROOM IS LOCATED ------------
+
+	public House getHouse(){
+		return house;
+	}
+	
+	public void setHouse(House house){
+		this.house = house;
 	}
 	
 	//---------- SET & GET ITEMS ----------------

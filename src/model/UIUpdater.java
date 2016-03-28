@@ -1,6 +1,7 @@
 package model;
 
 import java.util.LinkedList;
+import server.SmartHSystemImp;
 
 /**
  * Singleton that broadcasts updates to all registered listeners(UIs that need regular updating). 
@@ -11,6 +12,7 @@ public class UIUpdater {
 
 	private static final UIUpdater updater = new UIUpdater(); //Singleton
 	private static LinkedList<UpdateListener> listeners;
+	private SmartHSystemImp system; //System from which the data is collected.
 	
 	/**
 	 * Returns the UIUpdater instance.
@@ -26,10 +28,16 @@ public class UIUpdater {
 		listeners = new LinkedList<UpdateListener>();
 	}
 	
+	/**
+	 * 
+	 * @param system
+	 */
+	public void setSystem(SmartHSystemImp system) {
+		this.system = system;
+	}
 	
 //**********************************--- METHODS ---****************************************************************************
-	
-	
+
 	/**
 	 * Adds the listener to broadcasting list making it able to receive updates. 
 	 * @param listener Listener that is registered.
@@ -52,7 +60,7 @@ public class UIUpdater {
 	 * Sends a DataPack containing update data to all registered listeners.
 	 */
 	public void broadcastUpdate(){
-		//TODO Find out if any item data has been changed,
+		//TODO Find out if data has been changed,
 		//wrap it into a new DataPack, 
 		//and send it to all registered listeners
 	}
@@ -62,7 +70,7 @@ public class UIUpdater {
 	
 	/**
 	 * Interface for listening update broadcasts. 
-	 * All UIs that need updates from UI sessions should implement this. 
+	 * All UIs that need updates from other UI sessions should implement this. 
 	 * @author elmo
 	 */
 	public interface UpdateListener{

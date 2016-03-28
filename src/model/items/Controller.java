@@ -24,7 +24,7 @@ public class Controller extends SmartItem implements Serializable {
 	
 	public Controller(String controllerID, String controllerName, ControllerType type){
 		super(controllerID);
-		setControllerName(controllerName);
+		setName(controllerName);
 		setControllerType(type);
 	}
 	
@@ -40,15 +40,6 @@ public class Controller extends SmartItem implements Serializable {
 			case LIGHT:
 				super.setName("Light controller");
 		}
-	}
-	
-	public String getSensorName(){
-		return super.getName();
-	}
-	
-	// >>>> IMPORTANT: Please do not call this method straight from the client. It fill fuck things up as changes are not made to XML.
-	public void setControllerName(String newControllerName){
-		super.setName(newControllerName);
 	}
 	
 	//---------------- SENSOR TYPE ----------------------

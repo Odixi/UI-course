@@ -14,10 +14,6 @@ public class Appliance extends SmartItem implements Serializable {
 		
 	} //constructor
 
-	public String getID(){
-		return super.getID();
-	}
-	
 	//------- ON & OFF ---------
 	
 	public void turnON(){
@@ -37,13 +33,5 @@ public class Appliance extends SmartItem implements Serializable {
 	public void setDefaultname(){
 		super.setName(defaultname);
 	}
-	
-	public void setName(String name){
-		super.setName(name);
-	}
-	
-	public String getName(){
-		return super.getName();
-	}
-	
+
 }

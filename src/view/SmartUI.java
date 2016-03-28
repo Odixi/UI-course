@@ -129,7 +129,7 @@ public class SmartUI extends UI implements UpdateListener{
 	 */
 	@Override
 	public void detach() {
-		//TODO this.unregister(); (not working yet)
+		this.unregister();
 		super.detach();
 	}
 	
@@ -140,7 +140,7 @@ public class SmartUI extends UI implements UpdateListener{
 	 */
 	@Override
 	public void register() {
-		UIUpdater.getUpdater().register(this);
+		//TODO UIUpdater.getUpdater().register(this); (not working yet)
 	}
 	
 	/**
@@ -148,7 +148,7 @@ public class SmartUI extends UI implements UpdateListener{
 	 */
 	@Override
 	public void unregister() {
-		UIUpdater.getUpdater().unregister(this);
+		//TODO UIUpdater.getUpdater().unregister(this); (not working yet)
 	}
 	
 	/**
