@@ -131,7 +131,7 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		return viewHandler.getUserView(userID);
 	}
 
-	public boolean setUserView(String userID, Hashtable<String, Boolean> userview) throws RemoteException {
+	public boolean setUserView(String userID, Hashtable<String, Boolean> userview) throws RemoteException, ElementNullException {
 		return viewHandler.setUserView(userID, userview);
 	}
 

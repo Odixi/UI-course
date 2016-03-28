@@ -96,8 +96,9 @@ public class ViewHandlerNEW extends XMLHandler {
 	 * 
 	 * @param userID The ID of the user that the view is set for.
 	 * @param userview Hashtable includes IDs of all houses/rooms/items and whether they are included in the view.
+	 * @throws ElementNullException 
 	 */
-	public boolean setUserView(String userID, Hashtable<String, Boolean> userview){
+	public boolean setUserView(String userID, Hashtable<String, Boolean> userview) throws ElementNullException{
 
 		if( !userHasView(userID) ){
 			createDefaultView(userID);
@@ -117,7 +118,7 @@ public class ViewHandlerNEW extends XMLHandler {
 	 * @return
 	 * @throws ElementNullException 
 	 */
-	public Hashtable<String, Boolean> getUserView(String userID) throws ElementNullException{
+	public Hashtable<String, Boolean> getUserView(String userID) throws ElementNullException {
 		
 		Hashtable<String, Boolean> userview = new Hashtable<String, Boolean>();
 		
@@ -219,7 +220,7 @@ public class ViewHandlerNEW extends XMLHandler {
 	 * @return
 	 * @throws ElementNullException 
 	 */
-	private Hashtable<String, Boolean> recoverWithDefaultView(String userID) throws ElementNullException{
+	private Hashtable<String, Boolean> recoverWithDefaultView(String userID) throws ElementNullException {
 		
 		//Delete the corrupted file
 		deleteUserview(userID);
@@ -367,8 +368,9 @@ public class ViewHandlerNEW extends XMLHandler {
 	 * @param userID
 	 * @param userview 
 	 * @return
+	 * @throws ElementNullException 
 	 */
-	public boolean updateUserView(String userID, Hashtable<String, Boolean> userview){
+	public boolean updateUserView(String userID, Hashtable<String, Boolean> userview) throws ElementNullException{
 
 		Element viewElement;
 		
@@ -378,6 +380,9 @@ public class ViewHandlerNEW extends XMLHandler {
 		} catch (DocumentNullException | ElementNullException | XMLBrokenException e) {
 			//TODO Document is corrupted. What should be done?
 			System.out.println("UpdateUserView: The user's " + userID + " viewfile is corrupted. The file can't be updated.");
+			
+			//Recover from the error by recreating the view
+			recoverWithDefaultView(userID);
 			
 			//TODO Maybe the recovery method should be called?
 			

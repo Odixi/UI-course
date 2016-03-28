@@ -32,6 +32,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.VerticalLayout;
 
+import exceptions.ElementNullException;
 import server.SmartHSystem;
 /**
  * A view for admins to manage users and their views.
@@ -222,7 +223,10 @@ public class AdminView extends HorizontalLayout implements View{
 						return;
 					}
 					
-				} catch (RemoteException e) {e.printStackTrace();}
+				} catch (RemoteException e) {e.printStackTrace();} catch (ElementNullException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				if (needsUpdate){
 					updateUserList();
 				}
