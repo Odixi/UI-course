@@ -208,13 +208,19 @@ public class AdminView extends HorizontalLayout implements View{
 				} catch (RemoteException e) {e.printStackTrace();}
 				
 				// Laitetaan userViewValue hashtableen chackboxien avaimet ja arvot
-				Hashtable<String, Boolean> userViewValues = new Hashtable<>();
+				Hashtable<String, Boolean> userViewValues = new Hashtable<String, Boolean>();
 				for (int i = 0; i < houses.length; i++){
 					ArrayList<HiddenValueCheckBox> cbList = houses[i].getCheckBoxes();
 					for (int j = 0; j < cbList.size(); j++){
 							userViewValues.put(cbList.get(j).getHiddenValue(), cbList.get(j).getValue());
 					} // for j
 				} // for i
+				
+				//TODO REMOVE For testing only
+				System.out.println("AdminView: values to be saved:");
+				for(String itemID : userViewValues.keySet() ){
+					System.out.println("Item " + itemID + ", value: " + userViewValues.get(itemID));
+				}
 				
 				try {
 					
