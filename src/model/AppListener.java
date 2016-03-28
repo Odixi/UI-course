@@ -6,12 +6,13 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 
 /**
  * Listens when the web application is on and runs UI updating accordingly. 
  * @author elmo
- * 
  */
+@WebListener
 public class AppListener implements ServletContextListener {
 
 	ScheduledExecutorService exeService;

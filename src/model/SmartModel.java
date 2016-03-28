@@ -23,6 +23,7 @@ public class SmartModel {
 
 	private HouseObjectGenerator generator = new HouseObjectGenerator();
 	private Hashtable<String, House> houses;
+	private boolean dataChanged; //Used by UIUpdater to see if there's a need for an update.
 	
 	
 	//CONSTRUCTOR 
@@ -31,6 +32,7 @@ public class SmartModel {
 	
 		HouseObjectGenerator generator = new HouseObjectGenerator();
 		houses = generator.buildHouses(); 
+		dataChanged = false;
 		
 	}
 
@@ -59,8 +61,25 @@ public class SmartModel {
 		}
 	}
 	
-	//<o><o><o><o><o><o><o> JUST FOR TESTING! <o><o><o><o><o><o><o>
+	//TODO These two need synchronization
+	/**
+	 * 
+	 * @param dataChanged
+	 */
+	public void setDataChanged(boolean dataChanged) {
+		this.dataChanged = dataChanged;
+	}
+
+	/**
+	 * 
+	 * @return dataChanged
+	 */
+	public boolean isDataChanged() {
+		return dataChanged;
+	}
 	
+	//<o><o><o><o><o><o><o> JUST FOR TESTING! <o><o><o><o><o><o><o>
+
 	public static void printHouseStructure(Hashtable<String, House> houses){
 		
 		for( String houseID : houses.keySet() ){
@@ -120,10 +139,12 @@ public class SmartModel {
 	
 	public void turnLightOn(String houseID, String roomID, String itemID) throws IDMatchNotFoundException, IDTypeMismatch {
 		getHouse(houseID).getRoom(roomID).getLight(itemID).turnON();
+		this.setDataChanged(true);
 	}
 
 	public void turnLightOff(String houseID, String roomID, String itemID) throws IDMatchNotFoundException, IDTypeMismatch {
 		getHouse(houseID).getRoom(roomID).getLight(itemID).turnOFF();
+		this.setDataChanged(true);
 	}
 	
 	//<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x> SENSORS <x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>
@@ -131,21 +152,35 @@ public class SmartModel {
 	//<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x> CONTROLLERS <x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>
 	
 	public boolean setControllerValue(String houseID, String roomID, String itemID, double newValue) throws IDTypeMismatch, IDMatchNotFoundException{
-		return getHouse(houseID).getRoom(roomID).getController(itemID).setValue(newValue);
+		if(getHouse(houseID).getRoom(roomID).getController(itemID).setValue(newValue)){
+			this.setDataChanged(true);
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 	
 	//<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x> APPLIANCES <x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>
 	
 	public void turnApplianceOn(String houseID, String roomID, String itemID) throws IDMatchNotFoundException, IDTypeMismatch {
 		getHouse(houseID).getRoom(roomID).getAppliance(itemID).turnON();
+		this.setDataChanged(true);
 	}
 
 	public void turnApplianceOff(String houseID, String roomID, String itemID) throws IDMatchNotFoundException, IDTypeMismatch {
 		getHouse(houseID).getRoom(roomID).getAppliance(itemID).turnOFF();
+		this.setDataChanged(true);
 	}
 
 	public boolean setAudioVolume(String houseID, String roomID, String itemID, int newVolume) throws IDMatchNotFoundException, IDTypeMismatch {
-		return getHouse(houseID).getRoom(roomID).getAudioDevice(itemID).setVolume(newVolume);
+		if(getHouse(houseID).getRoom(roomID).getAudioDevice(itemID).setVolume(newVolume)){
+			this.setDataChanged(true);
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 	
 // o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o HELP METHODS o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o
