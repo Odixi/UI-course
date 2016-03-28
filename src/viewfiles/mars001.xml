@@ -45,7 +45,7 @@
   <house houseID="h002" inView="true">
         <houseName>Cool House</houseName>
         
-        <room inView="true" roomID="h002001">
+        <room inView="false" roomID="h002001">
             <roomName>Hall</roomName>
             
             <light inView="true" lightID="h2r1L001">

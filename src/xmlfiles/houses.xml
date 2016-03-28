@@ -18,6 +18,10 @@
         <light lightID="h1r1L002">
            <lightName>Floor lamp</lightName>
         </light>
+        <sensor sensorID="h001r001sh001">
+            <sensorName>Humidity sensor</sensorName>
+            <sensorType>humidity</sensorType>
+        </sensor>
       </room>
       <room roomID="h001r002">
            <roomName>Big bedroom</roomName>
@@ -31,11 +35,30 @@
                 <lightName>Bedside lamp (left)</lightName>
            </light>
            <sensor sensorID="h1r2S001">
-                <sensorName>Temperature</sensorName>
+                <sensorName>Temperature sensor</sensorName>
                 <sensorType>temperature</sensorType>
+           </sensor>
+           <sensor sensorID="h1r2lightsensor001">
+                <sensorName>Light sensor</sensorName>
+                <sensorType>lightsensor</sensorType>
            </sensor>
       </room>
       
+      <room roomID="h001r003">
+            <roomName>Kitchen</roomName>
+            <light lightID="h001r003kitchencealinglight1">
+                <lightName>Kitchen ceiling light</lightName>
+            </light>
+            <appliance applianceID="h001r003coffeemaker1">
+                <applianceName>Coffee maker</applianceName>
+                <applianceType>turnOnOff</applianceType>
+            </appliance>
+ 
+            <appliance applianceID="h001r003dishwasher1">
+                <applianceName>Dishwasher</applianceName>
+                <applianceType>turnOnOff</applianceType>
+            </appliance>
+      </room>
   </house>
   
   

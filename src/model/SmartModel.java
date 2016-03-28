@@ -10,6 +10,7 @@ import exceptions.IDTypeMismatch;
 import model.HouseObjectGenerator;
 import model.house.House;
 import model.house.Room;
+import model.items.Sensor;
 import model.items.SmartItem;
 
 /**
@@ -98,6 +99,10 @@ public class SmartModel {
 				
 				for(String itemID : items.keySet()){
 					System.out.println("Itemname: " + items.get(itemID).getName() + ", itemID: " + itemID); 
+					
+					if(items.get(itemID) instanceof Sensor){
+						System.out.println("Item is sensor, sensor type: " + ((Sensor)items.get(itemID)).getSensorType().toString() );
+					}
 				}
 			}
 		}	
