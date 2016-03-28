@@ -58,7 +58,7 @@ public class ItemComponentSensor extends CustomComponent implements ItemComponen
 		
 		
 		name = new Label(sensor.getName());
-		value = new Label(sensor.getSensorValue() + sensor.getSensorUnit().getUnit());
+		value = new Label(sensor.getSensorValue() + " " +  sensor.getSensorUnit().getUnit());
 		
 		layout.addComponent(name);
 		layout.addComponent(value);
@@ -79,7 +79,7 @@ public class ItemComponentSensor extends CustomComponent implements ItemComponen
 			value.setValue("-");
 			e.printStackTrace();
 		}
-		value.setValue(sensor.getSensorValue() + sensor.getSensorUnit().getUnit());
+		value.setValue(sensor.getSensorValue() + " " + sensor.getSensorUnit().getUnit());
 	}
 	
 	public String toString(){

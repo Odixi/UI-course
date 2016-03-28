@@ -131,7 +131,7 @@ public class AdminView extends HorizontalLayout implements View{
         removeUser.addPopupVisibilityListener(new PopupVisibilityListener() {
         	@Override
 			public void popupVisibilityChange(PopupVisibilityEvent event) {
-				pc.setValues((String)userSelect.getValue()); //Päivitetään popupViewi
+				pc.setValues((String)userSelect.getItemCaption(userSelect.getValue())); //Päivitetään popupViewi
 			}
 		});
         

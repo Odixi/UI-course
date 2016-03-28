@@ -111,9 +111,6 @@ public class ItemComponentController extends CustomComponent implements ItemComp
 									controller.getControllerValue() + Math.sqrt(controller.getControllerValue()) + controller.getControllerValue() * 0.1)){
 								Notification.show("Out of range!");
 							}
-							else{
-								Notification.show("" + (controller.getControllerValue() + Math.sqrt(controller.getControllerValue()) + controller.getControllerValue() * 0.1));
-							}
 						}
 						update();
 					}
