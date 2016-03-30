@@ -18,7 +18,7 @@ import model.items.SmartItem;
 import server.SmartHSystem;
 
 /**
- * A component which holds the rooms item components
+ * A custom component which holds the rooms item components
  * @author Ville
  *
  */

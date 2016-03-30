@@ -22,22 +22,31 @@ import exceptions.ElementNullException;
 import java_cup.version;
 import server.SmartHSystem;
 
-/*
- *  AdminVIewin komponentti, jossa
- *  hierarkinen ruksiboxi lista talon huoneista ja niiden esineistä
+/**
+ * Custom component for AdminView for selecting items to users views.
+ * Associated with spesific house.
+ * @author Ville
+ *
  */
 public class RoomListComponent extends CustomComponent {
 
-	VerticalLayout layout;
-	VerticalLayout roomLayouts[];
-	VerticalLayout itemLayouts[];
-	HiddenValueCheckBox houseBox;
-	HiddenValueCheckBox[][] checkBoxes;
-	SmartHSystem shsystem;
-	String[] rooms;
-	Panel panel;
-	AdminView av;
-	
+	private VerticalLayout layout;
+	private VerticalLayout roomLayouts[];
+	private VerticalLayout itemLayouts[];
+	private HiddenValueCheckBox houseBox;
+	private HiddenValueCheckBox[][] checkBoxes;
+	private SmartHSystem shsystem;
+	private String[] rooms;
+	private Panel panel;
+	private AdminView av;
+		
+	/**
+	 * 
+	 * @param houseID
+	 * @param houseName
+	 * @param shsystem
+	 * @param adminView
+	 */
 		public RoomListComponent(String houseID, String houseName, SmartHSystem shsystem, AdminView av){
 			
 			this.av = av;
@@ -127,7 +136,11 @@ public class RoomListComponent extends CustomComponent {
 			updateCbs();
 			setCompositionRoot(panel);
 		}
-		
+		/**
+		 * For getting the intended values of userView
+		 * Called from adminView
+		 * @return ArrayList of HiddenCheckBoxes 
+		 */
 		public ArrayList<HiddenValueCheckBox> getCheckBoxes(){
 			ArrayList<HiddenValueCheckBox> list = new ArrayList<HiddenValueCheckBox>();
 			for (int i = 0; i < checkBoxes.length; i++){
@@ -139,7 +152,10 @@ public class RoomListComponent extends CustomComponent {
 			return list;
 		}
 		
-		// Haetaan käyttäjän oikeudet serveriltä
+		/**
+		 * Updates the checkbox values to correspond selected users view
+		 * Called from adminView
+		 */
 		public void updateCheckBoxesFromServer(){
 			
 			if ( av.getSelectedUserID() != null ){ //If user is selected
@@ -172,7 +188,7 @@ public class RoomListComponent extends CustomComponent {
 		}
 		
 		// Disabloidaan / enablidaan checkboxit, riippuen sen vanhempien valoinnoista
-		public void updateCbs(){
+		private void updateCbs(){
 			
 			for (int i = 0; i < checkBoxes.length; i++){
 				if (!houseBox.getValue()){
