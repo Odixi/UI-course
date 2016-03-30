@@ -21,7 +21,13 @@ public class HouseTabSheet extends CustomComponent{
 	Hashtable<String, Boolean> userView;
 	ArrayList<RoomContentComponent> componentList;
 	
-	public HouseTabSheet(SmartHSystem shsystem, SmartUI ui, String houseID, Hashtable<String,Boolean> userView){
+	/**
+	 * 
+	 * @param shsystem for RMI calls
+	 * @param houseID
+	 * @param userView
+	 */
+	public HouseTabSheet(SmartHSystem shsystem, String houseID, Hashtable<String,Boolean> userView){
 		
 		tabsheet = new TabSheet();
 		this.userView = userView;
@@ -37,7 +43,7 @@ public class HouseTabSheet extends CustomComponent{
 			rooms = shsystem.getRoomNames(houseID);
 			for (String key : rooms.keySet()){
 				if (userView.get(key)){
-					temp = new RoomContentComponent(shsystem, ui, key, houseID, userView);
+					temp = new RoomContentComponent(shsystem, key, houseID, userView);
 					tabsheet.addTab(temp, rooms.get(key));
 					componentList.add(temp);
 				}

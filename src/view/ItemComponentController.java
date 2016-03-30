@@ -32,10 +32,6 @@ public class ItemComponentController extends CustomComponent implements ItemComp
 	private SmartHSystem shsystem;
 	private Controller controller;
 	
-	private String itemID;
-	private String houseID;
-	private String roomID;
-	
 	private Panel panel;
 	private VerticalLayout layout;
 	private HorizontalLayout layout2;
@@ -47,13 +43,10 @@ public class ItemComponentController extends CustomComponent implements ItemComp
 	private DecimalFormat df;
 	
 	
-	public ItemComponentController(SmartHSystem shsystem,String houseID, String roomID, String itemID, Controller control){
+	public ItemComponentController(SmartHSystem shsystem, Controller control){
 		
 		this.controller = control;
 		this.shsystem = shsystem;
-		this.itemID = itemID;
-		this.houseID = houseID;
-		this.roomID = roomID;
 		panel = new Panel();
 		
 		layout = new VerticalLayout();
@@ -86,13 +79,17 @@ public class ItemComponentController extends CustomComponent implements ItemComp
 				try {
 					
 					if (controller.getControllerUnit() == SensorUnit.CELCIUS){
-						if (!shsystem.setControllerValue(houseID, roomID, itemID, controller.getControllerValue() + 0.5)){
+						if (!shsystem.setControllerValue(
+								controller.getHouse().getID(), controller.getRoom().getID(), controller.getID(), 
+								controller.getControllerValue() + 0.5)){
 							Notification.show("Out of range!");
 						}
 						update();
 					}
 					else if (controller.getControllerUnit() == SensorUnit.HUMIDITYPERCENT){
-						if (!shsystem.setControllerValue(houseID, roomID, itemID, controller.getControllerValue() + 5.0)){
+						if (!shsystem.setControllerValue(
+								controller.getHouse().getID(), controller.getRoom().getID(), controller.getID(),
+								controller.getControllerValue() + 5.0)){
 							Notification.show("Out of range!");
 						}
 						update();
@@ -102,12 +99,14 @@ public class ItemComponentController extends CustomComponent implements ItemComp
 						// Because why not
 						
 						if (controller.getControllerValue() <= 0){
-							if (!shsystem.setControllerValue(houseID, roomID, itemID, 1)){
+							if (!shsystem.setControllerValue(
+									controller.getHouse().getID(), controller.getRoom().getID(), controller.getID(), 1)){
 								Notification.show("Out of range!");
 							}
 						}
 						else{
-							if (!shsystem.setControllerValue(houseID, roomID, itemID, 
+							if (!shsystem.setControllerValue(
+									controller.getHouse().getID(), controller.getRoom().getID(), controller.getID(), 
 									controller.getControllerValue() + Math.sqrt(controller.getControllerValue()) + controller.getControllerValue() * 0.1)){
 								Notification.show("Out of range!");
 							}
@@ -134,13 +133,17 @@ public class ItemComponentController extends CustomComponent implements ItemComp
 			public void buttonClick(ClickEvent event) {
 				try {
 					if (controller.getControllerUnit() == SensorUnit.CELCIUS){
-						if (!shsystem.setControllerValue(houseID, roomID, itemID, controller.getControllerValue() - 0.5)){
+						if (!shsystem.setControllerValue(
+								controller.getHouse().getID(), controller.getRoom().getID(), controller.getID(),
+								controller.getControllerValue() - 0.5)){
 							Notification.show("Out of range!");
 						}
 						update();
 					}
 					else if (controller.getControllerUnit() == SensorUnit.HUMIDITYPERCENT){
-						if (!shsystem.setControllerValue(houseID, roomID, itemID, controller.getControllerValue() - 5.0)){
+						if (!shsystem.setControllerValue(
+								controller.getHouse().getID(), controller.getRoom().getID(), controller.getID(),
+								controller.getControllerValue() - 5.0)){
 							Notification.show("Out of range!");
 						}
 						update();
@@ -148,7 +151,8 @@ public class ItemComponentController extends CustomComponent implements ItemComp
 					else if (controller.getControllerUnit() == SensorUnit.LUMEN){
 						// Lets add value: value + sqrt(value) + value * 0.1 
 						// Because why not
-						if (!shsystem.setControllerValue(houseID, roomID, itemID, 
+						if (!shsystem.setControllerValue(
+								controller.getHouse().getID(), controller.getRoom().getID(), controller.getID(), 
 								controller.getControllerValue() - Math.sqrt(controller.getControllerValue()) - controller.getControllerValue() * 0.1)){
 							Notification.show("Out of range!");
 						}
@@ -183,7 +187,8 @@ public class ItemComponentController extends CustomComponent implements ItemComp
 	 */
 	public void update() {
 		try {
-			controller = (Controller) shsystem.getSmartItem(houseID, roomID, itemID);
+			controller = (Controller) shsystem.getSmartItem(
+					controller.getHouse().getID(), controller.getRoom().getID(), controller.getID());
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} catch (IDMatchNotFoundException e) {

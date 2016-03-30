@@ -23,6 +23,11 @@ public class ChangePasswordPopupContent implements PopupView.Content {
 	VerticalLayout layout;
 	PopupView pv;
 	
+	/**
+	 * 
+	 * @param shsystem for RMI calls
+	 * @param username which password is going to be changed
+	 */
 	public ChangePasswordPopupContent(SmartHSystem shsystem, String username){
 		
 		layout = new VerticalLayout();

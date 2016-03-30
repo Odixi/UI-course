@@ -23,10 +23,6 @@ public class ItemComponentSensor extends CustomComponent implements ItemComponen
 	private Sensor sensor;
 	private SmartHSystem shsystem;
 	
-	private String itemID;
-	private String houseID;
-	private String roomID;
-	
 	private Panel panel;
 	private VerticalLayout layout;
 	private Label name;
@@ -35,19 +31,12 @@ public class ItemComponentSensor extends CustomComponent implements ItemComponen
 	/**
 	 * 
 	 * @param shsystem
-	 * @param houseID
-	 * @param roomID
-	 * @param itemID
 	 * @param sensor
 	 */
-	public ItemComponentSensor(SmartHSystem shsystem,String houseID, String roomID, String itemID, Sensor sensor){
+	public ItemComponentSensor(SmartHSystem shsystem, Sensor s){
 		
-		this.sensor = sensor;
+		this.sensor = s;
 		this.shsystem = shsystem;
-		
-		this.itemID = itemID;
-		this.houseID = houseID;
-		this.roomID = roomID;
 		
 		panel = new Panel();
 		layout = new VerticalLayout();
@@ -71,7 +60,7 @@ public class ItemComponentSensor extends CustomComponent implements ItemComponen
 	 */
 	public void update(){
 		try {
-			sensor = (Sensor) shsystem.getSmartItem(itemID);
+			sensor = (Sensor) shsystem.getSmartItem(sensor.getHouse().getID(), sensor.getRoom().getID(), sensor.getID());
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} catch (IDMatchNotFoundException e) {

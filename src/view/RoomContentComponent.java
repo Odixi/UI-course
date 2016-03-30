@@ -28,7 +28,7 @@ public class RoomContentComponent extends CustomComponent {
 	private Hashtable<String, String> items;
 	private Hashtable<String, Boolean> userView;
 	
-	public RoomContentComponent(SmartHSystem shsystem, SmartUI ui, String roomID, String houseID, Hashtable<String, Boolean> userView){
+	public RoomContentComponent(SmartHSystem shsystem, String roomID, String houseID, Hashtable<String, Boolean> userView){
 		
 		layout = new VerticalLayout();
 		this.userView = userView;
@@ -42,19 +42,19 @@ public class RoomContentComponent extends CustomComponent {
 
 					SmartItem si = shsystem.getSmartItem(houseID, roomID, key);
 					if (si instanceof Sensor){
-						layout.addComponent(new ItemComponentSensor(shsystem, houseID, roomID, key, (Sensor)si));
+						layout.addComponent(new ItemComponentSensor(shsystem, (Sensor)si));
 					}
 					else if (si instanceof AudioDevice){
-						layout.addComponent(new ItemComponentAudioDevice(shsystem, houseID, roomID, key, (AudioDevice)si));
+						layout.addComponent(new ItemComponentAudioDevice(shsystem, (AudioDevice)si));
 					}
 					else if (si instanceof Appliance){
-						layout.addComponent(new ItemComponentAppliance(shsystem, houseID, roomID, key, (Appliance)si));
+						layout.addComponent(new ItemComponentAppliance(shsystem, (Appliance)si));
 					}
 					else if (si instanceof Light){
-						layout.addComponent(new ItemComponentLight(shsystem, houseID, roomID, key, (Light)si));
+						layout.addComponent(new ItemComponentLight(shsystem, (Light)si));
 					}
 					else if (si instanceof Controller){
-						layout.addComponent(new ItemComponentController(shsystem, houseID, roomID, key, (Controller)si));
+						layout.addComponent(new ItemComponentController(shsystem, (Controller)si));
 					}
 				}
 				
@@ -65,7 +65,7 @@ public class RoomContentComponent extends CustomComponent {
 			layout.addComponent(new Label("Could not get item from server. Something bad happend :("));
 			e.printStackTrace();
 		} catch (ElementNullException e) {
-			// TODO Auto-generated catch block
+			layout.addComponent(new Label("Could not get item from server. Something bad happend :("));
 			e.printStackTrace();
 		}
 		setCompositionRoot(layout);
