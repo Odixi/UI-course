@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><tns:view xmlns:tns="http://www.example.org/views" viewID="abfbe9a9-e291-4a6f-bbbe-cc3cbdf6e5be">
-    <tns:user userID="mars001"/>
+<?xml version="1.0" encoding="UTF-8"?><tns:view xmlns:tns="http://www.example.org/views" viewID="b0b4900b-0c50-4191-aaac-02de5c138c15">
+    <tns:user userID="vvv555"/>
     <tns:houses xmlns="http://www.example.org/houseStructures" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/houseStructures houseStructures.xsd ">
    
         
@@ -19,6 +19,10 @@
         <light inView="true" lightID="h1r1L002">
            <lightName>Floor lamp</lightName>
         </light>
+        <sensor inView="true" sensorID="h001r001sh001">
+            <sensorName>Humidity sensor</sensorName>
+            <sensorType>humidity</sensorType>
+        </sensor>
       </room>
       <room inView="true" roomID="h001r002">
            <roomName>Big bedroom</roomName>
@@ -32,11 +36,30 @@
                 <lightName>Bedside lamp (left)</lightName>
            </light>
            <sensor inView="true" sensorID="h1r2S001">
-                <sensorName>Temperature</sensorName>
+                <sensorName>Temperature sensor</sensorName>
                 <sensorType>temperature</sensorType>
+           </sensor>
+           <sensor inView="true" sensorID="h1r2lightsensor001">
+                <sensorName>Light sensor</sensorName>
+                <sensorType>lightsensor</sensorType>
            </sensor>
       </room>
       
+      <room inView="true" roomID="h001r003">
+            <roomName>Kitchen</roomName>
+            <light inView="true" lightID="h001r003kitchencealinglight1">
+                <lightName>Kitchen ceiling light</lightName>
+            </light>
+            <appliance applianceID="h001r003coffeemaker1" inView="true">
+                <applianceName>Coffee maker</applianceName>
+                <applianceType>turnOnOff</applianceType>
+            </appliance>
+ 
+            <appliance applianceID="h001r003dishwasher1" inView="true">
+                <applianceName>Dishwasher</applianceName>
+                <applianceType>turnOnOff</applianceType>
+            </appliance>
+      </room>
   </house>
   
   
@@ -45,7 +68,7 @@
   <house houseID="h002" inView="true">
         <houseName>Cool House</houseName>
         
-        <room inView="false" roomID="h002001">
+        <room inView="true" roomID="h002001">
             <roomName>Hall</roomName>
             
             <light inView="true" lightID="h2r1L001">
