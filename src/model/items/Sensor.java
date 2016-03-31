@@ -39,10 +39,13 @@ public class Sensor extends SmartItem implements Serializable {
 		switch(sensorType) {
 			case TEMPERATURE:
 				setName("Temperature sensor");
+				break;
 			case HUMIDITY:
-				setName("Humidity sensor");;
+				setName("Humidity sensor");
+				break;
 			case LIGHT:
 				setName("Light sensor");
+				break;
 			}
 	}
 
@@ -61,15 +64,19 @@ public class Sensor extends SmartItem implements Serializable {
 				sensorUnit = SensorUnit.CELCIUS;
 				maxValue = 150;
 				minValue = -50;
+				break;
+				
 			case HUMIDITY:
 				sensorUnit = SensorUnit.HUMIDITYPERCENT;
 				maxValue = 100;
 				minValue = 0;
+				break;
 				
 			case LIGHT:
 				sensorUnit = SensorUnit.LUMEN;
 				maxValue = 20000;
 				minValue = 0;
+				break;
 		}	
 	}
 	
