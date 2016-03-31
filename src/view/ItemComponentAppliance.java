@@ -23,10 +23,6 @@ import server.SmartHSystem;
  */
 public class ItemComponentAppliance extends CustomComponent implements ItemComponent{
 	
-	private String itemID;
-	private String houseID;
-	private String roomID;
-	
 	private SmartHSystem shsystem;
 	private Appliance appliance;
 	
@@ -38,19 +34,12 @@ public class ItemComponentAppliance extends CustomComponent implements ItemCompo
 	/**
 	 * 
 	 * @param shsystem
-	 * @param houseID
-	 * @param roomID
-	 * @param itemID
 	 * @param appliance
 	 */
-	public ItemComponentAppliance(SmartHSystem shsystem,String houseID, String roomID, String itemID, Appliance appliance){
+	public ItemComponentAppliance(SmartHSystem shsystem, Appliance a){
 		
-		this.appliance = appliance;
+		this.appliance = a;
 		this.shsystem = shsystem;
-		
-		this.itemID = itemID;
-		this.houseID = houseID;
-		this.roomID = roomID;
 		
 		panel = new Panel();
 		layout = new VerticalLayout();
@@ -59,8 +48,8 @@ public class ItemComponentAppliance extends CustomComponent implements ItemCompo
 		
 		panel.setContent(layout);
 		
-		name = new Label(appliance.getName()); // Sould this just be removed?
-		value = new CheckBox(appliance.getName());
+		name = new Label(appliance.getName());
+		value = new CheckBox("On / Off");
 		value.setValue(appliance.isON());
 		
 		value.addValueChangeListener(new ValueChangeListener() {
@@ -70,7 +59,7 @@ public class ItemComponentAppliance extends CustomComponent implements ItemCompo
 				// When appliance is turned on / off
 				if (value.getValue()){
 					try {
-						shsystem.turnApplianceOn(houseID, roomID, itemID);
+						shsystem.turnApplianceOn(appliance.getHouse().getID(), appliance.getRoom().getID(), appliance.getID());
 					} catch (RemoteException e) {
 						e.printStackTrace();
 					} catch (IDTypeMismatch e) {
@@ -83,7 +72,7 @@ public class ItemComponentAppliance extends CustomComponent implements ItemCompo
 				}
 				else{
 					try {
-						shsystem.turnApplianceOff(houseID, roomID, itemID);
+						shsystem.turnApplianceOff(appliance.getHouse().getID(), appliance.getRoom().getID(), appliance.getID());
 					} catch (RemoteException e) {
 						e.printStackTrace();
 					} catch (IDTypeMismatch e) {
@@ -109,7 +98,7 @@ public class ItemComponentAppliance extends CustomComponent implements ItemCompo
 	 */
 	public void update(){
 		try {
-			appliance = (Appliance) shsystem.getSmartItem(houseID, roomID, itemID);
+			appliance = (Appliance) shsystem.getSmartItem(appliance.getHouse().getID(), appliance.getRoom().getID(), appliance.getID());
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} catch (IDMatchNotFoundException e) {

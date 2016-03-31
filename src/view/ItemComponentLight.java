@@ -23,10 +23,6 @@ import server.SmartHSystem;
  */
 public class ItemComponentLight extends CustomComponent implements ItemComponent{
 	
-	private String itemID;
-	private String houseID;
-	private String roomID;
-	
 	private SmartHSystem shsystem;
 	private Light light;
 	
@@ -35,14 +31,15 @@ public class ItemComponentLight extends CustomComponent implements ItemComponent
 	private Label name;
 	private CheckBox on;
 	
-	public ItemComponentLight(SmartHSystem shsystem,String houseID, String roomID, String itemID, Light light){
+	/**
+	 * 
+	 * @param shsystem
+	 * @param light
+	 */
+	public ItemComponentLight(SmartHSystem shsystem, Light l){
 		
-		this.light = light;
+		this.light = l;
 		this.shsystem = shsystem;
-		
-		this.itemID = itemID;
-		this.houseID = houseID;
-		this.roomID = roomID;
 		
 		panel = new Panel();
 		layout = new VerticalLayout();
@@ -51,8 +48,8 @@ public class ItemComponentLight extends CustomComponent implements ItemComponent
 		
 		panel.setContent(layout);
 		
-		name = new Label(light.getName()); // Should this be removed?
-		on = new CheckBox(light.getName());
+		name = new Label(light.getName());
+		on = new CheckBox("On / Off");
 		on.setValue(light.isON());
 		
 		on.addValueChangeListener(new ValueChangeListener() {
@@ -62,7 +59,7 @@ public class ItemComponentLight extends CustomComponent implements ItemComponent
 				// When turning lights on / off...
 				if (on.getValue()){
 					try {
-						shsystem.turnLightOn(houseID, roomID, itemID);
+						shsystem.turnLightOn(light.getHouse().getID(), light.getRoom().getID(), light.getID());
 					} catch (RemoteException e) {
 						e.printStackTrace();
 					} catch (IDMatchNotFoundException e) {
@@ -75,7 +72,7 @@ public class ItemComponentLight extends CustomComponent implements ItemComponent
 				}
 				else {
 					try {
-						shsystem.turnLightOff(houseID, roomID, itemID);
+						shsystem.turnLightOff(light.getHouse().getID(), light.getRoom().getID(), light.getID());
 					} catch (RemoteException e) {
 						e.printStackTrace();
 					} catch (IDTypeMismatch e) {
@@ -100,7 +97,7 @@ public class ItemComponentLight extends CustomComponent implements ItemComponent
 	 */
 	public void update(){
 		try {
-			light = (Light) shsystem.getSmartItem(houseID, roomID, itemID);
+			light = (Light) shsystem.getSmartItem(light.getHouse().getID(), light.getRoom().getID(), light.getID());
 			
 		} catch (RemoteException e) {
 			e.printStackTrace();

@@ -113,7 +113,7 @@ public class UserView extends VerticalLayout implements View{
     	   @Override
 			public void valueChange(ValueChangeEvent event) {
     		removeComponent(htb);
-    		htb = new HouseTabSheet(shsystem, ui, (String)houseSelect.getValue(), userView); 
+    		htb = new HouseTabSheet(shsystem, (String)houseSelect.getValue(), userView); 
 			addComponent(htb);
 			
 		}
@@ -168,7 +168,7 @@ public class UserView extends VerticalLayout implements View{
         
         // initiate house view if the user has the rights
         if (!houseSelect.isEmpty()){
-        	htb = new HouseTabSheet(shsystem, ui, (String)houseSelect.getValue(), userView);
+        	htb = new HouseTabSheet(shsystem, (String)houseSelect.getValue(), userView);
 			addComponent(htb);
     	}
         else{

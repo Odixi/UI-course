@@ -31,7 +31,11 @@ import server.SmartHSystem;
 
 import com.vaadin.ui.Button.ClickEvent;
 
-
+/**
+ *  Initial view for users to login
+ * @author Ville
+ *
+ */
 public class LoginView extends VerticalLayout implements View{
 
 	//Attributes
@@ -42,7 +46,11 @@ public class LoginView extends VerticalLayout implements View{
 	private SmartUI ui;
 	
 
-	//CONSTRUCTOR
+	/**
+	 * 
+	 * @param ui
+	 * @param shsystem for RMI calls
+	 */
 	public LoginView(SmartUI ui, SmartHSystem shsystem){
 		super();
 		this.ui = ui;
@@ -203,6 +211,9 @@ public class LoginView extends VerticalLayout implements View{
 		
 	}
 	
+	/*
+	 * This is run when users try to login
+	 */
 	private void login(){
     	// if username field is empty
     	if (userSelect.getValue() == null){
@@ -244,8 +255,6 @@ public class LoginView extends VerticalLayout implements View{
 	
 	@Override
 	public void enter(ViewChangeEvent event) {
-		
-		
 	}
 	
 }

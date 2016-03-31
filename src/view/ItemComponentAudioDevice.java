@@ -26,10 +26,6 @@ import server.SmartHSystem;
  */
 public class ItemComponentAudioDevice extends CustomComponent implements ItemComponent{
 	
-	private String itemID;
-	private String houseID;
-	private String roomID;
-	
 	private SmartHSystem shsystem;
 	private AudioDevice audioDevice;
 	
@@ -39,14 +35,10 @@ public class ItemComponentAudioDevice extends CustomComponent implements ItemCom
 	private Slider volume;
 	private CheckBox on;
 	
-	public ItemComponentAudioDevice(SmartHSystem shsystem,String houseID, String roomID, String itemID, AudioDevice audioDevice){
+	public ItemComponentAudioDevice(SmartHSystem shsystem, AudioDevice audioDevice){
 		
 		this.audioDevice = audioDevice;
 		this.shsystem = shsystem;
-		
-		this.itemID = itemID;
-		this.houseID = houseID;
-		this.roomID = roomID;
 		
 		panel = new Panel();
 		layout = new VerticalLayout();
@@ -66,7 +58,8 @@ public class ItemComponentAudioDevice extends CustomComponent implements ItemCom
 				if (on.getValue()){
 					volume.setEnabled(true);
 					try {
-						shsystem.turnApplianceOn(houseID, roomID, itemID);
+						shsystem.turnApplianceOn(
+								audioDevice.getHouse().getID(), audioDevice.getRoom().getID(), audioDevice.getID());
 						
 					} catch (RemoteException e) {
 						e.printStackTrace();
@@ -82,8 +75,10 @@ public class ItemComponentAudioDevice extends CustomComponent implements ItemCom
 					volume.setEnabled(false);
 					volume.setValue(0.0);
 					try{
-						shsystem.turnApplianceOff(houseID, roomID, itemID);
-						shsystem.setAudioVolume(houseID, roomID, itemID, 0);
+						shsystem.turnApplianceOff(
+								audioDevice.getHouse().getID(), audioDevice.getRoom().getID(), audioDevice.getID());
+						shsystem.setAudioVolume(
+								audioDevice.getHouse().getID(), audioDevice.getRoom().getID(), audioDevice.getID(), 0);
 						
 					}catch (RemoteException e){
 						e.printStackTrace();
@@ -112,7 +107,9 @@ public class ItemComponentAudioDevice extends CustomComponent implements ItemCom
 			public void valueChange(ValueChangeEvent event) {
 //				Notification.show(volume.getValue().toString());
 				try {
-					shsystem.setAudioVolume(houseID, roomID, itemID, volume.getValue().intValue());
+					shsystem.setAudioVolume(
+							audioDevice.getHouse().getID(), audioDevice.getRoom().getID(), audioDevice.getID(),
+							volume.getValue().intValue());
 					
 				} catch (RemoteException e) {
 					e.printStackTrace();
@@ -139,7 +136,8 @@ public class ItemComponentAudioDevice extends CustomComponent implements ItemCom
 	 */
 	public void update(){
 		try {
-			audioDevice = (AudioDevice) shsystem.getSmartItem(houseID, roomID, itemID);
+			audioDevice = (AudioDevice) shsystem.getSmartItem(
+					audioDevice.getHouse().getID(), audioDevice.getRoom().getID(), audioDevice.getID());
 			
 		} catch (RemoteException e) {
 			e.printStackTrace();
