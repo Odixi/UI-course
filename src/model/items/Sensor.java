@@ -68,6 +68,8 @@ public class Sensor extends SmartItem implements Serializable {
 				
 			case LIGHT:
 				sensorUnit = SensorUnit.LUMEN;
+				maxValue = 20000;
+				minValue = 0;
 		}	
 	}
 	
