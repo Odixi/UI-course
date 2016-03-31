@@ -35,6 +35,7 @@ public class HouseTabSheet extends CustomComponent{
 		try {
 			RoomContentComponent temp;
 			rooms = shsystem.getRoomNames(houseID);
+
 			for (String key : rooms.keySet()){
 				if (userView.get(key)){
 					temp = new RoomContentComponent(shsystem, ui, key, houseID, userView);
