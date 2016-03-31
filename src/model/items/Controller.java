@@ -35,10 +35,15 @@ public class Controller extends SmartItem implements Serializable {
 		switch(controllerType) {
 			case TEMPERATURE:
 				super.setName("Temperature controller");
+				break;
+				
 			case HUMIDITY:
 				super.setName("Humidity controller");
+				break;
+				
 			case LIGHT:
 				super.setName("Light controller");
+				break;
 		}
 	}
 	
@@ -56,14 +61,19 @@ public class Controller extends SmartItem implements Serializable {
 				unit = SensorUnit.CELCIUS;	
 				maxValue = 150;
 				minValue = -50;
+				break;
+				
 			case HUMIDITY:
 				unit = SensorUnit.HUMIDITYPERCENT;
 				maxValue = 100;
 				minValue = 0;
+				break;
+				
 			case LIGHT:
 				unit = SensorUnit.LUMEN;
 				maxValue = 20000;
 				minValue = 0;
+				break;
 		}
 		
 	}
