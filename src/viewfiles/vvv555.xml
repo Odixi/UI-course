@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><tns:view xmlns:tns="http://www.example.org/views" viewID="b0b4900b-0c50-4191-aaac-02de5c138c15">
+<?xml version="1.0" encoding="UTF-8"?><tns:view xmlns:tns="http://www.example.org/views" viewID="d3d8de9a-1434-48e3-9c57-90eeec86face">
     <tns:user userID="vvv555"/>
     <tns:houses xmlns="http://www.example.org/houseStructures" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/houseStructures houseStructures.xsd ">
    
@@ -19,10 +19,14 @@
         <light inView="true" lightID="h1r1L002">
            <lightName>Floor lamp</lightName>
         </light>
-        <sensor inView="true" sensorID="h001r001sh001">
-            <sensorName>Humidity sensor</sensorName>
-            <sensorType>humidity</sensorType>
-        </sensor>
+        <appliance applianceID="h1r1TV" inView="true">
+             <applianceName>TV</applianceName>
+             <applianceType>audioDevice</applianceType>
+        </appliance>
+        <controller controllerID="h1r1lightcontroller" inView="true">
+        	<controllerName>Light controller</controllerName>
+        	<controllerType>light</controllerType>
+        </controller>
       </room>
       <room inView="true" roomID="h001r002">
            <roomName>Big bedroom</roomName>
@@ -43,6 +47,10 @@
                 <sensorName>Light sensor</sensorName>
                 <sensorType>lightsensor</sensorType>
            </sensor>
+           <controller controllerID="controllerlololol0000" inView="true">
+           		<controllerName>Temperature controller</controllerName>
+           		<controllerType>temperature</controllerType>
+           </controller>
       </room>
       
       <room inView="true" roomID="h001r003">
@@ -50,6 +58,10 @@
             <light inView="true" lightID="h001r003kitchencealinglight1">
                 <lightName>Kitchen ceiling light</lightName>
             </light>
+        	<sensor inView="true" sensorID="h001r001hs1">
+           		 <sensorName>Humidity sensor</sensorName>
+           		 <sensorType>humidity</sensorType>
+        	</sensor>
             <appliance applianceID="h001r003coffeemaker1" inView="true">
                 <applianceName>Coffee maker</applianceName>
                 <applianceType>turnOnOff</applianceType>
@@ -59,6 +71,10 @@
                 <applianceName>Dishwasher</applianceName>
                 <applianceType>turnOnOff</applianceType>
             </appliance>
+            <controller controllerID="h1r3humiditycontroller" inView="true">
+            	<controllerName>Humidity controller</controllerName>
+            	<controllerType>humidity</controllerType>
+            </controller>
       </room>
   </house>
   
