@@ -57,12 +57,13 @@ public class UIUpdater {
 	
 	
 	/**
-	 * Sends a DataPack containing update data to all registered listeners.
+	 * Tells all registered listeners to update themselves.
+	 * TODO Updates should happen only if data has been changed.
 	 */
 	public void broadcastUpdate(){
-		//TODO Find out if data has been changed,
-		//wrap it into a new DataPack, 
-		//and send it to all registered listeners
+		for(UpdateListener listener : listeners){
+			listener.receiveUpdate();
+		}
 	}
 	
 	
@@ -76,22 +77,21 @@ public class UIUpdater {
 	public interface UpdateListener{
 		
 		/**
-		 * Use this when registering to broadcasting list.
+		 * Used when registering to broadcasting list.
 		 * UI's should implement this inside init() method.
 		 */
 		public void register();
 		
 		/**
-		 * Use this to unregister from broadcasting list.
+		 * Used when unregistering from broadcasting list.
 		 * UI's should implement this inside detach() method.
 		 */
 		public void unregister();
 		
 		/**
-		 * Unpack the data elements into corresponding components.
-		 * This must happen through access() method. 
-		 * @param data Package containing state data from the server (sensors, lights etc.)
+		 * Called by updater on regular intervals to inform the UI to update itself.
+		 * This should happen through access() method.
 		 */
-		public void receiveUpdate(DataPack data);
+		public void receiveUpdate();
 	}
 }

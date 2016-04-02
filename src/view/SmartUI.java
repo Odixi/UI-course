@@ -140,7 +140,9 @@ public class SmartUI extends UI implements UpdateListener{
 	 */
 	@Override
 	public void register() {
-		//TODO UIUpdater.getUpdater().register(this); (not working yet)
+		try{
+			shsystem.getUpdater().register(this);
+		} catch (RemoteException e) {	e.printStackTrace();}
 	}
 	
 	/**
@@ -148,18 +150,20 @@ public class SmartUI extends UI implements UpdateListener{
 	 */
 	@Override
 	public void unregister() {
-		//TODO UIUpdater.getUpdater().unregister(this); (not working yet)
+		try{
+			shsystem.getUpdater().unregister(this);
+		} catch (RemoteException e) {	e.printStackTrace();}
 	}
 	
 	/**
-	 * Unpacks received data elements into corresponding components. 	
+	 * Locks the session and perform an update. Frequently called by server when there's a need to update the views.	
 	 */
 	@Override
-	public void receiveUpdate(DataPack data) {
+	public void receiveUpdate() {
 		this.access(new Runnable(){
 			@Override
 			public void run(){
-				//TODO Unpack data to the UI
+				update();
 			}});
 	}//receiveUpdate	
 }
