@@ -13,6 +13,7 @@ import model.ViewHandlerNEW;
 import model.items.SmartItem;
 import model.HouseHandler;
 import model.SmartModel;
+import model.UIUpdater;
 import model.AdminAccountHandler;
 
 /**
@@ -30,6 +31,7 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	private AdminAccountHandler adminHandler;
 	private HouseHandler houseHandler;
 	private SmartModel model;
+	private UIUpdater updater;
 	
 	private ViewHandlerNEW viewHandler;
 
@@ -52,6 +54,8 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		//Create viewHandler that handles the xml files representing users' views.
 		viewHandler = new ViewHandlerNEW(houseHandler);
 		
+		updater = UIUpdater.getUpdater(); //gets the only instance
+		
 		
 	} //constructor
 
@@ -68,12 +72,19 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		
 	}
 	
+	// • • • • • • • • • • • UPDATING SYSTEM • • • • • • • • • • • • 
+	
+	@Override
+	public UIUpdater getUpdater() throws RemoteException {
+		return updater;
+	}
+	
 	// • • • • • • • • • • • • BOTH USERS & ADMINS • • • • • • • • • • • • 
 	
 	public boolean passwordValid(String password) throws RemoteException {
 		return userHandler.passwordValid(password);
 	}
-	
+
 	public boolean usernameValid(String username) throws RemoteException {
 		return userHandler.usernameValid(username);
 	}

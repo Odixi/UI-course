@@ -7,6 +7,7 @@ import java.util.Hashtable;
 import exceptions.ElementNullException;
 import exceptions.IDMatchNotFoundException;
 import exceptions.IDTypeMismatch;
+import model.UIUpdater;
 import model.items.SmartItem;
 
 public interface SmartHSystem extends Remote {
@@ -14,6 +15,11 @@ public interface SmartHSystem extends Remote {
 	// --------- FOR TESTING ------------------
 	
 	public void testPrintConsole(String message) throws RemoteException;
+	
+// • • • • • • • • • • • UPDATING SYSTEM • • • • • • • • • • • • 
+	
+	public UIUpdater getUpdater() throws RemoteException;
+	
 	
 // • • • • • • • • • • • • BOTH USERS & ADMINS • • • • • • • • • • • • 
 	
