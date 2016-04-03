@@ -6,9 +6,9 @@ import java.util.UUID;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.gargoylesoftware.htmlunit.javascript.host.dom.Node;
 
 import model.house.Room;
 

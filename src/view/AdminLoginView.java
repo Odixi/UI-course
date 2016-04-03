@@ -14,6 +14,7 @@ import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+import exceptions.IDMatchNotFoundException;
 import server.SmartHSystem;
 
 import com.vaadin.ui.Button.ClickEvent;
@@ -117,7 +118,12 @@ public class AdminLoginView extends VerticalLayout implements View{
     	if (match){
     		try {
 				ui.setUser(shsystem.getUserID(usernameField.getValue()), usernameField.getValue());
-			} catch (RemoteException e) {e.printStackTrace();}
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			} catch (IDMatchNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
     		ui.getNavigator().navigateTo(ui.ADMINVIEW);
     	}
     	else{

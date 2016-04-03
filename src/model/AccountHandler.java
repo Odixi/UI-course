@@ -1,6 +1,9 @@
 package model;
 
 import org.w3c.dom.*;
+
+import exceptions.IDMatchNotFoundException;
+
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.UUID;
@@ -66,6 +69,13 @@ public class AccountHandler extends XMLHandler {
 	}
 
 	//------ PASSWORD MATCHING CHECK ----------
+	/**
+	 * Check whether the password given matches the user's password.
+	 * 
+	 * @param username 
+	 * @param password
+	 * @return true if the parameter password matches the password saved for the user matching the parameter username. Otherwise false.
+	 */
 	public boolean passwordMatch(String username, String password){
 		
 		boolean passwordMatches = false;
@@ -93,44 +103,58 @@ public class AccountHandler extends XMLHandler {
 	}
 	
 	//--------------- CREATE USER -------------------
+	/**
+	 * Create a new user called 'username' who has password 'password'. UserID is generated automatically for the user.
+	 * 
+	 * @param username The username for the new user.
+	 * @param password The password for the new user.
+	 * 
+	 */
+	public boolean createUser(String username, String password){
+		
+		//If the username is already in use
+		if( usernameInUse(username) ){
+		
+			System.out.println("Username " + username + " is already in use! New user can't be created!");
+			return false;
+			
+		} else {
+		
+			Element user = accountXML.createElement(userTag);
+			rootElement.appendChild(user);
+			
+			//ID attribute
+			
+			//Generate ID
+			//These generated IDs are going to be quite a bit longer than the handwritten ones.
+			user.setAttribute(userIDTag, UUID.randomUUID().toString());
 	
-	public void createUser(String username, String password){
+			//username
+			Element uname = accountXML.createElement(usernameTag);
+			uname.appendChild(accountXML.createTextNode(username));
+			user.appendChild(uname);
+			
+			//TODO Check possible password restrictions
+			
+			//password
+			Element pword = accountXML.createElement(passwordTag);
+			pword.appendChild(accountXML.createTextNode( password ));
+			user.appendChild(pword);
+					
+			//Save changes to the XML file
+			writeXML(accountXML, filepath);
+			
+			System.out.println("new user created " + username);
 		
-		//TODO usernameInUse(username);
-		
-		Element user = accountXML.createElement(userTag);
-		rootElement.appendChild(user);
-		
-		//ID attribute
-		
-		//Generate ID
-		//These generated IDs are going to be quite a bit longer than the handwritten ones.
-		user.setAttribute(userIDTag, UUID.randomUUID().toString());
-
-		//username
-		Element uname = accountXML.createElement(usernameTag);
-		uname.appendChild(accountXML.createTextNode(username));
-		user.appendChild(uname);
-		
-		//TODO Check possible password restrictions
-		
-		//password
-		Element pword = accountXML.createElement(passwordTag);
-		pword.appendChild(accountXML.createTextNode( password ));
-		user.appendChild(pword);
-				
-		//Save changes to the XML file
-		writeXML(accountXML, filepath);
-		
-		System.out.println("new user created " + username);
-		
+			return true;
+		}
 	}
 	
 	//--------------- REMOVE USER -------------------
 	
 	/**
-	 * Removes information on user in 
-	 * @param username
+	 * Deletes the user from the system aka removes information on user in users.xml. 
+	 * @param username The username of the username to be deleted.
 	 */
 	public void removeUser(String username){
 		if(getUser(username) != null){
@@ -157,7 +181,12 @@ public class AccountHandler extends XMLHandler {
 	
 	
 	//--------------- PASSWORD VALID -----------------------------------------
-	
+	/**
+	 * Check if the password is valid (length between 8-24 characters.
+	 * 
+	 * @param password The password to be checked.
+	 * @return True if the password length is between 8-24. Else false.
+	 */
 	public boolean passwordValid(String password){
 		
 		if(password.length() >= 8 && password.length() <= 24){
@@ -167,16 +196,16 @@ public class AccountHandler extends XMLHandler {
 		}
 	}
 	
-	public boolean passwordsMatch(String password, String confirmPassword){
-		if(password.equals(confirmPassword)){
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
 	//--------------- CHANGE PASSWORD (ADMIN CHANGES) ------------------------
 	
+	/**
+	 * Change admin's password. 
+	 * 
+	 * @param username The username of the admin.
+	 * @param newpassword New password for the admin.
+	 * 
+	 * @return True if the password could be changed. Else false.
+	 */
 	public boolean changePasswordAdmin(String username, String newpassword){
 
 		boolean passwordChanged = false;
@@ -196,7 +225,20 @@ public class AccountHandler extends XMLHandler {
 	
 	
 	//--------------- CHANGE PASSWORD (USER CHANGES) ------------------------
-	
+	/**
+	 * Method that enables user to change their password.
+	 * 
+	 * @param username The username of the user who wants to change their password.
+	 * @param oldpassword The old password the of the user.
+	 * @param newpassword The new password user wants to change their password to.
+	 * 
+	 * @return True if the password can be changed...
+	 * 1) The 'oldpassword' matches the password saved for the user
+	 * 2) If the new password's length is between 8-24 characters.
+	 * 3) User is found.
+	 * 
+	 * Else return false.
+	 */
 	public boolean changePassword(String username, String oldpassword, String newpassword){
 		
 		//TODO Null check?
@@ -222,6 +264,11 @@ public class AccountHandler extends XMLHandler {
 	}
 	
 	//----------------- USERNAME VALID ---------------------------
+	/**
+	 * Check if the username is valid aka between 3-24 characters.
+	 * @param username
+	 * @return
+	 */
 	
 	public boolean usernameValid(String username){
 		if( username.length() >= 3 && username.length() <= 24){
@@ -232,7 +279,6 @@ public class AccountHandler extends XMLHandler {
 	}
 	
 	//----------------- CHANGE USERNAME --------------------------
-	
 	/**
 	 * Returns true if username can be and was changed.
 	 * @param oldusername
@@ -264,6 +310,10 @@ public class AccountHandler extends XMLHandler {
 	}
 	
 	//--------------- LIST OF USERS ----------------------------
+	/**
+	 * Return a list of usernames and userIDs.
+	 * @return Hashtable where userIDs are the keys and usernames the values.
+	 */
 	
 	public Hashtable<String, String> getUserList(){
 		Hashtable<String, String> userList = new Hashtable<String, String>();
@@ -289,6 +339,10 @@ public class AccountHandler extends XMLHandler {
 	}
 	
 	//--------------- LIST OF USERNAMES ----------------------------
+	/**
+	 * Get list of usernames.
+	 * @return ArrayList of usernames.
+	 */
 	
 	public ArrayList<String> getUsernameList(){
 		
@@ -310,8 +364,14 @@ public class AccountHandler extends XMLHandler {
 	}
 	
 	//------------------ GET USERID MATCHING USERNAME --------------------
-	
-	public String getUserID(String username){
+	/**
+	 * Get the userID matching the given username.
+	 * 
+	 * @param username
+	 * @return
+	 * @throws IDMatchNotFoundException 
+	 */
+	public String getUserID(String username) throws IDMatchNotFoundException{
 		String userID = null;
 		
 		Element userElement = getUser(username);
@@ -320,6 +380,8 @@ public class AccountHandler extends XMLHandler {
 			if(userElement.hasAttribute(userIDTag)){
 				userID = userElement.getAttribute(userIDTag).trim();
 			}
+		} else {
+			throw new IDMatchNotFoundException("UserID matching the username " + username + " wasn't found!");
 		}
 		
 		return userID;

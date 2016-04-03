@@ -33,6 +33,7 @@ import com.vaadin.ui.Tree;
 import com.vaadin.ui.VerticalLayout;
 
 import exceptions.ElementNullException;
+import exceptions.IDMatchNotFoundException;
 import server.SmartHSystem;
 /**
  * A view for admins to manage users and their views.
@@ -460,7 +461,12 @@ class CreateUserPopupContent implements PopupView.Content{
 						pv.setPopupVisible(false);
 						av.updateUserList();
 						av.setSelectedUser(sh.getUserID(tf.getValue()));
-					} catch (RemoteException e) {e.printStackTrace();}
+						
+					} catch (RemoteException e) {
+						e.printStackTrace();
+					} catch (IDMatchNotFoundException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		});
