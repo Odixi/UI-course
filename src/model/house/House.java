@@ -6,6 +6,13 @@ import java.util.Hashtable;
 
 import exceptions.IDMatchNotFoundException;
 
+/**
+ * Object describing the smart house.
+ * 
+ * @author Pilvi
+ *
+ */
+
 public class House implements Serializable {
 
 	private String name;
@@ -38,20 +45,27 @@ public class House implements Serializable {
 	}
 	
 	//------- ROOMS ------------------
-	
+	/**
+	 * Set the rooms in the house
+	 * @param rooms Hashtable<String roomID, Room-object>
+	 */
 	public void setRooms(Hashtable<String, Room> rooms){
 		this.rooms = rooms;
 	}
 	
+	/**
+	 * Get the rooms in the house (roomIDs and Room-objects).
+	 * @return
+	 */
 	public Hashtable<String, Room> getRooms(){
 		return rooms;
 	}
 	
 	/**
-	 * 
-	 * @param roomID
-	 * @return
-	 * @throws IDMatchNotFoundException 
+	 * Get the room matching the roomID
+	 * @param roomID The ID of the searched room.
+	 * @return Room-object.
+	 * @throws IDMatchNotFoundException Thrown if room matching the roomID-parameter can't be found in the house.
 	 */
 	public Room getRoom(String roomID) throws IDMatchNotFoundException{
 		
