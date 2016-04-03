@@ -19,7 +19,6 @@ import exceptions.IDTypeMismatch;
 import com.vaadin.ui.Button.ClickEvent;
 
 import model.items.Controller;
-import model.items.ControllerType;
 import model.items.SensorUnit;
 import server.SmartHSystem;
 /**
@@ -61,15 +60,8 @@ public class ItemComponentController extends CustomComponent implements ItemComp
 		df = new DecimalFormat("#.#"); // To round doubles
 		df.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.ENGLISH)); // To change seperating symbol
 		
-		// TODO unneccesary atm (this shouldn't ever happen)
-		if (controller == null){
-			name = new Label("Could not get data from server");
-			value = new Label("???");
-		}
-		else{
-			name = new Label(controller.getName());
-			value = new Label(df.format(controller.getControllerValue())+ " " + controller.getControllerUnit().getUnit());
-		}
+		name = new Label(controller.getName());
+		value = new Label(df.format(controller.getControllerValue())+ " " + controller.getControllerUnit().getUnit());
 		
 		// Maybe I'll later add a way to change the values quiker (especially the light controller)
 		plus = new Button("+" , new Button.ClickListener() {
@@ -200,7 +192,6 @@ public class ItemComponentController extends CustomComponent implements ItemComp
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} catch (IDMatchNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		value.setValue(df.format(controller.getControllerValue()) + " " + controller.getControllerUnit().getUnit());

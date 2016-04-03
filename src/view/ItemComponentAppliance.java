@@ -12,7 +12,6 @@ import com.vaadin.ui.VerticalLayout;
 
 import exceptions.IDMatchNotFoundException;
 import exceptions.IDTypeMismatch;
-import jdk.internal.org.objectweb.asm.tree.analysis.Value;
 import model.items.Appliance;
 import server.SmartHSystem;
 /**
@@ -63,10 +62,8 @@ public class ItemComponentAppliance extends CustomComponent implements ItemCompo
 					} catch (RemoteException e) {
 						e.printStackTrace();
 					} catch (IDTypeMismatch e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (IDMatchNotFoundException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -76,10 +73,8 @@ public class ItemComponentAppliance extends CustomComponent implements ItemCompo
 					} catch (RemoteException e) {
 						e.printStackTrace();
 					} catch (IDTypeMismatch e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (IDMatchNotFoundException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -102,7 +97,6 @@ public class ItemComponentAppliance extends CustomComponent implements ItemCompo
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} catch (IDMatchNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		value.setValue(appliance.isON());

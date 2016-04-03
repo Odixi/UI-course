@@ -4,15 +4,11 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-import com.vaadin.data.Container.ItemSetChangeEvent;
 
-import com.vaadin.data.Container.ItemSetChangeListener;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.event.ContextClickEvent;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
@@ -20,7 +16,6 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.PopupView.PopupVisibilityEvent;
 import com.vaadin.ui.PopupView.PopupVisibilityListener;
 import com.vaadin.ui.HorizontalLayout;
@@ -29,7 +24,6 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.PopupView;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.Tree;
 import com.vaadin.ui.VerticalLayout;
 
 import exceptions.ElementNullException;
@@ -217,11 +211,9 @@ public class AdminView extends HorizontalLayout implements View{
 					} // for j
 				} // for i
 				
-				//TODO REMOVE For testing only
-				System.out.println("AdminView: values to be saved:");
-				for(String itemID : userViewValues.keySet() ){
-					System.out.println("Item " + itemID + ", value: " + userViewValues.get(itemID));
-				}
+//				for(String itemID : userViewValues.keySet() ){
+//					System.out.println("Item " + itemID + ", value: " + userViewValues.get(itemID));
+//				}
 				
 				try {
 					
@@ -231,7 +223,6 @@ public class AdminView extends HorizontalLayout implements View{
 					}
 					
 				} catch (RemoteException e) {e.printStackTrace();} catch (ElementNullException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				if (needsUpdate){
@@ -306,7 +297,6 @@ public class AdminView extends HorizontalLayout implements View{
             @Override
             public void buttonClick(ClickEvent event) {
                 ui.getNavigator().navigateTo(ui.LOGINVIEW);
-                //TODO Uloskirjaus
             }
         });
         rightLayout.addComponent(logoutButton);

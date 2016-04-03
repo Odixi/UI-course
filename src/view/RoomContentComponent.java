@@ -38,8 +38,7 @@ public class RoomContentComponent extends CustomComponent {
 			items = shsystem.getItems(houseID, roomID);
 			for (String key : items.keySet()){
 				if (userView.get(key)){
-//					layout.addComponent( new ItemComponentController(shsystem,houseID, roomID, key, new Controller(key)));
-
+					
 					SmartItem si = shsystem.getSmartItem(houseID, roomID, key);
 					if (si instanceof Sensor){
 						layout.addComponent(new ItemComponentSensor(shsystem, (Sensor)si));

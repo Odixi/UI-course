@@ -1,4 +1,4 @@
-package view;
+package notinuse_code;
  
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -26,51 +26,23 @@ import exceptions.ElementNullException;
 
 import com.vaadin.ui.Slider;
 import com.vaadin.server.FontAwesome;
- 
-public class UserViewOLD extends VerticalLayout implements View{
-	
-	//Attributes
-	private SmartHSystem shsystem;
-	private String houseNow = new String();
-	private String houseIDNow = new String();
- 
-    public UserViewOLD(SmartUI ui, SmartHSystem shsystem){
-    	
-    	super();
-		
-		//For RMI calls
-		this.shsystem = shsystem;
-		
-		setMargin(true);
-		setSpacing(true);
-    	
-        //setHeight(ui.getCurrent().getPage().getBrowserWindowHeight(), Unit.PIXELS);
-		
-		houseNow="Frist House";
-		houseIDNow="h001";
-		
 
-       
-        //Luodaan pohja leiskaan tulevat vaakaleiskat
-		HorizontalLayout navigation = new HorizontalLayout();
-        //navigation.setHeight("20%");
-        navigation.setWidth("100%");
-      
-       
-        Panel houseManager= new Panel("");
+public class viewBuilder {
+	
+	
+	public Panel houseViewer(String houseNow, String houseIDNow, SmartHSystem shsystem){
+		Panel houseManager= new Panel("");
     	VerticalLayout managerLayout = new VerticalLayout();
     	managerLayout.setSpacing(true);
     	managerLayout.setMargin(true);
     	
-    	houseManager.setWidth(ui.getCurrent().getPage().getBrowserWindowWidth()*0.8f, Unit.PIXELS);
+    	houseManager.setWidth(800f, Unit.PIXELS);
     	houseManager.setHeight(500f, Unit.PIXELS);
     	
     	managerLayout.setHeight(houseManager.getHeight()*0.95f, Unit.PIXELS);
     	managerLayout.setWidth(houseManager.getWidth()*0.95f, Unit.PIXELS);
     	
-    	
-// ---------Vaakaleiskat jotka voidaan lis�t� paneeliin----------------------        
-        HorizontalLayout topics = new HorizontalLayout();
+    	HorizontalLayout topics = new HorizontalLayout();
         topics.setHeight(houseManager.getHeight(), Unit.PIXELS);
         topics.setWidth(houseManager.getWidth(), Unit.PIXELS);
        
@@ -81,59 +53,17 @@ public class UserViewOLD extends VerticalLayout implements View{
         HorizontalLayout rooms = new HorizontalLayout();
         rooms.setHeight(houseManager.getHeight(), Unit.PIXELS);
         rooms.setWidth(houseManager.getWidth(), Unit.PIXELS);
-       
     	
-
-        
-     // ----- Kodin valinta----- //   
-        ComboBox houseSelect = new ComboBox();
-        houseSelect.setInputPrompt("Change homw");
-        houseSelect.setFilteringMode(FilteringMode.CONTAINS);
-        houseSelect.setTextInputAllowed(false);
-        houseSelect.setNullSelectionAllowed(false);
-        
-        //ArrayList<String> homes = new ArrayList<String>();
-        Hashtable<String, String> homes = new Hashtable<String, String>();  
-        
-		try {
-			homes = shsystem.getHouseNames();
-		} catch (RemoteException e) {e.printStackTrace();}
-
-        houseSelect.addItems(homes.values());
-        
-
-       viewBuilder vB=new viewBuilder();
-       houseSelect.addValueChangeListener(e ->
-        		addComponent(vB.houseViewer((String) e.getProperty().getValue(), houseIDNow, shsystem))
-        		);
-        
-
-        Button logOut= new Button("LogOut",new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                ui.getNavigator().navigateTo(ui.LOGINVIEW);
-            }
-        });
-        logOut.setIcon(FontAwesome.SIGN_OUT);
-        navigation.addComponent(houseSelect);
-        navigation.setComponentAlignment(houseSelect, Alignment.MIDDLE_LEFT);
-        navigation.addComponent(logOut);
-        navigation.setComponentAlignment(logOut, Alignment.MIDDLE_RIGHT);
-        
-       
- //---------------------Paneelin sis�lt� ----------------------------------  
-       
-        
-        //ArrayList<String> roomNames = new ArrayList<String>();
-		Hashtable<String, String> roomNames = new Hashtable<String, String>();
+    	
+        Hashtable<String, String> roomNames = new Hashtable<String, String>();
         
         try {
 			roomNames = shsystem.getRoomNames(houseIDNow);
 		} catch (RemoteException e) {
 			e.printStackTrace();
-		} catch (ElementNullException e1) {
+		} catch (ElementNullException e) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			e.printStackTrace();
 		}
 		
 		topics.addComponent(new Label ("Rooms"));
@@ -154,32 +84,27 @@ public class UserViewOLD extends VerticalLayout implements View{
 			Button moreButton = new Button("More", new Button.ClickListener() {
 	            @Override
 	            public void buttonClick(ClickEvent event) {
-	        
 	            	Window roomManagerWindow = new Window (currentRoomString);
 	            	roomManagerWindow.setHeight(400.0f, Unit.PIXELS);
 	            	roomManagerWindow.setWidth(600.0f, Unit.PIXELS);
 	            	VerticalLayout itemLayout = new VerticalLayout();
 	            	
-	            	 // Muokkasin tuon items listan ArrayLististä Hashtableksi -Ville
-	            	
-	            	Hashtable<String,String> items = new Hashtable<String, String>();
+	            	Hashtable<String,String> items = new Hashtable<String,String>();
 	            	
 	            	try {
-	        			items = shsystem.getItems(houseNow, currentRoomString);
+	        			items = shsystem.getItems(houseNow, currentRoomString); // Tosiaan muutin tuon ArrayListin Hastableksi -Ville
 	        		} catch (RemoteException e) {
 	        			e.printStackTrace();
 	        		} catch (ElementNullException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-	            	
-	            	
 	            	for(String itemKey : items.keySet()){
 	            		HorizontalLayout forItem =new HorizontalLayout();
 	            		forItem.setHeight(40.0f, Unit.PIXELS);
 	            		forItem.setWidth(590.0f, Unit.PIXELS);	
 	            		
-	            		forItem.addComponent(new Label (items.get(itemKey))); // Näköjäänsullavielä tämä vähänvaiheessa
+	            		forItem.addComponent(new Label (items.get(itemKey)));
 	            		Slider sample = new Slider();
 	                    sample.setImmediate(true);
 	                    sample.setMin(0.0);
@@ -212,7 +137,6 @@ public class UserViewOLD extends VerticalLayout implements View{
 	            		itemLayout.addComponent(forItem);
 	            		
 	            	}
-	            
 	            	roomManagerWindow.setContent(itemLayout);
 	            	UI.getCurrent().addWindow(roomManagerWindow);
 	            }
@@ -234,22 +158,8 @@ public class UserViewOLD extends VerticalLayout implements View{
         houseManager.setContent(managerLayout);
         
        
-        //Lopuksi lisätään nää kaikki oikeassa järjestyksessä layouttiin
-        addComponent(navigation);
-        addComponent(houseManager);
-       
-        setComponentAlignment(houseManager, Alignment.MIDDLE_CENTER);
         
-       
+        return houseManager;
         
-    }
-       
-    @Override
-    public void enter(ViewChangeEvent event) {
-        // TODO Auto-generated method stub
-        Notification.show("userview");
-       
-    }
-   
- 
+	}
 }

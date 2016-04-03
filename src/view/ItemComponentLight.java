@@ -102,7 +102,6 @@ public class ItemComponentLight extends CustomComponent implements ItemComponent
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} catch (IDMatchNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		on.setValue(light.isON());

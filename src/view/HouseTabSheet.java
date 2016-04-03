@@ -10,16 +10,16 @@ import com.vaadin.ui.TabSheet;
 import exceptions.ElementNullException;
 import server.SmartHSystem;
 /**
- * TabSheet component for houses
+ * TabSheet component for houses. Makes a tab for every room in corresponding house.
  * @author Ville
  *
  */
 public class HouseTabSheet extends CustomComponent{
 	
-	TabSheet tabsheet;
-	Hashtable<String, String> rooms;
-	Hashtable<String, Boolean> userView;
-	ArrayList<RoomContentComponent> componentList;
+	private TabSheet tabsheet;
+	private Hashtable<String, String> rooms;
+	private Hashtable<String, Boolean> userView;
+	private ArrayList<RoomContentComponent> componentList;
 	
 	/**
 	 * 
@@ -32,11 +32,6 @@ public class HouseTabSheet extends CustomComponent{
 		tabsheet = new TabSheet();
 		this.userView = userView;
 		componentList = new ArrayList<RoomContentComponent>();
-		
-		//TODO REMOVE For testing
-		for(String itemID : userView.keySet() ){
-			System.out.println("Item: " + itemID + ", value: " + userView.get(itemID) );
-		}
 		
 		try {
 			RoomContentComponent temp;
@@ -53,7 +48,6 @@ public class HouseTabSheet extends CustomComponent{
 			e.printStackTrace();
 			
 		} catch (ElementNullException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		setCompositionRoot(tabsheet);

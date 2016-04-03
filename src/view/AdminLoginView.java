@@ -113,7 +113,7 @@ public class AdminLoginView extends VerticalLayout implements View{
     	}
     	boolean match = false;
     	try{
-    		match = shsystem.adminLogin(usernameField.getValue(), passwordField.getValue()); // TODO tuleeko adminille joku oma login metodi?
+    		match = shsystem.adminLogin(usernameField.getValue(), passwordField.getValue());
     	} catch (RemoteException e){e.printStackTrace();}
     	if (match){
     		try {
@@ -121,7 +121,6 @@ public class AdminLoginView extends VerticalLayout implements View{
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			} catch (IDMatchNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
     		ui.getNavigator().navigateTo(ui.ADMINVIEW);
@@ -136,8 +135,6 @@ public class AdminLoginView extends VerticalLayout implements View{
 	 */
 	@Override
 	public void enter(ViewChangeEvent event) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 

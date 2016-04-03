@@ -58,7 +58,7 @@ public class LoginView extends VerticalLayout implements View{
 		//For RMI calls
 		this.shsystem = shsystem;
 		
-		//For encrypting and decrypting passwords	//TODO Doesn't find the class
+		//For encrypting and decrypting passwords
 		//cryptor = new BasicTextEncryptor();
 		
 		setMargin(true);
@@ -87,8 +87,8 @@ public class LoginView extends VerticalLayout implements View{
 		
 	// ---- desc. ----- //
 		
-	Label desc = new Label("When you're too lazy to turn the lights on. Keksikääs joku parempi kuvaus."); //Juu TODO Come up with something better
-    addComponent(desc);
+	Label desc = new Label("Remote house management"); 
+	addComponent(desc);
           
     	// -------- Login Panel -------- //
     
@@ -234,9 +234,6 @@ public class LoginView extends VerticalLayout implements View{
     			
     			try {
 					match = shsystem.userLogin( getSelectedUsername(), passwordField.getValue().trim());
-					//TODO For testing
-					System.out.println("Username: " + getSelectedUsername());
-					System.out.println("Password written: " + passwordField.getValue().trim());
 					
     			} catch (RemoteException e) { e.printStackTrace();}
     			

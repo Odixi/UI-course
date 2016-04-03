@@ -129,7 +129,6 @@ public class RoomListComponent extends CustomComponent {
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			} catch (ElementNullException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -181,7 +180,6 @@ public class RoomListComponent extends CustomComponent {
 				} catch (RemoteException e) {
 					e.printStackTrace();
 				} catch (ElementNullException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}	
 			} //if

@@ -31,10 +31,14 @@ public class ItemComponentAudioDevice extends CustomComponent implements ItemCom
 	
 	private Panel panel;
 	private VerticalLayout layout;
-	private Label name;
 	private Slider volume;
 	private CheckBox on;
 	
+	/**
+	 * 
+	 * @param shsystem
+	 * @param audioDevice
+	 */
 	public ItemComponentAudioDevice(SmartHSystem shsystem, AudioDevice audioDevice){
 		
 		this.audioDevice = audioDevice;
@@ -47,7 +51,6 @@ public class ItemComponentAudioDevice extends CustomComponent implements ItemCom
 		
 		panel.setContent(layout);
 		
-		name = new Label(audioDevice.getName()); // Should this be removed?
 		on = new CheckBox(audioDevice.getName());
 		on.setValue(audioDevice.isON());
 		
@@ -64,10 +67,8 @@ public class ItemComponentAudioDevice extends CustomComponent implements ItemCom
 					} catch (RemoteException e) {
 						e.printStackTrace();
 					} catch (IDTypeMismatch e) {
-						//TODO
 						e.printStackTrace();
 					} catch (IDMatchNotFoundException e) {
-						//TODO
 						e.printStackTrace();
 					}
 				}
@@ -83,13 +84,11 @@ public class ItemComponentAudioDevice extends CustomComponent implements ItemCom
 					}catch (RemoteException e){
 						e.printStackTrace();
 					} catch (IDMatchNotFoundException e) {
-						//TODO
 						e.printStackTrace();
 					} catch (IDTypeMismatch e) {
-						//TODO
 						e.printStackTrace();
 					}
-					update(); // // TODO Should not be neede after UI.push is implemented
+					update();
 				}
 				
 			}
@@ -114,17 +113,14 @@ public class ItemComponentAudioDevice extends CustomComponent implements ItemCom
 				} catch (RemoteException e) {
 					e.printStackTrace();
 				} catch (IDMatchNotFoundException e) {
-					//TODO
 					e.printStackTrace();
 				} catch (IDTypeMismatch e) {
-					//TODO
 					e.printStackTrace();
 				}
-				update(); // TODO Should not be neede after UI.push is implemented
+				update();
 			}
 		});
 		
-//		layout.addComponent(name);
 		layout.addComponent(on);
 		layout.addComponent(volume);
 		
@@ -142,7 +138,6 @@ public class ItemComponentAudioDevice extends CustomComponent implements ItemCom
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} catch (IDMatchNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		on.setValue(audioDevice.isON());

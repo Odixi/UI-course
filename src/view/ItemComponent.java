@@ -7,6 +7,9 @@ package view;
  */
 public interface ItemComponent {
 	
+	/**
+	 * Used to update item state
+	 */
 	public void update();
 	
 }

@@ -65,13 +65,10 @@ public class UserView extends VerticalLayout implements View{
 		
 		// Let's get the users view from server
 		try {
-			System.out.println("Is the userID in UI null?" + ui.getUserID()); //TODO REMOVE For testing
-			
 			userView = shsystem.getUserView(ui.getUserID());
 		} catch (RemoteException e1) {
 			e1.printStackTrace();
 		} catch (ElementNullException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -98,8 +95,6 @@ public class UserView extends VerticalLayout implements View{
 		} catch (RemoteException e) {e.printStackTrace();}
 
 		for (String houseID : houses.keySet()){
-			
-			System.out.println("houseID in userView: " + houseID); //TODO REMOVE For testing 
 			
 			if (userView.get(houseID)){
 				houseSelect.addItem(houseID);
@@ -183,7 +178,6 @@ public class UserView extends VerticalLayout implements View{
      */
     @Override
     public void enter(ViewChangeEvent event) {
-        // TODO Auto-generated method stub
         Notification.show("HI " + ui.getUsername() + "!");
        
     }

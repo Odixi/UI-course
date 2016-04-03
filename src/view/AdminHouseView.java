@@ -1,15 +1,11 @@
 package view;
  
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.Hashtable;
-
-import com.vaadin.client.ui.Icon;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
@@ -17,19 +13,13 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.Panel;
-import com.vaadin.ui.PopupView;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.UI;
 import server.SmartHSystem;
-import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Window;
 
 import exceptions.ElementNullException;
 
-import com.vaadin.ui.Slider;
 import com.vaadin.server.FontAwesome;
 
 /**
@@ -67,9 +57,7 @@ public class AdminHouseView extends VerticalLayout implements View{
 		// Because I'm lazy, I'll just take first users view and modify it to have the rights to everything	
 
 		try {
-			// TODO propably not working because all users don't have view. Fix later
-//			String uID = shsystem.getUsers().keys().nextElement(); 
-			String uID = "vvv555";
+			String uID = shsystem.getUsers().keys().nextElement(); 
 			userView = shsystem.getUserView(uID);
 			for (String key : userView.keySet()){
 				userView.replace(key, true);
@@ -77,7 +65,6 @@ public class AdminHouseView extends VerticalLayout implements View{
 		} catch (RemoteException e1) {
 			e1.printStackTrace();
 		} catch (ElementNullException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -105,8 +92,6 @@ public class AdminHouseView extends VerticalLayout implements View{
 		} catch (RemoteException e) {e.printStackTrace();}
 
 		for (String houseID : houses.keySet()){
-			
-			System.out.println("houseID in userView: " + houseID); //TODO REMOVE For testing 
 			
 			if (userView.get(houseID)){
 				houseSelect.addItem(houseID);
@@ -193,12 +178,11 @@ public class AdminHouseView extends VerticalLayout implements View{
      */
     @Override
     public void enter(ViewChangeEvent event) {
-        // TODO Auto-generated method stub
         Notification.show("HI " + ui.getUsername() + "!");
        
     }
    /**
-    * This sould be run when server push happens. Updates every item in the view.
+    * This should be run when server push happens. Updates every item in the view.
     */
     public void update(){
     	htb.update();
