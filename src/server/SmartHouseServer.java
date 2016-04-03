@@ -4,8 +4,6 @@ import java.rmi.Naming;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-import view.UIUpdater;
-
 public class SmartHouseServer {
 
 	public static void main(String args[]){
@@ -20,8 +18,6 @@ public class SmartHouseServer {
 			Naming.rebind("//localhost:2020/shsystem", shsystem); //TODO Change address
 			
 			
-		} catch (Exception e) {
-			System.out.println("Error: " + e);
-		}
+		} catch (Exception e) {e.printStackTrace();}
 	} // main
 }
