@@ -2,6 +2,13 @@ package model.items;
 
 import java.io.Serializable;
 
+/**
+ * AudioDevice, extended from the Appliance-class can obviously be turned on and off but it also features volume controls.
+ * 
+ * @author Pilvi
+ *
+ */
+
 public class AudioDevice extends Appliance implements Serializable {
 
 	private final String defaultname = "audio device";
@@ -23,7 +30,7 @@ public class AudioDevice extends Appliance implements Serializable {
 	
 	/**
 	 * Change the audiodevices volume.
-	 * @param newVolume
+	 * @param newVolume The new volume value for the device
 	 * @return boolean telling whether the volume could be change ( newVolume >= 0)
 	 */
 	public boolean setVolume(int newVolume){	
@@ -35,7 +42,7 @@ public class AudioDevice extends Appliance implements Serializable {
 		}
 	}
 	
-
+	
 	public int getMaxVolume(){
 		return MAX_VOLUME;
 	}
