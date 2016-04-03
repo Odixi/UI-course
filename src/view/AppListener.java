@@ -1,4 +1,4 @@
-package model;
+package view;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;

@@ -105,6 +105,7 @@ public class ItemComponentLight extends CustomComponent implements ItemComponent
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		on.setValue(light.isON());
 	}
 	
 	public String toString(){

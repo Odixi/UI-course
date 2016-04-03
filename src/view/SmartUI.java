@@ -16,9 +16,7 @@ import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
 
 import server.SmartHSystem;
-import model.DataPack;
-import model.UIUpdater;
-import model.UIUpdater.UpdateListener;
+import view.UIUpdater.UpdateListener;
 
 @Theme("valo")
 @Push
@@ -43,6 +41,8 @@ public class SmartUI extends UI implements UpdateListener{
 	private Registry registry;
 	private SmartHSystem shsystem;
 	
+	private UIUpdater updater;
+	
 	@Override
 	protected void init(VaadinRequest request) {
 		
@@ -58,9 +58,18 @@ public class SmartUI extends UI implements UpdateListener{
 		navigator.addView(ADMINLOGINVIEW, new AdminLoginView(this, shsystem));
 		
 		navigator.navigateTo(LOGINVIEW);
-		this.register();
+		
+		updater = UIUpdater.getUpdater();
+		register();
+		
+		new UIUpdaterThread(updater).start();
 
 	}//init
+	
+	public void access(){
+		update();
+	}
+
 	/**
 	 * Returns navigator
 	 */
@@ -140,9 +149,7 @@ public class SmartUI extends UI implements UpdateListener{
 	 */
 	@Override
 	public void register() {
-		try{
-			shsystem.getUpdater().register(this);
-		} catch (RemoteException e) {	e.printStackTrace();}
+			updater.register(this);
 	}
 	
 	/**
@@ -150,9 +157,7 @@ public class SmartUI extends UI implements UpdateListener{
 	 */
 	@Override
 	public void unregister() {
-		try{
-			shsystem.getUpdater().unregister(this);
-		} catch (RemoteException e) {	e.printStackTrace();}
+		updater.unregister(this);
 	}
 	
 	/**
