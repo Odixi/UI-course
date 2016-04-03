@@ -169,6 +169,11 @@ public class AccountHandler extends XMLHandler {
 	
 	
 	//------------ Is the username already in use? ------------
+	/**
+	 * Checks if a user in the system already has the given username.
+	 * @param username
+	 * @return True if username is already in use. Else false.
+	 */
 	public boolean usernameInUse(String username){
 
 		if(getUser(username) == null){
@@ -199,10 +204,10 @@ public class AccountHandler extends XMLHandler {
 	//--------------- CHANGE PASSWORD (ADMIN CHANGES) ------------------------
 	
 	/**
-	 * Change admin's password. 
+	 * Change user's password. 
 	 * 
-	 * @param username The username of the admin.
-	 * @param newpassword New password for the admin.
+	 * @param username The username of the user.
+	 * @param newpassword New password for the user.
 	 * 
 	 * @return True if the password could be changed. Else false.
 	 */
