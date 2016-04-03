@@ -16,10 +16,25 @@ public class AdminAccountHandler extends AccountHandler {
 		super(userFilepath, userTag, userIDTag, usernameTag, passwordTag);
 	}
 	
+	/**
+	 * Check whether the password given matches the admin's password.
+	 * 
+	 * @param username 
+	 * @param password
+	 * @return true if the parameter password matches the password saved for the user matching the parameter username. Otherwise false.
+	 */
 	public boolean passwordMatch(String adminname, String password){
 		return super.passwordMatch(adminname, password);
 	}
 	
+	/**
+	 * Create a new user called 'username' who has password 'password'. UserID is generated automatically for the user.
+	 * 
+	 * @param username The username for the new user.
+	 * @param password The password for the new user.
+	 * 
+	 * @return boolean True if the user could be created (username not in use). 
+	 */
 	public boolean createUser(String adminname, String password){
 		return super.createUser(adminname, password);
 	}
