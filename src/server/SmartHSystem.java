@@ -29,7 +29,7 @@ public interface SmartHSystem extends Remote {
 	
 // • • • • • • • • USERS • • • • • • • • •
 	
-	public void newUser(String username, String password) throws RemoteException;
+	public boolean newUser(String username, String password) throws RemoteException;
 	
 	public void deleteUser(String username) throws RemoteException;
 
@@ -45,7 +45,7 @@ public interface SmartHSystem extends Remote {
 	
 		// ‹›‹›‹›‹›‹›‹›‹›‹›‹› USER ID ‹›‹›‹›‹›‹›‹›‹›‹›‹›		
 	
-	public String getUserID(String username) throws RemoteException;
+	public String getUserID(String username) throws RemoteException, IDMatchNotFoundException;
 	
 		// ‹›‹›‹›‹›‹›‹›‹›‹›‹› USER PASSWORD ‹›‹›‹›‹›‹›‹›‹›‹›‹›	
 	
@@ -63,7 +63,7 @@ public interface SmartHSystem extends Remote {
 	
 // • • • • • • • • ADMINS • • • • • • • • •
 
-	public void newAdmin(String adminname, String password) throws RemoteException;
+	public boolean newAdmin(String adminname, String password) throws RemoteException;
 	
 	public void deleteAdmin(String adminname) throws RemoteException;
 	

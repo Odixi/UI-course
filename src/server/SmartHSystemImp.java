@@ -91,8 +91,8 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	
 	// • • • • • • • • • • • • USERS • • • • • • • • • • • • 
 
-	public void newUser(String username, String password) throws RemoteException {
-		userHandler.createUser(username, password);
+	public boolean newUser(String username, String password) throws RemoteException {
+		return userHandler.createUser(username, password);
 	}
 	
 	public void deleteUser(String username) throws RemoteException {
@@ -119,7 +119,7 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 	
 		// ‹›‹›‹›‹›‹›‹›‹›‹›‹› USER ID ‹›‹›‹›‹›‹›‹›‹›‹›‹›	
 	
-	public String getUserID(String username) throws RemoteException {
+	public String getUserID(String username) throws RemoteException, IDMatchNotFoundException {
 		return userHandler.getUserID(username);
 	}
 	
@@ -148,8 +148,8 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 
 	// • • • • • • • • • • • • ADMINS • • • • • • • • • • • • 
 
-	public void newAdmin(String username, String password) throws RemoteException {
-		adminHandler.createUser(username, password);
+	public boolean newAdmin(String username, String password) throws RemoteException {
+		return adminHandler.createUser(username, password);
 	}
 
 	public void deleteAdmin(String adminname) throws RemoteException {
