@@ -41,8 +41,8 @@ public class SmartModel {
 	// -<>-<>-<>-<>-<>-<>-<>-<>- GETTERS -<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-
 	
 	/**
-	 * 
-	 * @return
+	 * Get list of houseIDs and House-objects.
+	 * @return Hashtable<String houseID, House-object>
 	 */
 	public Hashtable<String, House> getHouses(){
 		return houses;
@@ -110,9 +110,10 @@ public class SmartModel {
 	
 	// x.x.x.x.x.x.x.x.x.x.x.x.x.x.x GET SMART ITEM  x.x.x.x.x.x.x.x.x.x.x.x.x.x.x 
 	/**
+	 * Retrive the SmartItem object matching the given itemID.
 	 * 
-	 * @param itemID
-	 * @return
+	 * @param itemID The ID of the asked SmartItem.
+	 * @return SmartItem-object
 	 * @throws IDMatchNotFoundException
 	 */
 	public SmartItem getSmartItem(String itemID) throws IDMatchNotFoundException{
@@ -128,25 +129,42 @@ public class SmartModel {
 	}
 	
 	/**
+	 * Retrieve the SmartItem object found in the given house and room and matching the given itemID.
 	 * 
-	 * @param houseID
-	 * @param roomID
-	 * @param itemID
-	 * @return
+	 * @param houseID The ID of the house where the SmartItem is located.
+	 * @param roomID The ID of the room where the SmartItem is located.
+	 * @param itemID The ID of the asked SmartItem.
+	 * @return SmartItem-object
 	 * @throws IDMatchNotFoundException 
 	 */
 	public SmartItem getSmartItem(String houseID, String roomID, String itemID) throws IDMatchNotFoundException{
-		
+	
 		return getHouse(houseID).getRoom(roomID).getItem(itemID);
 	}
 	
 	//<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x> LIGHTS <x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>
 	
+	/**
+	 * 
+	 * @param houseID The ID of the house where the light is located.
+	 * @param roomID The ID of the room where the light is located.
+	 * @param itemID The ID of the asked light.
+	 * @throws IDMatchNotFoundException
+	 * @throws IDTypeMismatch
+	 */
 	public void turnLightOn(String houseID, String roomID, String itemID) throws IDMatchNotFoundException, IDTypeMismatch {
 		getHouse(houseID).getRoom(roomID).getLight(itemID).turnON();
 		this.setDataChanged(true);
 	}
 
+	/**
+	 * 
+	 * @param houseID The ID of the house where the light is located.
+	 * @param roomID The ID of the room where the light is located.
+	 * @param itemID The ID of the asked light.
+	 * @throws IDMatchNotFoundException
+	 * @throws IDTypeMismatch
+	 */
 	public void turnLightOff(String houseID, String roomID, String itemID) throws IDMatchNotFoundException, IDTypeMismatch {
 		getHouse(houseID).getRoom(roomID).getLight(itemID).turnOFF();
 		this.setDataChanged(true);
@@ -156,6 +174,16 @@ public class SmartModel {
 	
 	//<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x> CONTROLLERS <x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>
 	
+	/**
+	 * 
+	 * @param houseID The ID of the house where the controller is located.
+	 * @param roomID The ID of the room where the controller is located.
+	 * @param itemID The ID of the asked controller.
+	 * @param newValue New value for the controller.
+	 * @return True if the value was valid and could therefore be changed. Else false.
+	 * @throws IDTypeMismatch
+	 * @throws IDMatchNotFoundException
+	 */
 	public boolean setControllerValue(String houseID, String roomID, String itemID, double newValue) throws IDTypeMismatch, IDMatchNotFoundException{
 		if(getHouse(houseID).getRoom(roomID).getController(itemID).setValue(newValue)){
 			this.setDataChanged(true);
@@ -168,16 +196,42 @@ public class SmartModel {
 	
 	//<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x> APPLIANCES <x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>-<x>
 	
+	/**
+	 * Turn on the appliance.
+	 * @param houseID The ID of the house where the appliance is located.
+	 * @param roomID The ID of the room where the appliane is located.
+	 * @param itemID The ID of the asked appliance.
+	 * @throws IDMatchNotFoundException
+	 * @throws IDTypeMismatch
+	 */
 	public void turnApplianceOn(String houseID, String roomID, String itemID) throws IDMatchNotFoundException, IDTypeMismatch {
 		getHouse(houseID).getRoom(roomID).getAppliance(itemID).turnON();
 		this.setDataChanged(true);
 	}
 
+	/**
+	 * Turn off the appliance.
+	 * @param houseID The ID of the house where the appliance is located.
+	 * @param roomID The ID of the room where the appliance is located.
+	 * @param itemID The ID of the asked appliance.
+	 * @throws IDMatchNotFoundException
+	 * @throws IDTypeMismatch
+	 */
 	public void turnApplianceOff(String houseID, String roomID, String itemID) throws IDMatchNotFoundException, IDTypeMismatch {
 		getHouse(houseID).getRoom(roomID).getAppliance(itemID).turnOFF();
 		this.setDataChanged(true);
 	}
 
+	/**
+	 * Set new volume value for an audio device.
+	 * @param houseID The ID of the house where the audio device is located.
+	 * @param roomID The ID of the room where the audio device is located.
+	 * @param itemID The ID of the asked audio device.
+	 * @param newVolume The new volume value for the audio device.
+	 * @return Returns true if the given volume value was valid and volume could therefore be changed.
+	 * @throws IDMatchNotFoundException
+	 * @throws IDTypeMismatch
+	 */
 	public boolean setAudioVolume(String houseID, String roomID, String itemID, int newVolume) throws IDMatchNotFoundException, IDTypeMismatch {
 		if(getHouse(houseID).getRoom(roomID).getAudioDevice(itemID).setVolume(newVolume)){
 			this.setDataChanged(true);
@@ -190,7 +244,8 @@ public class SmartModel {
 	
 // o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o HELP METHODS o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o.o
 	
-	/** Returns all the items from the entire house system in one huge Hashtable.
+	/** 
+	 * Returns all the items from the entire house system in one huge Hashtable.
 	 * @return Hashtable<String, SmartItem> containing all items from all the houses.
 	 */
 	public Hashtable<String, SmartItem> getAllItems(){
