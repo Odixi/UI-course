@@ -69,6 +69,10 @@ public class HouseHandler extends XMLHandler {
 	}
 	
 	//-------- LIST OF HOUSES (NAMES) -------------
+	/**
+	 * Get list of houseIDs and housenames
+	 * @return Hashtable where houseIDs are the keys and housenames the values.
+	 */
 	
 	public Hashtable<String, String> getHouseNameList(){
 		
@@ -114,8 +118,8 @@ public class HouseHandler extends XMLHandler {
 	//----------- LIST OF ROOMS (NAMES) -----------------------
 	/**
 	 * Returns a hashtable where roomID is the key and room name value.
-	 * @param houseID
-	 * @return
+	 * @param houseID The ID of the house which rooms will be listed.
+	 * @return Hashtable<roomID, roomname>
 	 * @throws ElementNullException 
 	 */
 	public Hashtable<String, String> getRoomNames(String houseID) throws ElementNullException{
@@ -169,7 +173,13 @@ public class HouseHandler extends XMLHandler {
 	}
 	
 	//----------- LIST OF ITEMS (NAMES) --------------------
-	
+	/**
+	 * Returns a hashtable where itemID is the key and item name value.
+	 * @param houseID The ID of the house where the room is located.
+	 * @param roomID The ID of the room where the items are located.
+	 * @return Hashtable<itemID, itemname>
+	 * @throws ElementNullException
+	 */
 	public Hashtable<String, String> getItemNames(String houseID, String roomID) throws ElementNullException{
 		
 		Hashtable<String, String> itemNames = new Hashtable<String, String>();
