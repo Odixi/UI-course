@@ -7,8 +7,8 @@ import java.util.Hashtable;
 import exceptions.ElementNullException;
 import exceptions.IDMatchNotFoundException;
 import exceptions.IDTypeMismatch;
-import model.UIUpdater;
 import model.items.SmartItem;
+import view.UIUpdater;
 
 public interface SmartHSystem extends Remote {
 

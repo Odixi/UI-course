@@ -11,9 +11,9 @@ import exceptions.IDTypeMismatch;
 import model.UserAccountHandler;
 import model.ViewHandlerNEW;
 import model.items.SmartItem;
+import view.UIUpdater;
 import model.HouseHandler;
 import model.SmartModel;
-import model.UIUpdater;
 import model.AdminAccountHandler;
 
 /**
@@ -53,9 +53,6 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		
 		//Create viewHandler that handles the xml files representing users' views.
 		viewHandler = new ViewHandlerNEW(houseHandler);
-		
-		updater = UIUpdater.getUpdater(); //gets the only instance
-		
 		
 	} //constructor
 

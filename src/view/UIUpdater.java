@@ -1,5 +1,6 @@
-package model;
+package view;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import server.SmartHSystemImp;
 
@@ -8,11 +9,10 @@ import server.SmartHSystemImp;
  * @author elmo
  * 
  */
-public class UIUpdater {
+public class UIUpdater implements Serializable{
 
 	private static final UIUpdater updater = new UIUpdater(); //Singleton
 	private static LinkedList<UpdateListener> listeners;
-	private SmartHSystemImp system; //System from which the data is collected.
 	
 	/**
 	 * Returns the UIUpdater instance.
@@ -26,14 +26,6 @@ public class UIUpdater {
 	//Singleton constructor
 	private UIUpdater(){
 		listeners = new LinkedList<UpdateListener>();
-	}
-	
-	/**
-	 * 
-	 * @param system
-	 */
-	public void setSystem(SmartHSystemImp system) {
-		this.system = system;
 	}
 	
 //**********************************--- METHODS ---****************************************************************************

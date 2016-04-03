@@ -1,4 +1,4 @@
-package model;
+package view;
 
 /**
  * Represents a package containing state data(lights on/off, sensor values etc.).
