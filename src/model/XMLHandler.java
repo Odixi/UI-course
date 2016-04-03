@@ -22,6 +22,11 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+/**
+ * Class for basic methods needed in handling XML files.
+ * 
+ * @author Pilvi
+ */
 public class XMLHandler {
 
 	private DocumentBuilderFactory factory;
@@ -45,7 +50,11 @@ public class XMLHandler {
 	}
 	
 	//---------------- GET DOCUMENT ---------------
-	
+	/**
+	 * Parse Document-object from the XML file in the given filepath.
+	 * @param filepath
+	 * @return
+	 */
 	public Document getDocument(String filepath) {		
 		
 		try {
@@ -62,9 +71,7 @@ public class XMLHandler {
 	
 	
 	//---------------- CREATE DOCUMENT ---------------------
-	
-		//TODO Is this pointless?
-		
+
 	public Document createDocument(){
 		
 		try {
@@ -80,7 +87,11 @@ public class XMLHandler {
 	}
 	
 	//--------------- WRITE INTO THE XML FILE -------------
-	
+	/**
+	 * Write changes made to the Document object to the XML file in the given filepath.
+	 * @param doc Document object changes to be written to the XMl file.
+	 * @param filepath Filepath to the XML file.
+	 */
 	public void writeXML(Document doc, String filepath){
 		try {
 		
@@ -115,7 +126,7 @@ public class XMLHandler {
 	} //writeXML
 	
 	//-------------- LOAD SCHEMA -------------------------
-	
+
 	public Schema loadSchema(String filepath){
 		schema = null;
 		
@@ -134,7 +145,7 @@ public class XMLHandler {
 	}
 	
 	//------------ VALIDATE DOC -----------------------------
-	
+
 	public void validateDoc(Schema schema, Document doc){
 		Validator validator = schema.newValidator();
 		
