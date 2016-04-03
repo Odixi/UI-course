@@ -78,7 +78,10 @@ public class AdminAccountHandler extends AccountHandler {
 		return super.changeUsername(oldAdminName, newAdminName);
 	}
 	
-	
+	/**
+	 * Get list of the admin names
+	 * @return ArrayList of the adminnames
+	 */
 	public ArrayList<String> getUsernameList(){
 		return super.getUsernameList();
 	}
