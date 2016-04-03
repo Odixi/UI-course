@@ -66,6 +66,13 @@ public class AccountHandler extends XMLHandler {
 	}
 
 	//------ PASSWORD MATCHING CHECK ----------
+	/**
+	 * Check whether the password given matches the user's password.
+	 * 
+	 * @param username 
+	 * @param password
+	 * @return true if the parameter password matches the password saved for the user matching the parameter username. Otherwise false.
+	 */
 	public boolean passwordMatch(String username, String password){
 		
 		boolean passwordMatches = false;
@@ -93,44 +100,58 @@ public class AccountHandler extends XMLHandler {
 	}
 	
 	//--------------- CREATE USER -------------------
+	/**
+	 * Create a new user called 'username' who has password 'password'. UserID is generated automatically for the user.
+	 * 
+	 * @param username The username for the new user.
+	 * @param password The password for the new user.
+	 * 
+	 */
+	public boolean createUser(String username, String password){
+		
+		//If the username is already in use
+		if( usernameInUse(username) ){
+		
+			System.out.println("Username " + username + " is already in use! New user can't be created!");
+			return false;
+			
+		} else {
+		
+			Element user = accountXML.createElement(userTag);
+			rootElement.appendChild(user);
+			
+			//ID attribute
+			
+			//Generate ID
+			//These generated IDs are going to be quite a bit longer than the handwritten ones.
+			user.setAttribute(userIDTag, UUID.randomUUID().toString());
 	
-	public void createUser(String username, String password){
+			//username
+			Element uname = accountXML.createElement(usernameTag);
+			uname.appendChild(accountXML.createTextNode(username));
+			user.appendChild(uname);
+			
+			//TODO Check possible password restrictions
+			
+			//password
+			Element pword = accountXML.createElement(passwordTag);
+			pword.appendChild(accountXML.createTextNode( password ));
+			user.appendChild(pword);
+					
+			//Save changes to the XML file
+			writeXML(accountXML, filepath);
+			
+			System.out.println("new user created " + username);
 		
-		//TODO usernameInUse(username);
-		
-		Element user = accountXML.createElement(userTag);
-		rootElement.appendChild(user);
-		
-		//ID attribute
-		
-		//Generate ID
-		//These generated IDs are going to be quite a bit longer than the handwritten ones.
-		user.setAttribute(userIDTag, UUID.randomUUID().toString());
-
-		//username
-		Element uname = accountXML.createElement(usernameTag);
-		uname.appendChild(accountXML.createTextNode(username));
-		user.appendChild(uname);
-		
-		//TODO Check possible password restrictions
-		
-		//password
-		Element pword = accountXML.createElement(passwordTag);
-		pword.appendChild(accountXML.createTextNode( password ));
-		user.appendChild(pword);
-				
-		//Save changes to the XML file
-		writeXML(accountXML, filepath);
-		
-		System.out.println("new user created " + username);
-		
+			return true;
+		}
 	}
 	
 	//--------------- REMOVE USER -------------------
 	
 	/**
-	 * Removes information on user in 
-	 * @param username
+	 * Deletes the user from the system aka removes information on user in users.xml. 
+	 * @param username The username of the username to be deleted.
 	 */
 	public void removeUser(String username){
 		if(getUser(username) != null){

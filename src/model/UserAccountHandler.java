@@ -22,8 +22,8 @@ public class UserAccountHandler extends AccountHandler {
 		return super.passwordMatch(username, password);
 	}
 	
-	public void createUser(String username, String password){
-		super.createUser(username, password);
+	public boolean createUser(String username, String password){
+		return super.createUser(username, password);
 	}
 	
 	public void removeUser(String username){

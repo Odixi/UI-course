@@ -20,8 +20,8 @@ public class AdminAccountHandler extends AccountHandler {
 		return super.passwordMatch(adminname, password);
 	}
 	
-	public void createUser(String adminname, String password){
-		super.createUser(adminname, password);
+	public boolean createUser(String adminname, String password){
+		return super.createUser(adminname, password);
 	}
 	
 	public void removeUser(String adminname){

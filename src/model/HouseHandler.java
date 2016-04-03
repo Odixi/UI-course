@@ -24,7 +24,7 @@ public class HouseHandler extends XMLHandler {
 	private Element rootElement;
 	private NodeList houseList;
 	
-	// >>> XML tags
+	// >>> XML tags <<<
 		//House
 	private static final String houseTag = "house";
 	private static final String housenameTag = "houseName";
