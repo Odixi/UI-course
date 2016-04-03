@@ -35,7 +35,7 @@ public class AppListener implements ServletContextListener {
 		this.updateHandle = this.exeService.scheduleAtFixedRate(new Runnable(){
 			@Override
 			public void run(){
-				//TODO UIUpdater.getUpdater().broadcastUpdate(); (not done yet)
+				UIUpdater.getUpdater().broadcastUpdate();
 			}
 		}, 1, 1, TimeUnit.SECONDS); //Runs updates on 1 second intervals.
 		System.out.println("Update service online");

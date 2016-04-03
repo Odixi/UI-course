@@ -104,5 +104,19 @@ public class Controller extends SmartItem implements Serializable {
 			return false;
 		}
 	}
+	/**
+	 * 
+	 * @return maxValue
+	 */
+	public double getMaxValue() {
+		return maxValue;
+	}
+	/**
+	 * 
+	 * @return minValue
+	 */
+	public double getMinValue() {
+		return minValue;
+	}
 	
 }

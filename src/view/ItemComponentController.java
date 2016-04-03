@@ -98,18 +98,20 @@ public class ItemComponentController extends CustomComponent implements ItemComp
 						// Lets add value: value + sqrt(value) + value * 0.1 
 						// Because why not
 						
-						if (controller.getControllerValue() <= 0){
-							if (!shsystem.setControllerValue(
-									controller.getHouse().getID(), controller.getRoom().getID(), controller.getID(), 1)){
-								Notification.show("Out of range!");
-							}
+						double newValue = controller.getControllerValue() 
+								+ Math.sqrt(controller.getControllerValue()) + controller.getControllerValue() * 0.1;
+						
+						if (newValue > controller.getMaxValue()){
+							shsystem.setControllerValue(controller.getHouse().getID(), controller.getRoom().getID(), 
+									controller.getID(), controller.getMaxValue());
+						}
+						else if (newValue == 0.0){
+							shsystem.setControllerValue(controller.getHouse().getID(), controller.getRoom().getID(), 
+									controller.getID(), 1);
 						}
 						else{
-							if (!shsystem.setControllerValue(
-									controller.getHouse().getID(), controller.getRoom().getID(), controller.getID(), 
-									controller.getControllerValue() + Math.sqrt(controller.getControllerValue()) + controller.getControllerValue() * 0.1)){
-								Notification.show("Out of range!");
-							}
+							shsystem.setControllerValue(controller.getHouse().getID(), controller.getRoom().getID(), 
+									controller.getID(), newValue);
 						}
 						update();
 					}
@@ -151,10 +153,16 @@ public class ItemComponentController extends CustomComponent implements ItemComp
 					else if (controller.getControllerUnit() == SensorUnit.LUMEN){
 						// Lets add value: value + sqrt(value) + value * 0.1 
 						// Because why not
-						if (!shsystem.setControllerValue(
-								controller.getHouse().getID(), controller.getRoom().getID(), controller.getID(), 
-								controller.getControllerValue() - Math.sqrt(controller.getControllerValue()) - controller.getControllerValue() * 0.1)){
-							Notification.show("Out of range!");
+						
+						double newValue = controller.getControllerValue() 
+								- Math.sqrt(controller.getControllerValue()) - controller.getControllerValue() * 0.1;
+					
+						if (newValue < controller.getMinValue()){
+							shsystem.setControllerValue(controller.getHouse().getID(), controller.getRoom().getID(), 
+									controller.getID(), controller.getMinValue());
+						}else{
+							shsystem.setControllerValue(controller.getHouse().getID(), controller.getRoom().getID(), 
+									controller.getID(), newValue);
 						}
 						update();
 					}
