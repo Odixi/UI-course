@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.example.org/userviews"
+           xmlns:hs="http://www.example.org/houseStructures"
+           elementFormDefault="qualified">
+           
+           <xs:import schemaLocation="/xmlfiles/houseStructures.xsd"
+                      namespace="http://www.example.org/houseStructures" />
+    -->
+    <!-- Basic structure
+    <xs:element name="userviews">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="userviewType" minOccurs="1" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+           -->
+    <!-- userviewType
+    <xs:complexType name="userviewType">
+        <xs:sequence>
+            <xs:element name="house" type="hs:houseType" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+</xs:schema>
+
+-->
