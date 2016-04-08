@@ -26,6 +26,7 @@ import com.vaadin.ui.PopupView;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+import exceptions.DocumentNullException;
 import exceptions.ElementNullException;
 import exceptions.IDMatchNotFoundException;
 import server.SmartHSystem;
@@ -223,6 +224,9 @@ public class AdminView extends HorizontalLayout implements View{
 					}
 					
 				} catch (RemoteException e) {e.printStackTrace();} catch (ElementNullException e) {
+					e.printStackTrace();
+				} catch (DocumentNullException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				if (needsUpdate){
