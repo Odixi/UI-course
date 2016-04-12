@@ -78,7 +78,7 @@ public class ViewHandlerNEW extends XMLHandler {
 		
 		filelistUpToDate();
 		
-		//TODO REMOVE For testing
+		//REMOVE For testing
 		System.out.println("Userview files in the system: ");
 		for(String userID : filelist.keySet() ){
 			System.out.println("User " + userID + " has userview " + filelist.get(userID) );
@@ -100,8 +100,9 @@ public class ViewHandlerNEW extends XMLHandler {
 	 * @param userID The ID of the user that the view is set for.
 	 * @param userview Hashtable includes IDs of all houses/rooms/items and whether they are included in the view.
 	 * @throws ElementNullException 
+	 * @throws DocumentNullException 
 	 */
-	public boolean setUserView(String userID, Hashtable<String, Boolean> userview) throws ElementNullException{
+	public boolean setUserView(String userID, Hashtable<String, Boolean> userview) throws ElementNullException, DocumentNullException{
 
 		if( !userHasView(userID) ){
 			createDefaultView(userID);
@@ -126,7 +127,7 @@ public class ViewHandlerNEW extends XMLHandler {
 		
 		if(userID == null){
 			
-			//TODO Right now, the method is called with null value in the beginning of the program, when no user is selected.
+			//Right now, the method is called with null value in the beginning of the program, when no user is selected.
 			return getNothingIncludedList();
 			
 		}
@@ -138,7 +139,15 @@ public class ViewHandlerNEW extends XMLHandler {
 			createDefaultView(userID);
 		}
 
-		Document userviewDocument = getUserviewDocument(userID);
+		Document userviewDocument;
+		
+		try {
+			userviewDocument = getUserviewDocument(userID);
+			
+		} catch (DocumentNullException e1) {
+			return recoverWithDefaultView(userID);
+		}
+		
 		Element viewElement;
 			
 		try {	
@@ -270,14 +279,13 @@ public class ViewHandlerNEW extends XMLHandler {
 	 * @throws ElementNullException 
 	 */
 
-	//TODO Make private, needs to be public for testing though.
-	public void createDefaultView(String userID) {
+	private void createDefaultView(String userID) {
 			
 		//Method is called on user that has a view. No need to do anything.
 		if( userHasView(userID) ){
 			
 			System.out.println("User already has a view.");
-			return; //TODO Unnecessary
+			return;
 			
 		}
 		
@@ -322,7 +330,6 @@ public class ViewHandlerNEW extends XMLHandler {
 			String filepath = createFilepath(userID);
 			
 			//Save the user ID and the view files path to filelist
-			//TODO REMOVE
 			System.out.println("CreateDefaultView: userID " + userID + ", filepath: " + filepath);
 			
 			filelist.put(userID, filepath);
@@ -372,36 +379,32 @@ public class ViewHandlerNEW extends XMLHandler {
 	 * @param userview 
 	 * @return
 	 * @throws ElementNullException 
+	 * @throws DocumentNullException 
 	 */
-	public boolean updateUserView(String userID, Hashtable<String, Boolean> userview) throws ElementNullException{
+	public boolean updateUserView(String userID, Hashtable<String, Boolean> userview) throws ElementNullException, DocumentNullException{
 
-		Document viewDocument = getUserviewDocument(userID);
+		Document viewDocument;
+
+		viewDocument = getUserviewDocument(userID);
+
 		Element viewElement;
 		
 		try {
 			viewElement  = getViewElement(viewDocument);
 			
 		} catch (DocumentNullException | ElementNullException | XMLBrokenException e) {
-			//TODO Document is corrupted. What should be done?
+
 			System.out.println("UpdateUserView: The user's " + userID + " viewfile is corrupted. The file can't be updated.");
 			
+			System.out.println("Recovering from the error by creating a default view for user " + userID);
 			//Recover from the error by recreating the view
 			recoverWithDefaultView(userID);
-			
-			//TODO Maybe the recovery method should be called?
-			
+
 			return false;
 		}
 		
 		ArrayList<Element> houseElements = getHouseElements(viewElement);
-		
-		System.out.println("UpdateUserView: houseElements.size: "+ houseElements.size());
-		
-		//TODO REMOVE For testing
-		for(int i = 0; i < houseElements.size(); i++){
-			System.out.println("HouseElement's inView attribute: " + houseElements.get(i).getAttribute(inView).toString());
-		}
-		
+
 		updateHousesIncluded(houseElements, userview);
 		
 		//Update the houses (set the value of inView attribute for each house)
@@ -446,13 +449,13 @@ public class ViewHandlerNEW extends XMLHandler {
 					Boolean included = userview.get( houseElements.get(i).getAttribute(houseIDTag) );
 					
 					if( houseElements.get(i).hasAttribute(inView) ){
-						//TODO REMOVE For testing
+						//REMOVE For testing
 						System.out.println("Get house's (" + houseElements.get(i).getAttribute(houseIDTag).toString()  + "), inView attribute is: " + houseElements.get(i).getAttribute(inView).toString() );
 						System.out.println("Get house's (" + houseElements.get(i).getAttribute(houseIDTag).toString()  + "), inView attribute will be: " + included.toString() );
 						houseElements.get(i).setAttribute(inView, included.toString());
 					
 					} else {
-						//TODO REMOVE: for testing
+						//REMOVE: for testing
 						System.out.println("House doesn't have inView attribute!");
 					}
 				}
@@ -476,7 +479,7 @@ public class ViewHandlerNEW extends XMLHandler {
 
 					Boolean included = userview.get( roomElements.get(j).getAttribute(roomIDTag));
 					
-					//TODO REMOVE For testing
+					//REMOVE For testing
 					System.out.println("Get house's (" + roomElements.get(j).getAttribute(roomIDTag).toString()  + "), inView attribute is: " + roomElements.get(j).getAttribute(inView).toString() );
 					System.out.println("Get house's (" + roomElements.get(j).getAttribute(roomIDTag).toString()  + "), inView attribute will be: " + included.toString() );
 					roomElements.get(j).setAttribute(inView, included.toString());
@@ -523,6 +526,7 @@ public class ViewHandlerNEW extends XMLHandler {
 	 * 
 	 * @param userID
 	 * @throws ElementNullException 
+	 * @throws DocumentNullException 
 	 */
 	
 	/*
@@ -530,7 +534,7 @@ public class ViewHandlerNEW extends XMLHandler {
 	 * However, making this enables editing the houses.xml without causing errors with already created userviews.
 	 */
 	
-	public void updateTheHouseStructuresInViews(String userID) throws ElementNullException{
+	public void updateTheHouseStructuresInViews(String userID) throws ElementNullException, DocumentNullException{
 			
 		//TODO DO THIS IF YOU HAVE TIME
 		for( String user : filelist.keySet() ){
@@ -590,9 +594,6 @@ public class ViewHandlerNEW extends XMLHandler {
 			for(int i = 0; i < houseElements.size(); i++){
 				houseElements.get(i).setAttribute(inView, "false");
 			}
-		} else {
-			//TODO What do I do if there are no house elements?
-			//Do I have to do something?
 		}
 	}
 	
@@ -606,8 +607,6 @@ public class ViewHandlerNEW extends XMLHandler {
 			for(int j = 0; j < roomElements.size(); j++){
 				roomElements.get(j).setAttribute(inView, "false");				
 			}
-		} else {
-			//TODO ?
 		}
 	}
 	
@@ -622,8 +621,6 @@ public class ViewHandlerNEW extends XMLHandler {
 			for(int itemIndex = 0; itemIndex < itemElements.size(); itemIndex++){
 				itemElements.get(itemIndex).setAttribute(inView, "false");
 			}
-		} else {
-			//TODO ?
 		}
 	}
 	
@@ -665,20 +662,28 @@ public class ViewHandlerNEW extends XMLHandler {
 	 * 
 	 * @param userID
 	 * @return
+	 * @throws DocumentNullException 
 	 */
-	private Document getUserviewDocument(String userID){
+	private Document getUserviewDocument(String userID) throws DocumentNullException{
 		
 		System.out.println("getUserviewDocument: userID " + userID);
 		
 		String filepath = filelist.get(userID);
-		//TODO REMOVE For testing
+
+		//REMOVE For testing
 		System.out.println("getUserviewDocument: filepath " + filepath);
 		
 		if(filepath != null){
 			//TODO REMOVE
 			System.out.println("Is retrieved document null? " + getDocument(filepath) == null);
 			
-			return getDocument(filepath);
+			if(getDocument(filepath) != null){
+				return getDocument(filepath);
+			} else {
+				throw new DocumentNullException("Retrieving user's (" + userID + ") resulted in null document.");
+			}
+			
+			
 		} else {
 			//TODO REMOVE
 			System.out.println("NOOOOOOOOOOOO! Return null");
@@ -710,9 +715,7 @@ public class ViewHandlerNEW extends XMLHandler {
 	 * @throws XMLBrokenException 
 	 */
 	
-	//TODO Is this method actually even needed?
 	private Element getViewElement(Document doc) throws DocumentNullException, ElementNullException, XMLBrokenException{
-
 		
 		Element viewElement = null;
 		
@@ -749,9 +752,7 @@ public class ViewHandlerNEW extends XMLHandler {
 	 * @return
 	 */
 	private ArrayList<Element> getHouseElements(Element viewElement) {
-		
-		//TODO Throw exceptions?
-		
+
 		ArrayList<Element> houseElements = new ArrayList<Element>();
 
 		NodeList housesRoot = viewElement.getElementsByTagName(housesTag);

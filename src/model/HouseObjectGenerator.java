@@ -53,6 +53,12 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 	}
 	
 	//--------------- BUILD HOUSES ---------------------
+	/**
+	 * Builds the 'House' objects.
+	 * @return
+	 * @throws ElementNullException
+	 */
+	
 	public Hashtable<String, House> buildHouses() throws ElementNullException{
 		
 		ArrayList<Element> houseElements = super.getHouseElements();
@@ -83,6 +89,13 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 	}
 	
 	//--------------- BUILD ROOMS ---------------------
+	/**
+	 * Builds the 'Room' objects.
+	 * @param houseID ID of the house where the rooms are located.
+	 * @param house House-object where the rooms are located.
+	 * @return Hashtable<roomID, Room-object>
+	 * @throws ElementNullException 
+	 */
 	public Hashtable<String, Room> buildRooms(String houseID, House house) throws ElementNullException{
 		
 		ArrayList<Element> roomElements = super.getRoomElements(houseID);
@@ -117,6 +130,15 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 	}
 	
 	//--------------- BUILD ITEMS ---------------------
+	/**
+	 * Build the 'Item' objects.
+	 * @param houseID ID of the house where the items are located.
+	 * @param roomID ID of the room where the items are located.
+	 * @param house The 'House' object where the items are located.
+	 * @param room The 'Room' object where the items are located.
+	 * @return Hashtable<ItemID, SmartItem-object>
+	 * @throws ElementNullException
+	 */
 	public Hashtable<String, SmartItem> buildItems(String houseID, String roomID, House house, Room room) throws ElementNullException{
 		
 		ArrayList<Element> itemElements = super.getItemElements(houseID, roomID);
@@ -165,6 +187,11 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 	}
 	
 	//--------------- BUILD SENSOR ---------------------
+	/**
+	 * Build a 'Sensor' object.
+	 * @param sensorElement Sensor-element retrieved from a XML file.
+	 * @return Sensor-object created in the method.
+	 */
 	public Sensor buildSensor(Element sensorElement){
 		//Initialize return value;
 		Sensor sensorObject = new Sensor(sensorElement.getAttribute(sensorIDTag));
@@ -194,6 +221,11 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 	}
 	
 	//--------------- BUILD APPLIANCE ---------------------
+	/**
+	 * Build a 'Appliance' object.
+	 * @param applianceElement Appliance-element retrieved from a XML file.
+	 * @return Appliance-object created in the method.
+	 */
 	public Appliance buildAppliance(Element applianceElement){
 		Appliance applianceObject = null;
 		
@@ -222,6 +254,11 @@ public class HouseObjectGenerator extends HouseHandler { //Or should it extend H
 	}
 	
 	//--------------- BUILD CONTROLLER ---------------------
+	/**
+	 * Build a 'Controller' object.
+	 * @param controllerElement Controller-element retrieved from a XML file.
+	 * @return Controller-object created in the method.
+	 */
 	public Controller buildController(Element controllerElement){
 		Controller controllerObject = null;
 		

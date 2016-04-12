@@ -5,6 +5,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import exceptions.DocumentNullException;
 import exceptions.ElementNullException;
 import exceptions.IDMatchNotFoundException;
 import exceptions.IDTypeMismatch;
@@ -139,7 +140,7 @@ public class SmartHSystemImp extends UnicastRemoteObject implements SmartHSystem
 		return viewHandler.getUserView(userID);
 	}
 
-	public boolean setUserView(String userID, Hashtable<String, Boolean> userview) throws RemoteException, ElementNullException {
+	public boolean setUserView(String userID, Hashtable<String, Boolean> userview) throws RemoteException, ElementNullException, DocumentNullException {
 		return viewHandler.setUserView(userID, userview);
 	}
 

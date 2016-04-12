@@ -4,6 +4,7 @@ import java.rmi.*;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import exceptions.DocumentNullException;
 import exceptions.ElementNullException;
 import exceptions.IDMatchNotFoundException;
 import exceptions.IDTypeMismatch;
@@ -59,7 +60,7 @@ public interface SmartHSystem extends Remote {
 		
 	public Hashtable<String, Boolean> getUserView(String userName) throws RemoteException, ElementNullException;
 	
-	public boolean setUserView(String userID, Hashtable<String, Boolean> userview) throws RemoteException, ElementNullException;
+	public boolean setUserView(String userID, Hashtable<String, Boolean> userview) throws RemoteException, ElementNullException, DocumentNullException;
 	
 // • • • • • • • • ADMINS • • • • • • • • •
 
